@@ -1,0 +1,1428 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Drylands2 Model Manual" href="Manual.html"><link rel="prev" title="Drylands2 model documentation" href="index.html">
+
+    <!-- Generated with Sphinx 8.2.3 and Furo 2025.09.25 -->
+        <title>Drylands2 Model Design - Drylands2 model 6.5.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Drylands2 model 6.5.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <span class="sidebar-brand-text">Drylands2 model 6.5.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Drylands2 Model Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Manual.html">Drylands2 Model Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aeolian/AeolianEffect-Algorithms.html">Drylands2 Model: Aeolian Effect Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aeolian/creosote-biomass-height-equation.html">Creosote: Shrub height = F(biomass)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aeolian/creosote-biomass-lateralCover-equation.html">Cross-sectional area of creosote as a function of biomass</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="_sources/ModelDesign.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="drylands2-model-design">
+<h1>Drylands2 Model Design<a class="headerlink" href="#drylands2-model-design" title="Link to this heading">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">subtitle<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Jornada Basin LTER, New Mexico State University</p>
+</dd>
+<dt class="field-even">organization<span class="colon">:</span></dt>
+<dd class="field-even"><p>Jornada Basin LTER, New Mexico State University</p>
+</dd>
+<dt class="field-odd">contact<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/jornada-im/Drylands2">https://github.com/jornada-im/Drylands2</a></p>
+</dd>
+</dl>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<p>The Drylands2 Model simulates vegetation development within an arid to semiarid
+landscape. Based upon the model of Rietkirk et al (1997, 2002), with the
+addition of mounds by Niall Hanan and Matthew Biesecker, and several new
+algorithms.</p>
+<p>There are several changes to algorithms from the original model, including:</p>
+<ul class="simple">
+<li><p>There are multiple (3) soil layers for soil water content.</p></li>
+<li><p>Existing algorithms were modified to use a layered soil profile.</p></li>
+<li><p>Growth follows a logistic equation, limited by soil water and temperature.</p></li>
+<li><p>Field capacity and wilting constrain soil water infiltration, uptake and losses.</p></li>
+<li><p>Evaporation from the surface soil layer.</p></li>
+<li><p>New classes manage plant aboveground and root biomass calculations.</p></li>
+<li><p>Version 2 includes the ability to have multiple plant species with resource
+competition.</p></li>
+<li><p>Version 3 adds nitrogen atmospheric deposition and plant N uptake.</p></li>
+<li><p>Version 4 has a new biomass mortality algorithm based upon stress due to
+insufficient plant-available soil water over a fixed time period.</p></li>
+<li><p>Version 5 has a new algorithm for N maintenance uptake.
+Also has a new output option for matrix time series output containing spatial changes.
+Finally, several functions and classes that are not model-specific have been
+moved into the DrylandsLib package.</p></li>
+<li><p>Version 6 has a new aeolian submodel for effects upon plant mortality and
+growth due to aeolian erosion and deposition.</p></li>
+</ul>
+<p>A configuration file in JSON[<a class="reference internal" href="#id7">6</a>] format controls the simulation.
+Input is daily precipitation, temperature, N atmospheric deposition, and
+wind data from CSV files.
+Output options include map images at specified times, netCDF grid time
+series, and grid-average time series for state variables saved to a CSV file.</p>
+<p>GNU Octave language is used for the model implementation, and a few GNU
+Octave packages are used. Otherwise the implementation is intended to be
+mostly compatible with MATLAB:sup:<cite>TM</cite>, however compatibility has not yet been
+tested.</p>
+<section id="conventions">
+<h3>Conventions<a class="headerlink" href="#conventions" title="Link to this heading">¶</a></h3>
+<p>Directory paths shown herein use a slash (<strong>/</strong>) path separator,
+which is the convention in UNIX-style directory specification.
+Microsoft Windows uses the backslash (<strong>\</strong>) separator in paths.
+Apple macOS (or OS X) also uses the <strong>/</strong> separator.
+GNU Octave seems to accept the native separator on which it is running,
+in most instances.
+R requires a double-backslash on Microsoft Windows when a path is a
+string variable.</p>
+<p>File line-end characters vary with operating system.
+UNIX-style systems (including Linux and Apple macOS) use LF.
+Microsoft Windows uses CR+LF.
+The files for this model as provided from the git repository
+use LF. Some text editors on Microsoft Windows may be confused
+by this, including older versions of Notepad.
+GNU Octave is happy with LF line-endings.</p>
+</section>
+</section>
+<section id="model-structure">
+<h2>Model Structure<a class="headerlink" href="#model-structure" title="Link to this heading">¶</a></h2>
+<p>The code was developed in GNU Octave, and has been kept compatibile with
+MATLAB for the most part. See this document for most compatibility issues:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://en.wikibooks.org/wiki/MATLAB_Programming/Differences_between_Octave_and_MATLAB">https://en.wikibooks.org/wiki/MATLAB_Programming/Differences_between_Octave_and_MATLAB</a></p>
+</div></blockquote>
+<section id="source-files-organization">
+<h3>Source Files Organization<a class="headerlink" href="#source-files-organization" title="Link to this heading">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Drylands2           - Model algorithms and control functions and classes.
+`-- src
+    |-- grid        - Grid related functions and classes.
+    |-- input       - Functions and classes for reading input files.
+    |-- output      -   ... for writing non-graphics output files.
+    |-- plot        -   ... for displaying and saving graphs and maps.
+    |-- log         -   ... for writing to a log file.
+    |-- math        - Mathematical algorithms
+    |-- mounds      - Modeling water flow downgradient on topographic mounds.
+    |-- aeolian     - Algorithms for plant effects from aeolian erosion and deposition.
+    |-- tools       - Misc. usesful functions not used in a simulation.
+    `-- util        - General utility functions.
+</pre></div>
+</div>
+</section>
+<section id="major-model-parts">
+<h3>Major Model Parts<a class="headerlink" href="#major-model-parts" title="Link to this heading">¶</a></h3>
+<section id="simulation-grid">
+<h4>Simulation Grid<a class="headerlink" href="#simulation-grid" title="Link to this heading">¶</a></h4>
+<p>The simulation grid is square. The size of the grid is constant, and is
+specified in the simulation configuration. Cell sizes are constant and
+assumed to be 1 m:sup:<cite>2</cite>.</p>
+<p>Internally, a single row and column are added to accomodate the
+solver of the timestep equations. These are trimmed when results
+are saved and maps are created.</p>
+</section>
+<section id="time-loops">
+<h4>Time loops<a class="headerlink" href="#time-loops" title="Link to this heading">¶</a></h4>
+<p>There are 3 main control loops: trials, sweeps, and a single simulation
+time loop.</p>
+<p>The main time loop is daily, though internally the Euler equation solver
+uses a subdaily time resolution.
+The subdaily time step is determined in part by dispersion rates, in order
+to produce smooth transitions between cells.</p>
+</section>
+<section id="soil-structure">
+<h4>Soil Structure<a class="headerlink" href="#soil-structure" title="Link to this heading">¶</a></h4>
+<p>The soil is defined as 3 layers: top (surface), middle and deep soil layer.
+Actual depths are not used directly in the model but are implied in some of
+the algorithm designs.
+Stewart et al (2014, page 384)[<a class="reference internal" href="#id4">3</a>] specifies the layer depths to be
+100 mm, 350 mm, and 1500 mm, respectively, and some parameterization and
+algorithms assume those depths. These depths are mostly not used explicitly,
+but as proportions of total soil depth for each layer.
+In Drylands2, the layer thicknesses are specified in the class <strong>Constants</strong>:
+<cite>Constants.thickness</cite>.</p>
+<p>The resource infiltration algorithms do not explicitly consider soil texture
+or permeability of each soil layer.</p>
+</section>
+<section id="simulation-results">
+<h4>Simulation Results<a class="headerlink" href="#simulation-results" title="Link to this heading">¶</a></h4>
+<p>Each time step stores results in a structure <strong>results</strong> containing
+several matrices. The actual matrices present are dependent upon whether a
+single simulation is run, or if mounds are simulated, or if multiple
+sweeps or trials are run. The <strong>results</strong> matrices are described in the
+appendix <a class="reference internal" href="#simulation-result-matrices">Simulation Result Matrices</a>.</p>
+</section>
+</section>
+<section id="major-functions-and-classes">
+<h3>Major Functions and Classes<a class="headerlink" href="#major-functions-and-classes" title="Link to this heading">¶</a></h3>
+<p>The “main” function is <code class="docutils literal notranslate"><span class="pre">Drylands2</span></code>.
+Class names are capitalized.
+Function names are (usually) not capitalized.</p>
+<p>The list below shows major functions and classes organized by functional
+category; though several supporting functions are omitted.</p>
+<p>Model Control:</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Drylands2</span>
+<span class="n">initialize</span>
+<span class="n">runSims</span>
+<span class="n">simTask</span>
+<span class="n">finalize</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Algorithmic:</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">aeolian</span><span class="o">/*</span>
+<span class="n">BiomassFun</span>
+<span class="n">buildLaplacians</span>
+<span class="n">Competition</span>
+<span class="n">Equations</span>
+<span class="n">EulersMethod</span>
+<span class="n">Evaporation</span>
+<span class="n">Infiltration</span>
+<span class="n">initialConditions</span>
+<span class="n">Mortality</span>
+<span class="n">mounds</span><span class="o">/*</span>
+<span class="n">Plant</span>
+<span class="n">Roots</span>
+<span class="n">SoilNEq</span>
+<span class="n">soilWaterUptake</span>
+<span class="n">WaterStress</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Non-Algorithmic:</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Constants</span>
+<span class="n">Files</span>
+<span class="n">SimInfo</span>
+<span class="n">SimTime</span>
+<span class="n">State</span>
+<span class="n">grid</span><span class="o">/</span><span class="n">gridInit</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Configuration:</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">input</span><span class="o">/</span><span class="n">readConfigJSON</span>
+<span class="nb">input</span><span class="o">/</span><span class="n">verifyConfiguration</span>
+<span class="nb">input</span><span class="o">/</span><span class="n">Schedule</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Data:</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">input</span><span class="o">/</span><span class="n">NAtmDep</span>
+<span class="nb">input</span><span class="o">/</span><span class="n">Precip</span>
+<span class="nb">input</span><span class="o">/</span><span class="n">Temperature</span>
+<span class="nb">input</span><span class="o">/</span><span class="n">WindData</span>
+<span class="n">getNAtmDep</span>
+<span class="n">getPrecip</span>
+<span class="n">getTemperature</span>
+<span class="n">getWind</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Output:</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GridAvgTimeSeries</span>
+<span class="n">DiffusionAmts</span>
+<span class="n">SpatialChanges</span>
+<span class="n">output</span><span class="o">/</span><span class="n">NcBiomassTimeSeries</span>
+<span class="n">output</span><span class="o">/</span><span class="n">NcResourceTimeSeries</span>
+<span class="n">output</span><span class="o">/</span><span class="n">saveResults</span>
+<span class="n">output</span><span class="o">/</span><span class="n">simulationSummary</span>
+<span class="n">plot</span><span class="o">/</span><span class="n">MapPWS</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Sweeps:</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SweepParams</span>
+<span class="n">SweepSeq</span>
+<span class="n">plot</span><span class="o">/</span><span class="n">GraphsSweeps</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+<section id="execution-psuedocode">
+<h3>Execution Psuedocode<a class="headerlink" href="#execution-psuedocode" title="Link to this heading">¶</a></h3>
+<p>The following psuedocode does not include simulation of mounds.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Read</span> <span class="n">configuration</span> <span class="n">file</span>
+<span class="n">Configure</span> <span class="n">paths</span> <span class="ow">and</span> <span class="n">files</span>
+<span class="n">Initialize</span> <span class="n">state</span> <span class="n">variables</span>
+<span class="n">Initialize</span> <span class="n">output</span>
+<span class="n">Run</span> <span class="n">one</span> <span class="n">simulation</span> <span class="ow">or</span> <span class="n">a</span> <span class="n">sweep</span> <span class="n">of</span> <span class="n">simulations</span>
+    <span class="n">Run</span> <span class="n">a</span> <span class="n">simulation</span> <span class="n">task</span>
+        <span class="n">Calculate</span> <span class="n">subdaily</span> <span class="n">time</span> <span class="n">step</span>
+        <span class="n">Iterate</span> <span class="n">by</span> <span class="n">subdaily</span> <span class="n">time</span> <span class="n">step</span><span class="p">:</span>
+            <span class="n">If</span> <span class="n">start</span> <span class="n">of</span> <span class="n">day</span><span class="p">:</span>
+                <span class="n">Get</span> <span class="n">daily</span> <span class="nb">input</span> <span class="n">data</span>
+                <span class="n">Calculate</span> <span class="n">E</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">WL</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">root</span> <span class="n">biomass</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">aeolian</span> <span class="n">effects</span>
+            <span class="n">Solve</span> <span class="k">for</span> <span class="n">updated</span> <span class="n">W</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">P</span> <span class="n">at</span> <span class="n">subdaily</span> <span class="n">time</span> <span class="n">step</span>
+            <span class="n">If</span> <span class="n">end</span> <span class="n">of</span> <span class="n">day</span><span class="p">:</span>
+                <span class="n">Save</span> <span class="n">output</span> <span class="ow">and</span> <span class="n">graphs</span> <span class="ow">and</span> <span class="n">maps</span> <span class="k">as</span> <span class="n">scheduled</span>
+    <span class="n">Save</span> <span class="n">final</span> <span class="n">results</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="algorithms">
+<h2>Algorithms<a class="headerlink" href="#algorithms" title="Link to this heading">¶</a></h2>
+<p>The processes modelled include: water and N infiltration, evaporation from
+surface soil, soil water drainage, soil water uptake by plant roots, and
+plant growth and mortality. The pools of biomass and water are modified by
+PDEs expressed as difference equations: change in surface water, change in
+soil water, change in plant biomass, and optionally, surface water
+convection off mounds. Plant mortality is affected by soil water stress and
+aeolian erosion and deposition.</p>
+<p>For an explanation of the equations used for major processes, see the
+document <em>ModelEquations.pdf</em>.</p>
+<section id="water-fluxes">
+<h3>Water Fluxes<a class="headerlink" href="#water-fluxes" title="Link to this heading">¶</a></h3>
+<p>Water is moved through the grid cells via infiltration from surface water,
+soil water losses (evaporation and drainage), and plant uptake of soil
+water. Surface water originates from precipitation and lateral flow via
+dispersion.</p>
+<section id="precipitation-and-temperature">
+<h4>Precipitation and Temperature<a class="headerlink" href="#precipitation-and-temperature" title="Link to this heading">¶</a></h4>
+<p>Precipitation is a daily amount (or zero) from either a constant value
+specified in the configuration, or a precipitation data file.</p>
+<p>Temperature is a daily value from either a constant value
+specified in the configuration, or a temperature data file.</p>
+</section>
+<section id="infiltration">
+<h4>Infiltration<a class="headerlink" href="#infiltration" title="Link to this heading">¶</a></h4>
+<p>Infiltration is assumed to occur homogeneously throughout the soil depth, and
+at a rate much less than one day. This assumption of approximately constant
+hydraulic conductivity is used within the context of the daily timestep of
+the model. Summer monsoon rain events mostly occur within one hour ((Keller
+et al., 2023), and runoff generally is not present for most rain events
+(&lt; 10 mm/event) (CITE).</p>
+<p>The amount of infiltration per day is limited by the model configuration
+parameter <strong>alpha</strong>.
+All soil layers receive infiltrated water, however the amount cannot exceed
+the estimated maximum volumetric soil water content (see <strong>Constants.vwc</strong>)
+for each soil layer.</p>
+<p>The infiltration parameter <strong>k2</strong> is the rate at which infiltration
+increases with biomass, and is species-specific. Infiltration for each plant
+is a function of root biomass for that plant.</p>
+</section>
+<section id="evaporation">
+<h4>Evaporation<a class="headerlink" href="#evaporation" title="Link to this heading">¶</a></h4>
+<p>The amount of actual evaporation is assumed to generally decrease as biomass
+density increases (CITE). Evaporation is from the surface soil layer only,
+and is a inverse function of biomass per cell.</p>
+<p>Actual evaporation is estimated using the inverse generalized Gompertz
+equation with potential bare soil evaporation and biomass as controlling
+variables. Four configuration parameters shape the response curve:
+<strong>E</strong><sub>pot</sub>, <strong>b</strong>, <strong>c</strong>, and <strong>E</strong><sub>mr</sub>.</p>
+<p>For multiple plant species, evaporation from a cell is the cumulative
+evaporation associated with the cell fraction of aboveground biomass for
+each plant.</p>
+</section>
+<section id="soil-water-drainage">
+<h4>Soil Water Drainage<a class="headerlink" href="#soil-water-drainage" title="Link to this heading">¶</a></h4>
+<p>Soil water drainage from the bottom of the soil profile is assumed to occur
+only from the soil layers below the surface layer. The drainage amount is a
+constant fraction of soil water content. The surface layer is not affected
+by drainage, only evaporation.</p>
+<p>The amount of drainage cannot exceed the field capacity of the soil layer.
+Field capacity (see class <code class="docutils literal notranslate"><span class="pre">Constants</span></code>) is defined as a fraction of the
+soil layer thickness (mm), representing the volume of soil water remaining
+after gravity drainage is essentially complete.
+The volumetric soil moisture content at field capacity varies with soil
+texture. There are several tables of average values available,
+such as Saxton and Rawls (2006)[<a class="reference internal" href="#id5">4</a>], table 3; see <a class="reference internal" href="#appendix-2">Appendix_2</a>.</p>
+</section>
+<section id="plant-soil-water-uptake">
+<h4>Plant Soil Water Uptake<a class="headerlink" href="#plant-soil-water-uptake" title="Link to this heading">¶</a></h4>
+<p>Plants take up soil water proportional to plant biomass. Uptake is estimated
+separately for each soil layer. Plant species configuration parameters
+<strong>bmBgAgRatio</strong> and <strong>bmBgDist</strong> determine the proportions of biomass in each
+soil layer, and the uptake parameters <strong>k1</strong> and <strong>gmax</strong> are species-specific.</p>
+<p>For each soil layer the amount of uptake cannot reduce the remaining soil
+water content to below the wilting point of the soil layer. The wilting
+point here is assumed to be 0.53 of the field capacity (see class
+<code class="docutils literal notranslate"><span class="pre">Constants</span></code>), which is the mean of the ratios from Saxton and Rawls
+(2006)[<a class="reference internal" href="#id5">4</a>], table 3; see <a class="reference internal" href="#appendix-2">Appendix_2</a>.</p>
+<p>For multiple plant species, uptake per species is subject to contraints from
+resource competition (see <a class="reference internal" href="#species-competition">Species Competition</a>).</p>
+</section>
+<section id="spatial-dispersion">
+<h4>Spatial Dispersion<a class="headerlink" href="#spatial-dispersion" title="Link to this heading">¶</a></h4>
+<p>The equations for surface water, soil water, and plant propagation have
+diffusion components which spread those pools into adjacent grid cells.
+Smaller values of the diffusion rates tend to decrease the size and increase
+the number of the “clumps” within the grid.</p>
+<p>(TO DO: implementation of Spatial Dispersion)</p>
+</section>
+<section id="initialization">
+<h4>Initialization<a class="headerlink" href="#initialization" title="Link to this heading">¶</a></h4>
+<p>Soil water content is initialized indirectly through the configuration
+item <strong>model.initial.precipitation</strong>, in which the initial biomass
+(see <strong>model.initial.biomass(*).distribution</strong>).
+controls the amount of soil water per grid cell.</p>
+</section>
+</section>
+<section id="nitrogen-fluxes">
+<h3>Nitrogen Fluxes<a class="headerlink" href="#nitrogen-fluxes" title="Link to this heading">¶</a></h3>
+<p>Version 3 provides for N atmospheric deposition as an input flux, plant
+uptake of N for growth, with decomposition of plant material returning N to
+the soil. This flux does not include aeolian deposition. Version 5 adds
+N uptake demand for daily maintenance of above and belowground biomass.</p>
+<p>The growth algorithm calculates new biomass due to available soil N, and
+includes that as one of the limiting amounts in potential growth. See
+<a class="reference internal" href="#growth">Growth</a> for a description of the algorithm.</p>
+<p>These configuration parameters control N fluxes:</p>
+<p><strong>input.NAtmDep</strong></p>
+<blockquote>
+<div><p>Specifies the rate of daily total wet + dry N atmospheric deposition.
+This can be file name of a data file, or a constant value (gN m-2 d-1).
+A data file contains daily N data and is structured similar to the
+precipitation file.</p>
+<p>N atmospheric deposition data is accessed using the class <strong>NAtmDep</strong>.</p>
+</div></blockquote>
+<p><strong>plant(*).CN</strong></p>
+<blockquote>
+<div><p>Average of the aboveground and belowground C:N of biomass for this plant.
+(TO DO: Have separate C:N for different plant parts.)</p>
+</div></blockquote>
+<p><strong>plant(*).cNmax</strong></p>
+<blockquote>
+<div><p>Maximum daily N uptake rate as fraction of plant biomass;
+valid range = 0-1.
+Assume <code class="docutils literal notranslate"><span class="pre">cNmax</span> <span class="pre">=</span> <span class="pre">(c*gmax)/C:N</span></code>. Units = gN gC-1 d-1.</p>
+</div></blockquote>
+<p><strong>plant(*).maintN</strong></p>
+<blockquote>
+<div><p>Daily maintenance rate of uptake of N by current biomass
+(gN gBiomass-1 d-1).
+Added in version 5.</p>
+</div></blockquote>
+<section id="id1">
+<h4>Initialization<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h4>
+<p>Initial soil plant-available N is specified in the configuration parameter
+<strong>model.initial.soilN</strong>.
+Units are gN/m2. Allowed values are &gt;= zero.
+This amount does not include root biomass.
+This parameter is available in version 4.6 and later.</p>
+<p>Initial values include soil N calculated from the initial values of biomass
+for each plant species, the above:belowground biomass ratio, and the
+C:N ratio. For multiple species, the initial N (g/m2) is the sum across
+all species.</p>
+</section>
+<section id="sensitivity">
+<h4>Sensitivity<a class="headerlink" href="#sensitivity" title="Link to this heading">¶</a></h4>
+<p>The sensitivity of biomass response to <strong>input.NAtmDep</strong> is shown in the
+following table for site G-IBPE, with maximum biomass = 319, C:N = 58,
+and <strong>plant.cNmax</strong> = 0.025,
+at equal intervals of N atmospheric deposition.
+Simulations used model version 3.0.0.
+The rate of change of maximum biomass decreases as the N deposition rate
+increases.</p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>NAtmDep</p></th>
+<th class="head"><p>simulation maximum biomass</p></th>
+<th class="head"><p>change in maximum (%)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.2</p></td>
+<td><p>83.3</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>0.4</p></td>
+<td><p>163.4</p></td>
+<td><p>49.0</p></td>
+</tr>
+<tr class="row-even"><td><p>0.6</p></td>
+<td><p>257.6</p></td>
+<td><p>36.6</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.8</p></td>
+<td><p>294.6</p></td>
+<td><p>12.6</p></td>
+</tr>
+<tr class="row-even"><td><p>1.0</p></td>
+<td><p>307.2</p></td>
+<td><p>4.1</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="aeolian-erosion-and-deposition">
+<h3>Aeolian Erosion and Deposition<a class="headerlink" href="#aeolian-erosion-and-deposition" title="Link to this heading">¶</a></h3>
+<p>The aeolian submodel estimates effects upon plants by erosion and deposition
+of aeolian transport of soil. The intent is to not track actual amounts of
+material transported across a grid, rather track the effects of erosion and
+deposition upon plant growth and mortality. The submodel build grids of
+locations that will experience deposition or erosion. The relative magnitude
+of deposition or erosion will be indicated by a fraction in the range 0-1,
+where 0 is none, and 1 is maximum. These erosion and deposition effects are
+applied to mortality of grass and young shrubs.</p>
+<p>Details of the aeolian algorithms are in the document
+<em>aeolian/AeolianEffect-Algorithms</em>.</p>
+</section>
+<section id="plants">
+<h3>Plants<a class="headerlink" href="#plants" title="Link to this heading">¶</a></h3>
+<p>Each plant species is defined in the configuration file
+under the item <strong>plant</strong>.</p>
+<section id="history-of-plant-algorithms">
+<h4>History of Plant Algorithms<a class="headerlink" href="#history-of-plant-algorithms" title="Link to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>Version 1 of this model simulates one plant species.</p></li>
+<li><p>Version 2 simulates multiple plant species with resource competition.</p></li>
+<li><p>Version 3 includes soil N fluxes for growth.</p></li>
+<li><p>Version 4 adds plant mortality due to water stress.</p></li>
+<li><p>Version 5 adds daily soil N demand for maintenance by current biomass.</p></li>
+<li><p>Version 6 adds plant mortality due to aeolian erosion and deposition.</p></li>
+</ul>
+<p>Implementation of plants is in classes <strong>Plant</strong> and <strong>Roots</strong>.
+For a diagram of functional and class relationships, see the
+UML class diagram in <code class="docutils literal notranslate"><span class="pre">doc/class-diagram-Plant.png</span></code></p>
+</section>
+<section id="growth">
+<h4>Growth<a class="headerlink" href="#growth" title="Link to this heading">¶</a></h4>
+<p>Daily growth = minimum of the above potentials:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">G</span> <span class="o">=</span> <span class="n">minimum</span><span class="p">(</span><span class="n">dPU</span><span class="p">,</span> <span class="n">dPB</span><span class="p">,</span> <span class="n">dPT</span><span class="p">,</span> <span class="n">dPN</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where potential growth terms are:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dPU</span></code> = growth due to water uptake</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dPB</span></code> = growth from maximum boimass.</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dPT</span></code> = growth influenced by daily mean temperature</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dPN</span></code> = growth due to available soil N.</div>
+</div>
+<p>Growth is limited by available soil water, using the uptake equation
+(see <a class="reference internal" href="#plant-soil-water-uptake">Plant Soil Water Uptake</a>), and the configuration parameter
+<strong>plant.c</strong>.</p>
+<p>Growth from maximum potential biomaass follows a logistic equation. Plant
+configuration parameters <strong>plant.Bmax</strong> and <strong>plant.rmax</strong> control the
+maximum growth rate.</p>
+<p>The daily mean temperature influences potential growth using a generalized
+Poisson density function curve to simulate the growth response to temperature.
+The configuration parameter <strong>plant.teff</strong> determines the shape and range of
+this curve.</p>
+<p>By way of Liebig’s law of the minimum[<a class="reference internal" href="#id6">5</a>], growth is limited by the least of
+the contribution from plant-available water, maximum potential biomass, mean
+daily air temperature, and available soil N.</p>
+</section>
+<section id="mortality">
+<h4>Mortality<a class="headerlink" href="#mortality" title="Link to this heading">¶</a></h4>
+<p>Prior to version 4, plant mortality is a fixed fraction of aboveground
+biomass (the plant configuration parameter <strong>d</strong>).</p>
+<p>Version 4 introduces mortality due to soil water stress, or drought.
+A logistic curve of mortality vs. water stress is parameterized by
+the configuration items <strong>plant.mortality</strong>.
+The length of the stress period is also specifed.
+A background mortality rate is a fixed fraction of aboveground
+biomass (the configuration parameter <strong>plant.mortality.d</strong>).</p>
+<p>Example logistic mortality curves are displayed in the graph produced
+by the GNU Octave script <code class="docutils literal notranslate"><span class="pre">plot-mortality.m</span></code>.</p>
+<p>Water stress as implemented here is the cumulative sum of excess demand of
+soil water over available water by a plant over a time period. Stress is
+positive if the cumulative excess is &gt; zero, otherwise it is zero.</p>
+<p>Mortality rate is the sum of the background rate and the water stress rate.
+Once per simulation day, the water stress cumulative sum is updated with
+that day’s value of plant demand vs available soil water.
+Rates have the units <em>fraction of biomass per day</em>.</p>
+<p>The algorithms are implemented in the classes
+<strong>Mortality</strong> and <strong>WaterStress</strong>, used by class <strong>Plant</strong>.</p>
+</section>
+<section id="spatial-propagation">
+<h4>Spatial Propagation<a class="headerlink" href="#spatial-propagation" title="Link to this heading">¶</a></h4>
+<p>Plants propagate to surrounding cells via a dispersion term in the
+growth equations.</p>
+<p>(TO DO)</p>
+</section>
+<section id="species-competition">
+<h4>Species Competition<a class="headerlink" href="#species-competition" title="Link to this heading">¶</a></h4>
+<p>Version 2 includes the ability to have multiple plant species.
+Plant species compete implicitly through their parameterization
+for growth rate and root:shoot ratio.
+Explicit competition for soil resources uses the algorithm
+in the class <code class="docutils literal notranslate"><span class="pre">Competition</span></code>.</p>
+<section id="implicit-competition">
+<h5>Implicit Competition<a class="headerlink" href="#implicit-competition" title="Link to this heading">¶</a></h5>
+<p>Each species has configuration items that specify the proportions of
+available soil resources relative to root biomass: <strong>plant.bmBgAgRatio</strong>
+(ratio of belowground to aboveground biomass), and <strong>plant.bmBgDist</strong>
+(belowground biomass distribution; a fraction into each soil layer). These
+provide the total soil resource available to each species, per soil layer.</p>
+<p>For black grama and creosote, the values of <strong>bmBgDist</strong> are:</p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>species</p></th>
+<th class="head"><p>root biomass proportions: top, middle, deep</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>black grama</p></td>
+<td><p>0.133, 0.504, 0.363</p></td>
+</tr>
+<tr class="row-odd"><td><p>creosote</p></td>
+<td><p>0.067, 0.320, 0.613</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Additionally, the plant parameters controlling the rate of water uptake
+(<strong>gmax</strong>, <strong>k1</strong>) will affect the potential growth rate relative to other
+species with different parameter values.</p>
+<p>All growth parameters for each plant will affect the amount of root biomass
+available for resource uptake. See <strong>c</strong>, <strong>rmax</strong> and <strong>Bmax</strong>, and
+the temperature effect upon growth rate limitation (<strong>teff</strong>).</p>
+</section>
+<section id="explicit-competition">
+<h5>Explicit Competition<a class="headerlink" href="#explicit-competition" title="Link to this heading">¶</a></h5>
+<p>Competition factors are values in the range 0-1 that specify for each plant,
+the fraction of a resource in a soil layer to which plant roots have access.
+Factors are calculated from the relative amounts of root biomass for each
+plant species within each soil layer. These factors are applied to the
+resource amounts to obtain a matrix per soil layer, per plant, of available
+resource.</p>
+<p>Currently, explicit competition is used for soil water and N uptake.</p>
+<p>The algorithm is implemented in the class <strong>Competition</strong>.</p>
+</section>
+</section>
+</section>
+<section id="mounds">
+<h3>Mounds<a class="headerlink" href="#mounds" title="Link to this heading">¶</a></h3>
+<p>A mounds submodel simulates water flow over the mound surface. Mounds are
+topographic features of specified shape and size. Shape is specified by a
+slope at a radial distance from the mound center. Mound topography
+algorithms assume that mound radius spans at least two grid cells.</p>
+<p>Surface water flows down the mounds according to their shape and the
+parameter <code class="docutils literal notranslate"><span class="pre">beta</span></code>, the maximum convection rate. The water infiltration rate
+(parameters <code class="docutils literal notranslate"><span class="pre">model.params.alpha</span></code> and <code class="docutils literal notranslate"><span class="pre">plant(1).{c,</span> <span class="pre">k2}</span></code>)
+and the surface water diffusion rate change (<code class="docutils literal notranslate"><span class="pre">D1</span></code>) with location on the mounds. See
+the document <em>Manual</em> for details about the mounds configuration parameters.</p>
+<p>The <em>R</em> script provided in the model source files at
+<code class="docutils literal notranslate"><span class="pre">doc/mounds/plotModifyFactors.R</span></code> displays graphs showing how
+each parameter can change on mounds versus off of mounds.
+The <em>R</em> command is:</p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">source</span><span class="p">(</span><span class="s">&quot;&lt;path to Drylands2 files&gt;/doc/mounds/plotModifyFactors.R&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Mound parameter <code class="docutils literal notranslate"><span class="pre">model.mounds.imc</span></code> specifies the initial fraction of
+biomass coverage on mounds. With a mounds simulation, two simulations are
+run, first with “on-mound” initial biomass coverage (<code class="docutils literal notranslate"><span class="pre">imc(1)</span></code>),
+and second with initial mound biomass coverage for an “no-mound”
+simulation (<code class="docutils literal notranslate"><span class="pre">imc(2)</span></code>).
+Both simulations use the same initial state for state variables and mounds
+(except for parameter <code class="docutils literal notranslate"><span class="pre">imc</span></code>). The initial biomass distribution is
+uniform random, with the initial grid for both simulations.
+The results for each simulation are stored separately.</p>
+<p>Configuration items <strong>model.mounds</strong> and class <strong>Mounds</strong> manage the parameters
+controlling mound shape and behavior.</p>
+<section id="mound-shape">
+<h4>Mound Shape<a class="headerlink" href="#mound-shape" title="Link to this heading">¶</a></h4>
+<p>Mound shape is determined by a set of [x,y] pairs in two vectors,
+the radial distance from the mound center,
+and the slope (or convection velocity).
+These are specified in the class <strong>MoundTypes</strong>,
+and selected by the configuration item <code class="docutils literal notranslate"><span class="pre">model.mounds.geometry</span></code>.</p>
+<p>You can plot the one-sided velocity (slope) profile for each geometry, and the
+mound topographic profile using the script provided in the model source
+files at <code class="docutils literal notranslate"><span class="pre">doc/mounds/plotMoundShapes.m</span></code>. The <em>GNU Octave</em> command is:</p>
+<div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="n">source</span><span class="p">(</span><span class="s">&#39;&lt;path to Drylands2 files&gt;/doc/mounds/plotMoundShapes.m&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="algorithm-flow-simplified">
+<h4>Algorithm flow (simplified)<a class="headerlink" href="#algorithm-flow-simplified" title="Link to this heading">¶</a></h4>
+<div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="n">For</span><span class="w"> </span><span class="s">each</span><span class="w"> </span><span class="s">simulation:</span>
+<span class="w">    </span><span class="n">runOneSim</span><span class="p">()</span>
+<span class="w">        </span><span class="n">simTask</span><span class="p">(</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="n">mounds</span><span class="p">.</span><span class="n">imc</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w">    </span><span class="c">% use on-mound initial coverage for mounds</span>
+<span class="w">            </span><span class="n">initializeMounds</span><span class="p">()</span>
+<span class="w">                </span><span class="n">mounds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Mounds</span><span class="p">()</span><span class="w">              </span><span class="c">% create Mounds object</span>
+<span class="w">                </span><span class="n">buildMoundsVer1</span><span class="p">()</span><span class="w">              </span><span class="c">% make a grid of mounds</span>
+<span class="w">                </span><span class="n">modifyFactors</span><span class="p">()</span><span class="w">                </span><span class="c">% grid of alpha, mounds.{c, k2, gmax}</span>
+<span class="w">                </span><span class="n">buildFirstDerivativesVer2</span><span class="p">()</span><span class="w">    </span><span class="c">% D1 = (Fxb - Fxf + Fyb - Fyf) / dx</span>
+<span class="w">            </span><span class="n">Save</span><span class="w"> </span><span class="n">initialization</span><span class="w"> </span><span class="p">(</span><span class="n">P</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="n">W</span><span class="p">,</span><span class="w"> </span><span class="n">S</span><span class="p">,</span><span class="w"> </span><span class="n">R</span><span class="p">,</span><span class="w"> </span><span class="n">mounds</span><span class="p">).</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="n">each</span><span class="w"> </span><span class="n">iteration</span><span class="p">:</span>
+<span class="w">                </span><span class="n">convectionFlow</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rho</span><span class="p">(</span><span class="w"> </span><span class="nb">beta</span><span class="p">,</span><span class="w"> </span><span class="n">k3</span><span class="p">,</span><span class="w"> </span><span class="n">betaSlow</span><span class="p">,</span><span class="w"> </span><span class="n">P</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="p">(</span><span class="n">D1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">S</span><span class="p">);</span>
+<span class="w">                </span><span class="n">Stotal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">S</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">R</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">convectionRate</span><span class="p">;</span>
+<span class="w">                </span><span class="n">Infiltration</span><span class="p">(</span><span class="w"> </span><span class="n">Stotal</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                </span><span class="n">EulersMethod</span><span class="p">(</span><span class="w"> </span><span class="n">P</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="n">W</span><span class="p">,</span><span class="w"> </span><span class="n">Stotal</span><span class="p">,</span><span class="w"> </span><span class="k">...</span><span class="c"> )</span>
+<span class="w">        </span><span class="n">simTask</span><span class="p">(</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="n">mounds</span><span class="p">.</span><span class="n">imc</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w">    </span><span class="c">% use off-mound initial coverage for mounds</span>
+<span class="w">            </span><span class="n">Use</span><span class="w"> </span><span class="n">saved</span><span class="w"> </span><span class="n">initialization</span><span class="w"> </span><span class="p">(</span><span class="n">P</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="n">W</span><span class="p">,</span><span class="w"> </span><span class="n">S</span><span class="p">,</span><span class="w"> </span><span class="n">R</span><span class="p">,</span><span class="w"> </span><span class="n">mounds</span><span class="p">).</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="n">each</span><span class="w"> </span><span class="n">iteration</span><span class="p">:</span>
+<span class="w">                </span><span class="n">convectionFlow</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rho</span><span class="p">(</span><span class="w"> </span><span class="nb">beta</span><span class="p">,</span><span class="w"> </span><span class="n">k3</span><span class="p">,</span><span class="w"> </span><span class="n">betaSlow</span><span class="p">,</span><span class="w"> </span><span class="n">P</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="p">(</span><span class="n">D1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">S</span><span class="p">);</span>
+<span class="w">                </span><span class="n">Stotal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">S</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">R</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">convectionRate</span><span class="p">;</span>
+<span class="w">                </span><span class="n">Infiltration</span><span class="p">(</span><span class="w"> </span><span class="n">Stotal</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                </span><span class="n">EulersMethod</span><span class="p">(</span><span class="w"> </span><span class="n">P</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="n">W</span><span class="p">,</span><span class="w"> </span><span class="n">S</span><span class="p">,</span><span class="w"> </span><span class="k">...</span><span class="c"> )</span>
+<span class="w">        </span><span class="n">makeResults</span><span class="p">()</span>
+<span class="w">            </span><span class="n">detectGrowthOnMound</span><span class="p">()</span><span class="w">    </span><span class="c">% Calculate grid averages within radial intervals</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="sweeps">
+<h3>Sweeps<a class="headerlink" href="#sweeps" title="Link to this heading">¶</a></h3>
+<p>A sweep is a set of simulations over a range of a configuration parameter.
+The parameter varies with a fixed interval.There are specific parameters
+from which to choose, specified in the <em>Manual</em>.
+All sweep simulations use the same initial values for the state variables.</p>
+<p>See the document <em>Manual</em> for details about sweep configuration parameters.</p>
+</section>
+<section id="trials">
+<h3>Trials<a class="headerlink" href="#trials" title="Link to this heading">¶</a></h3>
+<p>Trials are multiple simulations with fixed configuration parameters
+and one random input or parameter.
+All simulations in trials use the same initial values for state variables.</p>
+<p>See the document <em>Manual</em> for details about trials configuration parameters.</p>
+</section>
+<section id="changes-to-algorithms">
+<h3>Changes to Algorithms<a class="headerlink" href="#changes-to-algorithms" title="Link to this heading">¶</a></h3>
+<p>Some of the algorithms Rietkerk et al (2002) have been modified,
+and some new algorithms added. See the document <em>ModelEquations</em>
+for equation details.</p>
+<section id="version-1">
+<h4>Version 1<a class="headerlink" href="#version-1" title="Link to this heading">¶</a></h4>
+<p>Modified and new algorithms include:</p>
+<ul class="simple">
+<li><p>There are three soil layers for soil resources and distribution of root biomass.</p></li>
+<li><p>Existing algorithms were modified to use a layered soil profile.</p></li>
+<li><p>Growth follows a logistic equation, limited by soil water content and temperature.</p></li>
+<li><p>Field capacity and wilting point constrain soil water infiltration, uptake and losses.</p></li>
+<li><p>Evaporation occurs from the surface soil layer.</p></li>
+<li><p>Soil water drainage to field capacity occurs from the middle and bottom soil layers.</p></li>
+<li><p>New classes manage plant aboveground and root biomass calculations.</p></li>
+</ul>
+</section>
+<section id="version-2">
+<h4>Version 2<a class="headerlink" href="#version-2" title="Link to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>Simulation can include multiple plant species with resource competition based
+upon proportion of biomass.</p></li>
+</ul>
+</section>
+<section id="version-3">
+<h4>Version 3<a class="headerlink" href="#version-3" title="Link to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>Added N atmospheric deposition as an input flux, and
+algorithms for plant uptake of N for growth.</p></li>
+</ul>
+</section>
+<section id="version-4">
+<h4>Version 4<a class="headerlink" href="#version-4" title="Link to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>Added algorithms for plant mortality due to soil water stress.</p></li>
+</ul>
+</section>
+<section id="version-5">
+<h4>Version 5<a class="headerlink" href="#version-5" title="Link to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>Added daily soil N demand for maintenance by current biomass.</p></li>
+<li><p>New configuration option for matrix time series output containing spatial changes.</p></li>
+<li><p>Several functions and classes that are not model-specific have been
+moved into the DrylandsLib package.</p></li>
+</ul>
+</section>
+<section id="version-6">
+<h4>Version 6<a class="headerlink" href="#version-6" title="Link to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>A new aeolian submodel simulations the effects upon plant mortality due to
+aeolian erosion and deposition.</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<p><em>Manual.pdf</em>, source: <em>Manual.rst</em></p>
+<p><em>ModelDiagram.pdf</em>, source: <em>ModelDiagram.fodt</em></p>
+<p><em>ModelEquations.pdf</em>, source: <em>ModelEquations.fodt</em></p>
+<p><em>class-diagram-Plant.txt</em>:
+A UML class diagram description for the Plant classes,
+used by the application <strong>PlantUML</strong>.
+Create a PNG image of the diagram with the command:
+<code class="docutils literal notranslate"><span class="pre">plantuml</span> <span class="pre">class-diagram-Plant.txt</span></code></p>
+<p><em>aeolian/AeolianEffect-Algorithms</em>:
+Descripton of the aeolian submodel.</p>
+<p><em>Evaporation.pdf</em>, source: <em>Evaporation.fodt</em></p>
+<p><code class="docutils literal notranslate"><span class="pre">doc/*.R</span></code> and <code class="docutils literal notranslate"><span class="pre">doc/*.m</span></code>: R and GNU Octave scripts producing graphs
+demonstrating equations used in these algorithms.</p>
+</section>
+<section id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Link to this heading">¶</a></h2>
+<blockquote id="id2">
+<div><p>[1] Rietkerk, M., F. van den Bosch, and J. van de Koppel. 1997. Site-specific
+properties and irreversible vegetation changes in semi-arid grazing systems.
+Oikos 80: 241–252.</p>
+</div></blockquote>
+<blockquote id="id3">
+<div><p>[2] Rietkerk, M., M. C. Boerlijsr, F. van Langevelde, R. Hille-RisLambers, J.
+Van de Koppel, L. Kumar, and A. M. de Roos. 2002. Self- organization of
+vegetation in arid ecosystems. American Naturalist 160:524–530.
+<a class="reference external" href="https://doi.org/10.1086/342078">https://doi.org/10.1086/342078</a></p>
+</div></blockquote>
+<blockquote id="id4">
+<div><p>[3] Stewart, J., Parsons, A.J., Wainwright, J., Okin, G.S., Bestelmeyer, B.T.,
+Fredrickson, E.L. and Schlesinger, W.H. (2014), Modeling emergent patterns
+of dynamic desert ecosystems. Ecological Monographs, 84: 373 -410.
+<a class="reference external" href="https://doi.org/10.1890/12-1253.1">https://doi.org/10.1890/12-1253.1</a></p>
+</div></blockquote>
+<blockquote id="id5">
+<div><p>[4] Saxton, K.E. and Rawls, W.J. (2006), Soil Water Characteristic
+Estimates by Texture and Organic Matter for Hydrologic Solutions;
+table 3.
+Soil Sci. Soc. Am. J., 70: 1569-1578.
+<a class="reference external" href="https://doi.org/10.2136/sssaj2005.0117">https://doi.org/10.2136/sssaj2005.0117</a></p>
+</div></blockquote>
+<blockquote id="id6">
+<div><p>[5] Liebig’s law of the minimum.
+<a class="reference external" href="https://en.wikipedia.org/wiki/Liebig%27s_law_of_the_minimum">https://en.wikipedia.org/wiki/Liebig%27s_law_of_the_minimum</a></p>
+</div></blockquote>
+<blockquote id="id7">
+<div><p>[6] JSON configuration file format; see
+<a class="reference external" href="https://www.w3schools.com/js/js_json_intro.asp">https://www.w3schools.com/js/js_json_intro.asp</a></p>
+</div></blockquote>
+</section>
+<section id="document-history">
+<h2>Document History<a class="headerlink" href="#document-history" title="Link to this heading">¶</a></h2>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Revision Date</p></th>
+<th class="head"><p>Model Version</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2024.10.07</p></td>
+<td><p>4.3.0</p></td>
+<td><p>Author: Thomas E. Hilinski &lt;<a class="reference external" href="mailto:hilinski&#37;&#52;&#48;nmsu&#46;edu">hilinski<span>&#64;</span>nmsu<span>&#46;</span>edu</a>&gt;</p></td>
+</tr>
+<tr class="row-odd"><td><p>2024.11.14</p></td>
+<td><p>4.6</p></td>
+<td><p>Updated information related to soil N.</p></td>
+</tr>
+<tr class="row-even"><td><p>2024.12.02</p></td>
+<td><p>5.0</p></td>
+<td><p>Added calculation of N maintenance uptake.</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>New matrix time series output option for spatial changes.</p></td>
+</tr>
+<tr class="row-even"><td><p>2025.08.22</p></td>
+<td><p>6.0</p></td>
+<td><p>New aeolian submodel for effects upon plant mortality</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>due to aeolian erosion and deposition.</p></td>
+</tr>
+<tr class="row-even"><td><p>2025.10.03</p></td>
+<td><p>6.2</p></td>
+<td><p>Add Introduction section <a class="reference internal" href="#conventions">Conventions</a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p>2025.10.20</p></td>
+<td><p>6.4</p></td>
+<td><p>Expand information on mounds algorithms.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="appendices">
+<h2>Appendices<a class="headerlink" href="#appendices" title="Link to this heading">¶</a></h2>
+<section id="file-formats">
+<span id="appendix-1"></span><h3>File Formats<a class="headerlink" href="#file-formats" title="Link to this heading">¶</a></h3>
+<p>Several file formats are used with this model.
+All are text files.</p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>File name extension</p></th>
+<th class="head"><p>Format</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">txt</span></code></p></td>
+<td><p>Plain text file; the content may either be a document, or</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>be for a specific application (e.g., <strong>plantuml</strong>).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">json</span></code></p></td>
+<td><p>Contains JSON[<a class="reference internal" href="#id7">6</a>] stuctured data for configuration files.</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>This contains a non-standard feature: line comments.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">csv</span></code></p></td>
+<td><p>Comma-Separated Values - data in text format.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">m</span></code></p></td>
+<td><p>MatLab/GNU Octave source code file.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mat</span></code></p></td>
+<td><p>A data file produced by GNU Octave.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">md</span></code></p></td>
+<td><p>Markdown document source file.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">rst</span></code></p></td>
+<td><p>reStructuredText document source file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">R</span></code></p></td>
+<td><p>R source code file.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fodt</span></code></p></td>
+<td><p>OpenDocument document file (in text XML format).</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>This is a LibreOffice native format, and is</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>editable by Microsoft Word and Google Docs and other apps.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fodg</span></code></p></td>
+<td><p>OpenDocument graph file (in text XML format).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">txt</span></code></p></td>
+<td><p>Plain text file.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Other files:</p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>File name</p></th>
+<th class="head"><p>Format</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">style.css</span></code></p></td>
+<td><p>A CSS style sheet for generated documents.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">makefile</span></code></p></td>
+<td><p>Builds other files from the source files using <code class="docutils literal notranslate"><span class="pre">make</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">.gitignore</span></code></p></td>
+<td><p>A <em>hidden</em> file that tells <code class="docutils literal notranslate"><span class="pre">git</span></code> to ignore some files.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="field-capacity-and-wilting-point">
+<span id="appendix-2"></span><h3>Field Capacity and Wilting Point<a class="headerlink" href="#field-capacity-and-wilting-point" title="Link to this heading">¶</a></h3>
+<p>From Saxton and Rawls (2006)[<a class="reference internal" href="#id5">4</a>], table 3:</p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>texture</p></th>
+<th class="head"><p>wilting point</p></th>
+<th class="head"><p>field capacity</p></th>
+<th class="head"><p>ratio</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Sa</p></td>
+<td><p>5</p></td>
+<td><p>10</p></td>
+<td><p>0.50</p></td>
+</tr>
+<tr class="row-odd"><td><p>Lsa</p></td>
+<td><p>5</p></td>
+<td><p>12</p></td>
+<td><p>0.42</p></td>
+</tr>
+<tr class="row-even"><td><p>SaL</p></td>
+<td><p>8</p></td>
+<td><p>18</p></td>
+<td><p>0.44</p></td>
+</tr>
+<tr class="row-odd"><td><p>L</p></td>
+<td><p>14</p></td>
+<td><p>28</p></td>
+<td><p>0.50</p></td>
+</tr>
+<tr class="row-even"><td><p>SiL</p></td>
+<td><p>11</p></td>
+<td><p>31</p></td>
+<td><p>0.35</p></td>
+</tr>
+<tr class="row-odd"><td><p>Si</p></td>
+<td><p>6</p></td>
+<td><p>30</p></td>
+<td><p>0.20</p></td>
+</tr>
+<tr class="row-even"><td><p>SaCL</p></td>
+<td><p>17</p></td>
+<td><p>27</p></td>
+<td><p>0.63</p></td>
+</tr>
+<tr class="row-odd"><td><p>CL</p></td>
+<td><p>22</p></td>
+<td><p>36</p></td>
+<td><p>0.61</p></td>
+</tr>
+<tr class="row-even"><td><p>SiCL</p></td>
+<td><p>22</p></td>
+<td><p>38</p></td>
+<td><p>0.58</p></td>
+</tr>
+<tr class="row-odd"><td><p>SiC</p></td>
+<td><p>27</p></td>
+<td><p>41</p></td>
+<td><p>0.66</p></td>
+</tr>
+<tr class="row-even"><td><p>SaC</p></td>
+<td><p>25</p></td>
+<td><p>36</p></td>
+<td><p>0.69</p></td>
+</tr>
+<tr class="row-odd"><td><p>C</p></td>
+<td><p>30</p></td>
+<td><p>42</p></td>
+<td><p>0.71</p></td>
+</tr>
+<tr class="row-even"><td><p>mean</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>0.53</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="simulation-result-matrices">
+<h3>Simulation Result Matrices<a class="headerlink" href="#simulation-result-matrices" title="Link to this heading">¶</a></h3>
+<section id="relevant-functions">
+<h4>Relevant functions:<a class="headerlink" href="#relevant-functions" title="Link to this heading">¶</a></h4>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">simTask</span></code></dt><dd><p>Initializes all result matrices.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">initialConditions</span></code></dt><dd><p>Calls initialBiomass for each plant.
+Returns total aboveground plant biomass (2D).
+Plant objects contain biomass for each plant.
+Called by simTask.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">initialBiomass</span></code></dt><dd><p>Initializes biomass matrix for one plant.
+Returns a 2D matrix of aboveground biomass (g/m2).
+Called by initialConditions.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">makeResults</span></code></dt><dd><p>Makes a structure of simulation results.</p>
+</dd>
+</dl>
+</section>
+<section id="result-matrices">
+<h4>Result Matrices<a class="headerlink" href="#result-matrices" title="Link to this heading">¶</a></h4>
+<p>Structure <strong>results</strong> contains the timestep result matrices:</p>
+<p>Output matrices of state variables are replaced at each time step.
+These are used for producing maps; each is a 2D matrix.
+They are reshaped to square matrices from time step solution vectors
+and trimmed to the configuration grid dimensions.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">P1</span> <span class="o">-</span> <span class="n">aboveground</span> <span class="n">biomass</span> <span class="n">per</span> <span class="n">plant</span>
+<span class="n">N1</span> <span class="o">-</span> <span class="n">soil</span> <span class="n">N</span>
+<span class="n">W1</span> <span class="o">-</span> <span class="n">total</span> <span class="n">soil</span> <span class="n">water</span> <span class="n">content</span>
+<span class="n">S1</span> <span class="o">-</span> <span class="n">surface</span> <span class="n">water</span> <span class="n">content</span>
+</pre></div>
+</div>
+<p>These are grid-average values and have dimensions [3],
+where values are for
+&lt;= mound radii[1], radii[1] to radii[2], and &gt; radii[2]
+respectively.
+These are calculated in functions
+<code class="docutils literal notranslate"><span class="pre">detectGrowthOnMound</span></code> or <code class="docutils literal notranslate"><span class="pre">GridMeansNoMounds</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">avgP0</span> <span class="o">=</span> <span class="n">detectGrowthOnMound</span> <span class="ow">or</span> <span class="n">GridMeansNoMounds</span>
+<span class="n">avgW0</span> <span class="o">-</span> <span class="ow">not</span> <span class="n">used</span>
+<span class="n">avgS0</span> <span class="o">-</span> <span class="n">radius</span> <span class="n">zones</span>   <span class="ow">not</span> <span class="n">used</span>
+<span class="n">avgP1</span> <span class="o">=</span> <span class="n">detectGrowthOnMound</span> <span class="ow">or</span> <span class="n">GridMeansNoMounds</span>
+<span class="n">avgW1</span> <span class="o">-</span> <span class="ow">not</span> <span class="n">used</span>
+<span class="n">avgS1</span> <span class="o">-</span> <span class="n">radius</span> <span class="n">zones</span>   <span class="ow">not</span> <span class="n">used</span>
+</pre></div>
+</div>
+<p>For trials and sweeps, the averages for each are stored in 2D matrices
+with dimensions <code class="docutils literal notranslate"><span class="pre">[numberOfTrials,</span> <span class="pre">sweepSize]</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plantOnMound0</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">s</span><span class="p">)</span>  <span class="o">=</span> <span class="n">avgP0</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plantOffMound0</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">s</span><span class="p">)</span> <span class="o">=</span> <span class="n">avgP0</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plantOnMound1</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">s</span><span class="p">)</span>  <span class="o">=</span> <span class="n">avgP1</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plantOffMound1</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">s</span><span class="p">)</span> <span class="o">=</span> <span class="n">avgP1</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="Manual.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Drylands2 Model Manual</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="index.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Home</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Tom Hilinski, Niall Hanan, Greg Maurer
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Drylands2 Model Design</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#conventions">Conventions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#model-structure">Model Structure</a><ul>
+<li><a class="reference internal" href="#source-files-organization">Source Files Organization</a></li>
+<li><a class="reference internal" href="#major-model-parts">Major Model Parts</a><ul>
+<li><a class="reference internal" href="#simulation-grid">Simulation Grid</a></li>
+<li><a class="reference internal" href="#time-loops">Time loops</a></li>
+<li><a class="reference internal" href="#soil-structure">Soil Structure</a></li>
+<li><a class="reference internal" href="#simulation-results">Simulation Results</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#major-functions-and-classes">Major Functions and Classes</a></li>
+<li><a class="reference internal" href="#execution-psuedocode">Execution Psuedocode</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#algorithms">Algorithms</a><ul>
+<li><a class="reference internal" href="#water-fluxes">Water Fluxes</a><ul>
+<li><a class="reference internal" href="#precipitation-and-temperature">Precipitation and Temperature</a></li>
+<li><a class="reference internal" href="#infiltration">Infiltration</a></li>
+<li><a class="reference internal" href="#evaporation">Evaporation</a></li>
+<li><a class="reference internal" href="#soil-water-drainage">Soil Water Drainage</a></li>
+<li><a class="reference internal" href="#plant-soil-water-uptake">Plant Soil Water Uptake</a></li>
+<li><a class="reference internal" href="#spatial-dispersion">Spatial Dispersion</a></li>
+<li><a class="reference internal" href="#initialization">Initialization</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#nitrogen-fluxes">Nitrogen Fluxes</a><ul>
+<li><a class="reference internal" href="#id1">Initialization</a></li>
+<li><a class="reference internal" href="#sensitivity">Sensitivity</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#aeolian-erosion-and-deposition">Aeolian Erosion and Deposition</a></li>
+<li><a class="reference internal" href="#plants">Plants</a><ul>
+<li><a class="reference internal" href="#history-of-plant-algorithms">History of Plant Algorithms</a></li>
+<li><a class="reference internal" href="#growth">Growth</a></li>
+<li><a class="reference internal" href="#mortality">Mortality</a></li>
+<li><a class="reference internal" href="#spatial-propagation">Spatial Propagation</a></li>
+<li><a class="reference internal" href="#species-competition">Species Competition</a><ul>
+<li><a class="reference internal" href="#implicit-competition">Implicit Competition</a></li>
+<li><a class="reference internal" href="#explicit-competition">Explicit Competition</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mounds">Mounds</a><ul>
+<li><a class="reference internal" href="#mound-shape">Mound Shape</a></li>
+<li><a class="reference internal" href="#algorithm-flow-simplified">Algorithm flow (simplified)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sweeps">Sweeps</a></li>
+<li><a class="reference internal" href="#trials">Trials</a></li>
+<li><a class="reference internal" href="#changes-to-algorithms">Changes to Algorithms</a><ul>
+<li><a class="reference internal" href="#version-1">Version 1</a></li>
+<li><a class="reference internal" href="#version-2">Version 2</a></li>
+<li><a class="reference internal" href="#version-3">Version 3</a></li>
+<li><a class="reference internal" href="#version-4">Version 4</a></li>
+<li><a class="reference internal" href="#version-5">Version 5</a></li>
+<li><a class="reference internal" href="#version-6">Version 6</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
+<li><a class="reference internal" href="#bibliography">Bibliography</a></li>
+<li><a class="reference internal" href="#document-history">Document History</a></li>
+<li><a class="reference internal" href="#appendices">Appendices</a><ul>
+<li><a class="reference internal" href="#file-formats">File Formats</a></li>
+<li><a class="reference internal" href="#field-capacity-and-wilting-point">Field Capacity and Wilting Point</a></li>
+<li><a class="reference internal" href="#simulation-result-matrices">Simulation Result Matrices</a><ul>
+<li><a class="reference internal" href="#relevant-functions">Relevant functions:</a></li>
+<li><a class="reference internal" href="#result-matrices">Result Matrices</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=db1c604c"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=46bd48cc"></script>
+    </body>
+</html>

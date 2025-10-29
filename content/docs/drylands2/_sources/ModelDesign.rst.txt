@@ -1,0 +1,1034 @@
+======================
+Drylands2 Model Design
+======================
+
+:subtitle: Jornada Basin LTER, New Mexico State University
+:organization: Jornada Basin LTER, New Mexico State University
+:contact: https://github.com/jornada-im/Drylands2
+
+.. This is a reStructuredText document.
+   Convert to HTML or PDF or LaTeX or ODT with pandoc or sphinx.
+
+.. Section heading marks:
+        chapter           ===
+        section level 1   ---
+        section level 2   ```
+        section level 3   ^^^
+        section level 4   ~~~
+
+.. 
+  .. contents::
+     :depth: 4
+
+
+Introduction
+============
+
+The Drylands2 Model simulates vegetation development within an arid to semiarid
+landscape. Based upon the model of Rietkirk et al (1997, 2002), with the
+addition of mounds by Niall Hanan and Matthew Biesecker, and several new
+algorithms.
+
+There are several changes to algorithms from the original model, including:
+
+* There are multiple (3) soil layers for soil water content.
+* Existing algorithms were modified to use a layered soil profile.
+* Growth follows a logistic equation, limited by soil water and temperature.
+* Field capacity and wilting constrain soil water infiltration, uptake and losses.
+* Evaporation from the surface soil layer.
+* New classes manage plant aboveground and root biomass calculations.
+* Version 2 includes the ability to have multiple plant species with resource
+  competition.
+* Version 3 adds nitrogen atmospheric deposition and plant N uptake.
+* Version 4 has a new biomass mortality algorithm based upon stress due to
+  insufficient plant-available soil water over a fixed time period.
+* Version 5 has a new algorithm for N maintenance uptake.
+  Also has a new output option for matrix time series output containing spatial changes.
+  Finally, several functions and classes that are not model-specific have been
+  moved into the DrylandsLib package.
+* Version 6 has a new aeolian submodel for effects upon plant mortality and
+  growth due to aeolian erosion and deposition.
+
+A configuration file in JSON[6_] format controls the simulation.
+Input is daily precipitation, temperature, N atmospheric deposition, and
+wind data from CSV files.
+Output options include map images at specified times, netCDF grid time
+series, and grid-average time series for state variables saved to a CSV file.
+
+GNU Octave language is used for the model implementation, and a few GNU
+Octave packages are used. Otherwise the implementation is intended to be
+mostly compatible with MATLAB:sup:`TM`, however compatibility has not yet been
+tested.
+
+Conventions
+------------
+
+Directory paths shown herein use a slash (**/**) path separator,
+which is the convention in UNIX-style directory specification.
+Microsoft Windows uses the backslash (**\\**) separator in paths.
+Apple macOS (or OS X) also uses the **/** separator.
+GNU Octave seems to accept the native separator on which it is running,
+in most instances.
+R requires a double-backslash on Microsoft Windows when a path is a
+string variable.
+
+File line-end characters vary with operating system.
+UNIX-style systems (including Linux and Apple macOS) use LF.
+Microsoft Windows uses CR+LF.
+The files for this model as provided from the git repository
+use LF. Some text editors on Microsoft Windows may be confused
+by this, including older versions of Notepad.
+GNU Octave is happy with LF line-endings.
+
+
+
+Model Structure
+================
+
+The code was developed in GNU Octave, and has been kept compatibile with
+MATLAB for the most part. See this document for most compatibility issues:
+
+    https://en.wikibooks.org/wiki/MATLAB_Programming/Differences_between_Octave_and_MATLAB
+
+
+Source Files Organization
+---------------------------
+
+::
+
+    Drylands2           - Model algorithms and control functions and classes.
+    `-- src
+        |-- grid        - Grid related functions and classes.
+        |-- input       - Functions and classes for reading input files.
+        |-- output      -   ... for writing non-graphics output files.
+        |-- plot        -   ... for displaying and saving graphs and maps.
+        |-- log         -   ... for writing to a log file.
+        |-- math        - Mathematical algorithms
+        |-- mounds      - Modeling water flow downgradient on topographic mounds.
+        |-- aeolian     - Algorithms for plant effects from aeolian erosion and deposition.
+        |-- tools       - Misc. usesful functions not used in a simulation.
+        `-- util        - General utility functions.
+
+
+
+Major Model Parts
+------------------
+
+Simulation Grid
+````````````````
+
+The simulation grid is square. The size of the grid is constant, and is
+specified in the simulation configuration. Cell sizes are constant and
+assumed to be 1 m:sup:`2`.
+
+Internally, a single row and column are added to accomodate the
+solver of the timestep equations. These are trimmed when results
+are saved and maps are created.
+
+
+Time loops
+````````````
+
+There are 3 main control loops: trials, sweeps, and a single simulation
+time loop.
+
+The main time loop is daily, though internally the Euler equation solver
+uses a subdaily time resolution.
+The subdaily time step is determined in part by dispersion rates, in order
+to produce smooth transitions between cells.
+
+
+Soil Structure
+```````````````
+
+The soil is defined as 3 layers: top (surface), middle and deep soil layer.
+Actual depths are not used directly in the model but are implied in some of
+the algorithm designs.
+Stewart et al (2014, page 384)[3_] specifies the layer depths to be
+100 mm, 350 mm, and 1500 mm, respectively, and some parameterization and
+algorithms assume those depths. These depths are mostly not used explicitly,
+but as proportions of total soil depth for each layer.
+In Drylands2, the layer thicknesses are specified in the class **Constants**:
+`Constants.thickness`.
+
+The resource infiltration algorithms do not explicitly consider soil texture
+or permeability of each soil layer.
+
+
+Simulation Results
+```````````````````
+
+Each time step stores results in a structure **results** containing
+several matrices. The actual matrices present are dependent upon whether a
+single simulation is run, or if mounds are simulated, or if multiple
+sweeps or trials are run. The **results** matrices are described in the
+appendix `Simulation Result Matrices`_.
+
+
+
+Major Functions and Classes
+----------------------------
+
+The "main" function is ``Drylands2``.
+Class names are capitalized.
+Function names are (usually) not capitalized.
+
+The list below shows major functions and classes organized by functional
+category; though several supporting functions are omitted.
+
+Model Control:
+
+    .. code::
+
+        Drylands2
+        initialize
+        runSims
+        simTask
+        finalize
+
+Algorithmic:
+
+    .. code::
+
+        aeolian/*
+        BiomassFun
+        buildLaplacians
+        Competition
+        Equations
+        EulersMethod
+        Evaporation
+        Infiltration
+        initialConditions
+        Mortality
+        mounds/*
+        Plant
+        Roots
+        SoilNEq
+        soilWaterUptake
+        WaterStress
+
+Non-Algorithmic:
+
+    .. code::
+
+        Constants
+        Files
+        SimInfo
+        SimTime
+        State
+        grid/gridInit
+
+Configuration:
+
+    .. code::
+
+        input/readConfigJSON
+        input/verifyConfiguration
+        input/Schedule
+
+Data:
+
+    .. code::
+
+        input/NAtmDep
+        input/Precip
+        input/Temperature
+        input/WindData
+        getNAtmDep
+        getPrecip
+        getTemperature
+        getWind
+
+Output:
+
+    .. code::
+
+        GridAvgTimeSeries
+        DiffusionAmts
+        SpatialChanges
+        output/NcBiomassTimeSeries
+        output/NcResourceTimeSeries
+        output/saveResults
+        output/simulationSummary
+        plot/MapPWS
+
+Sweeps:
+
+    .. code::
+
+        SweepParams
+        SweepSeq
+        plot/GraphsSweeps
+
+
+Execution Psuedocode
+----------------------
+
+The following psuedocode does not include simulation of mounds.
+
+.. code::
+
+    Read configuration file
+    Configure paths and files
+    Initialize state variables
+    Initialize output
+    Run one simulation or a sweep of simulations
+        Run a simulation task
+            Calculate subdaily time step
+            Iterate by subdaily time step:
+                If start of day:
+                    Get daily input data
+                    Calculate E, I, WL, U, root biomass, G, aeolian effects
+                Solve for updated W, S, N, P at subdaily time step
+                If end of day:
+                    Save output and graphs and maps as scheduled
+        Save final results
+
+
+
+
+Algorithms
+============
+
+The processes modelled include: water and N infiltration, evaporation from
+surface soil, soil water drainage, soil water uptake by plant roots, and
+plant growth and mortality. The pools of biomass and water are modified by
+PDEs expressed as difference equations: change in surface water, change in
+soil water, change in plant biomass, and optionally, surface water
+convection off mounds. Plant mortality is affected by soil water stress and
+aeolian erosion and deposition.
+
+For an explanation of the equations used for major processes, see the
+document *ModelEquations.pdf*.
+
+
+Water Fluxes
+-------------
+
+Water is moved through the grid cells via infiltration from surface water,
+soil water losses (evaporation and drainage), and plant uptake of soil
+water. Surface water originates from precipitation and lateral flow via
+dispersion.
+
+
+Precipitation and Temperature
+``````````````````````````````
+
+Precipitation is a daily amount (or zero) from either a constant value
+specified in the configuration, or a precipitation data file.
+
+Temperature is a daily value from either a constant value
+specified in the configuration, or a temperature data file.
+
+
+Infiltration
+`````````````
+
+Infiltration is assumed to occur homogeneously throughout the soil depth, and
+at a rate much less than one day. This assumption of approximately constant
+hydraulic conductivity is used within the context of the daily timestep of
+the model. Summer monsoon rain events mostly occur within one hour ((Keller
+et al., 2023), and runoff generally is not present for most rain events
+(< 10 mm/event) (CITE).
+
+The amount of infiltration per day is limited by the model configuration
+parameter **alpha**.
+All soil layers receive infiltrated water, however the amount cannot exceed
+the estimated maximum volumetric soil water content (see **Constants.vwc**)
+for each soil layer.
+
+The infiltration parameter **k2** is the rate at which infiltration
+increases with biomass, and is species-specific. Infiltration for each plant
+is a function of root biomass for that plant.
+
+
+Evaporation
+````````````
+
+The amount of actual evaporation is assumed to generally decrease as biomass
+density increases (CITE). Evaporation is from the surface soil layer only,
+and is a inverse function of biomass per cell.
+
+Actual evaporation is estimated using the inverse generalized Gompertz
+equation with potential bare soil evaporation and biomass as controlling
+variables. Four configuration parameters shape the response curve:
+**E**:sub:`pot`, **b**, **c**, and **E**:sub:`mr`.
+
+For multiple plant species, evaporation from a cell is the cumulative
+evaporation associated with the cell fraction of aboveground biomass for
+each plant.
+
+
+Soil Water Drainage
+````````````````````
+
+Soil water drainage from the bottom of the soil profile is assumed to occur
+only from the soil layers below the surface layer. The drainage amount is a
+constant fraction of soil water content. The surface layer is not affected
+by drainage, only evaporation.
+
+The amount of drainage cannot exceed the field capacity of the soil layer.
+Field capacity (see class ``Constants``) is defined as a fraction of the
+soil layer thickness (mm), representing the volume of soil water remaining
+after gravity drainage is essentially complete.
+The volumetric soil moisture content at field capacity varies with soil
+texture. There are several tables of average values available,
+such as Saxton and Rawls (2006)[4_], table 3; see `Appendix_2`_.
+
+
+Plant Soil Water Uptake
+``````````````````````````
+
+Plants take up soil water proportional to plant biomass. Uptake is estimated
+separately for each soil layer. Plant species configuration parameters
+**bmBgAgRatio** and **bmBgDist** determine the proportions of biomass in each
+soil layer, and the uptake parameters **k1** and **gmax** are species-specific.
+
+For each soil layer the amount of uptake cannot reduce the remaining soil
+water content to below the wilting point of the soil layer. The wilting
+point here is assumed to be 0.53 of the field capacity (see class
+``Constants``), which is the mean of the ratios from Saxton and Rawls
+(2006)[4_], table 3; see `Appendix_2`_.
+
+For multiple plant species, uptake per species is subject to contraints from
+resource competition (see `Species Competition`_).
+
+
+Spatial Dispersion
+```````````````````
+
+The equations for surface water, soil water, and plant propagation have
+diffusion components which spread those pools into adjacent grid cells.
+Smaller values of the diffusion rates tend to decrease the size and increase
+the number of the "clumps" within the grid.
+
+(TO DO: implementation of Spatial Dispersion)
+
+
+Initialization
+```````````````
+
+Soil water content is initialized indirectly through the configuration
+item **model.initial.precipitation**, in which the initial biomass
+(see **model.initial.biomass(*).distribution**).
+controls the amount of soil water per grid cell.
+
+
+
+Nitrogen Fluxes
+----------------
+
+Version 3 provides for N atmospheric deposition as an input flux, plant
+uptake of N for growth, with decomposition of plant material returning N to
+the soil. This flux does not include aeolian deposition. Version 5 adds
+N uptake demand for daily maintenance of above and belowground biomass.
+
+The growth algorithm calculates new biomass due to available soil N, and
+includes that as one of the limiting amounts in potential growth. See
+`Growth`_ for a description of the algorithm.
+
+These configuration parameters control N fluxes:
+
+**input.NAtmDep**
+
+    Specifies the rate of daily total wet + dry N atmospheric deposition.
+    This can be file name of a data file, or a constant value (gN m-2 d-1).
+    A data file contains daily N data and is structured similar to the
+    precipitation file.
+
+    N atmospheric deposition data is accessed using the class **NAtmDep**.
+
+**plant(*).CN**
+
+    Average of the aboveground and belowground C:N of biomass for this plant.
+    (TO DO: Have separate C:N for different plant parts.)
+
+**plant(*).cNmax**
+
+    Maximum daily N uptake rate as fraction of plant biomass;
+    valid range = 0-1.
+    Assume ``cNmax = (c*gmax)/C:N``. Units = gN gC-1 d-1.
+
+**plant(*).maintN**
+
+    Daily maintenance rate of uptake of N by current biomass
+    (gN gBiomass-1 d-1).
+    Added in version 5.
+
+
+
+Initialization
+``````````````
+
+Initial soil plant-available N is specified in the configuration parameter
+**model.initial.soilN**.
+Units are gN/m2. Allowed values are >= zero.
+This amount does not include root biomass.
+This parameter is available in version 4.6 and later.
+
+Initial values include soil N calculated from the initial values of biomass
+for each plant species, the above:belowground biomass ratio, and the
+C:N ratio. For multiple species, the initial N (g/m2) is the sum across
+all species.
+
+
+Sensitivity
+```````````
+
+The sensitivity of biomass response to **input.NAtmDep** is shown in the
+following table for site G-IBPE, with maximum biomass = 319, C:N = 58,
+and **plant.cNmax** = 0.025,
+at equal intervals of N atmospheric deposition.
+Simulations used model version 3.0.0.
+The rate of change of maximum biomass decreases as the N deposition rate
+increases.
+
+=======  ==========================  =====================
+NAtmDep  simulation maximum biomass  change in maximum (%)
+=======  ==========================  =====================
+0.2      83.3                        \
+0.4      163.4                       49.0
+0.6      257.6                       36.6
+0.8      294.6                       12.6
+1.0      307.2                       4.1
+=======  ==========================  =====================
+
+
+
+Aeolian Erosion and Deposition
+-------------------------------
+
+The aeolian submodel estimates effects upon plants by erosion and deposition
+of aeolian transport of soil. The intent is to not track actual amounts of
+material transported across a grid, rather track the effects of erosion and
+deposition upon plant growth and mortality. The submodel build grids of
+locations that will experience deposition or erosion. The relative magnitude
+of deposition or erosion will be indicated by a fraction in the range 0-1,
+where 0 is none, and 1 is maximum. These erosion and deposition effects are
+applied to mortality of grass and young shrubs.
+
+Details of the aeolian algorithms are in the document
+*aeolian/AeolianEffect-Algorithms*.
+
+
+Plants
+-------
+
+Each plant species is defined in the configuration file
+under the item **plant**.
+
+
+History of Plant Algorithms
+```````````````````````````
+
+* Version 1 of this model simulates one plant species.
+* Version 2 simulates multiple plant species with resource competition.
+* Version 3 includes soil N fluxes for growth.
+* Version 4 adds plant mortality due to water stress.
+* Version 5 adds daily soil N demand for maintenance by current biomass.
+* Version 6 adds plant mortality due to aeolian erosion and deposition.
+
+Implementation of plants is in classes **Plant** and **Roots**.
+For a diagram of functional and class relationships, see the
+UML class diagram in ``doc/class-diagram-Plant.png``
+
+
+Growth
+````````
+
+Daily growth = minimum of the above potentials::
+
+    G = minimum(dPU, dPB, dPT, dPN)
+
+where potential growth terms are:
+
+| ``dPU`` = growth due to water uptake
+| ``dPB`` = growth from maximum boimass.
+| ``dPT`` = growth influenced by daily mean temperature
+| ``dPN`` = growth due to available soil N.
+
+Growth is limited by available soil water, using the uptake equation
+(see `Plant Soil Water Uptake`_), and the configuration parameter
+**plant.c**.
+
+Growth from maximum potential biomaass follows a logistic equation. Plant
+configuration parameters **plant.Bmax** and **plant.rmax** control the
+maximum growth rate.
+
+The daily mean temperature influences potential growth using a generalized
+Poisson density function curve to simulate the growth response to temperature.
+The configuration parameter **plant.teff** determines the shape and range of
+this curve.
+
+By way of Liebig's law of the minimum[5_], growth is limited by the least of
+the contribution from plant-available water, maximum potential biomass, mean
+daily air temperature, and available soil N.
+
+
+Mortality
+``````````
+
+Prior to version 4, plant mortality is a fixed fraction of aboveground
+biomass (the plant configuration parameter **d**).
+
+Version 4 introduces mortality due to soil water stress, or drought.
+A logistic curve of mortality vs. water stress is parameterized by
+the configuration items **plant.mortality**.
+The length of the stress period is also specifed.
+A background mortality rate is a fixed fraction of aboveground
+biomass (the configuration parameter **plant.mortality.d**).
+
+Example logistic mortality curves are displayed in the graph produced
+by the GNU Octave script ``plot-mortality.m``.
+
+Water stress as implemented here is the cumulative sum of excess demand of
+soil water over available water by a plant over a time period. Stress is
+positive if the cumulative excess is > zero, otherwise it is zero.
+
+Mortality rate is the sum of the background rate and the water stress rate.
+Once per simulation day, the water stress cumulative sum is updated with
+that day's value of plant demand vs available soil water.
+Rates have the units *fraction of biomass per day*.
+
+The algorithms are implemented in the classes
+**Mortality** and **WaterStress**, used by class **Plant**.
+
+
+
+Spatial Propagation
+```````````````````
+
+Plants propagate to surrounding cells via a dispersion term in the
+growth equations.
+
+(TO DO)
+
+
+
+Species Competition
+````````````````````
+
+Version 2 includes the ability to have multiple plant species.
+Plant species compete implicitly through their parameterization
+for growth rate and root:shoot ratio.
+Explicit competition for soil resources uses the algorithm
+in the class ``Competition``.
+
+
+Implicit Competition
+^^^^^^^^^^^^^^^^^^^^^
+
+Each species has configuration items that specify the proportions of
+available soil resources relative to root biomass: **plant.bmBgAgRatio**
+(ratio of belowground to aboveground biomass), and **plant.bmBgDist**
+(belowground biomass distribution; a fraction into each soil layer). These
+provide the total soil resource available to each species, per soil layer.
+
+For black grama and creosote, the values of **bmBgDist** are:
+
+============  ===============================================
+species       root biomass proportions: top, middle, deep
+============  ===============================================
+black grama   0.133, 0.504, 0.363
+creosote      0.067, 0.320, 0.613
+============  ===============================================
+
+Additionally, the plant parameters controlling the rate of water uptake
+(**gmax**, **k1**) will affect the potential growth rate relative to other
+species with different parameter values.
+
+All growth parameters for each plant will affect the amount of root biomass
+available for resource uptake. See **c**, **rmax** and **Bmax**, and
+the temperature effect upon growth rate limitation (**teff**).
+
+
+Explicit Competition
+^^^^^^^^^^^^^^^^^^^^
+
+Competition factors are values in the range 0-1 that specify for each plant,
+the fraction of a resource in a soil layer to which plant roots have access.
+Factors are calculated from the relative amounts of root biomass for each
+plant species within each soil layer. These factors are applied to the
+resource amounts to obtain a matrix per soil layer, per plant, of available
+resource.
+
+Currently, explicit competition is used for soil water and N uptake.
+
+The algorithm is implemented in the class **Competition**.
+
+
+Mounds
+------
+
+A mounds submodel simulates water flow over the mound surface. Mounds are
+topographic features of specified shape and size. Shape is specified by a
+slope at a radial distance from the mound center. Mound topography
+algorithms assume that mound radius spans at least two grid cells.
+
+Surface water flows down the mounds according to their shape and the
+parameter ``beta``, the maximum convection rate. The water infiltration rate
+(parameters ``model.params.alpha`` and ``plant(1).{c, k2}``)
+and the surface water diffusion rate change (``D1``) with location on the mounds. See
+the document *Manual* for details about the mounds configuration parameters.
+
+The *R* script provided in the model source files at
+``doc/mounds/plotModifyFactors.R`` displays graphs showing how
+each parameter can change on mounds versus off of mounds.
+The *R* command is:
+
+.. code:: R
+
+    source("<path to Drylands2 files>/doc/mounds/plotModifyFactors.R");
+
+Mound parameter ``model.mounds.imc`` specifies the initial fraction of
+biomass coverage on mounds. With a mounds simulation, two simulations are
+run, first with "on-mound" initial biomass coverage (``imc(1)``),
+and second with initial mound biomass coverage for an "no-mound"
+simulation (``imc(2)``).
+Both simulations use the same initial state for state variables and mounds
+(except for parameter ``imc``). The initial biomass distribution is
+uniform random, with the initial grid for both simulations.
+The results for each simulation are stored separately.
+
+Configuration items **model.mounds** and class **Mounds** manage the parameters
+controlling mound shape and behavior.
+
+
+Mound Shape
+````````````
+
+Mound shape is determined by a set of [x,y] pairs in two vectors,
+the radial distance from the mound center,
+and the slope (or convection velocity).
+These are specified in the class **MoundTypes**,
+and selected by the configuration item ``model.mounds.geometry``.
+
+You can plot the one-sided velocity (slope) profile for each geometry, and the
+mound topographic profile using the script provided in the model source
+files at ``doc/mounds/plotMoundShapes.m``. The *GNU Octave* command is:
+
+.. code:: MATLAB
+
+    source('<path to Drylands2 files>/doc/mounds/plotMoundShapes.m');
+
+Algorithm flow (simplified)
+````````````````````````````
+
+.. code:: MATLAB
+
+    For each simulation:
+        runOneSim()
+            simTask( model.mounds.imc(1) )    % use on-mound initial coverage for mounds
+                initializeMounds()
+                    mounds = Mounds()              % create Mounds object
+                    buildMoundsVer1()              % make a grid of mounds
+                    modifyFactors()                % grid of alpha, mounds.{c, k2, gmax}
+                    buildFirstDerivativesVer2()    % D1 = (Fxb - Fxf + Fyb - Fyf) / dx
+                Save initialization (P, N, W, S, R, mounds).
+                for each iteration:
+                    convectionFlow = rho( beta, k3, betaSlow, P ) .* (D1 * S);
+                    Stotal = S + R + convectionRate;
+                    Infiltration( Stotal )
+                    EulersMethod( P, N, W, Stotal, ... )
+            simTask( model.mounds.imc(2) )    % use off-mound initial coverage for mounds
+                Use saved initialization (P, N, W, S, R, mounds).
+                for each iteration:
+                    convectionFlow = rho( beta, k3, betaSlow, P ) .* (D1 * S);
+                    Stotal = S + R + convectionRate;
+                    Infiltration( Stotal )
+                    EulersMethod( P, N, W, S, ... )
+            makeResults()
+                detectGrowthOnMound()    % Calculate grid averages within radial intervals
+
+
+Sweeps
+------
+
+A sweep is a set of simulations over a range of a configuration parameter.
+The parameter varies with a fixed interval.There are specific parameters
+from which to choose, specified in the *Manual*.
+All sweep simulations use the same initial values for the state variables.
+
+See the document *Manual* for details about sweep configuration parameters.
+
+Trials
+------
+
+Trials are multiple simulations with fixed configuration parameters
+and one random input or parameter.
+All simulations in trials use the same initial values for state variables.
+
+See the document *Manual* for details about trials configuration parameters.
+
+
+Changes to Algorithms
+----------------------
+
+Some of the algorithms Rietkerk et al (2002) have been modified,
+and some new algorithms added. See the document *ModelEquations*
+for equation details.
+
+Version 1
+`````````
+
+Modified and new algorithms include:
+
+* There are three soil layers for soil resources and distribution of root biomass.
+* Existing algorithms were modified to use a layered soil profile.
+* Growth follows a logistic equation, limited by soil water content and temperature.
+* Field capacity and wilting point constrain soil water infiltration, uptake and losses.
+* Evaporation occurs from the surface soil layer.
+* Soil water drainage to field capacity occurs from the middle and bottom soil layers.
+* New classes manage plant aboveground and root biomass calculations.
+
+Version 2
+`````````
+
+* Simulation can include multiple plant species with resource competition based
+  upon proportion of biomass.
+
+Version 3
+`````````
+
+* Added N atmospheric deposition as an input flux, and
+  algorithms for plant uptake of N for growth.
+
+Version 4
+`````````
+
+* Added algorithms for plant mortality due to soil water stress.
+
+Version 5
+`````````
+
+* Added daily soil N demand for maintenance by current biomass.
+* New configuration option for matrix time series output containing spatial changes.
+* Several functions and classes that are not model-specific have been
+  moved into the DrylandsLib package.
+
+Version 6
+`````````
+
+* A new aeolian submodel simulations the effects upon plant mortality due to
+  aeolian erosion and deposition.
+
+
+
+See Also
+==========
+
+*Manual.pdf*, source: *Manual.rst*
+
+*ModelDiagram.pdf*, source: *ModelDiagram.fodt*
+
+*ModelEquations.pdf*, source: *ModelEquations.fodt*
+
+*class-diagram-Plant.txt*:
+A UML class diagram description for the Plant classes,
+used by the application **PlantUML**.
+Create a PNG image of the diagram with the command:
+``plantuml class-diagram-Plant.txt``
+
+*aeolian/AeolianEffect-Algorithms*:
+Descripton of the aeolian submodel.
+
+*Evaporation.pdf*, source: *Evaporation.fodt*
+
+``doc/*.R`` and ``doc/*.m``: R and GNU Octave scripts producing graphs
+demonstrating equations used in these algorithms.
+
+
+
+Bibliography
+=============
+
+.. _1:
+
+    [1] Rietkerk, M., F. van den Bosch, and J. van de Koppel. 1997. Site-specific
+    properties and irreversible vegetation changes in semi-arid grazing systems.
+    Oikos 80: 241–252.
+
+.. _2:
+
+    [2] Rietkerk, M., M. C. Boerlijsr, F. van Langevelde, R. Hille-RisLambers, J.
+    Van de Koppel, L. Kumar, and A. M. de Roos. 2002. Self- organization of
+    vegetation in arid ecosystems. American Naturalist 160:524–530.
+    https://doi.org/10.1086/342078
+
+.. _3:
+
+    [3] Stewart, J., Parsons, A.J., Wainwright, J., Okin, G.S., Bestelmeyer, B.T.,
+    Fredrickson, E.L. and Schlesinger, W.H. (2014), Modeling emergent patterns
+    of dynamic desert ecosystems. Ecological Monographs, 84: 373 -410.
+    https://doi.org/10.1890/12-1253.1
+
+.. _4:
+
+    [4] Saxton, K.E. and Rawls, W.J. (2006), Soil Water Characteristic
+    Estimates by Texture and Organic Matter for Hydrologic Solutions;
+    table 3.
+    Soil Sci. Soc. Am. J., 70: 1569-1578.
+    https://doi.org/10.2136/sssaj2005.0117
+
+.. _5:
+
+    [5] Liebig's law of the minimum.
+    https://en.wikipedia.org/wiki/Liebig%27s_law_of_the_minimum
+
+.. _6:
+
+   [6] JSON configuration file format; see
+   https://www.w3schools.com/js/js_json_intro.asp
+
+
+
+Document History
+=================
+
+===================  ===================  ==========================================================
+Revision Date        Model Version        Description
+===================  ===================  ==========================================================
+2024.10.07           4.3.0                Author: Thomas E. Hilinski <hilinski@nmsu.edu>
+2024.11.14           4.6                  Updated information related to soil N.
+2024.12.02           5.0                  Added calculation of N maintenance uptake.
+\                    \                    New matrix time series output option for spatial changes.
+2025.08.22           6.0                  New aeolian submodel for effects upon plant mortality
+\                    \                    due to aeolian erosion and deposition.
+2025.10.03           6.2                  Add Introduction section `Conventions`_.
+2025.10.20           6.4                  Expand information on mounds algorithms.
+===================  ===================  ==========================================================
+
+
+
+Appendices
+==========
+
+
+.. _Appendix_1:
+
+File Formats
+------------
+
+Several file formats are used with this model.
+All are text files.
+
+===================  ==========================================================
+File name extension  Format
+===================  ==========================================================
+``txt``              Plain text file; the content may either be a document, or
+\                    be for a specific application (e.g., **plantuml**).
+``json``             Contains JSON[6_] stuctured data for configuration files.
+\                    This contains a non-standard feature: line comments.
+``csv``              Comma-Separated Values - data in text format.
+``m``                MatLab/GNU Octave source code file.
+``mat``              A data file produced by GNU Octave.
+``md``               Markdown document source file.
+``rst``              reStructuredText document source file.
+``R``                R source code file.
+``fodt``             OpenDocument document file (in text XML format).
+\                    This is a LibreOffice native format, and is
+\                    editable by Microsoft Word and Google Docs and other apps.
+``fodg``             OpenDocument graph file (in text XML format).
+``txt``              Plain text file.
+===================  ==========================================================
+
+Other files:
+
+===================  ==========================================================
+File name            Format
+===================  ==========================================================
+``style.css``        A CSS style sheet for generated documents.
+``makefile``         Builds other files from the source files using ``make``
+``.gitignore``       A *hidden* file that tells ``git`` to ignore some files.
+===================  ==========================================================
+
+
+.. _Appendix_2:
+
+Field Capacity and Wilting Point
+----------------------------------
+
+From Saxton and Rawls (2006)[4_], table 3:
+
+======= =============   ==============  =======
+texture wilting point   field capacity  ratio
+======= =============   ==============  =======
+Sa      5               10              0.50
+Lsa     5               12              0.42
+SaL     8               18              0.44
+L       14              28              0.50
+SiL     11              31              0.35
+Si      6               30              0.20
+SaCL    17              27              0.63
+CL      22              36              0.61
+SiCL    22              38              0.58
+SiC     27              41              0.66
+SaC     25              36              0.69
+C       30              42              0.71
+mean    \               \               0.53
+======= =============   ==============  =======
+
+
+Simulation Result Matrices
+---------------------------
+
+Relevant functions:
+`````````````````````
+
+``simTask``
+    Initializes all result matrices.
+
+``initialConditions``
+    Calls initialBiomass for each plant.
+    Returns total aboveground plant biomass (2D).
+    Plant objects contain biomass for each plant.
+    Called by simTask.
+
+``initialBiomass``
+    Initializes biomass matrix for one plant.
+    Returns a 2D matrix of aboveground biomass (g/m2).
+    Called by initialConditions.
+
+``makeResults``
+    Makes a structure of simulation results.
+
+
+Result Matrices
+`````````````````````
+
+Structure **results** contains the timestep result matrices:
+
+Output matrices of state variables are replaced at each time step.
+These are used for producing maps; each is a 2D matrix.
+They are reshaped to square matrices from time step solution vectors
+and trimmed to the configuration grid dimensions.
+::
+
+    P1 - aboveground biomass per plant
+    N1 - soil N
+    W1 - total soil water content
+    S1 - surface water content
+
+These are grid-average values and have dimensions [3],
+where values are for
+<= mound radii[1], radii[1] to radii[2], and > radii[2]
+respectively.
+These are calculated in functions
+``detectGrowthOnMound`` or ``GridMeansNoMounds``.
+::
+
+    avgP0 = detectGrowthOnMound or GridMeansNoMounds
+    avgW0 - not used
+    avgS0 - radius zones   not used
+    avgP1 = detectGrowthOnMound or GridMeansNoMounds
+    avgW1 - not used
+    avgS1 - radius zones   not used
+
+For trials and sweeps, the averages for each are stored in 2D matrices
+with dimensions ``[numberOfTrials, sweepSize]``
+::
+
+    plantOnMound0(t,s)  = avgP0(1)
+    plantOffMound0(t,s) = avgP0(3)
+    plantOnMound1(t,s)  = avgP1(1)
+    plantOffMound1(t,s) = avgP1(3)

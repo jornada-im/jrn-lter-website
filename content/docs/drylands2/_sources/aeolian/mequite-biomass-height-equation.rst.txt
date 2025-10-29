@@ -1,0 +1,99 @@
+Mesquite: Shrub height = F(biomass)
+===================================
+
+From Ludwig et al. (1975), table 2, aboveground volume and spatial area
+of an individual is given in terms of biomass, from regressions on field
+measurements. The intent here is to get the height of a shrub from
+biomass.
+
+ChatGTP Evaluation
+------------------
+
+Starting from your definitions,
+
+#. V = r h^2
+
+#. A = r^2
+
+#. B = m V
+
+#. B = n A^2
+
+with :math:`m = 2778`, :math:`n = 287`, we solve for :math:`h` in terms
+of :math:`B`.
+
+1. Express :math:`V` and :math:`A` in terms of :math:`B`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#. From :math:`B = m \text{ } V`
+
+   .. math:: V = \frac{B}{m} .
+
+#. From :math:`B = n \text{ } A^2`
+
+   .. math:: A^2 = \frac{B}{n} \Longrightarrow A = \sqrt{\frac{B}{n}} .
+
+2. Eliminate :math:`r` and relate :math:`h` to :math:`V` and :math:`A`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+From :math:`A = \pi \text{ } r^2` we get
+
+.. math:: r = \sqrt{\frac{A}{\pi}} .
+
+Plug into
+
+.. math::
+
+   V = \frac{4}{3} \text{ } \pi \text{ } r \text{ } h^2 \text{\qquad}
+      \Longrightarrow \text{\qquad} h^2 = \frac{3 \text{ } V}{4 \text{ } \pi
+      \text{ } r} = \frac{3 \text{ } V}{4 \text{ } \sqrt{\pi \text{ } A}} .
+
+Hence
+
+.. math:: h = \sqrt{\frac{3 \text{ } V}{4 \text{ } \sqrt{\pi \text{ } A}}} .
+
+3. Substitute :math:`V = \frac{B}{m}`, :math:`A = \sqrt{\frac{B}{n}}`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#. :math:`V = \frac{B}{m}`.
+
+#. :math:`\sqrt{\pi \text{ } A} = \sqrt{\pi \text{ } \sqrt{\frac{B}{n}}} =
+     \pi^{1 / 2} \text{ } \left( \frac{B}{n} \right)^{1 / 4} .`
+
+Therefore
+
+.. math::
+
+   h = \sqrt{\frac{3 \text{ } (B / m)}{4 \text{ } (\pi^{1 / 2} (B / n)^{1 /
+      4})}} = \sqrt{\frac{3}{4 \text{ } m}} \text{*} \frac{B^{1 / 2}}{\pi^{1 / 4}
+      \text{ } B^{1 / 8} \text{ } n^{- 1 / 8}} = \frac{\sqrt{3}}{2 \text{ }
+      \sqrt{m}} \text{*} \frac{n^{1 / 8}}{\pi^{1 / 4}} \text{*} B^{\frac{4 -
+      1}{8}} = \frac{\sqrt{3} \text{ } n^{1 / 8}}{2 \text{ } \pi^{1 / 4} \text{ }
+      \sqrt{m}} \text{*} B^{3 / 8} .
+
+4. Insert :math:`m = 2778, \text{} n = 287`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Exact form:
+
+  .. math::
+
+     h (B) = \frac{\sqrt{3} \text{ } (287)^{1 / 8}}{2 \text{ } \pi^{1 / 4}
+          \text{ } \sqrt{2778}} \text{*} B^{3 / 8} .
+
+- Decimal approximation:
+
+  .. math::
+
+     \sqrt{3} \approx 1.732, 287^{1 / 8} \approx 2.028, \pi^{1 / 4} \approx
+          1.331, \sqrt{2778} \approx 52.72 \text{ } \Longrightarrow \text{ } h (B)
+          \approx 0.02502 \text{*} B^{3 / 8} .
+
+Final Answer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. math::
+
+   h (B) = \frac{\sqrt{3} \text{ } (287)^{1 / 8}}{2 \text{ } \pi^{1 / 4}
+      \text{ } \sqrt{2778}} B^{3 / 8} \text{ } \approx \text{ } 0.02502 \text{ }
+      B^{3 / 8} .

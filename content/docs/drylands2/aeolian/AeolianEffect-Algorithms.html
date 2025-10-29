@@ -1,0 +1,931 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="Creosote: Shrub height = F(biomass)" href="creosote-biomass-height-equation.html"><link rel="prev" title="Drylands2 Model Manual" href="../Manual.html">
+
+    <!-- Generated with Sphinx 8.2.3 and Furo 2025.09.25 -->
+        <title>Drylands2 Model: Aeolian Effect Algorithms - Drylands2 model 6.5.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">Drylands2 model 6.5.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <span class="sidebar-brand-text">Drylands2 model 6.5.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../ModelDesign.html">Drylands2 Model Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Manual.html">Drylands2 Model Manual</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Drylands2 Model: Aeolian Effect Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creosote-biomass-height-equation.html">Creosote: Shrub height = F(biomass)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creosote-biomass-lateralCover-equation.html">Cross-sectional area of creosote as a function of biomass</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/aeolian/AeolianEffect-Algorithms.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="drylands2-model-aeolian-effect-algorithms">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">Drylands2 Model: Aeolian Effect Algorithms</a><a class="headerlink" href="#drylands2-model-aeolian-effect-algorithms" title="Link to this heading">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">subtitle<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Jornada Basin LTER, New Mexico State University</p>
+</dd>
+<dt class="field-even">organization<span class="colon">:</span></dt>
+<dd class="field-even"><p>Jornada Basin LTER, New Mexico State University</p>
+</dd>
+<dt class="field-odd">contact<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/jornada-im/Drylands2">https://github.com/jornada-im/Drylands2</a></p>
+</dd>
+</dl>
+<nav class="contents" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#drylands2-model-aeolian-effect-algorithms" id="id1">Drylands2 Model: Aeolian Effect Algorithms</a></p>
+<ul>
+<li><p><a class="reference internal" href="#introduction" id="id2">Introduction</a></p>
+<ul>
+<li><p><a class="reference internal" href="#goal" id="id3">Goal</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#input-data-and-configuration" id="id4">Input Data and Configuration</a></p>
+<ul>
+<li><p><a class="reference internal" href="#wind-data" id="id5">Wind Data</a></p>
+<ul>
+<li><p><a class="reference internal" href="#daily-wind-speed-and-direction" id="id6">Daily Wind Speed and Direction</a></p></li>
+<li><p><a class="reference internal" href="#erosion-threshold-wind-speeds" id="id7">Erosion threshold wind speeds</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#plant-biomass" id="id8">Plant Biomass</a></p></li>
+<li><p><a class="reference internal" href="#aeolian-submodel-configuration" id="id9">Aeolian Submodel Configuration</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#algorithms" id="id10">Algorithms</a></p>
+<ul>
+<li><p><a class="reference internal" href="#information-flow" id="id11">Information Flow</a></p></li>
+<li><p><a class="reference internal" href="#effects-upon-wind-shear" id="id12">Effects upon wind shear</a></p>
+<ul>
+<li><p><a class="reference internal" href="#a-grasses-reducing-wind-shear" id="id13">1a. Grasses reducing wind shear</a></p></li>
+<li><p><a class="reference internal" href="#b-shrubs-leeward-cells" id="id14">1b. Shrubs leeward cells:</a></p></li>
+<li><p><a class="reference internal" href="#c-shrubs-reducing-wind-shear" id="id15">1c. Shrubs reducing wind shear:</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#soil-erosion-and-deposition-potential" id="id16">Soil erosion and deposition potential</a></p>
+<ul>
+<li><p><a class="reference internal" href="#considerations-for-thresholds-and-fluxes" id="id17">Considerations for thresholds and fluxes:</a></p></li>
+<li><p><a class="reference internal" href="#a-estimate-bare-soil-erosion-potential" id="id18">2a. Estimate bare soil erosion potential</a></p></li>
+<li><p><a class="reference internal" href="#b-combine-the-grass-shrub-and-soil-erosion-factors" id="id19">2b. Combine the grass, shrub and soil erosion factors</a></p></li>
+<li><p><a class="reference internal" href="#c-make-a-grid-of-potentially-aeolian-erodible-cells" id="id20">2c. Make a grid of potentially aeolian-erodible cells</a></p></li>
+<li><p><a class="reference internal" href="#d-deposition-factors-grid" id="id21">2d. Deposition factors grid</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#actual-erosion-and-deposition-flux-effect-upon-plants" id="id22">Actual erosion and deposition flux effect upon plants</a></p>
+<ul>
+<li><p><a class="reference internal" href="#a-grass-mortality" id="id23">3a. Grass mortality</a></p></li>
+<li><p><a class="reference internal" href="#b-young-shrub-mortality" id="id24">3b. Young shrub mortality</a></p></li>
+<li><p><a class="reference internal" href="#c-nutrient-deposition-under-shrubs" id="id25">3c. Nutrient deposition under shrubs</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#terminology" id="id26">Terminology</a></p></li>
+<li><p><a class="reference internal" href="#citations" id="id27">Citations</a></p></li>
+<li><p><a class="reference internal" href="#document-history" id="id28">Document History</a></p></li>
+<li><p><a class="reference internal" href="#appendix-1-allometry-equations-for-shrubs" id="id29">Appendix 1: Allometry equations for shrubs</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="introduction">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<section id="goal">
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Goal</a><a class="headerlink" href="#goal" title="Link to this heading">¶</a></h3>
+<p>Estimate effects upon plants by erosion or deposition of aeolian transport
+of soil. The intent is to not track actual amounts of material transported
+across a grid, but to track the effects of erosion and deposition upon plant
+growth and mortality.</p>
+<p>Grasses affect the potential wind shear at the soil surface by adding
+surface roughness non-linearly proportional to aboveground biomass. Shrubs
+affect wind shear through allometric shape based upon species and biomass,
+producing a lee distance over which wind shear increases.</p>
+<p>These algorithms build grids of locations that will experience deposition or
+erosion. The effect of plant biomass upon reducing surface wind shear is
+estimated as a fraction (0-1) where 0 = no wind shear and 1 = no reduction.
+The relative magnitude of deposition or erosion will be indicated by a
+fraction (0-1) where 0 is none, and 1 is maximum.</p>
+<p>Erosion effects apply to mortality of grass and young shrubs.
+Deposition effects nutrient accumulation under shrubs (not yet implemented).</p>
+<a class="reference internal image-reference" href="../_images/AeolianAlgorithm-diagram.svg"><img alt="../_images/AeolianAlgorithm-diagram.svg" src="../_images/AeolianAlgorithm-diagram.svg" style="width: 849.6px; height: 441.90000000000003px;" />
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">/home/runner/work/Drylands2/Drylands2/doc/source/aeolian/AeolianEffect-Algorithms.rst</span>, line 52)</p>
+<p>Cannot embed image &quot;../_images/AeolianAlgorithm-diagram.svg&quot;:
+  [Errno 2] No such file or directory: '../_images/AeolianAlgorithm-diagram.svg'</p>
+</aside>
+</a>
+</section>
+</section>
+<section id="input-data-and-configuration">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Input Data and Configuration</a><a class="headerlink" href="#input-data-and-configuration" title="Link to this heading">¶</a></h2>
+<section id="wind-data">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Wind Data</a><a class="headerlink" href="#wind-data" title="Link to this heading">¶</a></h3>
+<section id="daily-wind-speed-and-direction">
+<h4><a class="toc-backref" href="#id6" role="doc-backlink">Daily Wind Speed and Direction</a><a class="headerlink" href="#daily-wind-speed-and-direction" title="Link to this heading">¶</a></h4>
+<p>Driving daily wind data for the aeolian algorithms
+is a file of daily wind speed (m/s) and the
+“from” direction (degrees clockwise from north).
+Read the data with this GNU Octave statement which creates a
+<strong>WindData</strong> object for the specified data file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fileNameCSV</span> <span class="o">=</span> <span class="s1">&#39;dailyWindSpeed.csv&#39;</span><span class="p">;</span>
+<span class="n">wind</span> <span class="o">=</span> <span class="n">WindData</span><span class="p">(</span> <span class="n">fileNameCSV</span> <span class="p">);</span>
+</pre></div>
+</div>
+<p>See <code class="docutils literal notranslate"><span class="pre">help</span> <span class="pre">WindData</span></code> for details about this class.</p>
+<p>Here is a snippet of data from a CSV file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;year&quot;</span><span class="p">,</span><span class="s2">&quot;month&quot;</span><span class="p">,</span><span class="s2">&quot;day&quot;</span><span class="p">,</span><span class="s2">&quot;dayNumber&quot;</span><span class="p">,</span><span class="s2">&quot;dayOfYear&quot;</span><span class="p">,</span><span class="s2">&quot;windDir&quot;</span><span class="p">,</span><span class="s2">&quot;wsMean&quot;</span><span class="p">,</span><span class="s2">&quot;wsMax&quot;</span>
+<span class="mi">2013</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">218</span><span class="p">,</span><span class="mi">218</span><span class="p">,</span><span class="mf">3.822</span><span class="p">,</span><span class="mf">4.134</span><span class="p">,</span><span class="mf">8.6</span>
+<span class="mi">2013</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">219</span><span class="p">,</span><span class="mi">219</span><span class="p">,</span><span class="mf">2.449</span><span class="p">,</span><span class="mf">3.254</span><span class="p">,</span><span class="mf">8.6</span>
+<span class="mi">2013</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">220</span><span class="p">,</span><span class="mi">220</span><span class="p">,</span><span class="mf">0.844</span><span class="p">,</span><span class="mf">1.718</span><span class="p">,</span><span class="mf">7.099</span>
+</pre></div>
+</div>
+<p>Histograms of that wind data is available in the image file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span><span class="o">/</span><span class="n">plot</span><span class="o">-</span><span class="n">dailyWindSpeed</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+<p>Use the function <strong>getWind</strong> to retrieve the wind direction and
+mean and maximum wind speed for one or more dates
+(<strong>getWind</strong> expects a <strong>global windData</strong> object):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">global</span> <span class="n">windData</span> <span class="o">=</span> <span class="n">WindData</span><span class="p">(</span> <span class="n">fileNameCSV</span> <span class="p">);</span>
+<span class="n">dataWind</span> <span class="o">=</span> <span class="n">getWind</span><span class="p">(</span> <span class="n">year</span><span class="p">,</span> <span class="n">doy</span> <span class="p">);</span>
+</pre></div>
+</div>
+<p>The return value “dataWind” is a structure containing the
+fields <strong>year</strong>, <strong>doy</strong>, <strong>dir</strong>, <strong>wsMean</strong>, <strong>wsMax</strong>.</p>
+<p>See <code class="docutils literal notranslate"><span class="pre">help</span> <span class="pre">getWind</span></code> for details about this function.</p>
+<p>Alternatively, use the <strong>get</strong> member function to obtain the raw data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dataWind</span> <span class="o">=</span> <span class="n">wind</span><span class="o">.</span><span class="n">get</span><span class="p">(</span> <span class="n">years</span><span class="p">,</span> <span class="n">doys</span><span class="p">,</span> <span class="n">true</span> <span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="erosion-threshold-wind-speeds">
+<h4><a class="toc-backref" href="#id7" role="doc-backlink">Erosion threshold wind speeds</a><a class="headerlink" href="#erosion-threshold-wind-speeds" title="Link to this heading">¶</a></h4>
+<p>Threshold wind speeds at 2.4 m a.g.l. are provided by Webb et al. (2016), in
+table 4. “Here Ut is the wind speed (2.4 m above ground level) at which soil
+entrainment is initiated, producing a Wenglor pulse count of 10 grains per
+minute.”</p>
+</section>
+</section>
+<section id="plant-biomass">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Plant Biomass</a><a class="headerlink" href="#plant-biomass" title="Link to this heading">¶</a></h3>
+<p>Maximum ANPP (from Muldavin et al. (2008), figs 3, 4):</p>
+<ul class="simple">
+<li><p>black grama ~60 g/m2/year, or ~100 for multispecies grassland.</p></li>
+<li><p>creosote ~70 g/m2/year, or ~85 for multispecies shrubland.</p></li>
+</ul>
+<p>Bmax parameter in the configuration for plants:</p>
+<p>(TODO: Maximum biomass per species)</p>
+</section>
+<section id="aeolian-submodel-configuration">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">Aeolian Submodel Configuration</a><a class="headerlink" href="#aeolian-submodel-configuration" title="Link to this heading">¶</a></h3>
+<p>Configuration specifies surface texture and entrainment thresholds,
+and additional algorithm-specific parameters, and is stored in a JSON file.
+An example of a JSON configuration file is <code class="docutils literal notranslate"><span class="pre">config.json</span></code>, containing a
+section <strong>aeolian</strong>.</p>
+<p>Each plant has a subsection <strong>aeolianEffect</strong> containing species-specific
+parameters for the aeolian algorithms.</p>
+<p>Read the configuration with these GNU Octave statements which read the
+configuration data using the function <strong>readConfigJSON</strong>, and creates a
+structure containing the configuration values.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span> <span class="o">=</span> <span class="n">readConfigJSON</span><span class="p">(</span> <span class="s1">&#39;config.json&#39;</span> <span class="p">);</span>
+</pre></div>
+</div>
+<p>The function uses the package <strong>DrylandsLib</strong>.</p>
+<p>When these algorithms are implemented in the Drylands2 model, this
+configuration will be incorporated into the model configuration.</p>
+</section>
+</section>
+<section id="algorithms">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">Algorithms</a><a class="headerlink" href="#algorithms" title="Link to this heading">¶</a></h2>
+<p>The algorithms do not track absolute amounts of sediment fluxes, instead use
+effects represented as fractions (0-1) representing the intensity of each
+effect upon aeolian-induced erosion, deposition, or mortality.</p>
+<section id="information-flow">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">Information Flow</a><a class="headerlink" href="#information-flow" title="Link to this heading">¶</a></h3>
+<p>Inputs:</p>
+<ul class="simple">
+<li><p>Configuration parameters.</p></li>
+<li><p>Modeled aboveground biomass for grass and shrub.</p></li>
+<li><p>Daily wind speed and direction.</p></li>
+<li><p>Bare soil erodibility parameters (from configuration parameters).</p></li>
+</ul>
+<p>Products:</p>
+<ul class="simple">
+<li><p>grass: reduction on wind shear at soil surface per grid cell</p></li>
+<li><p>shrub: lee affect reducing surface wind shear</p></li>
+<li><p>bare soil: relative erodibility per cell</p></li>
+</ul>
+<p>Outputs:</p>
+<ul class="simple">
+<li><p>Per grid cell intensity of deposition and erosion.</p></li>
+<li><p>Per grid cell intensity of grass and young shrub mortality.</p></li>
+</ul>
+</section>
+<section id="effects-upon-wind-shear">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">Effects upon wind shear</a><a class="headerlink" href="#effects-upon-wind-shear" title="Link to this heading">¶</a></h3>
+<p>Estimate the influence of aboveground biomass upon the potential for
+dampening or blocking wind shear near the surface.</p>
+<p>Biomass affects the wind shear stress at the soil surface.
+Separately create grids of wind shear reduction fraction
+for grass and shrub biomass.
+Do this monthly, or when biomass changes significantly.</p>
+<section id="a-grasses-reducing-wind-shear">
+<h4><a class="toc-backref" href="#id13" role="doc-backlink">1a. Grasses reducing wind shear</a><a class="headerlink" href="#a-grasses-reducing-wind-shear" title="Link to this heading">¶</a></h4>
+<blockquote>
+<div><p>Estimate the influence of aboveground grass biomass
+upon the potential for blocking or slowing the wind near the surface.
+More aboveground biomass has greater potential for reducing wind shear.
+Biomass &lt; threshold amount = zero  wind shear dampening effect.</p>
+<ul class="simple">
+<li><p>Ludwig et al. (2005) provides fitted relationships between canopy
+size and biomass.</p></li>
+<li><p>Nafus et al. (2009, table 1) has allometric vs biomass relationship
+for black grama.</p></li>
+<li><p>Li et al. (2013) provides the roughness equations to estimate dampening
+of wind shear stress.</p></li>
+<li><p>Webb et al. (2016) has relationships between canopy height and flux
+monthly (see tables 1-3), and modelled wind threshold speeds (table 5).</p></li>
+</ul>
+<p>Function: <strong>grassEffect</strong>
+Uses: GrassAllometry</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">agbm</span> <span class="o">=</span> <span class="p">[</span>   <span class="mf">2.5059</span>          <span class="mi">0</span>   <span class="mf">277.3153</span>   <span class="mf">115.0669</span>          <span class="mi">0</span>
+         <span class="mf">291.6721</span>   <span class="mf">198.6775</span>          <span class="mi">0</span>    <span class="mf">89.8183</span>    <span class="mf">16.8622</span>
+         <span class="mf">257.6582</span>   <span class="mf">251.1427</span>   <span class="mf">294.5175</span>   <span class="mf">207.4992</span>   <span class="mf">292.2601</span>
+         <span class="mf">142.3390</span>          <span class="mi">0</span>          <span class="mi">0</span>    <span class="mf">92.6232</span>   <span class="mf">217.2935</span>
+                <span class="mi">0</span>    <span class="mf">97.5813</span>          <span class="mi">0</span>   <span class="mf">227.0267</span>          <span class="mi">0</span> <span class="p">];</span>
+<span class="n">minThreshold</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">;</span>
+<span class="n">Bmax</span> <span class="o">=</span> <span class="mf">319.0</span><span class="p">;</span>
+<span class="p">[</span><span class="n">effect</span><span class="p">,</span> <span class="n">params</span><span class="p">]</span> <span class="o">=</span> <span class="n">grassEffect</span><span class="p">(</span> <span class="n">agbm</span><span class="p">,</span> <span class="n">minThreshold</span><span class="p">,</span> <span class="n">Bmax</span> <span class="p">);</span>
+<span class="o">%</span> <span class="n">effect</span> <span class="o">=</span>     <span class="n">NA</span>       <span class="n">NA</span>   <span class="mf">0.9037</span>   <span class="mf">0.9996</span>       <span class="n">NA</span>
+<span class="o">%</span>          <span class="mf">0.9036</span>   <span class="mf">0.9044</span>       <span class="n">NA</span>   <span class="mf">1.0000</span>   <span class="mf">0.9082</span>
+<span class="o">%</span>          <span class="mf">0.9039</span>   <span class="mf">0.9039</span>   <span class="mf">0.9036</span>   <span class="mf">0.9985</span>   <span class="mf">0.9036</span>
+<span class="o">%</span>          <span class="mf">0.9051</span>       <span class="n">NA</span>       <span class="n">NA</span>   <span class="mf">1.0000</span>   <span class="mf">0.9042</span>
+<span class="o">%</span>              <span class="n">NA</span>   <span class="mf">0.9057</span>       <span class="n">NA</span>   <span class="mf">0.9983</span>       <span class="n">NA</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+<section id="b-shrubs-leeward-cells">
+<h4><a class="toc-backref" href="#id14" role="doc-backlink">1b. Shrubs leeward cells:</a><a class="headerlink" href="#b-shrubs-leeward-cells" title="Link to this heading">¶</a></h4>
+<blockquote>
+<div><p>Make grid marking leeward cells relative to vegetated cells
+that can dampen wind shear near the surface.
+Deposition can occur downwind of a shrub.</p>
+<p>Inputs are a grid of logical values specifying cells that have
+enough shrub biomass to affect leeward cells; and the
+wind direction (as degrees clockwise from north).</p>
+<p>Function: <strong>shrubLeewardGrid</strong>
+Used in function shrubEffect.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fillValues</span> <span class="o">=</span> <span class="mi">2</span><span class="p">:</span><span class="mi">6</span><span class="p">;</span>
+<span class="n">shrubLeewardGrid</span><span class="p">(</span> <span class="n">a</span><span class="p">,</span> <span class="n">windDir</span><span class="p">,</span> <span class="n">fillValues</span> <span class="p">)</span>
+<span class="o">%</span> <span class="n">ans</span> <span class="o">=</span>
+<span class="o">%</span>   <span class="n">gridShrubs</span> <span class="o">=</span>     <span class="n">to</span> <span class="n">S</span> <span class="p">(</span><span class="mi">0</span> <span class="n">deg</span><span class="p">):</span>    <span class="n">to</span> <span class="n">W</span> <span class="p">(</span><span class="mi">90</span> <span class="n">deg</span><span class="p">):</span>    <span class="n">to</span> <span class="n">SE</span> <span class="p">(</span><span class="mi">135</span> <span class="n">deg</span><span class="p">):</span>
+<span class="o">%</span>   <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">1</span>  <span class="mi">0</span>    <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>    <span class="mi">4</span>  <span class="mi">3</span>  <span class="mi">2</span>  <span class="mi">0</span>  <span class="mi">0</span>     <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+<span class="o">%</span>   <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">0</span>    <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">2</span>  <span class="mi">0</span>    <span class="mi">3</span>  <span class="mi">2</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>     <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">2</span>
+<span class="o">%</span>   <span class="mi">0</span>  <span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">1</span>  <span class="mi">0</span>    <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">2</span>  <span class="mi">0</span>  <span class="mi">0</span>    <span class="mi">2</span>  <span class="mi">0</span>  <span class="mi">2</span>  <span class="mi">0</span>  <span class="mi">0</span>     <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+<span class="o">%</span>   <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>    <span class="mi">0</span>  <span class="mi">2</span>  <span class="mi">3</span>  <span class="mi">2</span>  <span class="mi">0</span>    <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>     <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">2</span>  <span class="mi">0</span>  <span class="mi">2</span>
+<span class="o">%</span>   <span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">0</span>    <span class="mi">0</span>  <span class="mi">3</span>  <span class="mi">0</span>  <span class="mi">3</span>  <span class="mi">0</span>    <span class="mi">0</span>  <span class="mi">2</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>     <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">3</span>  <span class="mi">0</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+<section id="c-shrubs-reducing-wind-shear">
+<h4><a class="toc-backref" href="#id15" role="doc-backlink">1c. Shrubs reducing wind shear:</a><a class="headerlink" href="#c-shrubs-reducing-wind-shear" title="Link to this heading">¶</a></h4>
+<blockquote>
+<div><dl>
+<dt>Cells with shrub biomass &gt; threshold biomass (small value)</dt><dd><p>provide a lee effect on wind shear. See Li et al. (2013).
+Fractional reduction in lee cells decreases with distance from the shrub.
+Uses shrub allometry - biomass and shrub shape is proportional to
+magnitude of lee effect.</p>
+<ul class="simple">
+<li><p>Li et al. (2013) provides the roughness equations to estimate dampening
+of wind shear stress.</p></li>
+<li><p>Class ShrubAllometry provides estimates profile area (perpendicular to
+the wind direction).</p></li>
+</ul>
+<p>Function: <strong>shrubEffect</strong></p>
+<p>Uses results from classes ShrubAllometry, LeeWindShear,
+and functions shrubLeewardGrid, avgLeeSize, leesFindFill.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bmShrubs</span> <span class="o">=</span> <span class="p">[</span>        <span class="mi">0</span>   <span class="mf">139.4415</span>          <span class="mi">0</span>   <span class="mi">0</span>   <span class="mf">132.8190</span>
+                    <span class="mi">0</span>          <span class="mi">0</span>   <span class="mf">124.4070</span>   <span class="mi">0</span>          <span class="mi">0</span>
+                    <span class="mi">0</span>          <span class="mi">0</span>          <span class="mi">0</span>   <span class="mi">0</span>          <span class="mi">0</span>
+                    <span class="mi">0</span>   <span class="mf">155.5717</span>    <span class="mf">73.6166</span>   <span class="mi">0</span>          <span class="mi">0</span>
+             <span class="mf">164.2417</span>          <span class="mi">0</span>    <span class="mf">21.7593</span>   <span class="mi">0</span>   <span class="mf">128.9104</span> <span class="p">];</span>
+<span class="n">cfgShrub</span> <span class="o">=</span> <span class="n">struct</span><span class="p">(</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;creosote bush&#39;</span><span class="p">,</span> <span class="o">...</span>
+                   <span class="s1">&#39;Bmax&#39;</span><span class="p">,</span> <span class="mi">222</span><span class="p">,</span> <span class="o">...</span>
+                   <span class="s1">&#39;aeolianEffect&#39;</span><span class="p">,</span> <span class="n">struct</span><span class="p">(</span><span class="s1">&#39;minThreshold&#39;</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">)</span> <span class="p">);</span>
+<span class="n">wind</span> <span class="o">=</span> <span class="n">struct</span><span class="p">(</span> <span class="s1">&#39;dir&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;wsMax&#39;</span><span class="p">,</span> <span class="mf">15.0</span> <span class="p">);</span>   <span class="o">%</span> <span class="n">wind</span> <span class="kn">from</span><span class="w"> </span><span class="nn">the</span> <span class="n">north</span>
+<span class="p">[</span><span class="n">effect</span><span class="p">,</span> <span class="n">params</span><span class="p">]</span> <span class="o">=</span> <span class="n">shrubEffect</span><span class="p">(</span> <span class="n">bmShrubs</span><span class="p">,</span> <span class="n">cfgShrub</span><span class="p">,</span> <span class="n">wind</span> <span class="p">);</span>
+<span class="o">%</span> <span class="n">effect</span> <span class="o">=</span>
+<span class="o">%</span>       <span class="n">NA</span>        <span class="mi">0</span>       <span class="n">NA</span>       <span class="n">NA</span>        <span class="mi">0</span>
+<span class="o">%</span>       <span class="n">NA</span>   <span class="mf">0.2854</span>        <span class="mi">0</span>       <span class="n">NA</span>   <span class="mf">0.2854</span>
+<span class="o">%</span>       <span class="n">NA</span>   <span class="mf">0.4599</span>   <span class="mf">0.2854</span>       <span class="n">NA</span>   <span class="mf">0.4599</span>
+<span class="o">%</span>       <span class="n">NA</span>        <span class="mi">0</span>        <span class="mi">0</span>       <span class="n">NA</span>   <span class="mf">1.0000</span>
+<span class="o">%</span>        <span class="mi">0</span>   <span class="mf">0.2854</span>   <span class="mf">0.2854</span>       <span class="n">NA</span>        <span class="mi">0</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+</section>
+<section id="soil-erosion-and-deposition-potential">
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">Soil erosion and deposition potential</a><a class="headerlink" href="#soil-erosion-and-deposition-potential" title="Link to this heading">¶</a></h3>
+<p>These steps run daily whenever windspeed &gt; shear stress threshold.</p>
+<section id="considerations-for-thresholds-and-fluxes">
+<h4><a class="toc-backref" href="#id17" role="doc-backlink">Considerations for thresholds and fluxes:</a><a class="headerlink" href="#considerations-for-thresholds-and-fluxes" title="Link to this heading">¶</a></h4>
+<ul>
+<li><p>Erosion flux: Use scalar value for flux from table above (1000 g/m/d).
+Value is per grid cell, so potential removal per cell = 1000 g/m2/d.</p></li>
+<li><p>Single value for entire grid.</p></li>
+<li><p>Hours/Month wind speed &gt; threshold:
+- Webb et al., 2016; see figure 4a; hours/month &gt; 5 m/s.
+- Bergametti and Gillette, 2010: see figure 3; hours/month &gt; 8 m/2.
+- Temporal pattern is similar - low in Jan, high in spring to early summer.
+- Magnitudes for 5 m/s threshold ~10x greater than 8 m/s.
+- Webb (table 3) daily fluxes are generally similar or higher than</p>
+<blockquote>
+<div><p>B&amp;G fluxes (table 7).</p>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="a-estimate-bare-soil-erosion-potential">
+<h4><a class="toc-backref" href="#id18" role="doc-backlink">2a. Estimate bare soil erosion potential</a><a class="headerlink" href="#a-estimate-bare-soil-erosion-potential" title="Link to this heading">¶</a></h4>
+<blockquote>
+<div><p>Zero if wind speed &lt; threshold, or the sum of the potential flux per
+texture for windspeed &gt; threshold, normalized to the range 0-1. The
+erosion potential per cell is proportional to the fraction of cell area
+that has a wind speed threshold at or below the current wind speed.
+Potential is zero (not erodible at the current wind speed) to 1 (maximum
+erosion potential). All bare soil cells have the same value.</p>
+<p>Function: <strong>bareSoilErosionPotential</strong></p>
+<p>Bare soil parameters are provided in the configuration file.
+E.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Grid average surface texture fractions (See class Surface) for bare soil</span>
+<span class="c1"># These should sum to 1.0.</span>
+<span class="s2">&quot;textureFractions&quot;</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">&quot;fine&quot;</span>   <span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span>
+  <span class="s2">&quot;coarse&quot;</span> <span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span>
+  <span class="s2">&quot;gravel&quot;</span> <span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span>
+  <span class="s2">&quot;crust&quot;</span>  <span class="p">:</span> <span class="mf">0.20</span>
+<span class="p">},</span>
+<span class="c1"># Wind threshold for entrainment for each texture (m/s).</span>
+<span class="c1"># Wind speed above this allows significant saltation.</span>
+<span class="c1"># E.g. see Webb et al., 2016; Bergametti and Gillette, 2010.</span>
+<span class="s2">&quot;thresholdSpeed&quot;</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">&quot;fine&quot;</span>   <span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s2">&quot;coarse&quot;</span> <span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+  <span class="s2">&quot;gravel&quot;</span> <span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+  <span class="s2">&quot;crust&quot;</span>  <span class="p">:</span> <span class="mi">100</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">make</span> <span class="n">bare</span> <span class="n">soil</span> <span class="n">grid</span>
+<span class="n">bsGrid</span> <span class="o">=</span> <span class="n">false</span><span class="p">(</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span> <span class="p">);</span> <span class="n">bsGrid</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">23</span><span class="p">])</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+<span class="o">%</span> <span class="n">wind</span> <span class="n">data</span><span class="p">:</span>
+<span class="n">wind</span> <span class="o">=</span> <span class="n">struct</span><span class="p">(</span> <span class="s1">&#39;dir&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;wsMax&#39;</span><span class="p">,</span> <span class="mf">8.0</span> <span class="p">);</span>
+<span class="o">%</span>  <span class="n">bare</span> <span class="n">soil</span> <span class="n">erosion</span> <span class="n">potential</span><span class="p">:</span>
+<span class="n">epGrid</span> <span class="o">=</span> <span class="n">bareSoilErosionPotential</span><span class="p">(</span> <span class="n">txFractions</span><span class="p">,</span> <span class="n">thSpeeds</span><span class="p">,</span> <span class="n">wind</span><span class="o">.</span><span class="n">wsMax</span><span class="p">,</span> <span class="n">bsGrid</span> <span class="p">)</span>
+<span class="o">%</span> <span class="n">epGrid</span> <span class="o">=</span>
+<span class="o">%</span>         <span class="mi">0</span>   <span class="mf">0.8550</span>        <span class="mi">0</span>        <span class="mi">0</span>        <span class="mi">0</span>
+<span class="o">%</span>         <span class="mi">0</span>        <span class="mi">0</span>        <span class="mi">0</span>   <span class="mf">0.8550</span>        <span class="mi">0</span>
+<span class="o">%</span>    <span class="mf">0.8550</span>        <span class="mi">0</span>        <span class="mi">0</span>   <span class="mf">0.8550</span>   <span class="mf">0.8550</span>
+<span class="o">%</span>         <span class="mi">0</span>        <span class="mi">0</span>   <span class="mf">0.8550</span>        <span class="mi">0</span>        <span class="mi">0</span>
+<span class="o">%</span>         <span class="mi">0</span>        <span class="mi">0</span>        <span class="mi">0</span>        <span class="mi">0</span>        <span class="mi">0</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+<section id="b-combine-the-grass-shrub-and-soil-erosion-factors">
+<h4><a class="toc-backref" href="#id19" role="doc-backlink">2b. Combine the grass, shrub and soil erosion factors</a><a class="headerlink" href="#b-combine-the-grass-shrub-and-soil-erosion-factors" title="Link to this heading">¶</a></h4>
+<blockquote>
+<div><p>Combine the effects of plants and soil surface upon reducing the wind
+shear stress at the soil surface. Effects are a values per grid cell in
+the range 0-1.</p>
+<p>Function: <strong>windShearEffects</strong></p>
+</div></blockquote>
+</section>
+<section id="c-make-a-grid-of-potentially-aeolian-erodible-cells">
+<h4><a class="toc-backref" href="#id20" role="doc-backlink">2c. Make a grid of potentially aeolian-erodible cells</a><a class="headerlink" href="#c-make-a-grid-of-potentially-aeolian-erodible-cells" title="Link to this heading">¶</a></h4>
+<blockquote>
+<div><p>These are cells that are not shrub, shrub cells with a minimum of
+biomass, and cells not leeward of shrubs.</p>
+<p>Inputs are a grid of shrub biomass, a biomass amount below which the
+cell is considered potentially erodible, and the grid returned by
+shrubLeewardGrid().</p>
+<p>Returns a grid of relative amount of erosion per cell in the range 0-1,
+where 0 = no erosion, and 1 = maximum erosion.</p>
+<p>Function: <strong>erosionGrid</strong></p>
+</div></blockquote>
+</section>
+<section id="d-deposition-factors-grid">
+<h4><a class="toc-backref" href="#id21" role="doc-backlink">2d. Deposition factors grid</a><a class="headerlink" href="#d-deposition-factors-grid" title="Link to this heading">¶</a></h4>
+<blockquote>
+<div><p>For effective wind shear &lt; wind speed threshold for bare soil,
+depostition can occur in cells with shrubs, shrub lee cells,
+and grass cells with &gt; minimum biomass.</p>
+<p>Returns a grid of deposition factors in the range 0-1, where
+0 = no deposition, and 1 = maximum deposition.</p>
+<p>Function: <strong>depositionGrid</strong></p>
+</div></blockquote>
+</section>
+</section>
+<section id="actual-erosion-and-deposition-flux-effect-upon-plants">
+<h3><a class="toc-backref" href="#id22" role="doc-backlink">Actual erosion and deposition flux effect upon plants</a><a class="headerlink" href="#actual-erosion-and-deposition-flux-effect-upon-plants" title="Link to this heading">¶</a></h3>
+<p>(TODO: Actual upon plants)</p>
+<section id="a-grass-mortality">
+<h4><a class="toc-backref" href="#id23" role="doc-backlink">3a. Grass mortality</a><a class="headerlink" href="#a-grass-mortality" title="Link to this heading">¶</a></h4>
+<blockquote>
+<div><p>Model grass mortality due to burial by aeolian dust  deposition.
+See the document GrassBiomassCovChg for equations.</p>
+<p>Function: <strong>mortaliltyGrass</strong></p>
+</div></blockquote>
+</section>
+<section id="b-young-shrub-mortality">
+<h4><a class="toc-backref" href="#id24" role="doc-backlink">3b. Young shrub mortality</a><a class="headerlink" href="#b-young-shrub-mortality" title="Link to this heading">¶</a></h4>
+<blockquote>
+<div><p>Model young shrub mortality due to burial by aeolian dust deposition.</p>
+<p>Given the deposition intensity d = [0-1] in a cell containing shrubs
+with biomass &lt; threshold, then the mortality of the shrub will be
+a function of a random value r = [0-1] * d compared to a threshold
+probability p = [0-1]:</p>
+<blockquote>
+<div><p>m = r * d &gt; p : if true, shrub seedling dies</p>
+</div></blockquote>
+<p>This is essentially a Bernoulli distribution application using the
+deposition intensity. If p = 0.5, then during a maximal deposition event
+(d = 1) approximately half the shrub seedlings will die.</p>
+<p>Function: <strong>mortaliltyShrub</strong></p>
+</div></blockquote>
+</section>
+<section id="c-nutrient-deposition-under-shrubs">
+<h4><a class="toc-backref" href="#id25" role="doc-backlink">3c. Nutrient deposition under shrubs</a><a class="headerlink" href="#c-nutrient-deposition-under-shrubs" title="Link to this heading">¶</a></h4>
+<p>(TODO)</p>
+</section>
+</section>
+</section>
+<section id="terminology">
+<h2><a class="toc-backref" href="#id26" role="doc-backlink">Terminology</a><a class="headerlink" href="#terminology" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt>Ap :</dt><dd><p>obstruction (plant or rock) profile area perpendicular to
+the wind direction (m2).</p>
+</dd>
+<dt>h :</dt><dd><p>grass height (m)</p>
+</dd>
+<dt>z0 :</dt><dd><p>“roughness length”.
+Equals the height at which the wind speed becomes zero due to friction.
+Is proportional to threshold friction velocity.</p>
+</dd>
+<dt>U :</dt><dd><p>wind speed measured at z (m/s)</p>
+</dd>
+<dt>u* :</dt><dd><p>wind shear friction velocity (aka “ua”) (m/s)</p>
+</dd>
+<dt>u*s :</dt><dd><p>wind shear friction velocity at the soil surface (aka “uas”) (m/s)</p>
+</dd>
+<dt>lambda :</dt><dd><p>lateral cover ~ profile area of plant (unitless)</p>
+</dd>
+<dt>L :</dt><dd><p>lee length; average or specific distance between plants (m)</p>
+</dd>
+</dl>
+</section>
+<section id="citations">
+<h2><a class="toc-backref" href="#id27" role="doc-backlink">Citations</a><a class="headerlink" href="#citations" title="Link to this heading">¶</a></h2>
+<p>Bergametti, G., and D. A. Gillette (2010).
+Aeolian sediment fluxes measured over various plant/soil complexes in the Chihuahuan desert.
+J. Geophys. Res., 115, F03044, doi:10.1029/2009JF001543</p>
+<p>Li, J., G. S. Okin, J. E. Herrick, J. Belnap, M. E. Miller, K. Vest, and A. E. Draut (2013).
+Evaluation of a new model of aeolian transport in the presence of vegetation.
+J. Geophys. Res. Earth Surf., 118:288–306, doi:10.1002/jgrf.20040</p>
+<p>Ludwig, J. A., Reynolds, J. F., &amp; Whitson, P. D. (1975).
+Size-biomass Relationships of Several Chihuahuan Desert Shrubs.
+The American Midland Naturalist, 94(2):451–461.
+<a class="reference external" href="https://doi.org/10.2307/2424437">https://doi.org/10.2307/2424437</a></p>
+<p>Muldavin, Esteban H., Douglas I. Moore, Scott L. Collins,
+Karen R. Wetherill, and David C. Lightfoot (2008).
+Aboveground net primary production dynamics in a northern Chihuahuan Desert ecosystem.
+Oecologia 155(1):123-132.</p>
+<p>Nafus, Aleta M., Mitchel P. McClaran, Steven R. Archer, Heather L. Throop (2009).
+Multispecies Allometric Models Predict Grass Biomass in Semidesert Rangeland.
+Rangeland Ecol Manage 62:68–72.</p>
+<p>Webb, Nicholas P., Magda S. Galloza, Ted M. Zobeck, Jeffrey E. Herrick (2016).
+Threshold wind velocity dynamics as a driver of aeolian sediment mass flux.
+Aeolian Research 20:45–58.</p>
+</section>
+<section id="document-history">
+<h2><a class="toc-backref" href="#id28" role="doc-backlink">Document History</a><a class="headerlink" href="#document-history" title="Link to this heading">¶</a></h2>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Revision Date</p></th>
+<th class="head"><p>Model Version</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2025.08.18</p></td>
+<td><p>6.0</p></td>
+<td><p>Author: Thomas E. Hilinski &lt;<a class="reference external" href="mailto:hilinski&#37;&#52;&#48;nmsu&#46;edu">hilinski<span>&#64;</span>nmsu<span>&#46;</span>edu</a>&gt;</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="appendix-1-allometry-equations-for-shrubs">
+<h2><a class="toc-backref" href="#id29" role="doc-backlink">Appendix 1: Allometry equations for shrubs</a><a class="headerlink" href="#appendix-1-allometry-equations-for-shrubs" title="Link to this heading">¶</a></h2>
+<p>From Ludwig et al. (1975), table 2, aboveground volume and spatial area of
+an individual is given in terms of biomass, from regressions on field
+measurements. The intent here is to get the cross-sectional area as a
+function of biomass and the height of a shrub from biomass.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>If X=r*h,
+and B/m = pi/3*h*r^2,
+and sqrt(B/n) = pi*r^2,
+what is X as a function of B?
+Let n = 1504.
+Let m = 5836.
+</pre></div>
+</div>
+<p>See the full solution in <em>creosote-biomass-lateralCover-equation.pdf</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Area</span><span class="p">(</span><span class="n">biomass</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.0018</span> <span class="o">*</span> <span class="n">B</span><span class="o">^</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>If X=pi*r*h/2,
+and B/m = 4/3*pi*r*h^2,
+and sqrt(B/n) = pi*r^2,
+what is X as a function of B?
+Let n = 287.
+Let m = 2778.
+</pre></div>
+</div>
+<p>See the full solution in <em>mequite-biomass-lateralCover-equation.pdf</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Area</span><span class="p">(</span><span class="n">biomass</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.00762</span> <span class="o">*</span> <span class="n">B</span><span class="o">^</span><span class="p">(</span><span class="mf">0.6250</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Given the equations:
+V = (pi/3)*r^2*h,
+A = pi * r^2.
+B = m * V,
+B = n * A^2,
+what is h as a function of B?
+Let n = 1504.
+Let m = 5836.
+</pre></div>
+</div>
+<p>See the full solution in <em>creosote-biomass-height-equation.pdf</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">h</span><span class="p">(</span><span class="n">biomass</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.01994</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">biomass</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Given the equations:
+V = 4/3*pi*r*h^2,
+A = pi * r^2,
+B = m * V,
+B = n * A^2,
+what is h as a function of B?
+Let n = 287.
+Let m = 2778.
+</pre></div>
+</div>
+<p>See the full solution in <em>mequite-biomass-height-equation.pdf</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">h</span><span class="p">(</span><span class="n">biomass</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.02502</span> <span class="o">*</span> <span class="n">biomass</span><span class="o">^</span><span class="p">(</span><span class="mf">0.3750</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="creosote-biomass-height-equation.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Creosote: Shrub height = F(biomass)</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="../Manual.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Drylands2 Model Manual</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Tom Hilinski, Niall Hanan, Greg Maurer
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Drylands2 Model: Aeolian Effect Algorithms</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#goal">Goal</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#input-data-and-configuration">Input Data and Configuration</a><ul>
+<li><a class="reference internal" href="#wind-data">Wind Data</a><ul>
+<li><a class="reference internal" href="#daily-wind-speed-and-direction">Daily Wind Speed and Direction</a></li>
+<li><a class="reference internal" href="#erosion-threshold-wind-speeds">Erosion threshold wind speeds</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#plant-biomass">Plant Biomass</a></li>
+<li><a class="reference internal" href="#aeolian-submodel-configuration">Aeolian Submodel Configuration</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#algorithms">Algorithms</a><ul>
+<li><a class="reference internal" href="#information-flow">Information Flow</a></li>
+<li><a class="reference internal" href="#effects-upon-wind-shear">Effects upon wind shear</a><ul>
+<li><a class="reference internal" href="#a-grasses-reducing-wind-shear">1a. Grasses reducing wind shear</a></li>
+<li><a class="reference internal" href="#b-shrubs-leeward-cells">1b. Shrubs leeward cells:</a></li>
+<li><a class="reference internal" href="#c-shrubs-reducing-wind-shear">1c. Shrubs reducing wind shear:</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#soil-erosion-and-deposition-potential">Soil erosion and deposition potential</a><ul>
+<li><a class="reference internal" href="#considerations-for-thresholds-and-fluxes">Considerations for thresholds and fluxes:</a></li>
+<li><a class="reference internal" href="#a-estimate-bare-soil-erosion-potential">2a. Estimate bare soil erosion potential</a></li>
+<li><a class="reference internal" href="#b-combine-the-grass-shrub-and-soil-erosion-factors">2b. Combine the grass, shrub and soil erosion factors</a></li>
+<li><a class="reference internal" href="#c-make-a-grid-of-potentially-aeolian-erodible-cells">2c. Make a grid of potentially aeolian-erodible cells</a></li>
+<li><a class="reference internal" href="#d-deposition-factors-grid">2d. Deposition factors grid</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#actual-erosion-and-deposition-flux-effect-upon-plants">Actual erosion and deposition flux effect upon plants</a><ul>
+<li><a class="reference internal" href="#a-grass-mortality">3a. Grass mortality</a></li>
+<li><a class="reference internal" href="#b-young-shrub-mortality">3b. Young shrub mortality</a></li>
+<li><a class="reference internal" href="#c-nutrient-deposition-under-shrubs">3c. Nutrient deposition under shrubs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#terminology">Terminology</a></li>
+<li><a class="reference internal" href="#citations">Citations</a></li>
+<li><a class="reference internal" href="#document-history">Document History</a></li>
+<li><a class="reference internal" href="#appendix-1-allometry-equations-for-shrubs">Appendix 1: Allometry equations for shrubs</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=db1c604c"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
+    </body>
+</html>
