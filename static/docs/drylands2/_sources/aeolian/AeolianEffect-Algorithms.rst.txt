@@ -306,12 +306,13 @@ Considerations for thresholds and fluxes:
   Value is per grid cell, so potential removal per cell = 1000 g/m2/d.
 * Single value for entire grid.
 * Hours/Month wind speed > threshold:
+
   - Webb et al., 2016; see figure 4a; hours/month > 5 m/s.
   - Bergametti and Gillette, 2010: see figure 3; hours/month > 8 m/2.
   - Temporal pattern is similar - low in Jan, high in spring to early summer.
   - Magnitudes for 5 m/s threshold ~10x greater than 8 m/s.
   - Webb (table 3) daily fluxes are generally similar or higher than
-    B&G fluxes (table 7).
+    Bergamett and Gillette (2010) fluxes (table 7).
 
 
 2a. Estimate bare soil erosion potential

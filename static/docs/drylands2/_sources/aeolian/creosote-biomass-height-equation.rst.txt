@@ -6,8 +6,7 @@ of an individual is given in terms of biomass, from regressions on field
 measurements. The intent here is to get the height of a shrub from
 biomass.
 
-ChatGTP Evaluation
-------------------
+**ChatGTP Evaluation**
 
 Starting from your definitions,
 

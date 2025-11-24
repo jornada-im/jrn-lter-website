@@ -568,6 +568,11 @@ daily air temperature, and available soil N.
 Mortality
 ``````````
 
+There are multiple types of mortality:
+
+* Constant background rate.
+* Mortality due to drought stress.
+
 Prior to version 4, plant mortality is a fixed fraction of aboveground
 biomass (the plant configuration parameter **d**).
 
@@ -745,9 +750,59 @@ Sweeps
 ------
 
 A sweep is a set of simulations over a range of a configuration parameter.
-The parameter varies with a fixed interval.There are specific parameters
-from which to choose, specified in the *Manual*.
-All sweep simulations use the same initial values for the state variables.
+The parameter varies with a fixed interval.
+A sweep parameter can be any field in the configuration file for which
+a sweep makes sense.
+The parameter to vary expressed as a field path in the JSON configuration,
+where field names are separated by periods.
+
+Examples of sweep parameter paths are::
+
+    ``input.NAtmDep``
+    ``plant(1).DP``
+    ``model.params.alpha``
+
+The configuration item **sweep** contains an array of parameters which
+specify the sweep configuration using JSON syntax.
+An example sweep definition is:
+
+.. code:: yaml
+
+    "sweep": {
+      "runType":   0,
+      "parameter": "model.params.alpha",
+      "range":     [0.1, 1.1],
+      "sweepSize": 10
+    }
+
+Currently, a plant parameter sweep can be done only for plant(1).
+
+Class **SweepConfig** holds sweep parameter configuration from the
+simulation's "config.json" file.
+The configuration object contains a "sweep" structure,
+with the parameter (as a structure field path) to be varied in the sweep.
+
+Class **SweepSeq** manages information about one sweep parameter whose value
+varies over multiple simulations. It has an internal pointer to the current
+sweep value for the parameter. Use ``getValue()`` to get the current sweep
+value, and ``toNext()`` to advance the pointer to the next value.
+
+Function **sweepParamIndexToPath**
+converts a sweep parameter index used in the original
+sweep configuration design (in Drylands2 <= version 6.2)
+to a configuration structure path (e.g., 'plant(1).k2').
+See the *Manual* section *Sweeps* for a list of the original
+integer parameter values that were recognized.
+
+Function **initialize** creates a **SweepSeq** object.
+
+Function **runSweep** initializes and increments the sweep iterations.
+
+Function **getEqParams** retrieves the current sweep value for the current
+simulation.
+
+Class State contains fields **sweep** (the current sweep number) and
+**doSweeps** (logical: true if sweeps are to be done).
 
 See the document *Manual* for details about sweep configuration parameters.
 
@@ -929,7 +984,6 @@ File name extension  Format
 \                    This is a LibreOffice native format, and is
 \                    editable by Microsoft Word and Google Docs and other apps.
 ``fodg``             OpenDocument graph file (in text XML format).
-``txt``              Plain text file.
 ===================  ==========================================================
 
 Other files:

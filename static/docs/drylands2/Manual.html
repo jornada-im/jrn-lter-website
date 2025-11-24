@@ -317,8 +317,8 @@ and documentation.</p>
 <section id="downloading-the-model-source-code">
 <h3>Downloading the Model Source Code<a class="headerlink" href="#downloading-the-model-source-code" title="Link to this heading">¶</a></h3>
 <p>The model source code and documentation is hosted on GitHub:sup:<cite>TM</cite> at</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">jornada</span><span class="o">-</span><span class="n">im</span><span class="o">/</span><span class="n">Drylands2</span>
-</pre></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">https://github.com/jornada-im/Drylands2</span></code></div>
 </div>
 <p>To get most recent model code, use the button labeled <strong>&lt;&gt; Code</strong>
 located near the upper right corner of the page.
@@ -437,9 +437,9 @@ diagrams from text description files.</p></li>
 e.g., <code class="docutils literal notranslate"><span class="pre">[installation-path]/Drylands2/doc</span></code>.
 Then run <strong>make</strong> to build the formatted documents.
 These files will have the extensions <code class="docutils literal notranslate"><span class="pre">pdf</span></code> and <code class="docutils literal notranslate"><span class="pre">html</span></code>.</p>
-<p>To remove the formatted documents, run <strong>make clean</strong>.</p>
-<p>The <strong>make</strong> scripts expect the <strong>Pandoc</strong> program to be available
-in the executable search paths (usually specified in the operating
+<p>To remove the formatted documents, run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">clean</span></code>.</p>
+<p>The <strong>make</strong> scripts (<code class="docutils literal notranslate"><span class="pre">makefile</span></code>) expect the <strong>Pandoc</strong> program to be
+available in the executable search paths (usually specified in the operating
 system’s PATH environment variable.)</p>
 </section>
 </section>
@@ -453,13 +453,12 @@ Each simulation will create an subdirectory under the output directory
 with the name <strong>about:location</strong> configuration item, and the start date
 and time appended.</p>
 <p>Make a configuration file.
-Copy a test configuration file <code class="docutils literal notranslate"><span class="pre">tests/config.json</span></code>
-from the Drylands2 model directory
-into your work directory, and rename to something unique
-and significant, e.g., <code class="docutils literal notranslate"><span class="pre">config-C-SAND.json</span></code>.
-Edit the file with a text file editor to customize the configuration.
-There are comments in the configuration file describing each item.
-See additional information in the section “ <a class="reference internal" href="#configuring-a-simulation">Configuring a Simulation</a> “.</p>
+Copy a test configuration file <code class="docutils literal notranslate"><span class="pre">tests/config.json</span></code> from the Drylands2
+model directory into your work directory, and rename to something unique and
+significant, e.g., <code class="docutils literal notranslate"><span class="pre">config-C-SAND.json</span></code>. Edit the file with a text file
+editor to customize the configuration. There are comments in the
+configuration file describing each item. See additional information in the
+section “ <a class="reference internal" href="#configuring-a-simulation">Configuring a Simulation</a> “.</p>
 <p>After starting <em>GNU Octave</em>, specify the directory where
 the source code for the models is:</p>
 <div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="nb">addpath</span><span class="p">(</span><span class="w"> </span><span class="s">&#39;[installation-path]/src&#39;</span><span class="w"> </span><span class="p">);</span>
@@ -479,8 +478,8 @@ of the configuration file.</p>
 </div>
 <p>Alternatively you can use the <strong>runsim</strong> script provided with the Drylands2
 model files. From the command line:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">&lt;</span><span class="n">directory</span> <span class="n">containing</span> <span class="n">your</span> <span class="n">configuration</span> <span class="n">file</span><span class="o">&gt;</span>
-<span class="n">octave</span> <span class="o">&lt;</span><span class="n">path</span> <span class="n">to</span> <span class="n">model</span><span class="o">&gt;/</span><span class="n">src</span><span class="o">/</span><span class="n">tools</span><span class="o">/</span><span class="n">runsim</span><span class="o">.</span><span class="n">m</span> <span class="p">[</span><span class="n">configuration</span> <span class="n">file</span><span class="p">]</span>
+<div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>&lt;directory<span class="w"> </span>containing<span class="w"> </span>your<span class="w"> </span>configuration<span class="w"> </span>file&gt;
+octave<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>model&gt;/src/tools/runsim.m<span class="w"> </span><span class="o">[</span>configuration<span class="w"> </span>file<span class="o">]</span>
 <span class="c1"># Example:  octave ~/models/Drylands2/src/tools/runsim.m config-G-IBPE.json</span>
 </pre></div>
 </div>
@@ -529,11 +528,11 @@ of the configuration file’s path.</p>
 </tr>
 <tr class="row-odd"><td><p>output</p></td>
 <td><p>struct</p></td>
-<td><p>Output path for results and plots, and output configuration.</p></td>
+<td><p>Output path for results and plots, and output configuration;</p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
-<td><p>; see <a class="reference internal" href="#output-configuration">Output Configuration</a>.</p></td>
+<td><p>see “ <a class="reference internal" href="#output-configuration">Output Configuration</a> “.</p></td>
 </tr>
 <tr class="row-odd"><td><p>simTime</p></td>
 <td><p>scalar</p></td>
@@ -553,9 +552,9 @@ is not automatic. You must be sure that the data files span your
 time limits.</p>
 <p>You can get the day of year from the date using the function <strong>datenum</strong>.
 For example, if your start year is 2013 Aug 6, then</p>
-<blockquote>
-<div><p>datenum(2013,8,6) - datenum(2013,1,1) + 1      % ans = 218</p>
-</div></blockquote>
+<div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="nb">datenum</span><span class="p">(</span><span class="mi">2013</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">datenum</span><span class="p">(</span><span class="mi">2013</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">      </span><span class="c">% ans = 218</span>
+</pre></div>
+</div>
 </section>
 <section id="input-data-configuration">
 <h3>Input Data Configuration<a class="headerlink" href="#input-data-configuration" title="Link to this heading">¶</a></h3>
@@ -1361,11 +1360,19 @@ modestly increased plant “efficiency” on mound, try:</p>
 <section id="sweeps">
 <h3>Sweeps<a class="headerlink" href="#sweeps" title="Link to this heading">¶</a></h3>
 <p>A sweep is a set of simulations over a range of a configuration parameter.
-The parameter varies with a fixed interval.
-There are specific parameters from which to choose, and plant-specific
-parameters currently apply only to the first plant species defined.
-Plant-specific parameters are <strong>k2</strong>, <strong>c</strong>, <strong>gmax</strong>.</p>
-<p>All sweep simulations use the same initial values for state variables.</p>
+The parameter varies with a fixed interval, while all other parameters
+are constant (unless they have a random or data file initialization).
+A sweep parameter can be any field in the configuration file for which
+a sweep makes sense.
+The parameter to vary expressed as a field path in the JSON configuration,
+where field names are separated by periods.
+Examples of sweep parameter paths are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plant</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">DP</span>
+<span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">alpha</span>
+<span class="nb">input</span><span class="o">.</span><span class="n">NAtmDep</span>
+</pre></div>
+</div>
+<p>Currently, a plant parameter sweep can be done only for <code class="docutils literal notranslate"><span class="pre">plant(1)</span></code>.</p>
 <p>The configuration item <strong>sweep</strong> contains an array of parameters which
 specify the sweep configuration.</p>
 <div class="table-wrapper docutils container">
@@ -1385,13 +1392,53 @@ specify the sweep configuration.</p>
 <td><p></p></td>
 <td><p>If 1, the other sweep parameters are ignored.</p></td>
 </tr>
-<tr class="row-even"><td><p>parameter</p></td>
-<td><p>scalar</p></td>
-<td><p>The parameter to vary: 1 = <strong>alpha</strong>, 2 = <strong>k2</strong>, 3 = <strong>c</strong>,</p></td>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>parameter</p></td>
+<td><p>string</p></td>
+<td><p>The parameter to vary expressed as a field path according to the</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>or</p></td>
+<td><p>JSON configuration structure.</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>integer</p></td>
+<td><p>Examples: <code class="docutils literal notranslate"><span class="pre">model.params.alpha</span></code> or <code class="docutils literal notranslate"><span class="pre">plant(1).mortality.d</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>For model versions &lt;= 6.2, the original style of sweep parameters</p></td>
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
-<td><p>4 = <strong>gmax</strong>, 5 = rainfall, 6 = mound water convection rate (<strong>beta</strong>)</p></td>
+<td><p>used an integer to specify a parameter to vary:</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>Valid values are: 1 = <strong>alpha</strong>, 2 = <strong>k2</strong>, 3 = <strong>c</strong>,</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>4 = <strong>gmax</strong>, 5 = rainfall, 6 = <strong>beta</strong> (mound water convection rate).</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>If <code class="docutils literal notranslate"><span class="pre">parameter</span></code> is an integer, it will be converted to a field path</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>string, as described above.</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>E.g., <code class="docutils literal notranslate"><span class="pre">sweep.parameter</span> <span class="pre">=</span> <span class="pre">2</span></code> becomes <code class="docutils literal notranslate"><span class="pre">sweep.parameter</span> <span class="pre">=</span> <span class="pre">plant(1).k2</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p>range</p></td>
 <td><p>1x2 matrix</p></td>
@@ -1401,7 +1448,11 @@ specify the sweep configuration.</p>
 <td><p></p></td>
 <td><p>The units must be appropriate for the parameter.</p></td>
 </tr>
-<tr class="row-even"><td><p>sweepSize</p></td>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>sweepSize</p></td>
 <td><p>scalar</p></td>
 <td><p>The number of values within range, inclusive; a positive integer.</p></td>
 </tr>
@@ -1657,8 +1708,8 @@ if errors were encountered.</p>
 </div>
 <p>From a console or shell prompt, assuming the <em>GNU Octave</em>
 executable directory is in your executable search path:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">&lt;</span><span class="n">directory</span> <span class="n">containing</span> <span class="n">your</span> <span class="n">configuration</span> <span class="n">file</span><span class="o">&gt;</span>
-<span class="n">octave</span> <span class="o">&lt;</span><span class="n">path</span> <span class="n">to</span> <span class="n">model</span><span class="o">&gt;/</span><span class="n">src</span><span class="o">/</span><span class="n">tools</span><span class="o">/</span><span class="n">runsim</span><span class="o">.</span><span class="n">m</span> <span class="p">[</span><span class="n">configuration</span> <span class="n">file</span><span class="p">]</span>
+<div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>&lt;directory<span class="w"> </span>containing<span class="w"> </span>your<span class="w"> </span>configuration<span class="w"> </span>file&gt;
+octave<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>model&gt;/src/tools/runsim.m<span class="w"> </span><span class="o">[</span>configuration<span class="w"> </span>file<span class="o">]</span>
 <span class="c1"># Example:  octave ~/models/Drylands2/src/tools/runsim.m config.json</span>
 </pre></div>
 </div>
@@ -1786,7 +1837,7 @@ the name of the site (e.g., <code class="docutils literal notranslate"><span cla
 where <code class="docutils literal notranslate"><span class="pre">[installation-path]</span></code> is the directory in which the
 model source code is installed.</p>
 <p>To run a script, either</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="p">[</span><span class="n">installation</span><span class="o">-</span><span class="n">path</span><span class="p">]</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">tools</span>
+<div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="o">[</span>installation-path<span class="o">]</span>/src/tools
 </pre></div>
 </div>
 <p>before running them,
@@ -2465,14 +2516,13 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="w">  </span><span class="s">&quot;sweep&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
 <span class="nt">    # run type</span><span class="p">:</span><span class="w"> </span><span class="nv">zero or one; 0 = sweep over range of values; 1 = single simulation</span>
 <span class="w">    </span><span class="nv">&quot;runType&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="c1"># if runType == 0, which parameter to vary?</span>
-<span class="w">    </span><span class="c1">#   1 = G_alpha</span>
-<span class="w">    </span><span class="c1">#   2 = G_k2</span>
-<span class="w">    </span><span class="c1">#   3 = G_c</span>
-<span class="w">    </span><span class="c1">#   4 = G_gmax</span>
-<span class="w">    </span><span class="c1">#   5 = rainfall</span>
-<span class="w">    </span><span class="c1">#   6 = convectionSpeed</span>
-<span class="w">    </span><span class="s">&quot;parameter&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">3</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="c1"># which parameter to vary? Provide configuration path. Examples:</span>
+<span class="w">    </span><span class="c1">#   &quot;plant(1).k2&quot;</span>
+<span class="w">    </span><span class="c1">#   &quot;plant(1).c&quot;</span>
+<span class="w">    </span><span class="c1">#   &quot;plant(1).gmax&quot;</span>
+<span class="w">    </span><span class="c1">#   &quot;input.precipitation&quot;</span>
+<span class="w">    </span><span class="c1">#   &quot;model.mounds.beta&quot;</span>
+<span class="w">    </span><span class="s">&quot;parameter&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;plant(1).gmax&quot;</span><span class="p p-Indicator">,</span>
 <span class="w">    </span><span class="c1"># minimum and maximum values for parameter; vector 1x2</span>
 <span class="w">    </span><span class="s">&quot;range&quot;</span><span class="p p-Indicator">:</span><span class="w">     </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">15</span><span class="p p-Indicator">],</span>
 <span class="w">    </span><span class="c1"># number of values within range, inclusive; must be positive integer; if runType == 1, sweepSize = 1</span>

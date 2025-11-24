@@ -731,6 +731,11 @@ daily air temperature, and available soil N.</p>
 </section>
 <section id="mortality">
 <h4>Mortality<a class="headerlink" href="#mortality" title="Link to this heading">¶</a></h4>
+<p>There are multiple types of mortality:</p>
+<ul class="simple">
+<li><p>Constant background rate.</p></li>
+<li><p>Mortality due to drought stress.</p></li>
+</ul>
 <p>Prior to version 4, plant mortality is a fixed fraction of aboveground
 biomass (the plant configuration parameter <strong>d</strong>).</p>
 <p>Version 4 introduces mortality due to soil water stress, or drought.
@@ -884,9 +889,49 @@ files at <code class="docutils literal notranslate"><span class="pre">doc/mounds
 <section id="sweeps">
 <h3>Sweeps<a class="headerlink" href="#sweeps" title="Link to this heading">¶</a></h3>
 <p>A sweep is a set of simulations over a range of a configuration parameter.
-The parameter varies with a fixed interval.There are specific parameters
-from which to choose, specified in the <em>Manual</em>.
-All sweep simulations use the same initial values for the state variables.</p>
+The parameter varies with a fixed interval.
+A sweep parameter can be any field in the configuration file for which
+a sweep makes sense.
+The parameter to vary expressed as a field path in the JSON configuration,
+where field names are separated by periods.</p>
+<p>Examples of sweep parameter paths are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``input.NAtmDep``
+``plant(1).DP``
+``model.params.alpha``
+</pre></div>
+</div>
+<p>The configuration item <strong>sweep</strong> contains an array of parameters which
+specify the sweep configuration using JSON syntax.
+An example sweep definition is:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="s">&quot;sweep&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">  </span><span class="s">&quot;runType&quot;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">0</span><span class="p p-Indicator">,</span>
+<span class="w">  </span><span class="s">&quot;parameter&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;model.params.alpha&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">  </span><span class="s">&quot;range&quot;</span><span class="p p-Indicator">:</span><span class="w">     </span><span class="p p-Indicator">[</span><span class="nv">0.1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1.1</span><span class="p p-Indicator">],</span>
+<span class="w">  </span><span class="s">&quot;sweepSize&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">10</span>
+<span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+<p>Currently, a plant parameter sweep can be done only for plant(1).</p>
+<p>Class <strong>SweepConfig</strong> holds sweep parameter configuration from the
+simulation’s “config.json” file.
+The configuration object contains a “sweep” structure,
+with the parameter (as a structure field path) to be varied in the sweep.</p>
+<p>Class <strong>SweepSeq</strong> manages information about one sweep parameter whose value
+varies over multiple simulations. It has an internal pointer to the current
+sweep value for the parameter. Use <code class="docutils literal notranslate"><span class="pre">getValue()</span></code> to get the current sweep
+value, and <code class="docutils literal notranslate"><span class="pre">toNext()</span></code> to advance the pointer to the next value.</p>
+<p>Function <strong>sweepParamIndexToPath</strong>
+converts a sweep parameter index used in the original
+sweep configuration design (in Drylands2 &lt;= version 6.2)
+to a configuration structure path (e.g., ‘plant(1).k2’).
+See the <em>Manual</em> section <em>Sweeps</em> for a list of the original
+integer parameter values that were recognized.</p>
+<p>Function <strong>initialize</strong> creates a <strong>SweepSeq</strong> object.</p>
+<p>Function <strong>runSweep</strong> initializes and increments the sweep iterations.</p>
+<p>Function <strong>getEqParams</strong> retrieves the current sweep value for the current
+simulation.</p>
+<p>Class State contains fields <strong>sweep</strong> (the current sweep number) and
+<strong>doSweeps</strong> (logical: true if sweeps are to be done).</p>
 <p>See the document <em>Manual</em> for details about sweep configuration parameters.</p>
 </section>
 <section id="trials">
@@ -1105,9 +1150,6 @@ All are text files.</p>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fodg</span></code></p></td>
 <td><p>OpenDocument graph file (in text XML format).</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">txt</span></code></p></td>
-<td><p>Plain text file.</p></td>
 </tr>
 </tbody>
 </table>

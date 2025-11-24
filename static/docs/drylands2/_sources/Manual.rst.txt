@@ -106,9 +106,7 @@ Downloading the Model Source Code
 
 The model source code and documentation is hosted on GitHub:sup:`TM` at
 
-::
-
-    https://github.com/jornada-im/Drylands2
+|    ``https://github.com/jornada-im/Drylands2``
 
 To get most recent model code, use the button labeled **<> Code**
 located near the upper right corner of the page.
@@ -250,10 +248,10 @@ e.g., ``[installation-path]/Drylands2/doc``.
 Then run **make** to build the formatted documents.
 These files will have the extensions ``pdf`` and ``html``.
 
-To remove the formatted documents, run **make clean**.
+To remove the formatted documents, run ``make clean``.
 
-The **make** scripts expect the **Pandoc** program to be available
-in the executable search paths (usually specified in the operating
+The **make** scripts (``makefile``) expect the **Pandoc** program to be
+available in the executable search paths (usually specified in the operating
 system's PATH environment variable.)
 
 
@@ -270,13 +268,12 @@ with the name **about:location** configuration item, and the start date
 and time appended.
 
 Make a configuration file.
-Copy a test configuration file ``tests/config.json``
-from the Drylands2 model directory
-into your work directory, and rename to something unique
-and significant, e.g., ``config-C-SAND.json``.
-Edit the file with a text file editor to customize the configuration.
-There are comments in the configuration file describing each item.
-See additional information in the section " `Configuring a Simulation`_ ".
+Copy a test configuration file ``tests/config.json`` from the Drylands2
+model directory into your work directory, and rename to something unique and
+significant, e.g., ``config-C-SAND.json``. Edit the file with a text file
+editor to customize the configuration. There are comments in the
+configuration file describing each item. See additional information in the
+section " `Configuring a Simulation`_ ".
 
 After starting *GNU Octave*, specify the directory where
 the source code for the models is:
@@ -305,7 +302,7 @@ For example:
 Alternatively you can use the **runsim** script provided with the Drylands2
 model files. From the command line:
 
-.. code::
+.. code:: BASH
 
     cd <directory containing your configuration file>
     octave <path to model>/src/tools/runsim.m [configuration file]
@@ -343,16 +340,16 @@ directory as the configuration file.
 If a partial path is given, then that path is assumed to be a subdirectory
 of the configuration file's path.
 
-========================= ================  ============================================================================
-Configuration Item        Data Type         Description
-========================= ================  ============================================================================
-about                     struct            About the simulation: location (site name), latitude, longitude.
-grid                      struct            Number of rows and columns of the square simulation grid
-input                     struct            Input data sources; see " `Input Data Configuration`_ ".
-output                    struct            Output path for results and plots, and output configuration.
-\                         \                 ; see `Output Configuration`_.
-simTime                   scalar            Simulation time; see " `Simulation Time`_ ".
-========================= ================  ============================================================================
+==================  ============  ============================================================================
+Configuration Item  Data Type     Description
+==================  ============  ============================================================================
+about               struct        About the simulation: location (site name), latitude, longitude.
+grid                struct        Number of rows and columns of the square simulation grid
+input               struct        Input data sources; see " `Input Data Configuration`_ ".
+output              struct        Output path for results and plots, and output configuration;
+\                   \             see " `Output Configuration`_ ".
+simTime             scalar        Simulation time; see " `Simulation Time`_ ".
+==================  ============  ============================================================================
 
 
 Simulation Time
@@ -369,6 +366,8 @@ time limits.
 You can get the day of year from the date using the function **datenum**.
 For example, if your start year is 2013 Aug 6, then
 
+.. code:: MATLAB
+
     datenum(2013,8,6) - datenum(2013,1,1) + 1      % ans = 218
 
 
@@ -379,21 +378,21 @@ The configuration item **input** describes the sources of input data.
 If the item is a data file name, see the section " `Input Data`_ " for a
 description of the details of the file structure.
 
-===================== ================  ================================================================================
-Configuration Item    Data Type         Description
-===================== ================  ================================================================================
-precipitation         string or scalar  Daily precipitation data.
-\                     \                 Specify a file name, or a constant value (mm/day).
-temperature           string or scalar  Daily temperature data.
-\                     \                 Specify a file name, or a constant value (degrees C).
-NAtmDep               string or scalar  Daily total wet+dry N atmospheric deposition.
-\                     \                 Specify a file name, or a constant value (g/m2/day)
-wind                  string or         Either
-\                     1x3 matrix        **Wind data file name** - CSV file contains daily data:
-\                     \                 direction (degrees clockwise from north), mean and maximum wind speeds (m/s).
-\                     \                 **Vector** containing constant direction, mean and maximum speeds,
-\                     \                 e.g., ``[270.0, 3.0, 14.0]``
-===================== ================  ================================================================================
+==================  ================  ================================================================================
+Configuration Item  Data Type         Description
+==================  ================  ================================================================================
+precipitation       string or scalar  Daily precipitation data.
+\                   \                 Specify a file name, or a constant value (mm/day).
+temperature         string or scalar  Daily temperature data.
+\                   \                 Specify a file name, or a constant value (degrees C).
+NAtmDep             string or scalar  Daily total wet+dry N atmospheric deposition.
+\                   \                 Specify a file name, or a constant value (g/m2/day)
+wind                string or         Either
+\                   1x3 matrix        **Wind data file name** - CSV file contains daily data:
+\                   \                 direction (degrees clockwise from north), mean and maximum wind speeds (m/s).
+\                   \                 **Vector** containing constant direction, mean and maximum speeds,
+\                   \                 e.g., ``[270.0, 3.0, 14.0]``
+==================  ================  ================================================================================
 
 
 Output Configuration
@@ -402,24 +401,24 @@ Output Configuration
 The configuration item **output** has the following values and
 boolean switches (**true** = produce graph, **false** = do not produce graph).
 
-========================= =========  ============================================================================
-Configuration Item        Data Type  Description
-========================= =========  ============================================================================
-path                      string     Directory path to contain output files.
-\                         \          This path can be absolute or relative to the configuration file.
-saveResults               logical    Save final results to a "mat" file (true or false).
-gridAvgTimeSeries         logical    Write grid-average time series of pools to a CSV file (true or false).
-**mapTS**                 struct     Items to create map time series output.
-\                         \          Values can be *false* (or zero), or the day number of the year at which
-\                         \          output will be generated. Valid day numbers are in the range 1-365.
-\                         \          The items are:
-biomass                   --         Generate a netCDF[6_] map time series grids for biomass for each species.
-\                         \          Value is boolean "false" or a positive integer in the range 1-365.
-resources                 --         Generate a netCDF[6_] map time series grids for each resource.
-\                         \          Value is boolean "false" or a positive integer in the range 1-365.
-spatialChanges            logical    Generate time series grids for annual changes in resources and biomass.
-\                         \          Grids are saved in an MAT file (a *GNU Octave* file format).
-========================= =========  ============================================================================
+==================  =========  ============================================================================
+Configuration Item  Data Type  Description
+==================  =========  ============================================================================
+path                string     Directory path to contain output files.
+\                   \          This path can be absolute or relative to the configuration file.
+saveResults         logical    Save final results to a "mat" file (true or false).
+gridAvgTimeSeries   logical    Write grid-average time series of pools to a CSV file (true or false).
+**mapTS**           struct     Items to create map time series output.
+\                   \          Values can be *false* (or zero), or the day number of the year at which
+\                   \          output will be generated. Valid day numbers are in the range 1-365.
+\                   \          The items are:
+biomass             --         Generate a netCDF[6_] map time series grids for biomass for each species.
+\                   \          Value is boolean "false" or a positive integer in the range 1-365.
+resources           --         Generate a netCDF[6_] map time series grids for each resource.
+\                   \          Value is boolean "false" or a positive integer in the range 1-365.
+spatialChanges      logical    Generate time series grids for annual changes in resources and biomass.
+\                   \          Grids are saved in an MAT file (a *GNU Octave* file format).
+==================  =========  ============================================================================
 
 
 Graphs Configuration
@@ -428,25 +427,25 @@ Graphs Configuration
 The configuration item **graphs** has the following values and
 boolean switches (**true** = produce graph, **false** = do not produce graph).
 
-=========================  =========  =========================================================================
-Configuration Item         Data Type  Description
-=========================  =========  =========================================================================
-doSweepGraph               logical    Sweep graph: available only when sweep.runType == 0;
-\                          \          produced after the simulation end.
-doResultsMaps              logical    Maps of results; one page of biomass, soil water and surface water
-\                          \          written to PNG files. These maps follow the ``mapSchedule`` item.
-mapSchedule                vector     Schedule for maps: used if doResultsMaps == true.
-\                          \          Enter a vector of time numbers and/or strings.
-\                          \          Schedule times can be a day number (> zero && <= simTime),
-\                          \          or a string from ["first", "last", "annual", "decadal"].
-\                          \          Example: ["first", 365, "last"]
-\                          \          Example: [1, 100, 200, "annual"]
-mapOriginAtTop             logical    Is the origin of maps at top-left? If false, is at lower-left.
-destination                string     Should graphs and maps be displayed or written to a file?
-\                          \          Choices:
-\                          \          "display" - to a window on the screen
-\                          \          "png"     - save graph in a PNG file
-=========================  =========  =========================================================================
+==================  =========  =========================================================================
+Configuration Item  Data Type  Description
+==================  =========  =========================================================================
+doSweepGraph        logical    Sweep graph: available only when sweep.runType == 0;
+\                   \          produced after the simulation end.
+doResultsMaps       logical    Maps of results; one page of biomass, soil water and surface water
+\                   \          written to PNG files. These maps follow the ``mapSchedule`` item.
+mapSchedule         vector     Schedule for maps: used if doResultsMaps == true.
+\                   \          Enter a vector of time numbers and/or strings.
+\                   \          Schedule times can be a day number (> zero && <= simTime),
+\                   \          or a string from ["first", "last", "annual", "decadal"].
+\                   \          Example: ["first", 365, "last"]
+\                   \          Example: [1, 100, 200, "annual"]
+mapOriginAtTop      logical    Is the origin of maps at top-left? If false, is at lower-left.
+destination         string     Should graphs and maps be displayed or written to a file?
+\                   \          Choices:
+\                   \          "display" - to a window on the screen
+\                   \          "png"     - save graph in a PNG file
+==================  =========  =========================================================================
 
 
 Plant Species Definitions
@@ -456,9 +455,9 @@ The configuration item **plant** contains an array of structs which
 define the plant species. Each struct in the array is one species definition,
 and contains these fields:
 
-=================== ===========  =======================================================================================
+==================  ===========  =======================================================================================
 Configuration Item  Data Type    Description
-=================== ===========  =======================================================================================
+==================  ===========  =======================================================================================
 name                string       Name of plant species.
 type                scalar       Type of plant: 1 = grass, 2 = shrub
 rmax                scalar       Limiting growth rate (maximum daily new biomass as fraction of current biomass);
@@ -503,7 +502,7 @@ minThreshold        scalar       Minimum aboveground biomass to be included in a
 B, Bmax, Bz         scalar       ``grassEffect`` equation parameters. E.g., B: 0.12, Bmax: 0.99, Bz: 1000.0
 *Shrub:*            \            \
 minThreshold        scalar       Minimum aboveground biomass to be included in aeolian calculations (g/m2).
-=================== ===========  =======================================================================================
+==================  ===========  =======================================================================================
 
 
 Model Configuration
@@ -517,64 +516,64 @@ Mounds are topographic features of specified shape and size.
 Surface water flows down the mounds according to their shape and the
 parameter **beta**, or maximum convection rate.
 
-====================== ===========  ========================================================================================
-Configuration Item     Data Type    Description
-====================== ===========  ========================================================================================
-**initial**            \            **Initial state settings:**
-*biomass*              \            **Initial biomass configuration - array; entry for each plant species:**
-distribution           scalar       \ integer: 0 = constant with noise; 1 = uniform random fraction; 2 = N random cells
-configRandom           vector       \ Zero or 3 elements: For distribution 2 (N random values), contains:
-\                      \            \ - configRandom(1) = number of random cells wanted;
-\                      \            \ - configRandom(2) = minimum distance from the grid edge (m);
-\                      \            \ - configRandom(3) = minimum distance from other cells (m).
-agLive                 1x2 matrix   \ Initial aboveground live biomass per cell (g m-2) of each species per cell.
-*other items*          \            \
-precipitation          scalar       Amount of rainfall (mm) for initialization.
-\                      \            The water will be applied to surface soil water content at the simulation start.
-soilN                  scalar       Amount of plant-available N in the entire soil profile depth (g N m-2).
-\                      \            The amount will be distributed with constant density in each soil layer.
-**params**             \            **Equation parameter values:**
-alpha                  scalar       Infiltration: Proportion of surface water available for infiltration (d-1).
-Wo                     scalar       Infiltration: Minimum infiltration in the absence of plants (unitless).
-rW                     scalar       Soil Water: specific soil water loss due to drainage (d-1).
-DW                     scalar       Soil Water: diffusion coefficient for soil water. Valid range is 0-1. (m2 d-1)
-DS                     scalar       Surface Water: diffusion coefficient for surface water (DO in Rietkirk (2002) and
-\                      \            (HilleRisLambers et al. 2001). Valid range is 0-1. (m2 d-1)
-Epot                   string       Evaporation: Daily potential evaporation; an equation.
-\                      \            Provide a string containing anonymous function for equation in GNU Octave/MATLAB form.
-\                      \            Example: ``"@(T) (0.392 * T - 0.837)^2"``
-E0                     scalar       Evaporation: Minimum daily potential evaporation under the plant canopy.
-b                      scalar       Evaporation: Changes the relative lengths of the minimum and maximum asymptotes;
-\                      \            b > **e** increases the length of the minimum asymptote.
-c                      scalar       Evaporation: Displacement of the inflection point along the x-axis;
-\                      \            smaller values shift left.
-Emr                    scalar       Evaporation: Slope at inflection point; proportional to the maximum change in
-\                      \            evaporation with biomass. E.g., ``Emr = K * (Epot - E0) / Bmax``
-**aeolian**            \            **Aeolian submodel configuration:**
-maxDailyFlux           scalar       Maximum daily aeolian sediment flux (g/m/day).
-\                      \            E.g., from From Alvarez et al (2012), figure 8b, or
-\                      \            Bergametti & Gillette (2010), table 7. E.g., 100.0
-textureFractions       struct       Grid average surface texture fractions for bare soil.
-\                      \            These should sum to 1.0. Fields are  "fine", "coarse", "gravel", "crust".
-thresholdSpeed         struct       Wind threshold for aeolian entrainment for each texture (m/s).
-\                      \            Fields are  "fine", "coarse", "gravel", "crust".
-\                      \            E.g. see Webb et al., 2016; Bergametti and Gillette, 2010.
-**mounds**             \            **Mounds submodel configuration:**
-number                 scalar       Number of mounds; set to 0 for "mound-free" scenario.
-\                      \            If zero, all other mounds parameters are ignored.
-geometry               scalar       Mound geometry: 0 = no mounds, 1 = generic, 2 = flat-top, 3 = cone.
-imc                    1x2 matrix   Initial on-mound plant coverage fractions; e.g., ``[0.0, 0.10]``
-iomc                   scalar       Initial off-mound plant coverage fraction.
-radii                  1x2 matrix   Growth radii (m): distance <= radii(1) is "on mound"; >= radii(2) is "off mound".
-\                      \            Example: ``[2.5, 6]``. Additional intermediate radii can be specified.
-\                      \            See " `Mound Radii`_ " for details.
-placement              string       Mound placement: "single", "random", "regular".
-beta                   scalar       Maximum water gravity convection rate on mounds (mm d-1).
-**algorithms**         \            **Turn submodels on or off (true or false):**
-NAtmDep                scalar       boolean: N atmospheric deposition( daily total wet + dry).
-aeolian                scalar       boolean: Aeolian submodel.
-mounds                 scalar       boolean: Mounds submodel.
-====================== ===========  ========================================================================================
+==================  ===========  ========================================================================================
+Configuration Item  Data Type    Description
+==================  ===========  ========================================================================================
+**initial**         \            **Initial state settings:**
+*biomass*           \            **Initial biomass configuration - array; entry for each plant species:**
+distribution        scalar       \ integer: 0 = constant with noise; 1 = uniform random fraction; 2 = N random cells
+configRandom        vector       \ Zero or 3 elements: For distribution 2 (N random values), contains:
+\                   \            \ - configRandom(1) = number of random cells wanted;
+\                   \            \ - configRandom(2) = minimum distance from the grid edge (m);
+\                   \            \ - configRandom(3) = minimum distance from other cells (m).
+agLive              1x2 matrix   \ Initial aboveground live biomass per cell (g m-2) of each species per cell.
+*other items*       \            \
+precipitation       scalar       Amount of rainfall (mm) for initialization.
+\                   \            The water will be applied to surface soil water content at the simulation start.
+soilN               scalar       Amount of plant-available N in the entire soil profile depth (g N m-2).
+\                   \            The amount will be distributed with constant density in each soil layer.
+**params**          \            **Equation parameter values:**
+alpha               scalar       Infiltration: Proportion of surface water available for infiltration (d-1).
+Wo                  scalar       Infiltration: Minimum infiltration in the absence of plants (unitless).
+rW                  scalar       Soil Water: specific soil water loss due to drainage (d-1).
+DW                  scalar       Soil Water: diffusion coefficient for soil water. Valid range is 0-1. (m2 d-1)
+DS                  scalar       Surface Water: diffusion coefficient for surface water (DO in Rietkirk (2002) and
+\                   \            (HilleRisLambers et al. 2001). Valid range is 0-1. (m2 d-1)
+Epot                string       Evaporation: Daily potential evaporation; an equation.
+\                   \            Provide a string containing anonymous function for equation in GNU Octave/MATLAB form.
+\                   \            Example: ``"@(T) (0.392 * T - 0.837)^2"``
+E0                  scalar       Evaporation: Minimum daily potential evaporation under the plant canopy.
+b                   scalar       Evaporation: Changes the relative lengths of the minimum and maximum asymptotes;
+\                   \            b > **e** increases the length of the minimum asymptote.
+c                   scalar       Evaporation: Displacement of the inflection point along the x-axis;
+\                   \            smaller values shift left.
+Emr                 scalar       Evaporation: Slope at inflection point; proportional to the maximum change in
+\                   \            evaporation with biomass. E.g., ``Emr = K * (Epot - E0) / Bmax``
+**aeolian**         \            **Aeolian submodel configuration:**
+maxDailyFlux        scalar       Maximum daily aeolian sediment flux (g/m/day).
+\                   \            E.g., from From Alvarez et al (2012), figure 8b, or
+\                   \            Bergametti & Gillette (2010), table 7. E.g., 100.0
+textureFractions    struct       Grid average surface texture fractions for bare soil.
+\                   \            These should sum to 1.0. Fields are  "fine", "coarse", "gravel", "crust".
+thresholdSpeed      struct       Wind threshold for aeolian entrainment for each texture (m/s).
+\                   \            Fields are  "fine", "coarse", "gravel", "crust".
+\                   \            E.g. see Webb et al., 2016; Bergametti and Gillette, 2010.
+**mounds**          \            **Mounds submodel configuration:**
+number              scalar       Number of mounds; set to 0 for "mound-free" scenario.
+\                   \            If zero, all other mounds parameters are ignored.
+geometry            scalar       Mound geometry: 0 = no mounds, 1 = generic, 2 = flat-top, 3 = cone.
+imc                 1x2 matrix   Initial on-mound plant coverage fractions; e.g., ``[0.0, 0.10]``
+iomc                scalar       Initial off-mound plant coverage fraction.
+radii               1x2 matrix   Growth radii (m): distance <= radii(1) is "on mound"; >= radii(2) is "off mound".
+\                   \            Example: ``[2.5, 6]``. Additional intermediate radii can be specified.
+\                   \            See " `Mound Radii`_ " for details.
+placement           string       Mound placement: "single", "random", "regular".
+beta                scalar       Maximum water gravity convection rate on mounds (mm d-1).
+**algorithms**      \            **Turn submodels on or off (true or false):**
+NAtmDep             scalar       boolean: N atmospheric deposition( daily total wet + dry).
+aeolian             scalar       boolean: Aeolian submodel.
+mounds              scalar       boolean: Mounds submodel.
+==================  ===========  ========================================================================================
 
 
 Initial state settings
@@ -773,17 +772,23 @@ modestly increased plant “efficiency” on mound, try::
   model.mounds.beta = 0.01
 
 
-
 Sweeps
 --------
 
 A sweep is a set of simulations over a range of a configuration parameter.
-The parameter varies with a fixed interval.
-There are specific parameters from which to choose, and plant-specific
-parameters currently apply only to the first plant species defined.
-Plant-specific parameters are **k2**, **c**, **gmax**.
+The parameter varies with a fixed interval, while all other parameters
+are constant (unless they have a random or data file initialization).
+A sweep parameter can be any field in the configuration file for which
+a sweep makes sense.
+The parameter to vary expressed as a field path in the JSON configuration,
+where field names are separated by periods.
+Examples of sweep parameter paths are::
 
-All sweep simulations use the same initial values for state variables.
+    plant(1).DP
+    model.params.alpha
+    input.NAtmDep
+
+Currently, a plant parameter sweep can be done only for ``plant(1)``.
 
 The configuration item **sweep** contains an array of parameters which
 specify the sweep configuration.
@@ -793,10 +798,21 @@ Configuration Item     Data Type  Description
 ====================== ========== ====================================================================================
 runType                scalar     0 = sweep over range of values; 1 = single simulation (no sweep).
 \                      \          If 1, the other sweep parameters are ignored.
-parameter              scalar     The parameter to vary: 1 = **alpha**, 2 = **k2**, 3 = **c**,
-\                      \          4 = **gmax**, 5 = rainfall, 6 = mound water convection rate (**beta**)
+\                      \          \
+parameter              string     The parameter to vary expressed as a field path according to the
+\                      or         JSON configuration structure.
+\                      integer    Examples: ``model.params.alpha`` or ``plant(1).mortality.d``
+\                      \          For model versions <= 6.2, the original style of sweep parameters
+\                      \          used an integer to specify a parameter to vary:
+\                      \          Valid values are: 1 = **alpha**, 2 = **k2**, 3 = **c**,
+\                      \          4 = **gmax**, 5 = rainfall, 6 = **beta** (mound water convection rate).
+\                      \          If ``parameter`` is an integer, it will be converted to a field path
+\                      \          string, as described above.
+\                      \          E.g., ``sweep.parameter = 2`` becomes ``sweep.parameter = plant(1).k2``.
+\                      \          \
 range                  1x2 matrix The minimum and maximum values for the sweep parameter.
 \                      \          The units must be appropriate for the parameter.
+\                      \          \
 sweepSize              scalar     The number of values within range, inclusive; a positive integer.
 ====================== ========== ====================================================================================
 
@@ -828,15 +844,15 @@ Log File
 The configuration item **log** contains fields specifying how the log file
 is used. If item **makeLog** is *false*, the other items are ignored.
 
-========================= ========= ====================================================================================
-Configuration Item        Data Type Description
-========================= ========= ====================================================================================
-makeLog                   logical   If true, create a log file.
-debug                     logical   If true, turn on debugging messages.
-info                      logical   If true, turn on informational messages.
-warn                      logical   If true, turn on warning messages.
-error                     logical   If true, turn on error messages.
-========================= ========= ====================================================================================
+====================== ========== ====================================================================================
+Configuration Item     Data Type  Description
+====================== ========== ====================================================================================
+makeLog                logical    If true, create a log file.
+debug                  logical    If true, turn on debugging messages.
+info                   logical    If true, turn on informational messages.
+warn                   logical    If true, turn on warning messages.
+error                  logical    If true, turn on error messages.
+====================== ========== ====================================================================================
 
 
 
@@ -1039,7 +1055,7 @@ In the *GNU Octave* application's **Command Window**:
 From a console or shell prompt, assuming the *GNU Octave*
 executable directory is in your executable search path:
 
-.. code::
+.. code:: BASH
 
     cd <directory containing your configuration file>
     octave <path to model>/src/tools/runsim.m [configuration file]
@@ -1212,7 +1228,7 @@ model source code is installed.
 
 To run a script, either
 
-.. code::
+.. code:: BASH
 
     cd [installation-path]/src/tools
 
@@ -1866,14 +1882,13 @@ Additional configuration files (``*.json``) are provided in the
       "sweep": {
         # run type: zero or one; 0 = sweep over range of values; 1 = single simulation
         "runType": 1,
-        # if runType == 0, which parameter to vary?
-        #   1 = G_alpha
-        #   2 = G_k2
-        #   3 = G_c
-        #   4 = G_gmax
-        #   5 = rainfall
-        #   6 = convectionSpeed
-        "parameter": 3,
+        # which parameter to vary? Provide configuration path. Examples:
+        #   "plant(1).k2"
+        #   "plant(1).c"
+        #   "plant(1).gmax"
+        #   "input.precipitation"
+        #   "model.mounds.beta"
+        "parameter": "plant(1).gmax",
         # minimum and maximum values for parameter; vector 1x2
         "range":     [1, 15],
         # number of values within range, inclusive; must be positive integer; if runType == 1, sweepSize = 1
