@@ -1569,7 +1569,7 @@ Additional configuration files (``*.json``) are provided in the
 **tests** subdirectory of the model files.
 
 
-.. code:: JSON
+.. code:: YAML
 
     # Drylands2 Model Configuration
     #
