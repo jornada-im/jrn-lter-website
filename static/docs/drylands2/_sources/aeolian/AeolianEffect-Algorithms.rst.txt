@@ -17,9 +17,9 @@ Drylands2 Model: Aeolian Effect Algorithms
         section level 3   ^^^
         section level 4   ~~~
 
-
-.. contents::
-   :depth: 4
+..
+  .. contents::
+     :depth: 4
 
 
 
