@@ -20,7 +20,7 @@ Drylands2 Model Manual
 .. |nbsp| unicode:: 0xA0
    :trim:
 
-.. 
+..
   .. contents::
      :depth: 4
 
@@ -245,15 +245,21 @@ Making the Documents
 
 In a console window, change to the document's directory,
 e.g., ``[installation-path]/Drylands2/doc``.
-Then run **make** to build the formatted documents.
-These files will have the extensions ``pdf`` and ``html``.
+Then run **make** to build the formatted documents
+These files will have the extensions ``pdf`` and ``html``::
 
-To remove the formatted documents, run ``make clean``.
+    make -f makefile.local
 
-The **make** scripts (``makefile``) expect the **Pandoc** program to be
+To remove the formatted documents, run **make** with the target ``clean``::
+
+    make -f makefile.local clean
+
+The **make** scripts (``makefile``) expect the **pandoc** program to be
 available in the executable search paths (usually specified in the operating
 system's PATH environment variable.)
 
+Note: The makefile named ``Makefile`` is reserved for use with the online
+documentation.
 
 
 Quick Start
@@ -348,7 +354,12 @@ grid                struct        Number of rows and columns of the square simul
 input               struct        Input data sources; see " `Input Data Configuration`_ ".
 output              struct        Output path for results and plots, and output configuration;
 \                   \             see " `Output Configuration`_ ".
-simTime             scalar        Simulation time; see " `Simulation Time`_ ".
+**simTime**         struct        Simulation time; see " `Simulation Time`_ ".
+\                   \             Field **start**: start year and day-of-year for the simulation (integers).
+\                   \             Example: [ 2000, 1 ]
+\                   \             Field **stop**: end year and day-of-year (integers).
+\                   \             Example: [ 2010, 365 ]
+\                   \             Field **gsStart**: The growing season starting day number of year.
 ==================  ============  ============================================================================
 
 
@@ -358,17 +369,33 @@ Simulation Time
 The configuration item **simTime** specifies the simulation time limits.
 These limits are two pairs of integers containing a year and day-of-year.
 The first pair is the **start** date, and the 2nd pair is the **stop** date.
+The third item **gsStart** is the growing season starting day number of year (an integer).
+The JSON structure is like this::
 
-Coordination of the simulation time limits with the input data files
-is not automatic. You must be sure that the data files span your
-time limits.
+      "simTime": {
+        "start":   [ 2000, 1 ],
+        "stop":    [ 2010, 365 ],
+        "gsStart": 1
+      },
 
-You can get the day of year from the date using the function **datenum**.
+You can get the day-of-year from the date using the function **datenum**.
 For example, if your start year is 2013 Aug 6, then
 
 .. code:: MATLAB
 
     datenum(2013,8,6) - datenum(2013,1,1) + 1      % ans = 218
+
+For **gsStart**, the year is arbitrary. E.g., in the mid latitudes of the
+southern hemisphere, the growing season may be considered as the seasonal
+equivalent of Jan. 1, say July 1. Then the day number is
+
+.. code:: MATLAB
+
+    datenum(2000,7,1) - datenum(2000,1,1) + 1      % ans = 183
+
+
+Coordination of the simulation time limits with the input data files is not
+automatic. You must be sure that the data files span your time limits.
 
 
 Input Data Configuration
@@ -451,18 +478,27 @@ destination         string     Should graphs and maps be displayed or written to
 Plant Species Definitions
 --------------------------
 
-The configuration item **plant** contains an array of structs which
+The configuration item **plant** contains an array of structures which
 define the plant species. Each struct in the array is one species definition,
-and contains these fields:
+and contains the fields described in the table below.
+Fields in **bold** are nested structures:
+**mortality**, **seed**, **aeolianEffect**.
+
+Generally, the categories of fields are growth, mortality, and reproduction.
 
 ==================  ===========  =======================================================================================
 Configuration Item  Data Type    Description
 ==================  ===========  =======================================================================================
 name                string       Name of plant species.
 type                scalar       Type of plant: 1 = grass, 2 = shrub
+\                   \            **Biomass:**
+Bmax                scalar       Maximum biomass (g/m2).
+bmBgAgRatio         scalar       Ratio of belowground to aboveground biomass.
+bmBgDist            1x3 matrix   Belowground biomass distribution; fraction into each soil layer (sum to 1.0).
+bmThreshold         scalar       Minimum biomass fraction (< 1.0) for cell to be considered vegetated.
+\                   \            **Growth:**
 rmax                scalar       Limiting growth rate (maximum daily new biomass as fraction of current biomass);
 \                   \            valid range 0-1. E.g., An estimate is maximum annual GPP / 365.
-Bmax                scalar       Maximum biomass (g/m2).
 gmax                scalar       Plant water uptake: maximum specific water uptake (mm g-1 m-2 d-1).
 \                   \            Proportional to 1/(Water maintenance); from Stewart table 4, grass.
 \                   \            Units: Rietkirk 1997 = (g g-1) d-1; Rietkirk 2002 = mm d-1 m2 g-1.
@@ -470,11 +506,6 @@ k1                  scalar       Plant water uptake: half-saturation constant of
 c                   scalar       Plant growth: Rate of water conversion to new biomass (g m-2 mm-1),
 \                   \            aka, water-use efficiency.
 \                   \            Units: Rietkirk 1997 = g g-1 d-1; Rietkirk 2002 = g mm-1 m-2.
-DP                  scalar       Plant growth: diffusion: lateral dispersal and propagation (m2 d-1).
-\                   \            Valid range is 0-1.
-bmBgAgRatio         scalar       Ratio of belowground to aboveground biomass.
-bmBgDist            1x3 matrix   Belowground biomass distribution; fraction into each soil layer (sum to 1.0).
-bmThreshold         scalar       Minimum biomass fraction (< 1.0) for cell to be considered vegetated.
 teff                4x1 matrix   Parameters to gpdf for temperature effect on growth:
 \                   \            1 = Optimum temperature for production; the peak of the curve.
 \                   \            2 = Maximum temperature for production.
@@ -485,8 +516,20 @@ CN                  scalar       Nitrogen: Average aboveground C:N of biomass fo
 cNmax               scalar       Nitrogen: Maximum daily N uptake as fraction of plant biomass; valid range = 0-1.
 \                   \            Typically cNmax = (c*gmax)/C:N. Units = gN gC-1 d-1.
 maintN              scalar       Nitrogen daily maintenance requirement (gN gBiomass-1 d-1).
+\                   \            **Reproducton:**
+DP                  scalar       Plant growth: diffusion: lateral dispersal and propagation (m2 d-1).
+\                   \            Valid range is 0-1.
+E                   scalar       Proportion of effort for vegetative (non-seeded) propagation (0-1);
+\                   \            1-E = proportion of effort for seeded propagation (0-1).
+Kr                  scalar       Reproduction fraction per unit biomass (0-1).
+\                   \            Includes both vegetative + seeded reproduction.
+**seed**            struct       **Seed dispsersal propagation:**
+bmNewSeedling       scalar       Initial aboveground biomass of a new seedling (g/m2).
+bmMaxRepro          scalar       Fraction of maximum biomass per cell below which seed reproduction can occur (0-1).
+Kg                  scalar       Constant germination rate == probability of germination (0-1).
 **mortality**       struct       **Mortality configuration:**
-d                   scalar       Background rate: specific loss of plant density due to mortality (fraction d-1).
+d                   scalar       Background mortality rate: loss of plant density due to mortality (fraction d-1).
+\                   \            **Water stress affecting mortality:**
 B0                  scalar       Water demand excess at the logistic function inflection point (range: >= 0.0).
 \                   \            Increasing values at a fixed water demand excess will decrease the mortality rate,
 \                   \            while the maximum rate of change of mortality remains constant.
@@ -495,7 +538,7 @@ B1                  scalar       Maximum rate of change of mortality (range: >= 
 \                   \            Increasing values increase the rate of change in mortality at the logistic inflection
 \                   \            point, and at a fixed water demand excess will increase the mortality rate.
 lengthPeriod        scalar       Number of days to track excess water demand.
-**aeolianEffect**   struct       **Aeolian effects from biomass upon erosion/deposition.**
+**aeolianEffect**   struct       **Aeolian effects from biomass upon erosion/deposition:**
 \                   \            This struct will have different fields and values for a grass or shrub:
 *Grass:*            \            \
 minThreshold        scalar       Minimum aboveground biomass to be included in aeolian calculations (g/m2).
@@ -508,8 +551,9 @@ minThreshold        scalar       Minimum aboveground biomass to be included in a
 Model Configuration
 ---------------------
 
-The configuration item **model** contains an array of structs which
-specify the model configuration. There are four sub-structs:
+The configuration item **model** is a structure containing parameters
+specifying model configuration values that are not plant-specific.
+Fields in **bold** are nested structures:
 **initial**, **params**, **aeolian**, and **mounds**.
 
 Mounds are topographic features of specified shape and size.
@@ -1383,9 +1427,9 @@ See Also
 Document History
 =================
 
-===================  ===================  ==========================================================
+===================  ===================  ===============================================================
 Revision Date        Model Version        Description
-===================  ===================  ==========================================================
+===================  ===================  ===============================================================
 2024.10.07           4.3.0                Author: Thomas E. Hilinski <hilinski@nmsu.edu>
 2024.11.14           4.5, 4.6             Misc. updates and editing. Soil N initialization.
 2024.12.02           5.0                  Added calculation of N maintenance uptake.
@@ -1397,7 +1441,9 @@ Revision Date        Model Version        Description
 2025.10.03           6.2                  Add Introduction section `Conventions`_.
 \                    \                    Expand information in `Map Time Series Files`_.
 2025.10.14           6.4                  Expanded information describing mounds.
-===================  ===================  ==========================================================
+2025.12              7.x                  Describe new sweep subsystem, and configuration parameters
+\                    \                    for new algorithms: seed dispersal propagation.
+===================  ===================  ===============================================================
 
 
 
@@ -1653,9 +1699,11 @@ Additional configuration files (``*.json``) are provided in the
       #
       "simTime": {
         # start year and day-of-year for the simulation (integers)
-        "start": [ 2000, 1 ],
+        "start":   [ 2000, 1 ],
         # end year and day-of-year (integers)
-        "stop":  [ 2010, 365 ]
+        "stop":    [ 2010, 365 ],
+        # growing season starting day number of year (integer)
+        "gsStart": 1
       },
       #
       # Graphs configuration

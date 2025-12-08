@@ -439,12 +439,20 @@ diagrams from text description files.</p></li>
 <h3>Making the Documents<a class="headerlink" href="#making-the-documents" title="Link to this heading">¶</a></h3>
 <p>In a console window, change to the document’s directory,
 e.g., <code class="docutils literal notranslate"><span class="pre">[installation-path]/Drylands2/doc</span></code>.
-Then run <strong>make</strong> to build the formatted documents.
-These files will have the extensions <code class="docutils literal notranslate"><span class="pre">pdf</span></code> and <code class="docutils literal notranslate"><span class="pre">html</span></code>.</p>
-<p>To remove the formatted documents, run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">clean</span></code>.</p>
-<p>The <strong>make</strong> scripts (<code class="docutils literal notranslate"><span class="pre">makefile</span></code>) expect the <strong>Pandoc</strong> program to be
+Then run <strong>make</strong> to build the formatted documents
+These files will have the extensions <code class="docutils literal notranslate"><span class="pre">pdf</span></code> and <code class="docutils literal notranslate"><span class="pre">html</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="o">-</span><span class="n">f</span> <span class="n">makefile</span><span class="o">.</span><span class="n">local</span>
+</pre></div>
+</div>
+<p>To remove the formatted documents, run <strong>make</strong> with the target <code class="docutils literal notranslate"><span class="pre">clean</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="o">-</span><span class="n">f</span> <span class="n">makefile</span><span class="o">.</span><span class="n">local</span> <span class="n">clean</span>
+</pre></div>
+</div>
+<p>The <strong>make</strong> scripts (<code class="docutils literal notranslate"><span class="pre">makefile</span></code>) expect the <strong>pandoc</strong> program to be
 available in the executable search paths (usually specified in the operating
 system’s PATH environment variable.)</p>
+<p>Note: The makefile named <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> is reserved for use with the online
+documentation.</p>
 </section>
 </section>
 <section id="quick-start">
@@ -538,9 +546,29 @@ of the configuration file’s path.</p>
 <td><p></p></td>
 <td><p>see “ <a class="reference internal" href="#output-configuration">Output Configuration</a> “.</p></td>
 </tr>
-<tr class="row-odd"><td><p>simTime</p></td>
-<td><p>scalar</p></td>
+<tr class="row-odd"><td><p><strong>simTime</strong></p></td>
+<td><p>struct</p></td>
 <td><p>Simulation time; see “ <a class="reference internal" href="#simulation-time">Simulation Time</a> “.</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>Field <strong>start</strong>: start year and day-of-year for the simulation (integers).</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>Example: [ 2000, 1 ]</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>Field <strong>stop</strong>: end year and day-of-year (integers).</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>Example: [ 2010, 365 ]</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>Field <strong>gsStart</strong>: The growing season starting day number of year.</p></td>
 </tr>
 </tbody>
 </table>
@@ -550,15 +578,29 @@ of the configuration file’s path.</p>
 <h3>Simulation Time<a class="headerlink" href="#simulation-time" title="Link to this heading">¶</a></h3>
 <p>The configuration item <strong>simTime</strong> specifies the simulation time limits.
 These limits are two pairs of integers containing a year and day-of-year.
-The first pair is the <strong>start</strong> date, and the 2nd pair is the <strong>stop</strong> date.</p>
-<p>Coordination of the simulation time limits with the input data files
-is not automatic. You must be sure that the data files span your
-time limits.</p>
-<p>You can get the day of year from the date using the function <strong>datenum</strong>.
+The first pair is the <strong>start</strong> date, and the 2nd pair is the <strong>stop</strong> date.
+The third item <strong>gsStart</strong> is the growing season starting day number of year (an integer).
+The JSON structure is like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;simTime&quot;</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">&quot;start&quot;</span><span class="p">:</span>   <span class="p">[</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">1</span> <span class="p">],</span>
+  <span class="s2">&quot;stop&quot;</span><span class="p">:</span>    <span class="p">[</span> <span class="mi">2010</span><span class="p">,</span> <span class="mi">365</span> <span class="p">],</span>
+  <span class="s2">&quot;gsStart&quot;</span><span class="p">:</span> <span class="mi">1</span>
+<span class="p">},</span>
+</pre></div>
+</div>
+<p>You can get the day-of-year from the date using the function <strong>datenum</strong>.
 For example, if your start year is 2013 Aug 6, then</p>
 <div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="nb">datenum</span><span class="p">(</span><span class="mi">2013</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">datenum</span><span class="p">(</span><span class="mi">2013</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">      </span><span class="c">% ans = 218</span>
 </pre></div>
 </div>
+<p>For <strong>gsStart</strong>, the year is arbitrary. E.g., in the mid latitudes of the
+southern hemisphere, the growing season may be considered as the seasonal
+equivalent of Jan. 1, say July 1. Then the day number is</p>
+<div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="nb">datenum</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">datenum</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">      </span><span class="c">% ans = 183</span>
+</pre></div>
+</div>
+<p>Coordination of the simulation time limits with the input data files is not
+automatic. You must be sure that the data files span your time limits.</p>
 </section>
 <section id="input-data-configuration">
 <h3>Input Data Configuration<a class="headerlink" href="#input-data-configuration" title="Link to this heading">¶</a></h3>
@@ -774,9 +816,12 @@ boolean switches (<strong>true</strong> = produce graph, <strong>false</strong> 
 </section>
 <section id="plant-species-definitions">
 <h3>Plant Species Definitions<a class="headerlink" href="#plant-species-definitions" title="Link to this heading">¶</a></h3>
-<p>The configuration item <strong>plant</strong> contains an array of structs which
+<p>The configuration item <strong>plant</strong> contains an array of structures which
 define the plant species. Each struct in the array is one species definition,
-and contains these fields:</p>
+and contains the fields described in the table below.
+Fields in <strong>bold</strong> are nested structures:
+<strong>mortality</strong>, <strong>seed</strong>, <strong>aeolianEffect</strong>.</p>
+<p>Generally, the categories of fields are growth, mortality, and reproduction.</p>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
 <thead>
@@ -794,53 +839,13 @@ and contains these fields:</p>
 <td><p>scalar</p></td>
 <td><p>Type of plant: 1 = grass, 2 = shrub</p></td>
 </tr>
-<tr class="row-even"><td><p>rmax</p></td>
-<td><p>scalar</p></td>
-<td><p>Limiting growth rate (maximum daily new biomass as fraction of current biomass);</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
-<td><p>valid range 0-1. E.g., An estimate is maximum annual GPP / 365.</p></td>
+<td><p><strong>Biomass:</strong></p></td>
 </tr>
-<tr class="row-even"><td><p>Bmax</p></td>
+<tr class="row-odd"><td><p>Bmax</p></td>
 <td><p>scalar</p></td>
 <td><p>Maximum biomass (g/m2).</p></td>
-</tr>
-<tr class="row-odd"><td><p>gmax</p></td>
-<td><p>scalar</p></td>
-<td><p>Plant water uptake: maximum specific water uptake (mm g-1 m-2 d-1).</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p></p></td>
-<td><p>Proportional to 1/(Water maintenance); from Stewart table 4, grass.</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p></p></td>
-<td><p>Units: Rietkirk 1997 = (g g-1) d-1; Rietkirk 2002 = mm d-1 m2 g-1.</p></td>
-</tr>
-<tr class="row-even"><td><p>k1</p></td>
-<td><p>scalar</p></td>
-<td><p>Plant water uptake: half-saturation constant of plant growth and water uptake (mm).</p></td>
-</tr>
-<tr class="row-odd"><td><p>c</p></td>
-<td><p>scalar</p></td>
-<td><p>Plant growth: Rate of water conversion to new biomass (g m-2 mm-1),</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p></p></td>
-<td><p>aka, water-use efficiency.</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p></p></td>
-<td><p>Units: Rietkirk 1997 = g g-1 d-1; Rietkirk 2002 = g mm-1 m-2.</p></td>
-</tr>
-<tr class="row-even"><td><p>DP</p></td>
-<td><p>scalar</p></td>
-<td><p>Plant growth: diffusion: lateral dispersal and propagation (m2 d-1).</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p></p></td>
-<td><p>Valid range is 0-1.</p></td>
 </tr>
 <tr class="row-even"><td><p>bmBgAgRatio</p></td>
 <td><p>scalar</p></td>
@@ -853,6 +858,46 @@ and contains these fields:</p>
 <tr class="row-even"><td><p>bmThreshold</p></td>
 <td><p>scalar</p></td>
 <td><p>Minimum biomass fraction (&lt; 1.0) for cell to be considered vegetated.</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p><strong>Growth:</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>rmax</p></td>
+<td><p>scalar</p></td>
+<td><p>Limiting growth rate (maximum daily new biomass as fraction of current biomass);</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>valid range 0-1. E.g., An estimate is maximum annual GPP / 365.</p></td>
+</tr>
+<tr class="row-even"><td><p>gmax</p></td>
+<td><p>scalar</p></td>
+<td><p>Plant water uptake: maximum specific water uptake (mm g-1 m-2 d-1).</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>Proportional to 1/(Water maintenance); from Stewart table 4, grass.</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>Units: Rietkirk 1997 = (g g-1) d-1; Rietkirk 2002 = mm d-1 m2 g-1.</p></td>
+</tr>
+<tr class="row-odd"><td><p>k1</p></td>
+<td><p>scalar</p></td>
+<td><p>Plant water uptake: half-saturation constant of plant growth and water uptake (mm).</p></td>
+</tr>
+<tr class="row-even"><td><p>c</p></td>
+<td><p>scalar</p></td>
+<td><p>Plant growth: Rate of water conversion to new biomass (g m-2 mm-1),</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>aka, water-use efficiency.</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>Units: Rietkirk 1997 = g g-1 d-1; Rietkirk 2002 = g mm-1 m-2.</p></td>
 </tr>
 <tr class="row-odd"><td><p>teff</p></td>
 <td><p>4x1 matrix</p></td>
@@ -894,13 +939,61 @@ and contains these fields:</p>
 <td><p>scalar</p></td>
 <td><p>Nitrogen daily maintenance requirement (gN gBiomass-1 d-1).</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>mortality</strong></p></td>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p><strong>Reproducton:</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>DP</p></td>
+<td><p>scalar</p></td>
+<td><p>Plant growth: diffusion: lateral dispersal and propagation (m2 d-1).</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>Valid range is 0-1.</p></td>
+</tr>
+<tr class="row-even"><td><p>E</p></td>
+<td><p>scalar</p></td>
+<td><p>Proportion of effort for vegetative (non-seeded) propagation (0-1);</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>1-E = proportion of effort for seeded propagation (0-1).</p></td>
+</tr>
+<tr class="row-even"><td><p>Kr</p></td>
+<td><p>scalar</p></td>
+<td><p>Reproduction fraction per unit biomass (0-1).</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>Includes both vegetative + seeded reproduction.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>seed</strong></p></td>
+<td><p>struct</p></td>
+<td><p><strong>Seed dispsersal propagation:</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>bmNewSeedling</p></td>
+<td><p>scalar</p></td>
+<td><p>Initial aboveground biomass of a new seedling (g/m2).</p></td>
+</tr>
+<tr class="row-even"><td><p>bmMaxRepro</p></td>
+<td><p>scalar</p></td>
+<td><p>Fraction of maximum biomass per cell below which seed reproduction can occur (0-1).</p></td>
+</tr>
+<tr class="row-odd"><td><p>Kg</p></td>
+<td><p>scalar</p></td>
+<td><p>Constant germination rate == probability of germination (0-1).</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>mortality</strong></p></td>
 <td><p>struct</p></td>
 <td><p><strong>Mortality configuration:</strong></p></td>
 </tr>
-<tr class="row-even"><td><p>d</p></td>
+<tr class="row-odd"><td><p>d</p></td>
 <td><p>scalar</p></td>
-<td><p>Background rate: specific loss of plant density due to mortality (fraction d-1).</p></td>
+<td><p>Background mortality rate: loss of plant density due to mortality (fraction d-1).</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p><strong>Water stress affecting mortality:</strong></p></td>
 </tr>
 <tr class="row-odd"><td><p>B0</p></td>
 <td><p>scalar</p></td>
@@ -936,7 +1029,7 @@ and contains these fields:</p>
 </tr>
 <tr class="row-odd"><td><p><strong>aeolianEffect</strong></p></td>
 <td><p>struct</p></td>
-<td><p><strong>Aeolian effects from biomass upon erosion/deposition.</strong></p></td>
+<td><p><strong>Aeolian effects from biomass upon erosion/deposition:</strong></p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
@@ -968,8 +1061,9 @@ and contains these fields:</p>
 </section>
 <section id="model-configuration">
 <h3>Model Configuration<a class="headerlink" href="#model-configuration" title="Link to this heading">¶</a></h3>
-<p>The configuration item <strong>model</strong> contains an array of structs which
-specify the model configuration. There are four sub-structs:
+<p>The configuration item <strong>model</strong> is a structure containing parameters
+specifying model configuration values that are not plant-specific.
+Fields in <strong>bold</strong> are nested structures:
 <strong>initial</strong>, <strong>params</strong>, <strong>aeolian</strong>, and <strong>mounds</strong>.</p>
 <p>Mounds are topographic features of specified shape and size.
 Surface water flows down the mounds according to their shape and the
@@ -2007,6 +2101,14 @@ arid ecosystems. American Naturalist 160:524–530. <a class="reference external
 <td><p>6.4</p></td>
 <td><p>Expanded information describing mounds.</p></td>
 </tr>
+<tr class="row-odd"><td><p>2025.12</p></td>
+<td><p>7.x</p></td>
+<td><p>Describe new sweep subsystem, and configuration parameters</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>for new algorithms: seed dispersal propagation.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -2291,9 +2393,11 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="w">  </span><span class="c1">#</span>
 <span class="w">  </span><span class="s">&quot;simTime&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
 <span class="w">    </span><span class="c1"># start year and day-of-year for the simulation (integers)</span>
-<span class="w">    </span><span class="s">&quot;start&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">2000</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1</span><span class="w"> </span><span class="p p-Indicator">],</span>
+<span class="w">    </span><span class="s">&quot;start&quot;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">2000</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1</span><span class="w"> </span><span class="p p-Indicator">],</span>
 <span class="w">    </span><span class="c1"># end year and day-of-year (integers)</span>
-<span class="w">    </span><span class="s">&quot;stop&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">2010</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">365</span><span class="w"> </span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="s">&quot;stop&quot;</span><span class="p p-Indicator">:</span><span class="w">    </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">2010</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">365</span><span class="w"> </span><span class="p p-Indicator">],</span>
+<span class="w">    </span><span class="c1"># growing season starting day number of year (integer)</span>
+<span class="w">    </span><span class="s">&quot;gsStart&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">1</span>
 <span class="w">  </span><span class="p p-Indicator">},</span>
 <span class="w">  </span><span class="c1">#</span>
 <span class="w">  </span><span class="c1"># Graphs configuration</span>
