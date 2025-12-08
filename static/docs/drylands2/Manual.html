@@ -579,8 +579,8 @@ of the configuration file’s path.</p>
 <p>The configuration item <strong>simTime</strong> specifies the simulation time limits.
 These limits are two pairs of integers containing a year and day-of-year.
 The first pair is the <strong>start</strong> date, and the 2nd pair is the <strong>stop</strong> date.
-The third item <strong>gsStart</strong> is the growing season starting day number of year (an integer).
-The JSON structure is like this:</p>
+The third item <strong>gsStart</strong> is the growing season starting day number of year (an integer).</p>
+<p>The JSON structure is like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;simTime&quot;</span><span class="p">:</span> <span class="p">{</span>
   <span class="s2">&quot;start&quot;</span><span class="p">:</span>   <span class="p">[</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">1</span> <span class="p">],</span>
   <span class="s2">&quot;stop&quot;</span><span class="p">:</span>    <span class="p">[</span> <span class="mi">2010</span><span class="p">,</span> <span class="mi">365</span> <span class="p">],</span>
@@ -593,9 +593,15 @@ For example, if your start year is 2013 Aug 6, then</p>
 <div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="nb">datenum</span><span class="p">(</span><span class="mi">2013</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">datenum</span><span class="p">(</span><span class="mi">2013</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">      </span><span class="c">% ans = 218</span>
 </pre></div>
 </div>
-<p>For <strong>gsStart</strong>, the year is arbitrary. E.g., in the mid latitudes of the
-southern hemisphere, the growing season may be considered as the seasonal
-equivalent of Jan. 1, say July 1. Then the day number is</p>
+<p>Growing season currently is a euphemism for the arbitrary interval defined
+by the start day and ending the day previous, for the purpose of managing
+seed propagation for each plant. In mid latitudes in the northern
+hemisphere, the start day-of-year should usually be 1 (January 1). In the
+southern hemisphere, this may be mid year (day 183).</p>
+<p>To calculate <strong>gsStart</strong> day-of-year, the year is arbitrary.
+E.g., in the mid latitudes of the southern hemisphere, the growing season
+may be considered as the seasonal equivalent of Jan. 1, say July 1. Then the
+day number is</p>
 <div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="nb">datenum</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">datenum</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">      </span><span class="c">% ans = 183</span>
 </pre></div>
 </div>
@@ -923,135 +929,139 @@ Fields in <strong>bold</strong> are nested structures:
 <td><p>scalar</p></td>
 <td><p>Infiltration: Rate at which infiltration increases with plant density (g m-2).</p></td>
 </tr>
-<tr class="row-odd"><td><p>CN</p></td>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p><strong>Nitrogen:</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>CN</p></td>
 <td><p>scalar</p></td>
 <td><p>Nitrogen: Average aboveground C:N of biomass for this plant (gC/gN).</p></td>
 </tr>
-<tr class="row-even"><td><p>cNmax</p></td>
+<tr class="row-odd"><td><p>cNmax</p></td>
 <td><p>scalar</p></td>
 <td><p>Nitrogen: Maximum daily N uptake as fraction of plant biomass; valid range = 0-1.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Typically cNmax = (c*gmax)/C:N. Units = gN gC-1 d-1.</p></td>
 </tr>
-<tr class="row-even"><td><p>maintN</p></td>
+<tr class="row-odd"><td><p>maintN</p></td>
 <td><p>scalar</p></td>
 <td><p>Nitrogen daily maintenance requirement (gN gBiomass-1 d-1).</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p><strong>Reproducton:</strong></p></td>
 </tr>
-<tr class="row-even"><td><p>DP</p></td>
+<tr class="row-odd"><td><p>DP</p></td>
 <td><p>scalar</p></td>
 <td><p>Plant growth: diffusion: lateral dispersal and propagation (m2 d-1).</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Valid range is 0-1.</p></td>
 </tr>
-<tr class="row-even"><td><p>E</p></td>
+<tr class="row-odd"><td><p>E</p></td>
 <td><p>scalar</p></td>
 <td><p>Proportion of effort for vegetative (non-seeded) propagation (0-1);</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>1-E = proportion of effort for seeded propagation (0-1).</p></td>
 </tr>
-<tr class="row-even"><td><p>Kr</p></td>
+<tr class="row-odd"><td><p>Kr</p></td>
 <td><p>scalar</p></td>
 <td><p>Reproduction fraction per unit biomass (0-1).</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Includes both vegetative + seeded reproduction.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>seed</strong></p></td>
+<tr class="row-odd"><td><p><strong>seed</strong></p></td>
 <td><p>struct</p></td>
 <td><p><strong>Seed dispsersal propagation:</strong></p></td>
 </tr>
-<tr class="row-odd"><td><p>bmNewSeedling</p></td>
+<tr class="row-even"><td><p>bmNewSeedling</p></td>
 <td><p>scalar</p></td>
 <td><p>Initial aboveground biomass of a new seedling (g/m2).</p></td>
 </tr>
-<tr class="row-even"><td><p>bmMaxRepro</p></td>
+<tr class="row-odd"><td><p>bmMaxRepro</p></td>
 <td><p>scalar</p></td>
 <td><p>Fraction of maximum biomass per cell below which seed reproduction can occur (0-1).</p></td>
 </tr>
-<tr class="row-odd"><td><p>Kg</p></td>
+<tr class="row-even"><td><p>Kg</p></td>
 <td><p>scalar</p></td>
 <td><p>Constant germination rate == probability of germination (0-1).</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>mortality</strong></p></td>
+<tr class="row-odd"><td><p><strong>mortality</strong></p></td>
 <td><p>struct</p></td>
 <td><p><strong>Mortality configuration:</strong></p></td>
 </tr>
-<tr class="row-odd"><td><p>d</p></td>
+<tr class="row-even"><td><p>d</p></td>
 <td><p>scalar</p></td>
 <td><p>Background mortality rate: loss of plant density due to mortality (fraction d-1).</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p><strong>Water stress affecting mortality:</strong></p></td>
 </tr>
-<tr class="row-odd"><td><p>B0</p></td>
+<tr class="row-even"><td><p>B0</p></td>
 <td><p>scalar</p></td>
 <td><p>Water demand excess at the logistic function inflection point (range: &gt;= 0.0).</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Increasing values at a fixed water demand excess will decrease the mortality rate,</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>while the maximum rate of change of mortality remains constant.</p></td>
 </tr>
-<tr class="row-even"><td><p>B1</p></td>
+<tr class="row-odd"><td><p>B1</p></td>
 <td><p>scalar</p></td>
 <td><p>Maximum rate of change of mortality (range: &gt;= 0.0).</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>This is the maximum slope at the inflection point of the logistic function.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Increasing values increase the rate of change in mortality at the logistic inflection</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>point, and at a fixed water demand excess will increase the mortality rate.</p></td>
 </tr>
-<tr class="row-even"><td><p>lengthPeriod</p></td>
+<tr class="row-odd"><td><p>lengthPeriod</p></td>
 <td><p>scalar</p></td>
 <td><p>Number of days to track excess water demand.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>aeolianEffect</strong></p></td>
+<tr class="row-even"><td><p><strong>aeolianEffect</strong></p></td>
 <td><p>struct</p></td>
 <td><p><strong>Aeolian effects from biomass upon erosion/deposition:</strong></p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>This struct will have different fields and values for a grass or shrub:</p></td>
 </tr>
-<tr class="row-odd"><td><p><em>Grass:</em></p></td>
-<td><p></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p>minThreshold</p></td>
-<td><p>scalar</p></td>
-<td><p>Minimum aboveground biomass to be included in aeolian calculations (g/m2).</p></td>
-</tr>
-<tr class="row-odd"><td><p>B, Bmax, Bz</p></td>
-<td><p>scalar</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">grassEffect</span></code> equation parameters. E.g., B: 0.12, Bmax: 0.99, Bz: 1000.0</p></td>
-</tr>
-<tr class="row-even"><td><p><em>Shrub:</em></p></td>
+<tr class="row-even"><td><p><em>Grass:</em></p></td>
 <td><p></p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p>minThreshold</p></td>
+<td><p>scalar</p></td>
+<td><p>Minimum aboveground biomass to be included in aeolian calculations (g/m2).</p></td>
+</tr>
+<tr class="row-even"><td><p>B, Bmax, Bz</p></td>
+<td><p>scalar</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">grassEffect</span></code> equation parameters. E.g., B: 0.12, Bmax: 0.99, Bz: 1000.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><em>Shrub:</em></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>minThreshold</p></td>
 <td><p>scalar</p></td>
 <td><p>Minimum aboveground biomass to be included in aeolian calculations (g/m2).</p></td>
 </tr>
@@ -1892,6 +1902,10 @@ file structure, use the command:</p>
 <h3>Class SimTime<a class="headerlink" href="#class-simtime" title="Link to this heading">¶</a></h3>
 <p>Class SimTime contains static functions for convenience when converting
 between some date formats that are used in the simulation configuration.</p>
+<p>To see a list of all SimTime functions in GNU Octave, use the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">methods</span><span class="p">(</span><span class="s1">&#39;SimTime&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 <section id="todate">
 <h4>toDate<a class="headerlink" href="#todate" title="Link to this heading">¶</a></h4>
 <p>Return the year and day-of-year as a date string.</p>
@@ -2427,62 +2441,78 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="w">  </span><span class="c1">#</span>
 <span class="w">  </span><span class="c1"># name        - Common or scientific name of plant species</span>
 <span class="nt">  # type        - Type of plant</span><span class="p">:</span><span class="w"> </span><span class="nv">1 = grass</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">2 = shrub</span>
-<span class="w">  </span><span class="c1"># rmax        - Limiting growth rate (maximum daily new biomass as fraction of current biomass); range 0-1</span>
+<span class="w">  </span><span class="nt"># --- Biomass</span><span class="p">:</span>
 <span class="w">  </span><span class="c1"># Bmax        - Maximum biomass (g/m2)</span>
+<span class="w">  </span><span class="c1"># bmBgAgRatio - Ratio of belowground to aboveground biomass</span>
+<span class="w">  </span><span class="c1"># bmBgDist    - Belowground biomass distribution; fraction into each soil layer (sum to 1.0) [ per layer ]</span>
+<span class="w">  </span><span class="c1"># bmThreshold - Minimum biomass fraction (&lt; 1.0) for cell to be considered vegetated</span>
+<span class="nt">  # --- Growth</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># rmax        - Limiting growth rate (maximum daily new biomass as fraction of current biomass); range 0-1</span>
 <span class="nt">  # gmax        - Plant water uptake</span><span class="p">:</span><span class="w"> </span><span class="nv">maximum specific water uptake (mm g-1 m-2 d-1)</span>
 <span class="w">  </span><span class="c1">#               Proportional to 1/(Water maintenance); from Stewart table 4, grass.</span>
 <span class="nt">  #               Units</span><span class="p">:</span><span class="w"> </span><span class="nv">Rietkirk 1997 = (g g-1) d-1; Rietkirk 2002 = mm d-1 m2 g-1</span>
 <span class="w">  </span><span class="nt"># k1          - Plant water uptake</span><span class="p">:</span><span class="w"> </span><span class="nv">half-saturation constant of specific plant growth and water uptake (mm)</span>
 <span class="w">  </span><span class="nt"># c           - Plant growth</span><span class="p">:</span><span class="w"> </span><span class="nv">Rate of water uptake by plants to plant growth (g m-2 mm-1)</span>
 <span class="w">  </span><span class="nt">#               Units</span><span class="p">:</span><span class="w"> </span><span class="nv">Rietkirk 1997 = g g-1 d-1; Rietkirk 2002 = g mm-1 m-2</span>
-<span class="w">  </span><span class="nt"># DP          - Plant growth</span><span class="p">:</span><span class="nt"> diffusion</span><span class="p">:</span><span class="w"> </span><span class="nv">lateral dispersal and propagation (m2 d-1). Valid range is 0-1.</span>
-<span class="w">  </span><span class="c1"># bmBgAgRatio - Ratio of belowground to aboveground biomass</span>
-<span class="w">  </span><span class="c1"># bmBgDist    - Belowground biomass distribution; fraction into each soil layer (sum to 1.0) [ per layer ]</span>
-<span class="w">  </span><span class="c1"># bmThreshold - Minimum biomass fraction (&lt; 1.0) for cell to be considered vegetated</span>
-<span class="nt">  # teff        - Parameters to gpdf for temperature effect on growth</span><span class="p">:</span>
+<span class="w">  </span><span class="nt"># teff        - Parameters to gpdf for temperature effect on growth</span><span class="p">:</span>
 <span class="w">  </span><span class="c1">#               1 = Optimum temperature for production.</span>
 <span class="w">  </span><span class="c1">#               2 = Maximum temperature for production.</span>
 <span class="w">  </span><span class="c1">#               3 = Spread of the bell curve.</span>
 <span class="w">  </span><span class="c1">#               4 = Left curve shape.</span>
 <span class="nt">  # k2          - Infiltration</span><span class="p">:</span><span class="w"> </span><span class="nv">Rate at which infiltration increases with specific plant density (g m-2)</span>
+<span class="w">  </span><span class="nt"># --- Nitrogen</span><span class="p">:</span>
 <span class="w">  </span><span class="c1"># CN          - average aboveground C:N of biomass for this plant</span>
 <span class="nt">  # cNmax       - N</span><span class="p">:</span><span class="w"> </span><span class="nv">Maximum daily N uptake rate as fraction of plant biomass; valid range = 0-1.</span>
 <span class="w">  </span><span class="c1">#               Assume cNmax = (c*gmax)/C:N; units = gN gC-1 d-1</span>
 <span class="nt">  # maintN      - N</span><span class="p">:</span><span class="w"> </span><span class="nv">Nitrogen maintenance requirement (gN / g biomass / day)</span>
-<span class="w">  </span><span class="nt"># mortality</span><span class="p">:</span>
-<span class="nt">  #   d            - Background rate</span><span class="p">:</span><span class="w"> </span><span class="nv">specific loss of plant density due to mortality (fraction d-1).</span>
-<span class="w">  </span><span class="nt">#   B0           - Water demand excess at the logistic function inflection point (range</span><span class="p">:</span><span class="w"> </span><span class="err">&gt;</span><span class="nv">= 0.0).</span>
-<span class="w">  </span><span class="nt">#   B1           - Maximum rate of change of mortality (range</span><span class="p">:</span><span class="w"> </span><span class="err">&gt;</span><span class="nv">= 0.0).</span>
-<span class="w">  </span><span class="c1">#   lengthPeriod - Number of days to track excess water demand (integer).</span>
-<span class="nt">  # aeolianEffect</span><span class="p">:</span>
-<span class="w">  </span><span class="c1">#   minThreshold - minimum aboveground biomass to be included in aeolian calculations (g/m2)</span>
+<span class="w">  </span><span class="nt"># --- Reproducton</span><span class="p">:</span>
+<span class="nt">  # DP          - diffusion</span><span class="p">:</span><span class="w"> </span><span class="nv">lateral dispersal and propagation (m2 d-1). Valid range is 0-1.</span>
+<span class="w">  </span><span class="c1"># E           - Proportion of effort for vegetative (non-seeded) propagation (0-1);</span>
+<span class="w">  </span><span class="c1">#               1-E = proportion of effort for seeded propagation (0-1).</span>
+<span class="w">  </span><span class="c1"># Kr          - Reproduction fraction per unit biomass (0-1).</span>
+<span class="w">  </span><span class="c1">#               Includes both vegetative + seeded reproduction.</span>
+<span class="nt">  # --- Seeded reproduction</span><span class="p">:</span><span class="w"> </span><span class="nv">item &quot;seed&quot;</span>
+<span class="w">  </span><span class="c1">#   bmNewSeedling - Initial aboveground biomass of a new seedling (g/m2).</span>
+<span class="w">  </span><span class="c1">#   bmMaxRepro    - Fraction of maximum biomass per cell below which</span>
+<span class="w">  </span><span class="c1">#                   seed reproduction can occur within cell (0-1).</span>
+<span class="w">  </span><span class="c1">#   Kg            - Constant germination rate == probability of germination (0-1).</span>
+<span class="nt">  # --- Mortality</span><span class="p">:</span><span class="w"> </span><span class="nv">item &quot;mortality&quot;</span>
+<span class="w">  </span><span class="nt">#   d             - Background rate</span><span class="p">:</span><span class="w"> </span><span class="nv">specific loss of plant density due to mortality (fraction d-1).</span>
+<span class="w">  </span><span class="nt">#   B0            - Water demand excess at the logistic function inflection point (range</span><span class="p">:</span><span class="w"> </span><span class="err">&gt;</span><span class="nv">= 0.0).</span>
+<span class="w">  </span><span class="nt">#   B1            - Maximum rate of change of mortality (range</span><span class="p">:</span><span class="w"> </span><span class="err">&gt;</span><span class="nv">= 0.0).</span>
+<span class="w">  </span><span class="c1">#   lengthPeriod  - Number of days to track excess water demand (integer).</span>
+<span class="nt">  # --- aeolian effects</span><span class="p">:</span><span class="w"> </span><span class="nv">item &quot;aeolianEffect&quot;</span>
+<span class="w">  </span><span class="c1">#   minThreshold  - Minimum aboveground biomass to be included in aeolian calculations (g/m2).</span>
+<span class="w">  </span><span class="c1">#   B, Bmax, Bz   - Grasses: grassEffect equation parameters. E.g., B: 0.12, Bmax: 0.99, Bz: 1000.0</span>
 <span class="w">  </span><span class="s">&quot;plant&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
 <span class="w">    </span><span class="c1"># plant 1</span>
 <span class="w">    </span><span class="p p-Indicator">{</span>
 <span class="w">      </span><span class="s">&quot;name&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;black</span><span class="nv"> </span><span class="s">grama&quot;</span><span class="p p-Indicator">,</span>
 <span class="w">      </span><span class="s">&quot;type&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;rmax&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.01</span><span class="p p-Indicator">,</span>
 <span class="w">      </span><span class="s">&quot;Bmax&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">319</span><span class="p p-Indicator">,</span>
-<span class="nt">      # gmax - Rietkirk value</span><span class="p">:</span><span class="w"> </span><span class="nv">0.05</span>
-<span class="w">      </span><span class="nv">&quot;gmax&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.7</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;k1&quot;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">5.0</span><span class="p p-Indicator">,</span>
-<span class="nt">      # c - Rietkirk value</span><span class="p">:</span><span class="w"> </span><span class="nv">10.0</span>
-<span class="w">      </span><span class="nt"># From Stewart (2014) table 4</span><span class="p">:</span><span class="w"> </span><span class="nv">3.5/0.7</span>
-<span class="w">      </span><span class="nv">&quot;c&quot;</span><span class="p p-Indicator">:</span><span class="w">    </span><span class="nv">5.0</span><span class="p p-Indicator">,</span>
-<span class="nt">      # DP - Rietkirk value</span><span class="p">:</span><span class="w"> </span><span class="nv">0.1</span>
-<span class="w">      </span><span class="nv">&quot;DP&quot;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">0.01</span><span class="p p-Indicator">,</span>
 <span class="w">      </span><span class="s">&quot;bmBgAgRatio&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">1.44</span><span class="p p-Indicator">,</span>
 <span class="w">      </span><span class="s">&quot;bmBgDist&quot;</span><span class="p p-Indicator">:</span><span class="w">    </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">0.133</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.504</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.363</span><span class="w"> </span><span class="p p-Indicator">],</span>
 <span class="w">      </span><span class="s">&quot;bmThreshold&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.1</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">&quot;rmax&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.2</span><span class="p p-Indicator">,</span>
+<span class="nt">      # gmax</span><span class="p">:</span><span class="w"> </span><span class="nv">Rietkirk = 0.05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">Stewart = 0.7</span>
+<span class="w">      </span><span class="nv">&quot;gmax&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.7</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">&quot;k1&quot;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">5.0</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">&quot;c&quot;</span><span class="p p-Indicator">:</span><span class="w">    </span><span class="nv">10.0</span><span class="p p-Indicator">,</span>
 <span class="w">      </span><span class="c1"># for C4 grass</span>
-<span class="w">      </span><span class="s">&quot;teff&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">30.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">45.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">2.5</span><span class="w"> </span><span class="p p-Indicator">],</span>
+<span class="w">      </span><span class="s">&quot;teff&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">20.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">35.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">2.5</span><span class="w"> </span><span class="p p-Indicator">],</span>
 <span class="w">      </span><span class="s">&quot;k2&quot;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">5.0</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="c1"># nitrogen</span>
 <span class="w">      </span><span class="s">&quot;CN&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">58.0</span><span class="p p-Indicator">,</span>
 <span class="w">      </span><span class="s">&quot;cNmax&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.025</span><span class="p p-Indicator">,</span>
-<span class="nt">      # maintenance</span><span class="p">:</span><span class="w"> </span><span class="nv">Stewart (2014</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">table 4) = 0.125 / 365 days</span>
+<span class="nt">      # maintenance</span><span class="p">:</span><span class="w"> </span><span class="nv">Stewart (2014</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">table= 4) / 365 days</span>
 <span class="w">      </span><span class="nv">&quot;maintN&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.000343</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="c1"># biomass mortality</span>
+<span class="w">      </span><span class="s">&quot;DP&quot;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">0.01</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">&quot;E&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">0.9</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">&quot;Kr&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.2</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">&quot;seed&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">        </span><span class="s">&quot;bmNewSeedling&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">1.0</span><span class="p p-Indicator">,</span>
+<span class="w">        </span><span class="s">&quot;bmMaxRepro&quot;</span><span class="p p-Indicator">:</span><span class="w">    </span><span class="nv">0.9</span><span class="p p-Indicator">,</span>
+<span class="w">        </span><span class="s">&quot;Kg&quot;</span><span class="p p-Indicator">:</span><span class="w">            </span><span class="nv">0.5</span>
+<span class="w">      </span><span class="p p-Indicator">},</span>
 <span class="w">      </span><span class="s">&quot;mortality&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
 <span class="nt">        # d</span><span class="p">:</span><span class="w"> </span><span class="nv">Rietkirk = 0.25; exceeds growth rate. Using Stewart value.</span>
 <span class="w">        </span><span class="nv">&quot;d&quot;</span><span class="p p-Indicator">:</span><span class="w">            </span><span class="nv">0.00041</span><span class="p p-Indicator">,</span>
@@ -2490,10 +2520,8 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="w">        </span><span class="s">&quot;B1&quot;</span><span class="p p-Indicator">:</span><span class="w">           </span><span class="nv">1.0</span><span class="p p-Indicator">,</span>
 <span class="w">        </span><span class="s">&quot;lengthPeriod&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">30</span>
 <span class="w">      </span><span class="p p-Indicator">},</span>
-<span class="w">      </span><span class="c1"># grass-specific aeolian effects from biomass</span>
 <span class="w">      </span><span class="s">&quot;aeolianEffect&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
 <span class="w">        </span><span class="s">&quot;minThreshold&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">5.0</span><span class="p p-Indicator">,</span>
-<span class="w">        </span><span class="c1"># grassEffect equation parameters</span>
 <span class="w">        </span><span class="s">&quot;B&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.12</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Bmax&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.99</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Bz&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">1000.0</span>
 <span class="w">      </span><span class="p p-Indicator">}</span>
 <span class="w">    </span><span class="p p-Indicator">}</span>
@@ -2630,11 +2658,11 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="w">    </span><span class="c1">#   &quot;plant(1).gmax&quot;</span>
 <span class="w">    </span><span class="c1">#   &quot;input.precipitation&quot;</span>
 <span class="w">    </span><span class="c1">#   &quot;model.mounds.beta&quot;</span>
-<span class="w">    </span><span class="s">&quot;parameter&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;plant(1).gmax&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">&quot;parameter&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;plant(1).c&quot;</span><span class="p p-Indicator">,</span>
 <span class="w">    </span><span class="c1"># minimum and maximum values for parameter; vector 1x2</span>
-<span class="w">    </span><span class="s">&quot;range&quot;</span><span class="p p-Indicator">:</span><span class="w">     </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">15</span><span class="p p-Indicator">],</span>
+<span class="w">    </span><span class="s">&quot;range&quot;</span><span class="p p-Indicator">:</span><span class="w">     </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">14</span><span class="p p-Indicator">],</span>
 <span class="w">    </span><span class="c1"># number of values within range, inclusive; must be positive integer; if runType == 1, sweepSize = 1</span>
-<span class="w">    </span><span class="s">&quot;sweepSize&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">8</span>
+<span class="w">    </span><span class="s">&quot;sweepSize&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">7</span>
 <span class="w">  </span><span class="p p-Indicator">},</span>
 <span class="w">  </span><span class="c1">#</span>
 <span class="w">  </span><span class="c1"># Random trials</span>

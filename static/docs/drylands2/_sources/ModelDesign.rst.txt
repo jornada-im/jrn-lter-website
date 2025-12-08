@@ -195,6 +195,7 @@ Algorithmic:
     .. code::
 
         aeolian/*
+        mounds/*
         BiomassFun
         buildLaplacians
         Competition
@@ -204,9 +205,9 @@ Algorithmic:
         Infiltration
         initialConditions
         Mortality
-        mounds/*
         Plant
         Roots
+        Seed
         SoilNEq
         soilWaterUptake
         WaterStress
@@ -260,7 +261,7 @@ Sweeps:
 
     .. code::
 
-        SweepParams
+        SweepConfig
         SweepSeq
         plot/GraphsSweeps
 
@@ -268,7 +269,7 @@ Sweeps:
 Execution Psuedocode
 ----------------------
 
-The following psuedocode does not include simulation of mounds.
+The following psuedocode does not include simulation of mounds or trials.
 
 .. code::
 
