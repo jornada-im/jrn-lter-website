@@ -1,0 +1,1278 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Drylands2 Model Manual" href="Manual.html"><link rel="prev" title="Drylands2 Model Design" href="ModelDesign.html">
+
+    <!-- Generated with Sphinx 8.2.3 and Furo 2025.09.25 -->
+        <title>Drylands2 Model Equations - Drylands2 model 6.5.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Drylands2 model 6.5.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <span class="sidebar-brand-text">Drylands2 model 6.5.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ModelDesign.html">Drylands2 Model Design</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Drylands2 Model Equations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Manual.html">Drylands2 Model Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aeolian/AeolianEffect-Algorithms.html">Drylands2 Model: Aeolian Effect Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aeolian/creosote-biomass-height-equation.html">Creosote: Shrub height = F(biomass)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aeolian/creosote-biomass-lateralCover-equation.html">Cross-sectional area of creosote as a function of biomass</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/jornada-im/Drylands2/blob/main/doc/source/ModelEquations.rst?plain=true" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/jornada-im/Drylands2/edit/main/doc/source/ModelEquations.rst" rel="edit" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="drylands2-model-equations">
+<h1>Drylands2 Model Equations<a class="headerlink" href="#drylands2-model-equations" title="Link to this heading">¶</a></h1>
+<p>Based in part upon Rietkerk et al. (2002) and Rietkerk et al. (1997)</p>
+<p>The processes are:</p>
+<ul class="simple">
+<li><p>surface water ponding and diffusion,</p></li>
+<li><p>infiltration,</p></li>
+<li><p>evaporation from the surface soil layer,</p></li>
+<li><p>drainage from subsurface soil layers,</p></li>
+<li><p>soil water uptake by plant roots,</p></li>
+<li><p>soil water lateral diffusion,</p></li>
+<li><p>plant-available nitrogen cycling,</p></li>
+<li><p>plant growth,</p></li>
+<li><p>plant mortality.</p></li>
+</ul>
+<p>The pools of biomass and water and plant-available nitrogen are modified
+by PDEs: Change in surface water, change in soil water, change in N,
+change in plant biomass, and optionally, surface water convection off
+mounds.</p>
+<section id="soil-infiltration-rate-mm-d-1">
+<h2>Soil Infiltration Rate (mm d<sup>-1</sup>)<a class="headerlink" href="#soil-infiltration-rate-mm-d-1" title="Link to this heading">¶</a></h2>
+<p>Infiltration is assumed to occur homogeneously throughout the soil
+depth, and at a rate much less than one day. This assumption of
+approximately constant hydraulic conductivity is used within the context
+of the daily timestep of the model. The monsoon rain events mostly occur
+within one hour (Keller et al, 2023), and runoff generally is not
+present for most rain events (&lt; 10 mm/event). The histogram below shows
+percentages for 5 mm/day intervals for JRN site C-SAND; approximately
+85% of rain events are &lt; 10 mm in amount.</p>
+<p>Infiltration is estimated using a Michaelis-Menten equation (see
+Rietkirk et al. (2002), Walter et al. (1981)) as a function of surface
+water and plant biomass density:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[{I = {O \times \alpha}}\frac{{P + k_{2}}W_{0}}{P + k_{2}}\]</div>
+</div>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>Rietkirk value</p></td>
+<td><p>Stewart value</p></td>
+</tr>
+<tr class="row-even"><td><p>O (mm)</p></td>
+<td><p>Surface water
+including new
+precipitation</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><em>α</em>
+(d<sup>-1</sup>)</p></td>
+<td><p>Maximum daily
+infiltration
+fraction.</p></td>
+<td><p>0.2</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>P (g
+m<sup>-2</sup>)</p></td>
+<td><p>Plant biomass</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>k<sub>2</sub> (g
+m<sup>-2</sup>)</p></td>
+<td><p>Rate at which
+infiltration
+increases with
+specific plant
+density.
+In
+Michaelis–Menten
+equation,
+k<sub>1</sub> is
+the uptake at
+I/2.</p></td>
+<td><p>5.0</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>W<sub>0</sub> (-)</p></td>
+<td><p>Minimum
+infiltration
+fraction in the
+absence of
+plants; this is
+proportional to
+hydraulic
+conductivity of
+the surface
+soil.</p></td>
+<td><p>0.2</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><a class="reference internal" href="Pictures/10000000000007080000028A8286E81A.png"><img alt="image1" src="Pictures/10000000000007080000028A8286E81A.png" style="width: 6.2299in; height: 2.25in;" /></a></p>
+<p><a class="reference internal" href="Pictures/100000010000051E0000027EB0BCFC38.png"><img alt="image2" src="Pictures/100000010000051E0000027EB0BCFC38.png" style="width: 4.6402in; height: 2.2598in;" /></a></p>
+<section id="discussion-of-infiltration-equation">
+<h3>Discussion of Infiltration Equation<a class="headerlink" href="#discussion-of-infiltration-equation" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>From Walker et al (1981): Because semi-arid savanna is a water-limited
+system, any reduction in the rate of water infiltration into the soil
+is critical. On medium to heavy-textured soils, infiltration decreases
+as the surface pores become sealed (‘capping’) and soil erodes, and
+capping and erosion increase in rate as grass-cover and litter-cover
+decline. In Rhodesian grasslands and savanna, sites without litter
+have an infiltration rate into a loamy savanna soil of 1.4 mm/minute,
+or approximately 2000 mm/day (Kelly &amp; Walker, 1976, tables 8 and 9);
+litter increases the infiltration rate to about ten times.</p></li>
+<li><p>On the other hand, woody plants can influence the water content of the
+subsoil. The canopy intercepts rain and funnels it down the stem and
+into the soil at the tree base. Pressland (1973), working in an
+Australian savanna, has recorded a six-fold increase in the amount of
+water percolating into the soil below trees as compared to open areas,
+and Reynolds (1966) has noted a similar phenomenon in a British
+woodland. Further means by which water penetrates preferentially to
+the subsoil are the quick-flow channels or tongues of preferred flow
+associated with wetting front instability.</p></li>
+<li><p>In the absence of any grass there will still be some infiltration
+(i<sub>0</sub>). This minimum is likely to be about 10% of the maximum
+(Kelly &amp; Walker, 1976). The rate of infiltration will initially
+increase rapidly as G increases and then approach the maximum
+asymptotically with increasing G, as depicted in Fig. 1.</p></li>
+</ul>
+<p><a class="reference internal" href="Pictures/10000001000003F400000396B0D45B0B.png"><img alt="image3" src="Pictures/10000001000003F400000396B0D45B0B.png" style="width: 2.2in; height: 2in;" /></a></p>
+<p>Crust:</p>
+<ul class="simple">
+<li><p>Generally on sandy soils, mature biologic soil crust inhibits
+infiltration relative to bare soil (Warren, 2014).</p></li>
+<li><p>In dune sand and sandy loess soils, crust inhibits infiltration
+relative to scraped soil (Eldridge et al., 2000).</p></li>
+<li><p>In calcareous SL and SiL textured soils, infiltration is higher in
+crust vs scraped soil (Chamizo et al, 2016, fig. 2).</p></li>
+<li><p>Infiltration can be higher in rugose crust in arid drylands relative
+to non-crust surfaces due aggregation and crust biology, but the data
+is mixed (Belnap, 2006).</p></li>
+<li><p>The Jornada LTER NPP sites (non-playa) are relatively coarse textured
+(LS to SL), with the finest being SCL (site FLCE).</p></li>
+</ul>
+</section>
+</section>
+<section id="evaporation-mm-d-1">
+<h2>Evaporation (mm d<sup>-1</sup>)<a class="headerlink" href="#evaporation-mm-d-1" title="Link to this heading">¶</a></h2>
+<p>The amount of actual evaporation is assumed to generally decrease as
+biomass density increases (CITE).</p>
+<p>Evaporation is from the surface soil layer only. Actual evaporation is
+estimated using the inverse generalized Gompertz equation with potential
+bare soil evaporation and biomass as controlling parameters:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[{E_{\mathit{est}} = E_{\mathit{pot}}}\left( {1.0 - b^{{- c}b^{{- E_{\mathit{mr}}}P}}} \right)\]</div>
+</div>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>E<sub>pot</sub> (mm)</p></td>
+<td><p>Daily potential evaporation for bare soil, or
+evaporation demand; from F(temperature) or
+field measurements. This is the maximum
+asymptote. Potential evaporation should not
+exceed available soil water in the surface
+layer (W), and should not be less than the
+minimum daily potential evaporation under the
+plant canopy (E<sub>0</sub>).</p></td>
+</tr>
+<tr class="row-even"><td><p>b</p></td>
+<td><p>Changes the relative lengths of the minimum and
+maximum asymptotes; b &gt; e increases the length
+of the minimum asymptote. This value could be
+proportional to the radius of a shrub’s canopy,
+or the influence of aboveground biomass density
+upon limiting bare soil evaporation.</p></td>
+</tr>
+<tr class="row-odd"><td><p>c</p></td>
+<td><p>Sets the displacement along the x-axis of the
+inflection point; smaller values shift the
+curve left.</p></td>
+</tr>
+<tr class="row-even"><td><p>E<sub>mr</sub></p></td>
+<td><p>Slope of the curve at the inflection point;
+proportional to the maximum change in
+evaporation with biomass. This could reflect
+the change in shading or protection from wind
+at the edge of the biomass.
+E.g., E<sub>mr</sub> = (E<sub>maximum</sub> –
+E<sub>minimum</sub>) / (Max. potential biomass).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Grasses and shrubs will have different values for E<sub>mr</sub> and
+E<sub>0</sub>, and possibly b and c.</p>
+<p><a class="reference internal" href="Pictures/10000000000004B0000004B0DE403A68.png"><img alt="image4" src="Pictures/10000000000004B0000004B0DE403A68.png" style="width: 2.25in; height: 2.25in;" /></a></p>
+<p>Potential evaporation is calculated from an equation which can be
+derived from field measurements. For example, JRN sites C-SAND and
+G-IPBE have estimated daily evaporation strongly correlated with average
+daily temperature:</p>
+<p><a class="reference internal" href="Pictures/100000000000096000000514DDD74E4D.png"><img alt="image5" src="Pictures/100000000000096000000514DDD74E4D.png" style="width: 4.1598in; height: 2.25in;" /></a>These equations should be provided in the model configuration
+item <em>model.params.Epot</em>.</p>
+<section id="discussion-of-evaporation-equation">
+<h3>Discussion of Evaporation Equation<a class="headerlink" href="#discussion-of-evaporation-equation" title="Link to this heading">¶</a></h3>
+<p>From Breshears et al (1998):</p>
+<ul class="simple">
+<li><p>Mean monthly soil temperature in intercanopy patches exceeded that in
+canopy patches by at least 1 C from April through August, while the
+converse was true from October through February.</p></li>
+<li><p>During late spring and summer (May–August), the integrated difference
+in soil water potential between the two patch types over a day was
+positive, indicating that soil evaporation was greater in intercanopy
+than canopy patches. In contrast, during fall and winter months, the
+difference between intercanopy and canopy soil water potential was
+negative (fig. 5), indicating that soil evaporation was less in
+intercanopy than in canopy patches.</p></li>
+<li><p>Kelly &amp; Walker (1976) show that within the top 40 cm of soil, the soil
+dries rapidly; “soil moisture content did not exceed 5% for more than
+five weeks after a single wet period.”</p></li>
+</ul>
+</section>
+</section>
+<section id="soil-water-loss-from-drainage-mm-d-1">
+<h2>Soil water loss from drainage (mm d<sup>-1</sup>)<a class="headerlink" href="#soil-water-loss-from-drainage-mm-d-1" title="Link to this heading">¶</a></h2>
+<p>Soil water drainage from the bottom of the soil profile is assumed to
+occur only from the soil layers below the surface layer. The drainage
+amount is a constant fraction of soil water content.</p>
+<p>The amount of drainage cannot reduce the soil water content below the
+field capacity of the soil layer. Field capacity (see class <em>Constants</em>)
+is defined as the fraction of the soil layer thickness (mm),
+representing the volume of soil water remaining after gravity drainage
+is essentially complete.</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[W_{L} = {r_{W} \times W}\]</div>
+</div>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>Rietkirk value</p></td>
+<td><p>Stewart value</p></td>
+</tr>
+<tr class="row-even"><td><p>r<sub>w</sub>
+(d<sup>-1</sup>)</p></td>
+<td><p>Specific soil
+water loss due
+to drainage;
+fraction per
+day.</p></td>
+<td><p>0.2</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>W (mm)</p></td>
+<td><p>Soil water
+content of the
+soil layer.</p></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="resource-drainage">
+<h3>Resource Drainage<a class="headerlink" href="#resource-drainage" title="Link to this heading">¶</a></h3>
+<p>For resources that are associated with soil water, they should drain in
+proportion to their relative amount. For soil N, the amount of N within
+the soil layer is assumed to be all water-soluable; then the amount
+drained is proportional to the fraction of soil water drained.</p>
+</section>
+</section>
+<section id="plant-soil-water-uptake-mm-d-1">
+<h2>Plant Soil Water Uptake (mm d<sup>-1</sup>)<a class="headerlink" href="#plant-soil-water-uptake-mm-d-1" title="Link to this heading">¶</a></h2>
+<p>Plants take up soil water proportional to plant biomass. Uptake is
+estimated separately for each soil layer.</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[{U = {g_{\mathit{\max}} \times \frac{W}{W + k_{1}} \times P}},\mspace{72mu}{U = \mathit{\min}}{({U,W\mathit{exceeding}\mathit{field}\mathit{capacity}})}\]</div>
+</div>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>Rietkirk value</p></td>
+<td><p>Stewart value</p></td>
+</tr>
+<tr class="row-even"><td><p>g<sub>max</sub>
+(mm m<sup>-2</sup>
+g C<sup>-1</sup>
+d<sup>-1</sup>)</p></td>
+<td><p>Maximum specific
+water uptake =
+maintenance
+efficiency.</p></td>
+<td><p>0.05</p></td>
+<td><p>0.7</p></td>
+</tr>
+<tr class="row-odd"><td><p>k<sub>1</sub> (mm)</p></td>
+<td><p>Half-saturation
+constant of
+water uptake.</p>
+<p>In
+Michaelis–Menten
+equation,
+k<sub>1</sub> is
+the uptake at
+g<sub>max</sub>/2.</p>
+</td>
+<td><p>5.0</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>W (mm)</p></td>
+<td><p>Soil water
+content of soil
+layer.</p></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Uptake potential demand (not constrained by W):</p>
+<p><a class="reference internal" href="Pictures/10000000000007080000028A36A597D4.png"><img alt="image6" src="Pictures/10000000000007080000028A36A597D4.png" style="width: 6.2299in; height: 2.25in;" /></a></p>
+<p>Actual uptake demand (limited by W):</p>
+<p><a class="reference internal" href="Pictures/10000000000007080000028ADE89997D.png"><img alt="image7" src="Pictures/10000000000007080000028ADE89997D.png" style="width: 6.2299in; height: 2.25in;" /></a></p>
+<section id="implementation">
+<h3>Implementation<a class="headerlink" href="#implementation" title="Link to this heading">¶</a></h3>
+<p>Estimates of root biomass per soil layer are calculated from parameters
+for each plant species. The root biomass is used in the soil water
+uptake equation.</p>
+</section>
+</section>
+<section id="change-in-surface-water-o-mm">
+<h2><strong>Change in Surface Water O (mm)</strong><a class="headerlink" href="#change-in-surface-water-o-mm" title="Link to this heading">¶</a></h2>
+<p>dO = Convection + Rainfall – Infiltration + Overland Flow</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[{\frac{\partial O}{\partial t} = {\rho + R - I + D_{O}}}\frac{LO}{\partial x^{2}}\]</div>
+</div>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><em>ρ</em> (mm d<sup>-1</sup>)</p></td>
+<td><p>On-mound surface water
+convection rate</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>R (mm d<sup>-1</sup>)</p></td>
+<td><p>Precipitation rate</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>D<sub>O</sub> (m<sup>2</sup>
+d<sup>-1</sup>)</p></td>
+<td><p>Diffusion coefficient for
+surface water
+(HilleRisLambers et al.
+2001)</p></td>
+<td><p>10.0</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>L</p></td>
+<td><p>Diffusion: Laplacian 2D
+matrix.</p></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="change-in-soil-water-w-mm-d-1">
+<h2><strong>Change in Soil Water W (mm d</strong><sup>-1</sup><strong>)</strong><a class="headerlink" href="#change-in-soil-water-w-mm-d-1" title="Link to this heading">¶</a></h2>
+<p>dW = Infiltration – Plant Uptake – Vertical Flux + Lateral Flux</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[{\frac{\partial W}{\partial t} = {I - U - W_{L} + D_{w}}}\frac{LW}{\partial x^{2}}\]</div>
+</div>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>Rietkirk value</p></td>
+<td><p>Stewart value</p></td>
+</tr>
+<tr class="row-even"><td><p>D<sub>w</sub> (m2
+d-1)</p></td>
+<td><p>Lateral Flux:
+Diffusion
+coefficient for
+soil water</p></td>
+<td><p>0.1</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>For multiple soil layers, this equation is applied separately to each
+layer.</p>
+</section>
+<section id="nitrogen">
+<h2><strong>Nitrogen</strong><a class="headerlink" href="#nitrogen" title="Link to this heading">¶</a></h2>
+<p>dN = external N inputs + N from plant decomposition - plant N uptake -
+physical removal of N</p>
+<p>Soil nitrogen inputs considered here are atmospheric deposition, aeolian
+deposition, decomposition of plant material, and browser urine/feces.
+Currently, atmospheric deposition and plant material input are
+implemented. Soil nitrogen removals include plant uptake, browsing,
+water and aeolian erosion, N volatization, leaching, and lateral
+dispersion. Currently, plant uptake and leaching are implemented.</p>
+<p>The change in plant-available soil nitrogen is from Rietkerk et al
+(1997), eq. 7:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[{\frac{\mathit{dN}}{\mathit{dt}} = {N_{\mathit{input}} - c_{N}}}{P - r_{N}}N\]</div>
+</div>
+<p>The aboveground biomass growth fraction from plant-available soil
+nitrogen is associated with plant water uptake (Rietkerk et al, 1997,
+eq. 8):</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[{g_{N} = {g_{N,\mathit{\max}} \times \frac{N}{N + k_{1}}}},\mspace{108mu}{\mathit{units} = g}{C/g}{C_{\mathit{biomass}}/\mathit{day}}\]</div>
+</div>
+<p>The soil N uptake due to that biomass increase, as the fraction of plant
+biomass (from Rietkerk et al, 1997, eq. 9):</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[{c_{N,\mathit{up}} = {c_{N,\mathit{\max}} \times \frac{N}{N + k_{1}}}},\mspace{108mu}{\mathit{units} = g}{N/g}{C_{\mathit{biomass}}/\mathit{day}}\]</div>
+</div>
+<p>Plant mortality contribution to soil N is provided by the mortality rate
+and the C:N of the plant material:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[{d_{N,i} = {{({P_{i} \times d_{i}})}/R_{i}}},\mspace{72mu}{R_{i} = C}:N\mathit{of}\mathit{plant}\mathit{part}i;\mspace{72mu}{\mathit{units} = g}{N/\mathit{day}}\]</div>
+</div>
+<p>Then, the total plant contribution to change in soil N is:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[c_{N} = {c_{N,\mathit{up}} - {\sum\limits_{i}d_{N,i}}}\]</div>
+</div>
+<p>Physical processes cause loss of soil N, including leaching, erosion,
+volatization, and lateral dispersion with surface and soil water.
+Currently only leaching is implemented. Leaching is proportional to soil
+water drainage.</p>
+<p>Rietkerk et al, 1997 (eq. 10) proposed the following Michaelis-Menten
+equation for water and wind erosion loss as a function of aboveground
+biomass. In the case of monsoon events, k2 may need to be a function of
+event intensity (both rain and wind).</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[r_{N} = {r_{N,\mathit{\max}} \times \frac{k_{2}}{k_{2} + P}}\]</div>
+</div>
+<p>Equation terms are:</p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>N</p></td>
+<td><p>g</p></td>
+<td><p>Nitrogen: plant
+available soil N.
+Implemented as N
+per soil layer.</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>g<sub>N,max</sub></p></td>
+<td><p>g C g C<sup>-1</sup>
+d<sup>-1</sup></p></td>
+<td><p>Maximum daily
+growth rate as
+fraction of plant
+biomass.</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>c<sub>N,max</sub></p></td>
+<td><p>g N g C<sup>-1</sup>
+d<sup>-1</sup></p></td>
+<td><p>Maximum daily N
+uptake rate as
+fraction of plant
+biomass.</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>d</p></td>
+<td><p>d<sup>-1</sup></p></td>
+<td><p>Specific loss of
+biomass due to
+mortality
+(fraction).</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>c<sub>N</sub></p></td>
+<td><p>g N g C<sup>-1</sup>
+d<sup>-1</sup></p></td>
+<td><p>Total plant
+contribution to
+change in soil N.</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>r<sub>N,max</sub></p></td>
+<td><p>d<sup>-1</sup></p></td>
+<td><p>Maximum soil N
+loss when plant
+biomass is zero.</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>r<sub>N</sub></p></td>
+<td><p>d<sup>-1</sup></p></td>
+<td><p>Soil N loss
+through physical
+processes.</p></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="n-implementation">
+<h3>N Implementation<a class="headerlink" href="#n-implementation" title="Link to this heading">¶</a></h3>
+<p>C:N values: Each plant part, wood, shoot and leaf, coarse roots and fine
+roots, will have a different C:N ratio. Here assume shrubs have all four
+parts, and grasses have shoots and fine roots.</p>
+<p>Each plant species will have an N pool associated with the plant
+biomass, since the parameters used in the equations above
+(g<sub>N,max</sub>, k<sub>1</sub>, c<sub>N,max</sub>, C:N) are plant-specific.
+Parameter c<sub>N,max</sub> is specified in the configuration. Parameter
+g<sub>N,max</sub> is assumed to be the maximum daily new biomass as
+fraction of current biomass, i.e., configuration parameter r<sub>max</sub>
+(see <strong>Plant Growth</strong>).</p>
+<p>Source of N inputs: As with precipitation, N input can be a constant
+daily value, or read from a data file.</p>
+<p>Future considerations:</p>
+<ul class="simple">
+<li><p>Implement soil N pools per soil layer; currently there is one N pool
+for the entire soil depth.</p></li>
+<li><p>Add a lateral dispersion term to the change in N, e.g.,
+<em>D</em><sub>N</sub><em>*LN/x</em><sup>2</sup>. N amount is proportional to surface
+and soil water dispersion (amounts may be very small - important?)</p></li>
+<li><p>Add water and aeolian erosion as the r<sub>N</sub> term. (Amounts may be
+very small - important?)</p></li>
+<li><p>Add volatization to r<sub>N</sub> term. Volatization is a function of
+near-surface N concentration and soil temperature. (Independent of
+biomass?)</p></li>
+<li><p>Add to c<sub>N</sub> a term for removal of biomass due to browsing.</p></li>
+</ul>
+<p>For multiple plant species, the terms c<sub>N</sub>, d, and d<sub>N</sub>
+are specific for each species. This modifies the equation of change in N
+to be:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[{\frac{\mathit{dN}}{\mathit{dt}} = {N_{\mathit{input}} - {\sum\limits_{p}\left( {c_{N}{{(P_{p})} \times P_{p}}} \right)} - r_{N}}}N\]</div>
+</div>
+<p>where p is the index to the plant array.</p>
+</section>
+</section>
+<section id="plant-growth-g-m-2-d-1">
+<h2><strong>Plant Growth (g m</strong><sup>-2</sup> <strong>d</strong><sup>-1</sup><strong>)</strong><a class="headerlink" href="#plant-growth-g-m-2-d-1" title="Link to this heading">¶</a></h2>
+<p>Water uptake for growth:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\mathit{dP}_{U} = \mathit{cU}\]</div>
+</div>
+<p>Potential growth from maximum biomass (uses logistic growth curve):</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[{\mathit{dP}_{B} = {r_{\mathit{\max}} \times P}}\left( {1 - \frac{P}{B_{\mathit{\max}}}} \right)\]</div>
+</div>
+<p>Potential growth from daily temperature (see <strong>Temperature Effect Upon
+Growth</strong> below):</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[{\mathit{dP}_{T} = \mathit{gpdf}}{{({T,a,b,c,d})} \times \mathit{potential}}\mathit{growth}\]</div>
+</div>
+<p>Potential growth from N limitation:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[{\mathit{dP}_{N} = g_{N}}P\]</div>
+</div>
+<p>Daily growth = minimum of the above potentials.</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[{G = \mathit{minimum}}{({\mathit{dP}_{U},\mathit{dP}_{B},\mathit{dP}_{T},\mathit{dP}_{N}})}\]</div>
+</div>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>Rietkirk value</p></td>
+<td><p>Stewart value</p></td>
+</tr>
+<tr class="row-even"><td><p>c (g C
+mm<sup>-1</sup>
+m<sup>-2</sup>
+d<sup>-1</sup>)</p></td>
+<td><p>Growth:
+Converts rate
+of water uptake
+to new biomass.</p>
+<p>Multiplier of
+maintenance
+water use for
+new growth,
+proportional to
+WUE.</p>
+</td>
+<td><p>10.0</p></td>
+<td><p>(0.7+3.5)/0.7 =
+5.7</p>
+<p>(WUE should be
+2-7 g bio/kg
+H2O)</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>r<sub>max</sub>
+(d<sup>-1</sup>)</p></td>
+<td><p>Maximum daily
+rate of growth
+as a fraction
+of current
+biomass.</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>B<sub>max</sub>
+(g)</p></td>
+<td><p>Maximum biomass
+for this plant
+species.</p></td>
+<td></td>
+<td><p>319 (black
+grama)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><a class="reference internal" href="Pictures/10000000000004B00000028AAB6762E6.png"><img alt="image8" src="Pictures/10000000000004B00000028AAB6762E6.png" style="width: 4.6098in; height: 2.5in;" /></a></p>
+<section id="temperature-effect-upon-growth">
+<h3>Temperature Effect Upon Growth<a class="headerlink" href="#temperature-effect-upon-growth" title="Link to this heading">¶</a></h3>
+<p>Parameterization of a generalized Poisson density function curve to
+simulate temperature effect on growth (Parton and Innis, 1972):</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[f = \frac{b - T}{b - a}\]</div>
+</div>
+<p>Position of temperature T on the interval [a, b], as a fraction.</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\mathit{gpdf} = {f^{c} \times e^{({\frac{c}{d}{({1 - f^{d}})}})}}\]</div>
+</div>
+<p>Poisson density function returning a value on [0, 1] corresponding to
+T.</p>
+<div class="line-block">
+<div class="line">Where:</div>
+<div class="line">a = Optimum temperature for production; the peak of the curve.</div>
+<div class="line">b = Maximum temperature for production; larger values = broader bell
+shape, and production is less sensitive to soil temperature.</div>
+<div class="line">c = Spread of the bell curve; smaller values = broader bell shape, and
+production is less sensitive to soil temperature.</div>
+<div class="line">d = Left curve shape; smaller values = more production at lower
+temperatures.</div>
+</div>
+<p><a class="reference internal" href="Pictures/1000000000000640000006406A08F5CC.png"><img alt="image9" src="Pictures/1000000000000640000006406A08F5CC.png" style="width: 6in; height: 6in;" /></a></p>
+</section>
+<section id="discussion-of-growth-equations">
+<h3><strong>Discussion of Growth Equations</strong><a class="headerlink" href="#discussion-of-growth-equations" title="Link to this heading">¶</a></h3>
+<p>From Burnett et al (2012):</p>
+<ul class="simple">
+<li><p>Aboveground production of B. eriopoda grasslands is strongly driven by
+seasonal (monsoon) precipitation and temperature (Gosz and Gosz 1996,
+Muldavin et al. 2008, Collins et al. 2010) …</p></li>
+</ul>
+</section>
+</section>
+<section id="mortality">
+<h2>Mortality<a class="headerlink" href="#mortality" title="Link to this heading">¶</a></h2>
+<p>The model uses a relatively simple biomass mortality algorithm to relate
+mortality fraction to plant water stress. The main variables used to
+approximate water stress are plant soil water demand, plant-available
+soil water content, and duration of the water stress. Much of the
+literature emphasizes thresholds which determine changes in the
+mortality rate. For modeling, a continuous function allows for a simpler
+algorithmic representation than thresholds. Each plant species has it’s
+own mortality parameterization and hence rate calculation. The time
+scale in the model is daily for both soil moisture and biomass
+mortality.</p>
+<p>Water stress here is defined as plant demand for soil water beyond what
+is available. Cumulative water stress as considered here is unmet plant
+demand for soil water over a fixed time period. From Fu et al. (2002):</p>
+<p>The critical soil moisture (SM) threshold (Θ<sub>crit</sub>) of plant
+water stress occurs near the point when evapotranspiration becomes
+SM-limited. …when SM is lower than Θ<sub>crit</sub>, the capacity of
+plants to extract soil water by roots and xylem transport becomes
+progressively reduced. Under this SM-­limited regime, evapotranspiration
+decreases with decreasing SM until the wilting point, where
+transpiration is blocked because of full stomatal closure, with little
+or no further change in EF with SM decrease.</p>
+<p>The physiological effects of water stress that produce mortality are not
+directly addressed in this modeling approach.</p>
+<section id="mortality-vs-water-stress">
+<h3>Mortality vs Water Stress<a class="headerlink" href="#mortality-vs-water-stress" title="Link to this heading">¶</a></h3>
+<p>The relationship between water stress (and resulting mortality) and soil
+water content is often defined as one or more thresholds (see Fu et al,
+2022, figures 1B and 1C and equation 1). Barkaoui and Volaire (2023) use
+logistic function to fit survival rate vs. SWC and plant water content
+(see their eq. 1, and figure 3b). The form of the equation is:</p>
+<p><em>S = 1 / (1 + e</em><sup>-(B0-B1*SWC)</sup><em>)</em></p>
+<p>where</p>
+<div class="line-block">
+<div class="line-block">
+<div class="line"><em>B0</em> = SWC at the logistic function inflection point.</div>
+</div>
+<div class="line"><em>B1</em> = Maximum rate of change of survival.</div>
+<div class="line"><em>SWC</em> = soil water content</div>
+</div>
+<p>Then the mortality rate is <em>1-S</em>. In that equation, <em>SWC</em> can be
+replaced by excess demand of soil water content by plants:</p>
+<p><em>M = 1 / (1 + e</em><sup>(B0-B1*E)</sup><em>)</em></p>
+<p>where</p>
+<p><em>E</em> = Difference of plant water demand - available soil water as a
+fraction of soil water content.</p>
+<p>The script <strong>plot-mortality.m</strong> provides graphs of <em>M</em> vs. <em>E</em> for
+varying <em>B0</em>.</p>
+</section>
+<section id="implementation-1">
+<span id="id1"></span><h3>Implementation<a class="headerlink" href="#implementation-1" title="Link to this heading">¶</a></h3>
+<p>Each plant species specifies the parameters <em>B0</em>, <em>B1</em>, and the length
+of the stress period defining the plant’s response to water stress. The
+stress period is the number of days prior to the current simulation day,
+and the length is constant. Each day’s value of <em>E</em> is added to the
+stress period, dropping the oldest value, and the sum is the resulting
+<em>E</em> for the stress period.</p>
+<p>The daily background rate is also specified for each species, and is
+added to the water stress calculation.</p>
+</section>
+<section id="some-considerations-not-implemented">
+<h3>Some considerations not implemented:<a class="headerlink" href="#some-considerations-not-implemented" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Effect of high temperatures upon water stress.</p></li>
+<li><p>Increase in root mass with drought stress (Wach and Skowron, 2022).</p></li>
+<li><p>Change in water use efficiency with drought stress (Wach and Skowron,
+2022).</p></li>
+</ul>
+</section>
+</section>
+<section id="change-in-plant-biomass-p-g-m-2-d-1">
+<h2><strong>Change in Plant Biomass P (g m</strong><sup>-2</sup> <strong>d</strong><sup>-1</sup><strong>)</strong><a class="headerlink" href="#change-in-plant-biomass-p-g-m-2-d-1" title="Link to this heading">¶</a></h2>
+<p>dP = Growth – Mortality + Propagation</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[{\frac{\partial P}{\partial t} = {G - {({d \times P})} + D_{P}}}\frac{LP}{\partial x^{2}}\]</div>
+</div>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p>Rietkirk value</p></td>
+<td><p>Stewart value</p></td>
+</tr>
+<tr class="row-even"><td><p>G (g
+m<sup>-2</sup>)</p></td>
+<td><p>Daily potential
+growth.</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>d
+(d<sup>-1</sup>)</p></td>
+<td><p>Mortality:
+Specific loss
+of plant
+density due to
+mortality.</p></td>
+<td><p>0.25</p></td>
+<td><p>(0.1+0.05)/365</p></td>
+</tr>
+<tr class="row-even"><td><p>D<sub>p</sub>
+(m<sup>2</sup>
+d<sup>-1</sup>)</p></td>
+<td><p>Propagation:
+Diffusion
+coefficient for
+plant
+dispersal.</p></td>
+<td><p>0.1</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Notes:</p>
+<ul class="simple">
+<li><p>Diffusion is not a function of soil water or water uptake, so growth
+can occur without soil water.</p></li>
+<li><p>Mortality is provided by class <strong>Mortality</strong>, calculated each
+simulation day.</p></li>
+<li><p>For multiple plant species, this equation is applied separately to
+each. However, the growth function includes an interspecies
+competition effect.</p></li>
+</ul>
+<section id="propagation">
+<h3>Propagation<a class="headerlink" href="#propagation" title="Link to this heading">¶</a></h3>
+<p>From Breshears et al (1998):</p>
+<ul class="simple">
+<li><p>The differences in soil temperature between the patch types directly
+affect biological processes such as germination for both woody and
+herbaceous species (Jordan and Haferkamp 1989; Fulbright et al. 1995;
+Roundy and Biedenbender 1996). For example, germination rates for
+<em>Pinus edulis</em> at a soil temperature of 30C are more than four times
+less than at 20C (Floyd 1983).</p></li>
+<li><p>The amount of plant-available water, in turn, affects germination
+percentages and rates of herbaceous (Briske and Wilson 1976; Everett
+and Sharrow 1985; Aguilera and Lauenroth 1995) and woody (Daubenmire
+1943; Meagher 1943) species. Small differences in soil moisture may
+have disproportionately greater effects on germination (Lauenroth et
+al. 1987).</p></li>
+</ul>
+</section>
+</section>
+<section id="on-mound-surface-water-convection-mm-d-1">
+<h2>On-Mound Surface Water Convection (mm d-1)<a class="headerlink" href="#on-mound-surface-water-convection-mm-d-1" title="Link to this heading">¶</a></h2>
+<p>convection = F(biomass on mound)</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[{\rho = \beta}\frac{k_{3} + {P \times \beta_{\mathit{slow}}}}{k_{3} + P},{\mathit{convection} = {\rho \times D_{1} \times O}}\]</div>
+</div>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>β (mm d<sup>-1</sup>)</p></td>
+<td><p>Maximum convection rate.</p></td>
+</tr>
+<tr class="row-even"><td><p>β<sub>slow</sub></p></td>
+<td><p>Effect of plant biomass on the
+convection rate. Valid range: 0-1.0.</p></td>
+</tr>
+<tr class="row-odd"><td><p>k<sub>3</sub> (g m<sup>-2</sup>)</p></td>
+<td><p>Bare soil effect on convection rate
+(?)</p></td>
+</tr>
+<tr class="row-even"><td><p>P (g m<sup>-2</sup>)</p></td>
+<td><p>Plant biomass</p></td>
+</tr>
+<tr class="row-odd"><td><p>D<sub>1</sub></p></td>
+<td><p>runoff rate derived from mound shape.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><a class="reference internal" href="Pictures/10000000000004B00000028AC0ACBB03.png"><img alt="image10" src="Pictures/10000000000004B00000028AC0ACBB03.png" style="width: 4.4701in; height: 2.5in;" /></a></p>
+</section>
+<section id="citations">
+<h2>Citations<a class="headerlink" href="#citations" title="Link to this heading">¶</a></h2>
+<p>Barkaoui, K., Volaire, F. (2023). Drought survival and recovery in
+grasses: Stress intensity and plant–plant interactions impact plant
+dehydration tolerance. Plant, Cell &amp; Environment, 46, 1489–1503.
+DOI:10.1111/pce.14543</p>
+<p>Belnap, J. (2006), The potential roles of biological soil crusts in
+dryland hydrologic cycles. Hydrol. Process., 20: 3159-3178.
+<a class="reference external" href="https://doi.org/10.1002/hyp.6325">https://doi.org/10.1002/hyp.6325</a></p>
+<p>Breshears, David D., John W. Nyhan, Christopher E. Heil and Bradford P.
+Wilcox (1998). Effects of woody plants on microclimate in a semiarid
+woodland: Soil temperature and evaporation in canopy and intercanopy
+patches. Int. J. Plant Sci. 159(6):1010–1017.
+<a class="reference external" href="https://www.jstor.org/stable/10.1086/314083">https://www.jstor.org/stable/10.1086/314083</a></p>
+<p>Burnett, S. A., J. A. Hattey, J. E. Johnson, A. L. Swann, D. I. Moore,
+and S. L. Collins. 2012. Effects of fire on belowground biomass in
+Chihuahuan desert grassland. Ecosphere 3(11):107.
+<a class="reference external" href="http://dx.doi.org/10.1890/ES12-00248.1">http://dx.doi.org/10.1890/ES12-00248.1</a></p>
+<p>Chamizo, S., Cantón, Y., Rodríguez-Caballero, E., and Domingo, F.
+(2016). Biocrusts positively affect the soil water balance in semiarid
+ecosystems. Ecohydrol., 9: 1208–1221. doi: 10.1002/eco.1719.</p>
+<p>Eldridge, D.J., Eli Zaady, Moshe Shachak (2000). Infiltration through
+three contrasting biological soil crusts in patterned landscapes in the
+Negev, Israel. CATENA 40(3), 323-336.
+<a class="reference external" href="https://doi.org/10.1016/S0341-8162(00)00082-5">https://doi.org/10.1016/S0341-8162(00)00082-5</a>.</p>
+<p>Fu, Zheng, et al., 2022. Critical soil moisture thresholds of plant
+water stress in terrestrial ecosystems. Sci. Adv. 8, eabq7827.
+DOI:10.1126/sciadv.abq7827</p>
+<p>Kelly, R. D. &amp; Walker, B. H. (1976). The effects of different forms of
+land use on the ecology of a semi-arid region in south-eastern Rhodesia.
+Journal of Ecology, 64, 553-576.</p>
+<p>Keller, Zachary T., Enrique R. Vivoni, Charles R. Kimsal, Agustín
+Robles-Morua, and Eli R. Pérez-Ruiz. 2023. Hillslope to Channel
+Hydrologic Connectivity in a Dryland Ecosystem. Ecosphere 14(11): e4707.
+<a class="reference external" href="https://doi.org/10.1002/ecs2.4707">https://doi.org/10.1002/ecs2.4707</a></p>
+<p>Rietkerk, M., F. van den Bosch, and J. van de Koppel. 1997.
+Site-specific properties and irreversible vegetation changes in
+semi-arid grazing systems. Oikos 80: 241–252.</p>
+<p>Rietkerk, M., M. C. Boerlijsr, F. van Langevelde, R. Hille-RisLambers,
+J. Van de Koppel, L. Kumar, and A. M. de Roos. 2002. Self-organization
+of vegetation in arid ecosystems. American Naturalist 160:524–530.
+<a class="reference external" href="https://doi.org/10.1086/342078">https://doi.org/10.1086/342078</a></p>
+<p>Stewart, J., Parsons, A.J., Wainwright, J., Okin, G.S., Bestelmeyer,
+B.T., Fredrickson, E.L. and Schlesinger, W.H. (2014), Modeling emergent
+patterns of dynamic desert ecosystems. Ecological Monographs, 84: 373
+-410. <a class="reference external" href="https://doi.org/10.1890/12-1253.1">https://doi.org/10.1890/12-1253.1</a></p>
+<p>Wach, Damian and Piotr Skowron (2022). An overview of plant responses to
+the drought stress at morphological, physiological and biochemical
+levels. Polish Journal of Agronomy 50, 25–34.
+DOI:10.26114/pja.iung.435.2022.04</p>
+<p>Walker, B. H., D. Ludwig, C. S. Holling and R. M. Peterman (1981).
+Stability of Semi-Arid Savanna Grazing Systems. Journal of Ecology, Vol.
+69, No. 2, pp. 473-498. <a class="reference external" href="https://www.jstor.org/stable/2259679">https://www.jstor.org/stable/2259679</a></p>
+<p>Warren, S.D., 2014. Role of biological soil crusts in desert hydrology
+and geomorphology: Implications for military training operations. GSA
+Reviews in Engineering Geology XXII.</p>
+<p>William Parton and George Innis (1972). Some Graphs and their Functional
+Forms. Technical Report No. 153, Natural Resource Ecology Laboratory,
+Colorado State University, Fort Collins, Colorado.</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="Manual.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Drylands2 Model Manual</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="ModelDesign.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Drylands2 Model Design</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Tom Hilinski, Niall Hanan, Greg Maurer
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Drylands2 Model Equations</a><ul>
+<li><a class="reference internal" href="#soil-infiltration-rate-mm-d-1">Soil Infiltration Rate (mm d<sup>-1</sup>)</a><ul>
+<li><a class="reference internal" href="#discussion-of-infiltration-equation">Discussion of Infiltration Equation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#evaporation-mm-d-1">Evaporation (mm d<sup>-1</sup>)</a><ul>
+<li><a class="reference internal" href="#discussion-of-evaporation-equation">Discussion of Evaporation Equation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#soil-water-loss-from-drainage-mm-d-1">Soil water loss from drainage (mm d<sup>-1</sup>)</a><ul>
+<li><a class="reference internal" href="#resource-drainage">Resource Drainage</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#plant-soil-water-uptake-mm-d-1">Plant Soil Water Uptake (mm d<sup>-1</sup>)</a><ul>
+<li><a class="reference internal" href="#implementation">Implementation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#change-in-surface-water-o-mm"><strong>Change in Surface Water O (mm)</strong></a></li>
+<li><a class="reference internal" href="#change-in-soil-water-w-mm-d-1"><strong>Change in Soil Water W (mm d</strong><sup>-1</sup><strong>)</strong></a></li>
+<li><a class="reference internal" href="#nitrogen"><strong>Nitrogen</strong></a><ul>
+<li><a class="reference internal" href="#n-implementation">N Implementation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#plant-growth-g-m-2-d-1"><strong>Plant Growth (g m</strong><sup>-2</sup> <strong>d</strong><sup>-1</sup><strong>)</strong></a><ul>
+<li><a class="reference internal" href="#temperature-effect-upon-growth">Temperature Effect Upon Growth</a></li>
+<li><a class="reference internal" href="#discussion-of-growth-equations"><strong>Discussion of Growth Equations</strong></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mortality">Mortality</a><ul>
+<li><a class="reference internal" href="#mortality-vs-water-stress">Mortality vs Water Stress</a></li>
+<li><a class="reference internal" href="#implementation-1">Implementation</a></li>
+<li><a class="reference internal" href="#some-considerations-not-implemented">Some considerations not implemented:</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#change-in-plant-biomass-p-g-m-2-d-1"><strong>Change in Plant Biomass P (g m</strong><sup>-2</sup> <strong>d</strong><sup>-1</sup><strong>)</strong></a><ul>
+<li><a class="reference internal" href="#propagation">Propagation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#on-mound-surface-water-convection-mm-d-1">On-Mound Surface Water Convection (mm d-1)</a></li>
+<li><a class="reference internal" href="#citations">Citations</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=db1c604c"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=46bd48cc"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+</html>

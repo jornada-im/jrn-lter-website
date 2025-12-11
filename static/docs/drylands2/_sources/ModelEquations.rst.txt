@@ -1,0 +1,804 @@
+Drylands2 Model Equations
+=========================
+
+Based in part upon Rietkerk et al. (2002) and Rietkerk et al. (1997)
+
+The processes are:
+
+- surface water ponding and diffusion,
+- infiltration,
+- evaporation from the surface soil layer,
+- drainage from subsurface soil layers,
+- soil water uptake by plant roots,
+- soil water lateral diffusion,
+- plant-available nitrogen cycling,
+- plant growth,
+- plant mortality.
+
+The pools of biomass and water and plant-available nitrogen are modified
+by PDEs: Change in surface water, change in soil water, change in N,
+change in plant biomass, and optionally, surface water convection off
+mounds.
+
+Soil Infiltration Rate (mm d\ :sup:`-1`)
+----------------------------------------
+
+Infiltration is assumed to occur homogeneously throughout the soil
+depth, and at a rate much less than one day. This assumption of
+approximately constant hydraulic conductivity is used within the context
+of the daily timestep of the model. The monsoon rain events mostly occur
+within one hour (Keller et al, 2023), and runoff generally is not
+present for most rain events (< 10 mm/event). The histogram below shows
+percentages for 5 mm/day intervals for JRN site C-SAND; approximately
+85% of rain events are < 10 mm in amount.
+
+Infiltration is estimated using a Michaelis-Menten equation (see
+Rietkirk et al. (2002), Walter et al. (1981)) as a function of surface
+water and plant biomass density:
+
+.. math:: {I = {O \times \alpha}}\frac{{P + k_{2}}W_{0}}{P + k_{2}}
+
++------------------+------------------+----------------+---------------+
+|                  |                  | Rietkirk value | Stewart value |
++------------------+------------------+----------------+---------------+
+| O (mm)           | Surface water    |                |               |
+|                  | including new    |                |               |
+|                  | precipitation    |                |               |
++------------------+------------------+----------------+---------------+
+| *α*              | Maximum daily    | 0.2            |               |
+| (d\ :sup:`-1`)   | infiltration     |                |               |
+|                  | fraction.        |                |               |
++------------------+------------------+----------------+---------------+
+| P (g             | Plant biomass    |                |               |
+| m\ :sup:`-2`)    |                  |                |               |
++------------------+------------------+----------------+---------------+
+| k\ :sub:`2` (g   | Rate at which    | 5.0            |               |
+| m\ :sup:`-2`)    | infiltration     |                |               |
+|                  | increases with   |                |               |
+|                  | specific plant   |                |               |
+|                  | density.         |                |               |
+|                  | In               |                |               |
+|                  | Michaelis–Menten |                |               |
+|                  | equation,        |                |               |
+|                  | k\ :sub:`1` is   |                |               |
+|                  | the uptake at    |                |               |
+|                  | I/2.             |                |               |
++------------------+------------------+----------------+---------------+
+| W\ :sub:`0` (-)  | Minimum          | 0.2            |               |
+|                  | infiltration     |                |               |
+|                  | fraction in the  |                |               |
+|                  | absence of       |                |               |
+|                  | plants; this is  |                |               |
+|                  | proportional to  |                |               |
+|                  | hydraulic        |                |               |
+|                  | conductivity of  |                |               |
+|                  | the surface      |                |               |
+|                  | soil.            |                |               |
++------------------+------------------+----------------+---------------+
+
+|image1|
+
+|image2|
+
+Discussion of Infiltration Equation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- From Walker et al (1981): Because semi-arid savanna is a water-limited
+  system, any reduction in the rate of water infiltration into the soil
+  is critical. On medium to heavy-textured soils, infiltration decreases
+  as the surface pores become sealed ('capping') and soil erodes, and
+  capping and erosion increase in rate as grass-cover and litter-cover
+  decline. In Rhodesian grasslands and savanna, sites without litter
+  have an infiltration rate into a loamy savanna soil of 1.4 mm/minute,
+  or approximately 2000 mm/day (Kelly & Walker, 1976, tables 8 and 9);
+  litter increases the infiltration rate to about ten times.
+- On the other hand, woody plants can influence the water content of the
+  subsoil. The canopy intercepts rain and funnels it down the stem and
+  into the soil at the tree base. Pressland (1973), working in an
+  Australian savanna, has recorded a six-fold increase in the amount of
+  water percolating into the soil below trees as compared to open areas,
+  and Reynolds (1966) has noted a similar phenomenon in a British
+  woodland. Further means by which water penetrates preferentially to
+  the subsoil are the quick-flow channels or tongues of preferred flow
+  associated with wetting front instability.
+- In the absence of any grass there will still be some infiltration
+  (i\ :sub:`0`). This minimum is likely to be about 10% of the maximum
+  (Kelly & Walker, 1976). The rate of infiltration will initially
+  increase rapidly as G increases and then approach the maximum
+  asymptotically with increasing G, as depicted in Fig. 1.
+
+|image3|
+
+Crust:
+
+- Generally on sandy soils, mature biologic soil crust inhibits
+  infiltration relative to bare soil (Warren, 2014).
+
+- In dune sand and sandy loess soils, crust inhibits infiltration
+  relative to scraped soil (Eldridge et al., 2000).
+- In calcareous SL and SiL textured soils, infiltration is higher in
+  crust vs scraped soil (Chamizo et al, 2016, fig. 2).
+- Infiltration can be higher in rugose crust in arid drylands relative
+  to non-crust surfaces due aggregation and crust biology, but the data
+  is mixed (Belnap, 2006).
+- The Jornada LTER NPP sites (non-playa) are relatively coarse textured
+  (LS to SL), with the finest being SCL (site FLCE).
+
+Evaporation (mm d\ :sup:`-1`)
+-----------------------------
+
+The amount of actual evaporation is assumed to generally decrease as
+biomass density increases (CITE).
+
+Evaporation is from the surface soil layer only. Actual evaporation is
+estimated using the inverse generalized Gompertz equation with potential
+bare soil evaporation and biomass as controlling parameters:
+
+.. math:: {E_{\mathit{est}} = E_{\mathit{pot}}}\left( {1.0 - b^{{- c}b^{{- E_{\mathit{mr}}}P}}} \right)
+
++--------------------+-------------------------------------------------+
+| E\ :sub:`pot` (mm) | Daily potential evaporation for bare soil, or   |
+|                    | evaporation demand; from F(temperature) or      |
+|                    | field measurements. This is the maximum         |
+|                    | asymptote. Potential evaporation should not     |
+|                    | exceed available soil water in the surface      |
+|                    | layer (W), and should not be less than the      |
+|                    | minimum daily potential evaporation under the   |
+|                    | plant canopy (E\ :sub:`0`).                     |
++--------------------+-------------------------------------------------+
+| b                  | Changes the relative lengths of the minimum and |
+|                    | maximum asymptotes; b > e increases the length  |
+|                    | of the minimum asymptote. This value could be   |
+|                    | proportional to the radius of a shrub's canopy, |
+|                    | or the influence of aboveground biomass density |
+|                    | upon limiting bare soil evaporation.            |
++--------------------+-------------------------------------------------+
+| c                  | Sets the displacement along the x-axis of the   |
+|                    | inflection point; smaller values shift the      |
+|                    | curve left.                                     |
++--------------------+-------------------------------------------------+
+| E\ :sub:`mr`       | Slope of the curve at the inflection point;     |
+|                    | proportional to the maximum change in           |
+|                    | evaporation with biomass. This could reflect    |
+|                    | the change in shading or protection from wind   |
+|                    | at the edge of the biomass.                     |
+|                    | E.g., E\ :sub:`mr` = (E\ :sub:`maximum` –       |
+|                    | E\ :sub:`minimum`) / (Max. potential biomass).  |
++--------------------+-------------------------------------------------+
+
+Grasses and shrubs will have different values for E\ :sub:`mr` and
+E\ :sub:`0`, and possibly b and c.
+
+|image4|
+
+Potential evaporation is calculated from an equation which can be
+derived from field measurements. For example, JRN sites C-SAND and
+G-IPBE have estimated daily evaporation strongly correlated with average
+daily temperature:
+
+|image5|\ These equations should be provided in the model configuration
+item *model.params.Epot*.
+
+Discussion of Evaporation Equation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+From Breshears et al (1998):
+
+- Mean monthly soil temperature in intercanopy patches exceeded that in
+  canopy patches by at least 1 C from April through August, while the
+  converse was true from October through February.
+- During late spring and summer (May–August), the integrated difference
+  in soil water potential between the two patch types over a day was
+  positive, indicating that soil evaporation was greater in intercanopy
+  than canopy patches. In contrast, during fall and winter months, the
+  difference between intercanopy and canopy soil water potential was
+  negative (fig. 5), indicating that soil evaporation was less in
+  intercanopy than in canopy patches.
+- Kelly & Walker (1976) show that within the top 40 cm of soil, the soil
+  dries rapidly; “soil moisture content did not exceed 5% for more than
+  five weeks after a single wet period.”
+
+Soil water loss from drainage (mm d\ :sup:`-1`)
+-----------------------------------------------
+
+Soil water drainage from the bottom of the soil profile is assumed to
+occur only from the soil layers below the surface layer. The drainage
+amount is a constant fraction of soil water content.
+
+The amount of drainage cannot reduce the soil water content below the
+field capacity of the soil layer. Field capacity (see class *Constants*)
+is defined as the fraction of the soil layer thickness (mm),
+representing the volume of soil water remaining after gravity drainage
+is essentially complete.
+
+.. math:: W_{L} = {r_{W} \times W}
+
++------------------+------------------+----------------+---------------+
+|                  |                  | Rietkirk value | Stewart value |
++------------------+------------------+----------------+---------------+
+| r\ :sub:`w`      | Specific soil    | 0.2            |               |
+| (d\ :sup:`-1`)   | water loss due   |                |               |
+|                  | to drainage;     |                |               |
+|                  | fraction per     |                |               |
+|                  | day.             |                |               |
++------------------+------------------+----------------+---------------+
+| W (mm)           | Soil water       |                |               |
+|                  | content of the   |                |               |
+|                  | soil layer.      |                |               |
++------------------+------------------+----------------+---------------+
+
+Resource Drainage
+~~~~~~~~~~~~~~~~~
+
+For resources that are associated with soil water, they should drain in
+proportion to their relative amount. For soil N, the amount of N within
+the soil layer is assumed to be all water-soluable; then the amount
+drained is proportional to the fraction of soil water drained.
+
+Plant Soil Water Uptake (mm d\ :sup:`-1`)
+-----------------------------------------
+
+Plants take up soil water proportional to plant biomass. Uptake is
+estimated separately for each soil layer.
+
+.. math:: {U = {g_{\mathit{\max}} \times \frac{W}{W + k_{1}} \times P}},\mspace{72mu}{U = \mathit{\min}}{({U,W\mathit{exceeding}\mathit{field}\mathit{capacity}})}
+
++------------------+------------------+----------------+---------------+
+|                  |                  | Rietkirk value | Stewart value |
++------------------+------------------+----------------+---------------+
+| g\ :sub:`max`    | Maximum specific | 0.05           | 0.7           |
+| (mm m\ :sup:`-2` | water uptake =   |                |               |
+| g C\ :sup:`-1`   | maintenance      |                |               |
+| d\ :sup:`-1`)    | efficiency.      |                |               |
++------------------+------------------+----------------+---------------+
+| k\ :sub:`1` (mm) | Half-saturation  | 5.0            |               |
+|                  | constant of      |                |               |
+|                  | water uptake.    |                |               |
+|                  |                  |                |               |
+|                  | In               |                |               |
+|                  | Michaelis–Menten |                |               |
+|                  | equation,        |                |               |
+|                  | k\ :sub:`1` is   |                |               |
+|                  | the uptake at    |                |               |
+|                  | g\ :sub:`max`/2. |                |               |
++------------------+------------------+----------------+---------------+
+| W (mm)           | Soil water       |                |               |
+|                  | content of soil  |                |               |
+|                  | layer.           |                |               |
++------------------+------------------+----------------+---------------+
+
+Uptake potential demand (not constrained by W):
+
+|image6|
+
+Actual uptake demand (limited by W):
+
+|image7|
+
+Implementation
+~~~~~~~~~~~~~~
+
+Estimates of root biomass per soil layer are calculated from parameters
+for each plant species. The root biomass is used in the soil water
+uptake equation.
+
+**Change in Surface Water O (mm)** 
+-----------------------------------
+
+dO = Convection + Rainfall – Infiltration + Overland Flow
+
+.. math:: {\frac{\partial O}{\partial t} = {\rho + R - I + D_{O}}}\frac{LO}{\partial x^{2}}
+
++-----------------------------+-----------------------------+------+---+
+| *ρ* (mm d\ :sup:`-1`)       | On-mound surface water      |      |   |
+|                             | convection rate             |      |   |
++-----------------------------+-----------------------------+------+---+
+| R (mm d\ :sup:`-1`)         | Precipitation rate          |      |   |
++-----------------------------+-----------------------------+------+---+
+| D\ :sub:`O` (m\ :sup:`2`    | Diffusion coefficient for   | 10.0 |   |
+| d\ :sup:`-1`)               | surface water               |      |   |
+|                             | (HilleRisLambers et al.     |      |   |
+|                             | 2001)                       |      |   |
++-----------------------------+-----------------------------+------+---+
+| L                           | Diffusion: Laplacian 2D     |      |   |
+|                             | matrix.                     |      |   |
++-----------------------------+-----------------------------+------+---+
+
+**Change in Soil Water W (mm d**\ :sup:`-1`\ **)** 
+---------------------------------------------------
+
+dW = Infiltration – Plant Uptake – Vertical Flux + Lateral Flux
+
+.. math:: {\frac{\partial W}{\partial t} = {I - U - W_{L} + D_{w}}}\frac{LW}{\partial x^{2}}
+
++------------------+------------------+----------------+---------------+
+|                  |                  | Rietkirk value | Stewart value |
++------------------+------------------+----------------+---------------+
+| D\ :sub:`w` (m2  | Lateral Flux:    | 0.1            |               |
+| d-1)             | Diffusion        |                |               |
+|                  | coefficient for  |                |               |
+|                  | soil water       |                |               |
++------------------+------------------+----------------+---------------+
+
+For multiple soil layers, this equation is applied separately to each
+layer.
+
+**Nitrogen**
+------------
+
+dN = external N inputs + N from plant decomposition - plant N uptake -
+physical removal of N
+
+Soil nitrogen inputs considered here are atmospheric deposition, aeolian
+deposition, decomposition of plant material, and browser urine/feces.
+Currently, atmospheric deposition and plant material input are
+implemented. Soil nitrogen removals include plant uptake, browsing,
+water and aeolian erosion, N volatization, leaching, and lateral
+dispersion. Currently, plant uptake and leaching are implemented.
+
+The change in plant-available soil nitrogen is from Rietkerk et al
+(1997), eq. 7:
+
+.. math:: {\frac{\mathit{dN}}{\mathit{dt}} = {N_{\mathit{input}} - c_{N}}}{P - r_{N}}N
+
+The aboveground biomass growth fraction from plant-available soil
+nitrogen is associated with plant water uptake (Rietkerk et al, 1997,
+eq. 8):
+
+.. math:: {g_{N} = {g_{N,\mathit{\max}} \times \frac{N}{N + k_{1}}}},\mspace{108mu}{\mathit{units} = g}{C/g}{C_{\mathit{biomass}}/\mathit{day}}
+
+The soil N uptake due to that biomass increase, as the fraction of plant
+biomass (from Rietkerk et al, 1997, eq. 9):
+
+.. math:: {c_{N,\mathit{up}} = {c_{N,\mathit{\max}} \times \frac{N}{N + k_{1}}}},\mspace{108mu}{\mathit{units} = g}{N/g}{C_{\mathit{biomass}}/\mathit{day}}
+
+Plant mortality contribution to soil N is provided by the mortality rate
+and the C:N of the plant material:
+
+.. math:: {d_{N,i} = {{({P_{i} \times d_{i}})}/R_{i}}},\mspace{72mu}{R_{i} = C}:N\mathit{of}\mathit{plant}\mathit{part}i;\mspace{72mu}{\mathit{units} = g}{N/\mathit{day}}
+
+Then, the total plant contribution to change in soil N is:
+
+.. math:: c_{N} = {c_{N,\mathit{up}} - {\sum\limits_{i}d_{N,i}}}
+
+Physical processes cause loss of soil N, including leaching, erosion,
+volatization, and lateral dispersion with surface and soil water.
+Currently only leaching is implemented. Leaching is proportional to soil
+water drainage.
+
+Rietkerk et al, 1997 (eq. 10) proposed the following Michaelis-Menten
+equation for water and wind erosion loss as a function of aboveground
+biomass. In the case of monsoon events, k2 may need to be a function of
+event intensity (both rain and wind).
+
+.. math:: r_{N} = {r_{N,\mathit{\max}} \times \frac{k_{2}}{k_{2} + P}}
+
+Equation terms are:
+
++--------------------+--------------------+--------------------+---+---+
+| N                  | g                  | Nitrogen: plant    |   |   |
+|                    |                    | available soil N.  |   |   |
+|                    |                    | Implemented as N   |   |   |
+|                    |                    | per soil layer.    |   |   |
++--------------------+--------------------+--------------------+---+---+
+| g\ :sub:`N,max`    | g C g C\ :sup:`-1` | Maximum daily      |   |   |
+|                    | d\ :sup:`-1`       | growth rate as     |   |   |
+|                    |                    | fraction of plant  |   |   |
+|                    |                    | biomass.           |   |   |
++--------------------+--------------------+--------------------+---+---+
+| c\ :sub:`N,max`    | g N g C\ :sup:`-1` | Maximum daily N    |   |   |
+|                    | d\ :sup:`-1`       | uptake rate as     |   |   |
+|                    |                    | fraction of plant  |   |   |
+|                    |                    | biomass.           |   |   |
++--------------------+--------------------+--------------------+---+---+
+| d                  | d\ :sup:`-1`       | Specific loss of   |   |   |
+|                    |                    | biomass due to     |   |   |
+|                    |                    | mortality          |   |   |
+|                    |                    | (fraction).        |   |   |
++--------------------+--------------------+--------------------+---+---+
+| c\ :sub:`N`        | g N g C\ :sup:`-1` | Total plant        |   |   |
+|                    | d\ :sup:`-1`       | contribution to    |   |   |
+|                    |                    | change in soil N.  |   |   |
++--------------------+--------------------+--------------------+---+---+
+| r\ :sub:`N,max`    | d\ :sup:`-1`       | Maximum soil N     |   |   |
+|                    |                    | loss when plant    |   |   |
+|                    |                    | biomass is zero.   |   |   |
++--------------------+--------------------+--------------------+---+---+
+| r\ :sub:`N`        | d\ :sup:`-1`       | Soil N loss        |   |   |
+|                    |                    | through physical   |   |   |
+|                    |                    | processes.         |   |   |
++--------------------+--------------------+--------------------+---+---+
+
+N Implementation
+~~~~~~~~~~~~~~~~
+
+C:N values: Each plant part, wood, shoot and leaf, coarse roots and fine
+roots, will have a different C:N ratio. Here assume shrubs have all four
+parts, and grasses have shoots and fine roots.
+
+Each plant species will have an N pool associated with the plant
+biomass, since the parameters used in the equations above
+(g\ :sub:`N,max`, k\ :sub:`1`, c\ :sub:`N,max`, C:N) are plant-specific.
+Parameter c\ :sub:`N,max` is specified in the configuration. Parameter
+g\ :sub:`N,max` is assumed to be the maximum daily new biomass as
+fraction of current biomass, i.e., configuration parameter r\ :sub:`max`
+(see **Plant Growth**).
+
+Source of N inputs: As with precipitation, N input can be a constant
+daily value, or read from a data file.
+
+Future considerations:
+
+- Implement soil N pools per soil layer; currently there is one N pool
+  for the entire soil depth.
+- Add a lateral dispersion term to the change in N, e.g.,
+  *D*\ :sub:`N`\ *\*LN/x*\ :sup:`2`. N amount is proportional to surface
+  and soil water dispersion (amounts may be very small - important?)
+- Add water and aeolian erosion as the r\ :sub:`N` term. (Amounts may be
+  very small - important?)
+- Add volatization to r\ :sub:`N` term. Volatization is a function of
+  near-surface N concentration and soil temperature. (Independent of
+  biomass?)
+- Add to c\ :sub:`N` a term for removal of biomass due to browsing.
+
+For multiple plant species, the terms c\ :sub:`N`, d, and d\ :sub:`N`
+are specific for each species. This modifies the equation of change in N
+to be:
+
+.. math:: {\frac{\mathit{dN}}{\mathit{dt}} = {N_{\mathit{input}} - {\sum\limits_{p}\left( {c_{N}{{(P_{p})} \times P_{p}}} \right)} - r_{N}}}N
+
+\ where p is the index to the plant array.
+
+**Plant Growth (g m**\ :sup:`-2` **d**\ :sup:`-1`\ **)**
+--------------------------------------------------------
+
+Water uptake for growth:
+
+.. math:: \mathit{dP}_{U} = \mathit{cU}
+
+Potential growth from maximum biomass (uses logistic growth curve):
+
+.. math:: {\mathit{dP}_{B} = {r_{\mathit{\max}} \times P}}\left( {1 - \frac{P}{B_{\mathit{\max}}}} \right)
+
+Potential growth from daily temperature (see **Temperature Effect Upon
+Growth** below):
+
+.. math:: {\mathit{dP}_{T} = \mathit{gpdf}}{{({T,a,b,c,d})} \times \mathit{potential}}\mathit{growth}
+
+Potential growth from N limitation:
+
+.. math:: {\mathit{dP}_{N} = g_{N}}P
+
+Daily growth = minimum of the above potentials.
+
+.. math:: {G = \mathit{minimum}}{({\mathit{dP}_{U},\mathit{dP}_{B},\mathit{dP}_{T},\mathit{dP}_{N}})}
+
++-----------------+-----------------+----------------+-----------------+
+|                 |                 | Rietkirk value | Stewart value   |
++-----------------+-----------------+----------------+-----------------+
+| c (g C          | Growth:         | 10.0           | (0.7+3.5)/0.7 = |
+| mm\ :sup:`-1`   | Converts rate   |                | 5.7             |
+| m\ :sup:`-2`    | of water uptake |                |                 |
+| d\ :sup:`-1`)   | to new biomass. |                | (WUE should be  |
+|                 |                 |                | 2-7 g bio/kg    |
+|                 | Multiplier of   |                | H2O)            |
+|                 | maintenance     |                |                 |
+|                 | water use for   |                |                 |
+|                 | new growth,     |                |                 |
+|                 | proportional to |                |                 |
+|                 | WUE.            |                |                 |
++-----------------+-----------------+----------------+-----------------+
+| r\ :sub:`max`   | Maximum daily   |                |                 |
+| (d\ :sup:`-1`)  | rate of growth  |                |                 |
+|                 | as a fraction   |                |                 |
+|                 | of current      |                |                 |
+|                 | biomass.        |                |                 |
++-----------------+-----------------+----------------+-----------------+
+| B\ :sub:`max`   | Maximum biomass |                | 319 (black      |
+| (g)             | for this plant  |                | grama)          |
+|                 | species.        |                |                 |
++-----------------+-----------------+----------------+-----------------+
+
+|image8|
+
+Temperature Effect Upon Growth
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Parameterization of a generalized Poisson density function curve to
+simulate temperature effect on growth (Parton and Innis, 1972):
+
+.. math:: f = \frac{b - T}{b - a}
+
+\ Position of temperature T on the interval [a, b], as a fraction.
+
+.. math:: \mathit{gpdf} = {f^{c} \times e^{({\frac{c}{d}{({1 - f^{d}})}})}}
+
+\ Poisson density function returning a value on [0, 1] corresponding to
+T.
+
+| Where:
+| a = Optimum temperature for production; the peak of the curve.
+| b = Maximum temperature for production; larger values = broader bell
+  shape, and production is less sensitive to soil temperature.
+| c = Spread of the bell curve; smaller values = broader bell shape, and
+  production is less sensitive to soil temperature.
+| d = Left curve shape; smaller values = more production at lower
+  temperatures.
+
+|image9|
+
+**Discussion of Growth Equations**
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+From Burnett et al (2012):
+
+- Aboveground production of B. eriopoda grasslands is strongly driven by
+  seasonal (monsoon) precipitation and temperature (Gosz and Gosz 1996,
+  Muldavin et al. 2008, Collins et al. 2010) ...
+
+Mortality
+---------
+
+The model uses a relatively simple biomass mortality algorithm to relate
+mortality fraction to plant water stress. The main variables used to
+approximate water stress are plant soil water demand, plant-available
+soil water content, and duration of the water stress. Much of the
+literature emphasizes thresholds which determine changes in the
+mortality rate. For modeling, a continuous function allows for a simpler
+algorithmic representation than thresholds. Each plant species has it's
+own mortality parameterization and hence rate calculation. The time
+scale in the model is daily for both soil moisture and biomass
+mortality.
+
+Water stress here is defined as plant demand for soil water beyond what
+is available. Cumulative water stress as considered here is unmet plant
+demand for soil water over a fixed time period. From Fu et al. (2002):
+
+The critical soil moisture (SM) threshold (Θ\ :sub:`crit`) of plant
+water stress occurs near the point when evapotranspiration becomes
+SM-limited. ...when SM is lower than Θ\ :sub:`crit`, the capacity of
+plants to extract soil water by roots and xylem transport becomes
+progressively reduced. Under this SM-­limited regime, evapotranspiration
+decreases with decreasing SM until the wilting point, where
+transpiration is blocked because of full stomatal closure, with little
+or no further change in EF with SM decrease.
+
+The physiological effects of water stress that produce mortality are not
+directly addressed in this modeling approach.
+
+Mortality vs Water Stress
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The relationship between water stress (and resulting mortality) and soil
+water content is often defined as one or more thresholds (see Fu et al,
+2022, figures 1B and 1C and equation 1). Barkaoui and Volaire (2023) use
+logistic function to fit survival rate vs. SWC and plant water content
+(see their eq. 1, and figure 3b). The form of the equation is:
+
+*S = 1 / (1 + e*\ :sup:`-(B0-B1*SWC)`\ *)*
+
+where
+
+|  *B0* = SWC at the logistic function inflection point.
+| *B1* = Maximum rate of change of survival.
+| *SWC* = soil water content
+
+Then the mortality rate is *1-S*. In that equation, *SWC* can be
+replaced by excess demand of soil water content by plants:
+
+*M = 1 / (1 + e*\ :sup:`(B0-B1\*\ E\ )`\ *)*
+
+where
+
+*E* = Difference of plant water demand - available soil water as a
+fraction of soil water content.
+
+The script **plot-mortality.m** provides graphs of *M* vs. *E* for
+varying *B0*.
+
+.. _implementation-1:
+
+Implementation
+~~~~~~~~~~~~~~
+
+Each plant species specifies the parameters *B0*, *B1*, and the length
+of the stress period defining the plant's response to water stress. The
+stress period is the number of days prior to the current simulation day,
+and the length is constant. Each day's value of *E* is added to the
+stress period, dropping the oldest value, and the sum is the resulting
+*E* for the stress period.
+
+The daily background rate is also specified for each species, and is
+added to the water stress calculation.
+
+Some considerations not implemented:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Effect of high temperatures upon water stress.
+- Increase in root mass with drought stress (Wach and Skowron, 2022).
+- Change in water use efficiency with drought stress (Wach and Skowron,
+  2022).
+
+**Change in Plant Biomass P (g m**\ :sup:`-2` **d**\ :sup:`-1`\ **)** 
+----------------------------------------------------------------------
+
+dP = Growth – Mortality + Propagation
+
+.. math:: {\frac{\partial P}{\partial t} = {G - {({d \times P})} + D_{P}}}\frac{LP}{\partial x^{2}}
+
++-----------------+-----------------+----------------+----------------+
+|                 |                 | Rietkirk value | Stewart value  |
++-----------------+-----------------+----------------+----------------+
+| G (g            | Daily potential |                |                |
+| m\ :sup:`-2`)   | growth.         |                |                |
++-----------------+-----------------+----------------+----------------+
+| d               | Mortality:      | 0.25           | (0.1+0.05)/365 |
+| (d\ :sup:`-1`)  | Specific loss   |                |                |
+|                 | of plant        |                |                |
+|                 | density due to  |                |                |
+|                 | mortality.      |                |                |
++-----------------+-----------------+----------------+----------------+
+| D\ :sub:`p`     | Propagation:    | 0.1            |                |
+| (m\ :sup:`2`    | Diffusion       |                |                |
+| d\ :sup:`-1`)   | coefficient for |                |                |
+|                 | plant           |                |                |
+|                 | dispersal.      |                |                |
++-----------------+-----------------+----------------+----------------+
+
+Notes:
+
+- Diffusion is not a function of soil water or water uptake, so growth
+  can occur without soil water.
+- Mortality is provided by class **Mortality**, calculated each
+  simulation day.
+- For multiple plant species, this equation is applied separately to
+  each. However, the growth function includes an interspecies
+  competition effect.
+
+Propagation
+~~~~~~~~~~~
+
+From Breshears et al (1998):
+
+- The differences in soil temperature between the patch types directly
+  affect biological processes such as germination for both woody and
+  herbaceous species (Jordan and Haferkamp 1989; Fulbright et al. 1995;
+  Roundy and Biedenbender 1996). For example, germination rates for
+  *Pinus edulis* at a soil temperature of 30C are more than four times
+  less than at 20C (Floyd 1983).
+- The amount of plant-available water, in turn, affects germination
+  percentages and rates of herbaceous (Briske and Wilson 1976; Everett
+  and Sharrow 1985; Aguilera and Lauenroth 1995) and woody (Daubenmire
+  1943; Meagher 1943) species. Small differences in soil moisture may
+  have disproportionately greater effects on germination (Lauenroth et
+  al. 1987).
+
+On-Mound Surface Water Convection (mm d-1) 
+-------------------------------------------
+
+convection = F(biomass on mound)
+
+.. math:: {\rho = \beta}\frac{k_{3} + {P \times \beta_{\mathit{slow}}}}{k_{3} + P},{\mathit{convection} = {\rho \times D_{1} \times O}}
+
++------------------------------+---------------------------------------+
+| β (mm d\ :sup:`-1`)          | Maximum convection rate.              |
++------------------------------+---------------------------------------+
+| β\ :sub:`slow`               | Effect of plant biomass on the        |
+|                              | convection rate. Valid range: 0-1.0.  |
++------------------------------+---------------------------------------+
+| k\ :sub:`3` (g m\ :sup:`-2`) | Bare soil effect on convection rate   |
+|                              | (?)                                   |
++------------------------------+---------------------------------------+
+| P (g m\ :sup:`-2`)           | Plant biomass                         |
++------------------------------+---------------------------------------+
+| D\ :sub:`1`                  | runoff rate derived from mound shape. |
++------------------------------+---------------------------------------+
+
+|image10|
+
+Citations
+---------
+
+Barkaoui, K., Volaire, F. (2023). Drought survival and recovery in
+grasses: Stress intensity and plant–plant interactions impact plant
+dehydration tolerance. Plant, Cell & Environment, 46, 1489–1503.
+DOI:10.1111/pce.14543
+
+Belnap, J. (2006), The potential roles of biological soil crusts in
+dryland hydrologic cycles. Hydrol. Process., 20: 3159-3178.
+https://doi.org/10.1002/hyp.6325
+
+Breshears, David D., John W. Nyhan, Christopher E. Heil and Bradford P.
+Wilcox (1998). Effects of woody plants on microclimate in a semiarid
+woodland: Soil temperature and evaporation in canopy and intercanopy
+patches. Int. J. Plant Sci. 159(6):1010–1017.
+https://www.jstor.org/stable/10.1086/314083
+
+Burnett, S. A., J. A. Hattey, J. E. Johnson, A. L. Swann, D. I. Moore,
+and S. L. Collins. 2012. Effects of fire on belowground biomass in
+Chihuahuan desert grassland. Ecosphere 3(11):107.
+http://dx.doi.org/10.1890/ES12-00248.1
+
+Chamizo, S., Cantón, Y., Rodríguez-Caballero, E., and Domingo, F.
+(2016). Biocrusts positively affect the soil water balance in semiarid
+ecosystems. Ecohydrol., 9: 1208–1221. doi: 10.1002/eco.1719.
+
+Eldridge, D.J., Eli Zaady, Moshe Shachak (2000). Infiltration through
+three contrasting biological soil crusts in patterned landscapes in the
+Negev, Israel. CATENA 40(3), 323-336.
+https://doi.org/10.1016/S0341-8162(00)00082-5.
+
+Fu, Zheng, et al., 2022. Critical soil moisture thresholds of plant
+water stress in terrestrial ecosystems. Sci. Adv. 8, eabq7827.
+DOI:10.1126/sciadv.abq7827
+
+Kelly, R. D. & Walker, B. H. (1976). The effects of different forms of
+land use on the ecology of a semi-arid region in south-eastern Rhodesia.
+Journal of Ecology, 64, 553-576.
+
+Keller, Zachary T., Enrique R. Vivoni, Charles R. Kimsal, Agustín
+Robles-Morua, and Eli R. Pérez-Ruiz. 2023. Hillslope to Channel
+Hydrologic Connectivity in a Dryland Ecosystem. Ecosphere 14(11): e4707.
+https://doi.org/10.1002/ecs2.4707
+
+Rietkerk, M., F. van den Bosch, and J. van de Koppel. 1997.
+Site-specific properties and irreversible vegetation changes in
+semi-arid grazing systems. Oikos 80: 241–252.
+
+Rietkerk, M., M. C. Boerlijsr, F. van Langevelde, R. Hille-RisLambers,
+J. Van de Koppel, L. Kumar, and A. M. de Roos. 2002. Self-organization
+of vegetation in arid ecosystems. American Naturalist 160:524–530.
+https://doi.org/10.1086/342078
+
+Stewart, J., Parsons, A.J., Wainwright, J., Okin, G.S., Bestelmeyer,
+B.T., Fredrickson, E.L. and Schlesinger, W.H. (2014), Modeling emergent
+patterns of dynamic desert ecosystems. Ecological Monographs, 84: 373
+-410. https://doi.org/10.1890/12-1253.1
+
+Wach, Damian and Piotr Skowron (2022). An overview of plant responses to
+the drought stress at morphological, physiological and biochemical
+levels. Polish Journal of Agronomy 50, 25–34.
+DOI:10.26114/pja.iung.435.2022.04
+
+Walker, B. H., D. Ludwig, C. S. Holling and R. M. Peterman (1981).
+Stability of Semi-Arid Savanna Grazing Systems. Journal of Ecology, Vol.
+69, No. 2, pp. 473-498. https://www.jstor.org/stable/2259679
+
+Warren, S.D., 2014. Role of biological soil crusts in desert hydrology
+and geomorphology: Implications for military training operations. GSA
+Reviews in Engineering Geology XXII.
+
+William Parton and George Innis (1972). Some Graphs and their Functional
+Forms. Technical Report No. 153, Natural Resource Ecology Laboratory,
+Colorado State University, Fort Collins, Colorado.
+
+.. |image1| image:: ./Pictures/10000000000007080000028A8286E81A.png
+   :width: 6.2299in
+   :height: 2.25in
+.. |image2| image:: ./Pictures/100000010000051E0000027EB0BCFC38.png
+   :width: 4.6402in
+   :height: 2.2598in
+.. |image3| image:: ./Pictures/10000001000003F400000396B0D45B0B.png
+   :width: 2.2in
+   :height: 2in
+.. |image4| image:: ./Pictures/10000000000004B0000004B0DE403A68.png
+   :width: 2.25in
+   :height: 2.25in
+.. |image5| image:: ./Pictures/100000000000096000000514DDD74E4D.png
+   :width: 4.1598in
+   :height: 2.25in
+.. |image6| image:: ./Pictures/10000000000007080000028A36A597D4.png
+   :width: 6.2299in
+   :height: 2.25in
+.. |image7| image:: ./Pictures/10000000000007080000028ADE89997D.png
+   :width: 6.2299in
+   :height: 2.25in
+.. |image8| image:: ./Pictures/10000000000004B00000028AAB6762E6.png
+   :width: 4.6098in
+   :height: 2.5in
+.. |image9| image:: ./Pictures/1000000000000640000006406A08F5CC.png
+   :width: 6in
+   :height: 6in
+.. |image10| image:: ./Pictures/10000000000004B00000028AC0ACBB03.png
+   :width: 4.4701in
+   :height: 2.5in

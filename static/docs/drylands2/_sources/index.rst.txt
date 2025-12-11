@@ -23,6 +23,7 @@ GitHub repository`_. If you have questions contact jornada.data@nmsu.edu.
    :caption: Contents:
 
    ModelDesign
+   ModelEquations
    Manual
    aeolian/AeolianEffect-Algorithms
    aeolian/creosote-biomass-height-equation
