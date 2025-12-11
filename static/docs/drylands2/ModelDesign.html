@@ -774,6 +774,9 @@ vegetative propagation and reproduction with seed dispersal. The
 configuration plant parameter <strong>plant.E</strong> is the proportion of reproductive
 effort to be used for vegetative (non-seeded) propagation. Conversely,
 <code class="docutils literal notranslate"><span class="pre">1-E</span></code> is the proportion for reproduction via seed production.</p>
+<p>A plant parameter <strong>plant.Kr</strong> specifies the reproductive biomass;
+this value is the fraction per unit biomass (0-1),
+where biomass is the previous growing season’s total aboveground growth.</p>
 <p>These propagation algorithms introduce “growing season” explicitly to the
 model. The start of the growing season is defined as the day-of-year number
 specified by the configuration parameter <strong>simTime.gsStart</strong>. For instance,
@@ -797,7 +800,7 @@ dispersal.</p>
 and <code class="docutils literal notranslate"><span class="pre">P</span></code> is aboveground biomass.</p>
 <p>The annual implementation incorporates new plant parameters:
 <strong>plant.E</strong> (proportion of effort for vegetative propagation )
-and <strong>plant.Kr</strong> (reproduction fraction per unit biomass):</p>
+and <strong>plant.Kr</strong> (reproduction fraction per unit new biomass):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Dp</span> <span class="o">*</span> <span class="n">L</span><span class="p">(</span><span class="n">E</span> <span class="o">*</span> <span class="n">Kr</span> <span class="o">*</span> <span class="n">P</span><span class="p">)</span> <span class="o">/</span> <span class="n">dx</span><span class="o">^</span><span class="mi">2</span>
 </pre></div>
 </div>

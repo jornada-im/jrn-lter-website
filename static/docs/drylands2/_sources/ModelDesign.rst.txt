@@ -616,6 +616,10 @@ configuration plant parameter **plant.E** is the proportion of reproductive
 effort to be used for vegetative (non-seeded) propagation. Conversely,
 ``1-E`` is the proportion for reproduction via seed production.
 
+A plant parameter **plant.Kr** specifies the reproductive biomass;
+this value is the fraction per unit biomass (0-1),
+where biomass is the previous growing season's total aboveground growth.
+
 These propagation algorithms introduce "growing season" explicitly to the
 model. The start of the growing season is defined as the day-of-year number
 specified by the configuration parameter **simTime.gsStart**. For instance,
@@ -644,7 +648,7 @@ and ``P`` is aboveground biomass.
 
 The annual implementation incorporates new plant parameters:
 **plant.E** (proportion of effort for vegetative propagation )
-and **plant.Kr** (reproduction fraction per unit biomass)::
+and **plant.Kr** (reproduction fraction per unit new biomass)::
 
     Dp * L(E * Kr * P) / dx^2
 

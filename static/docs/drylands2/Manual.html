@@ -972,97 +972,101 @@ Fields in <strong>bold</strong> are nested structures:
 </tr>
 <tr class="row-odd"><td><p>Kr</p></td>
 <td><p>scalar</p></td>
-<td><p>Reproduction fraction per unit biomass (0-1).</p></td>
+<td><p>Reproduction fraction per unit biomass (0-1),</p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>where biomass is the previous growing season’s total aboveground growth.</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Includes both vegetative + seeded reproduction.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>seed</strong></p></td>
+<tr class="row-even"><td><p><strong>seed</strong></p></td>
 <td><p>struct</p></td>
 <td><p><strong>Seed dispsersal propagation:</strong></p></td>
 </tr>
-<tr class="row-even"><td><p>bmNewSeedling</p></td>
+<tr class="row-odd"><td><p>bmNewSeedling</p></td>
 <td><p>scalar</p></td>
 <td><p>Initial aboveground biomass of a new seedling (g/m2).</p></td>
 </tr>
-<tr class="row-odd"><td><p>bmMaxRepro</p></td>
+<tr class="row-even"><td><p>bmMaxRepro</p></td>
 <td><p>scalar</p></td>
 <td><p>Fraction of maximum biomass per cell below which seed reproduction can occur (0-1).</p></td>
 </tr>
-<tr class="row-even"><td><p>Kg</p></td>
+<tr class="row-odd"><td><p>Kg</p></td>
 <td><p>scalar</p></td>
 <td><p>Constant germination rate == probability of germination (0-1).</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>mortality</strong></p></td>
+<tr class="row-even"><td><p><strong>mortality</strong></p></td>
 <td><p>struct</p></td>
 <td><p><strong>Mortality configuration:</strong></p></td>
 </tr>
-<tr class="row-even"><td><p>d</p></td>
+<tr class="row-odd"><td><p>d</p></td>
 <td><p>scalar</p></td>
 <td><p>Background mortality rate: loss of plant density due to mortality (fraction d-1).</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p><strong>Water stress affecting mortality:</strong></p></td>
 </tr>
-<tr class="row-even"><td><p>B0</p></td>
+<tr class="row-odd"><td><p>B0</p></td>
 <td><p>scalar</p></td>
 <td><p>Water demand excess at the logistic function inflection point (range: &gt;= 0.0).</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Increasing values at a fixed water demand excess will decrease the mortality rate,</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>while the maximum rate of change of mortality remains constant.</p></td>
 </tr>
-<tr class="row-odd"><td><p>B1</p></td>
+<tr class="row-even"><td><p>B1</p></td>
 <td><p>scalar</p></td>
 <td><p>Maximum rate of change of mortality (range: &gt;= 0.0).</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>This is the maximum slope at the inflection point of the logistic function.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Increasing values increase the rate of change in mortality at the logistic inflection</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>point, and at a fixed water demand excess will increase the mortality rate.</p></td>
 </tr>
-<tr class="row-odd"><td><p>lengthPeriod</p></td>
+<tr class="row-even"><td><p>lengthPeriod</p></td>
 <td><p>scalar</p></td>
 <td><p>Number of days to track excess water demand.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>aeolianEffect</strong></p></td>
+<tr class="row-odd"><td><p><strong>aeolianEffect</strong></p></td>
 <td><p>struct</p></td>
 <td><p><strong>Aeolian effects from biomass upon erosion/deposition:</strong></p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>This struct will have different fields and values for a grass or shrub:</p></td>
 </tr>
-<tr class="row-even"><td><p><em>Grass:</em></p></td>
-<td><p></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p>minThreshold</p></td>
-<td><p>scalar</p></td>
-<td><p>Minimum aboveground biomass to be included in aeolian calculations (g/m2).</p></td>
-</tr>
-<tr class="row-even"><td><p>B, Bmax, Bz</p></td>
-<td><p>scalar</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">grassEffect</span></code> equation parameters. E.g., B: 0.12, Bmax: 0.99, Bz: 1000.0</p></td>
-</tr>
-<tr class="row-odd"><td><p><em>Shrub:</em></p></td>
+<tr class="row-odd"><td><p><em>Grass:</em></p></td>
 <td><p></p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p>minThreshold</p></td>
+<td><p>scalar</p></td>
+<td><p>Minimum aboveground biomass to be included in aeolian calculations (g/m2).</p></td>
+</tr>
+<tr class="row-odd"><td><p>B, Bmax, Bz</p></td>
+<td><p>scalar</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">grassEffect</span></code> equation parameters. E.g., B: 0.12, Bmax: 0.99, Bz: 1000.0</p></td>
+</tr>
+<tr class="row-even"><td><p><em>Shrub:</em></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>minThreshold</p></td>
 <td><p>scalar</p></td>
 <td><p>Minimum aboveground biomass to be included in aeolian calculations (g/m2).</p></td>
 </tr>

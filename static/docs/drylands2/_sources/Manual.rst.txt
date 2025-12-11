@@ -530,7 +530,8 @@ DP                  scalar       Plant growth: diffusion: lateral dispersal and 
 \                   \            Valid range is 0-1.
 E                   scalar       Proportion of effort for vegetative (non-seeded) propagation (0-1);
 \                   \            1-E = proportion of effort for seeded propagation (0-1).
-Kr                  scalar       Reproduction fraction per unit biomass (0-1).
+Kr                  scalar       Reproduction fraction per unit biomass (0-1),
+\                   \            where biomass is the previous growing season's total aboveground growth.
 \                   \            Includes both vegetative + seeded reproduction.
 **seed**            struct       **Seed dispsersal propagation:**
 bmNewSeedling       scalar       Initial aboveground biomass of a new seedling (g/m2).
