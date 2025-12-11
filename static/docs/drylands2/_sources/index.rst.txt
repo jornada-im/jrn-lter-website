@@ -6,7 +6,7 @@
 Drylands2 model documentation
 =============================
 
-This is the documentation for the Drylands2 model developed by the Jornada LTER
+This is the SPHINXDOCS BRANCH documentation for the Drylands2 model developed by the Jornada LTER
 program. The model simulates vegetation development in arid to semiarid
 landscapes. Model files and this documentation are hosted in the `Drylands2 
 GitHub repository`_. If you have questions contact jornada.data@nmsu.edu.
