@@ -181,7 +181,7 @@ Class names are capitalized.
 Function names are (usually) not capitalized.
 
 The list below shows major functions and classes organized by functional
-category; though several supporting functions are omitted.
+category, though several supporting functions are omitted.
 
 Model Control:
 
@@ -1001,6 +1001,7 @@ Descripton of the aeolian submodel.
 ``doc/*.R`` and ``doc/*.m``: R and GNU Octave scripts producing graphs
 demonstrating equations used in these algorithms.
 
+*ModifyingModel.pdf* or *ModifyingModel.html*, source: *ModifyingModel.rst*
 
 
 Bibliography

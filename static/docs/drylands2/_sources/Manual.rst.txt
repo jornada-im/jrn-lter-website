@@ -1431,7 +1431,7 @@ Citations
 See Also
 ==========
 
-*Manual.pdf*, source: *Manual.rst*
+*ModelDesign.pdf*, source: *ModelDesign.rst*
 
 *ModelDiagram.pdf*, source: *ModelDiagram.fodt*
 
