@@ -828,7 +828,10 @@ define the plant species. Each struct in the array is one species definition,
 and contains the fields described in the table below.
 Fields in <strong>bold</strong> are nested structures:
 <strong>mortality</strong>, <strong>seed</strong>, <strong>aeolianEffect</strong>.</p>
-<p>Generally, the categories of fields are growth, mortality, and reproduction.</p>
+<p>Each plant species has a type defined in the configuration item
+<strong>plant.type</strong>. Plants can be a perennial grass, a shrub, or an annual grass
+or forb. Configuration categories are biomass, growth, reproduction,
+mortality, and reproduction.</p>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
 <thead>
@@ -844,7 +847,7 @@ Fields in <strong>bold</strong> are nested structures:
 </tr>
 <tr class="row-odd"><td><p>type</p></td>
 <td><p>scalar</p></td>
-<td><p>Type of plant: 1 = grass, 2 = shrub</p></td>
+<td><p>Type of plant: 1 = perennial grass, 2 = shrub, 3 = annual grass or forb</p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
@@ -2122,11 +2125,15 @@ arid ecosystems. American Naturalist 160:524–530. <a class="reference external
 </tr>
 <tr class="row-odd"><td><p>2025.12</p></td>
 <td><p>7.x</p></td>
-<td><p>Describe new sweep subsystem, and configuration parameters</p></td>
+<td><p>Describe new sweep subsystem. New configuration parameters</p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
-<td><p>for new algorithms: seed dispersal propagation.</p></td>
+<td><p>for new algorithms for seed dispersal propagation, and a</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>new plant type, annual grass or forb.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2445,7 +2452,7 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="w">  </span><span class="c1"># An array of entries, one per plant species.</span>
 <span class="w">  </span><span class="c1">#</span>
 <span class="w">  </span><span class="c1"># name        - Common or scientific name of plant species</span>
-<span class="nt">  # type        - Type of plant</span><span class="p">:</span><span class="w"> </span><span class="nv">1 = grass</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">2 = shrub</span>
+<span class="nt">  # type        - Type of plant</span><span class="p">:</span><span class="w"> </span><span class="nv">1 = perennial grass</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">2 = shrub</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3 = annual grass or forb</span>
 <span class="w">  </span><span class="nt"># --- Biomass</span><span class="p">:</span>
 <span class="w">  </span><span class="c1"># Bmax        - Maximum biomass (g/m2)</span>
 <span class="w">  </span><span class="c1"># bmBgAgRatio - Ratio of belowground to aboveground biomass</span>

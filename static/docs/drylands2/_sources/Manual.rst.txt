@@ -492,13 +492,16 @@ and contains the fields described in the table below.
 Fields in **bold** are nested structures:
 **mortality**, **seed**, **aeolianEffect**.
 
-Generally, the categories of fields are growth, mortality, and reproduction.
+Each plant species has a type defined in the configuration item
+**plant.type**. Plants can be a perennial grass, a shrub, or an annual grass
+or forb. Configuration categories are biomass, growth, reproduction,
+mortality, and reproduction.
 
 ==================  ===========  =======================================================================================
 Configuration Item  Data Type    Description
 ==================  ===========  =======================================================================================
 name                string       Name of plant species.
-type                scalar       Type of plant: 1 = grass, 2 = shrub
+type                scalar       Type of plant: 1 = perennial grass, 2 = shrub, 3 = annual grass or forb
 \                   \            **Biomass:**
 Bmax                scalar       Maximum biomass (g/m2).
 bmBgAgRatio         scalar       Ratio of belowground to aboveground biomass.
@@ -1455,8 +1458,9 @@ Revision Date        Model Version        Description
 2025.10.03           6.2                  Add Introduction section `Conventions`_.
 \                    \                    Expand information in `Map Time Series Files`_.
 2025.10.14           6.4                  Expanded information describing mounds.
-2025.12              7.x                  Describe new sweep subsystem, and configuration parameters
-\                    \                    for new algorithms: seed dispersal propagation.
+2025.12              7.x                  Describe new sweep subsystem. New configuration parameters
+\                    \                    for new algorithms for seed dispersal propagation, and a
+\                    \                    new plant type, annual grass or forb.
 ===================  ===================  ===============================================================
 
 
@@ -1746,7 +1750,7 @@ Additional configuration files (``*.json``) are provided in the
       # An array of entries, one per plant species.
       #
       # name        - Common or scientific name of plant species
-      # type        - Type of plant: 1 = grass, 2 = shrub
+      # type        - Type of plant: 1 = perennial grass, 2 = shrub, 3 = annual grass or forb
       # --- Biomass:
       # Bmax        - Maximum biomass (g/m2)
       # bmBgAgRatio - Ratio of belowground to aboveground biomass

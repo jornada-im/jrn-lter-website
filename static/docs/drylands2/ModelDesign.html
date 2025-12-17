@@ -353,6 +353,8 @@ time loop.</p>
 uses a subdaily time resolution.
 The subdaily time step is determined in part by dispersion rates, in order
 to produce smooth transitions between cells.</p>
+<p>Class SimTime tracks the time variables.
+Class State tracks the iteration through days.</p>
 </section>
 <section id="soil-structure">
 <h4>Soil Structure<a class="headerlink" href="#soil-structure" title="Link to this heading">¶</a></h4>
@@ -420,6 +422,7 @@ category; though several supporting functions are omitted.</p>
 <blockquote>
 <div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Constants</span>
 <span class="n">Files</span>
+<span class="n">GridDomain</span>
 <span class="n">SimInfo</span>
 <span class="n">SimTime</span>
 <span class="n">State</span>
@@ -696,8 +699,9 @@ applied to mortality of grass and young shrubs.</p>
 </section>
 <section id="plants">
 <h3>Plants<a class="headerlink" href="#plants" title="Link to this heading">¶</a></h3>
-<p>Each plant species is defined in the configuration file
-under the item <strong>plant</strong>.</p>
+<p>Each plant species is defined in the configuration file under the item
+<strong>plant</strong>. Plants can be a perennial grass, a shrub, or an annual grass or
+forb.</p>
 <section id="history-of-plant-algorithms">
 <h4>History of Plant Algorithms<a class="headerlink" href="#history-of-plant-algorithms" title="Link to this heading">¶</a></h4>
 <ul class="simple">
@@ -707,7 +711,7 @@ under the item <strong>plant</strong>.</p>
 <li><p>Version 4 adds plant mortality due to water stress.</p></li>
 <li><p>Version 5 adds daily soil N demand for maintenance by current biomass.</p></li>
 <li><p>Version 6 adds plant mortality due to aeolian erosion and deposition.</p></li>
-<li><p>Version 7 adds seed dispersal propagation.</p></li>
+<li><p>Version 7 adds seed dispersal propagation, and death of annual plants.</p></li>
 </ul>
 <p>Implementation of plants is in classes <strong>Plant</strong> and <strong>Roots</strong>.
 For a diagram of functional and class relationships, see the
@@ -745,7 +749,8 @@ daily air temperature, and available soil N.</p>
 <p>There are multiple types of mortality:</p>
 <ul class="simple">
 <li><p>Constant background rate.</p></li>
-<li><p>Mortality due to drought stress.</p></li>
+<li><p>Mortality due to environmental stressors.</p></li>
+<li><p>Mortality due to being an annual plant.</p></li>
 </ul>
 <p>Prior to version 4, plant mortality is a fixed fraction of aboveground
 biomass (the plant configuration parameter <strong>d</strong>).</p>
@@ -760,10 +765,12 @@ by the GNU Octave script <code class="docutils literal notranslate"><span class=
 <p>Water stress as implemented here is the cumulative sum of excess demand of
 soil water over available water by a plant over a time period. Stress is
 positive if the cumulative excess is &gt; zero, otherwise it is zero.</p>
-<p>Mortality rate is the sum of the background rate and the water stress rate.
-Once per simulation day, the water stress cumulative sum is updated with
-that day’s value of plant demand vs available soil water.
-Rates have the units <em>fraction of biomass per day</em>.</p>
+<p>Version 7 introduces the plant type annual grass or forb. Plants of this
+type are killed at the end of the growing season (see )</p>
+<p>Mortality rate is the sum of the background rate and environmental stress
+rates. Once per simulation day, the water stress cumulative sum is updated
+with that day’s value of plant demand vs available soil water. Rates have
+the units <em>fraction of biomass per day</em>.</p>
 <p>The algorithms are implemented in the classes
 <strong>Mortality</strong> and <strong>WaterStress</strong>, used by class <strong>Plant</strong>.</p>
 </section>
@@ -776,7 +783,11 @@ effort to be used for vegetative (non-seeded) propagation. Conversely,
 <code class="docutils literal notranslate"><span class="pre">1-E</span></code> is the proportion for reproduction via seed production.</p>
 <p>A plant parameter <strong>plant.Kr</strong> specifies the reproductive biomass;
 this value is the fraction per unit biomass (0-1),
-where biomass is the previous growing season’s total aboveground growth.</p>
+where biomass is the previous growing season’s total aboveground growth.
+The amount of biomass involved in reproduction will be proportional to an
+approximation of environmental stress decreasing plant growth over the
+growing season, so <strong>plant.Kr</strong> is scaled by the ratio of actual to
+potential growth.</p>
 <p>These propagation algorithms introduce “growing season” explicitly to the
 model. The start of the growing season is defined as the day-of-year number
 specified by the configuration parameter <strong>simTime.gsStart</strong>. For instance,
@@ -816,9 +827,14 @@ term.</p>
 <p>Once per year at the end of the “growing season” (<strong>simTime.gsStart</strong>),
 seeds may be distributed throughout the grid. At the start of the growing
 season, they are allowed to germinate and begin growing. The success rate of
-germination is random.</p>
-<p>Seed amount is proportional to aboveground biomass (ABGM).
-Seed is produced by all cells in which the ABGM is greater than the minimum
+germination is random. The biomass of the seedlings is added to the biomass
+of each cell; seedlings are not tracked separately.</p>
+<p>Seed amount is proportional to aboveground biomass (ABGM) through the plant
+parameter <strong>plant.Kr</strong>. This proportion can be reduced by a measure of
+environmental stress estimated from the net new growth over the growing
+season relative to potential growth. When growing season stress is higher,
+less reproduction will occur.</p>
+<p>Seed is produced by all cells in which the ABGM is greater than the minimum
 specified by the plant parameter <strong>bmThreshold</strong>.
 Seed is distributed to all cells on the grid that have ABGM
 for that plant less than a threshold specified by the plant parameter
@@ -832,8 +848,10 @@ These limits are:</p>
 that can receive seed, and this amount is distributed to each candidate cell.</p>
 <p>On the first day of the growing season, the germination rate per cell is
 determined randomly, and the biomass of the successful seedlings is added to
-the ABGM of the grid cell. A bionomial probability is used to determined
+the ABGM of the grid cell. A binomial probability is used to determined
 success of germination.</p>
+<p>Class Seed manages the seed dispersal and germination. Each Plant has its
+own Seed member.</p>
 </section>
 </section>
 <section id="species-competition">
@@ -1076,6 +1094,7 @@ in the multiple simulations. Mounds simulations generate a mounds map.</p></li>
 <ul class="simple">
 <li><p>New sweep subsystem can sweep any configuration parameter.</p></li>
 <li><p>Adds algorithm for propagation by way of seed dispersal.</p></li>
+<li><p>New plant type: annual grass or forb.</p></li>
 </ul>
 </section>
 </section>
