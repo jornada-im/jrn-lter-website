@@ -278,6 +278,8 @@ Finally, several functions and classes that are not model-specific have been
 moved into the DrylandsLib package.</p></li>
 <li><p>Version 6 has a new aeolian submodel for effects upon plant mortality and
 growth due to aeolian erosion and deposition.</p></li>
+<li><p>Version 7 adds seed dispersal propagation, and annual plant type.
+A new sweep subsystem can sweep any configuration parameter.</p></li>
 </ul>
 <p>A configuration file in JSON[<a class="reference internal" href="#id7">6</a>] format controls the simulation.
 Input is daily precipitation, temperature, N atmospheric deposition, and
@@ -408,7 +410,7 @@ category, though several supporting functions are omitted.</p>
 <span class="n">Evaporation</span>
 <span class="n">Infiltration</span>
 <span class="n">initialConditions</span>
-<span class="n">Mortality</span>
+<span class="n">MortalityRate</span>
 <span class="n">Plant</span>
 <span class="n">Roots</span>
 <span class="n">Seed</span>
@@ -711,7 +713,7 @@ forb.</p>
 <li><p>Version 4 adds plant mortality due to water stress.</p></li>
 <li><p>Version 5 adds daily soil N demand for maintenance by current biomass.</p></li>
 <li><p>Version 6 adds plant mortality due to aeolian erosion and deposition.</p></li>
-<li><p>Version 7 adds seed dispersal propagation, and death of annual plants.</p></li>
+<li><p>Version 7 adds seed dispersal propagation, and annual plant type.</p></li>
 </ul>
 <p>Implementation of plants is in classes <strong>Plant</strong> and <strong>Roots</strong>.
 For a diagram of functional and class relationships, see the
@@ -754,25 +756,27 @@ daily air temperature, and available soil N.</p>
 </ul>
 <p>Prior to version 4, plant mortality is a fixed fraction of aboveground
 biomass (the plant configuration parameter <strong>d</strong>).</p>
-<p>Version 4 introduces mortality due to soil water stress, or drought.
+<p>Version 4 introduced mortality due to soil water stress, or drought.
 A logistic curve of mortality vs. water stress is parameterized by
 the configuration items <strong>plant.mortality</strong>.
 The length of the stress period is also specifed.
 A background mortality rate is a fixed fraction of aboveground
-biomass (the configuration parameter <strong>plant.mortality.d</strong>).</p>
-<p>Example logistic mortality curves are displayed in the graph produced
+biomass (the configuration parameter <strong>plant.mortality.d</strong>).
+Example logistic mortality curves are displayed in the graph produced
 by the GNU Octave script <code class="docutils literal notranslate"><span class="pre">plot-mortality.m</span></code>.</p>
 <p>Water stress as implemented here is the cumulative sum of excess demand of
 soil water over available water by a plant over a time period. Stress is
 positive if the cumulative excess is &gt; zero, otherwise it is zero.</p>
-<p>Version 7 introduces the plant type annual grass or forb. Plants of this
-type are killed at the end of the growing season (see )</p>
 <p>Mortality rate is the sum of the background rate and environmental stress
 rates. Once per simulation day, the water stress cumulative sum is updated
 with that day’s value of plant demand vs available soil water. Rates have
 the units <em>fraction of biomass per day</em>.</p>
-<p>The algorithms are implemented in the classes
-<strong>Mortality</strong> and <strong>WaterStress</strong>, used by class <strong>Plant</strong>.</p>
+<p>These mortality algorithms are implemented in the classes
+<strong>MortalityRate</strong> and <strong>WaterStress</strong>, used by class <strong>Plant</strong>.</p>
+<p>Version 7 introduced the plant type annual grass or forb. Plants of this
+type have all aboveground biomass removed at the end of the growing season.</p>
+<p>For all mortality algorithms, the biomass N in roots is transferred to the
+soil N pool.</p>
 </section>
 <section id="spatial-propagation">
 <h4>Spatial Propagation<a class="headerlink" href="#spatial-propagation" title="Link to this heading">¶</a></h4>
@@ -850,8 +854,8 @@ that can receive seed, and this amount is distributed to each candidate cell.</p
 determined randomly, and the biomass of the successful seedlings is added to
 the ABGM of the grid cell. A binomial probability is used to determined
 success of germination.</p>
-<p>Class Seed manages the seed dispersal and germination. Each Plant has its
-own Seed member.</p>
+<p>Class <strong>Seed</strong> manages the seed dispersal and germination. Each <strong>Plant</strong>
+has its own <strong>Seed</strong> member.</p>
 </section>
 </section>
 <section id="species-competition">
@@ -860,7 +864,7 @@ own Seed member.</p>
 Plant species compete implicitly through their parameterization
 for growth rate and root:shoot ratio.
 Explicit competition for soil resources uses the algorithm
-in the class <code class="docutils literal notranslate"><span class="pre">Competition</span></code>.</p>
+in the class <strong>Competition</strong>.</p>
 <section id="implicit-competition">
 <h5>Implicit Competition<a class="headerlink" href="#implicit-competition" title="Link to this heading">¶</a></h5>
 <p>Each species has configuration items that specify the proportions of
@@ -1200,7 +1204,11 @@ Soil Sci. Soc. Am. J., 70: 1569-1578.
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
-<td><p>seed dispersal propagation.</p></td>
+<td><p>seed dispersal propagation;</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>new plant type annual grass or forb.</p></td>
 </tr>
 </tbody>
 </table>

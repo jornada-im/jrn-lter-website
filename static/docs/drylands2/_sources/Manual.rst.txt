@@ -62,6 +62,8 @@ New algorithms beyond the original model include:
 * **Version 6** adds a new aeolian submodel for effects upon plant mortality due to
   aeolian erosion and deposition. The model configuration has new sections to
   configure this submodel, and for plants, their response to aeolian stress.
+* **Version 7** adds seed dispersal propagation, and annual plant type.
+  A new sweep subsystem can sweep any configuration parameter.
 
 A configuration file in JSON format controls the simulation.
 Input is daily precipitation, temperature, N atmospheric deposition, and
@@ -70,6 +72,7 @@ Output options include map images at specified times, netCDF grid time
 series, and grid-average time series for state variables saved to a CSV file.
 Additional tools provide the ability to run simulations from a console
 command-line, and convenience functions to examine simulation results.
+
 
 Conventions
 ------------
@@ -349,11 +352,14 @@ of the configuration file's path.
 ==================  ============  ============================================================================
 Configuration Item  Data Type     Description
 ==================  ============  ============================================================================
-about               struct        About the simulation: location (site name), latitude, longitude.
-grid                struct        Number of rows and columns of the square simulation grid
+about               struct        About the simulation: Fields: location (site name), latitude, longitude.
+grid                struct        Number of rows and columns of the square simulation grid.
+\                   \             Fields: **rows**, **columns**.
 input               struct        Input data sources; see " `Input Data Configuration`_ ".
+\                   \             Fields: **precipitation**, **temperature**, **NAtmDep**, **wind**.
 output              struct        Output path for results and plots, and output configuration;
 \                   \             see " `Output Configuration`_ ".
+\                   \             Fields: **path**, **saveResults**, **gridAvgTimeSeries**, **mapTS**.
 **simTime**         struct        Simulation time; see " `Simulation Time`_ ".
 \                   \             Field **start**: start year and day-of-year for the simulation (integers).
 \                   \             Example: [ 2000, 1 ]
@@ -434,7 +440,7 @@ Output Configuration
 ---------------------
 
 The configuration item **output** has the following values and
-boolean switches (**true** = produce graph, **false** = do not produce graph).
+boolean switches (*true* = produce graph, *false* = do not produce graph).
 
 ==================  =========  ============================================================================
 Configuration Item  Data Type  Description
@@ -444,13 +450,13 @@ path                string     Directory path to contain output files.
 saveResults         logical    Save final results to a "mat" file (true or false).
 gridAvgTimeSeries   logical    Write grid-average time series of pools to a CSV file (true or false).
 **mapTS**           struct     Items to create map time series output.
-\                   \          Values can be *false* (or zero), or the day number of the year at which
+\                   \          Values can be *false* (or zero), or the *day number of the year* at which
 \                   \          output will be generated. Valid day numbers are in the range 1-365.
 \                   \          The items are:
 biomass             --         Generate a netCDF[6_] map time series grids for biomass for each species.
-\                   \          Value is boolean "false" or a positive integer in the range 1-365.
+\                   \          Value is boolean "false" or a *positive integer in the range 1-365*.
 resources           --         Generate a netCDF[6_] map time series grids for each resource.
-\                   \          Value is boolean "false" or a positive integer in the range 1-365.
+\                   \          Value is boolean "false" or a *positive integer in the range 1-365*.
 spatialChanges      logical    Generate time series grids for annual changes in resources and biomass.
 \                   \          Grids are saved in an MAT file (a *GNU Octave* file format).
 ==================  =========  ============================================================================
@@ -460,7 +466,7 @@ Graphs Configuration
 ---------------------
 
 The configuration item **graphs** has the following values and
-boolean switches (**true** = produce graph, **false** = do not produce graph).
+boolean switches (*true* = produce graph, *false* = do not produce graph).
 
 ==================  =========  =========================================================================
 Configuration Item  Data Type  Description
@@ -478,8 +484,8 @@ mapSchedule         vector     Schedule for maps: used if doResultsMaps == true.
 mapOriginAtTop      logical    Is the origin of maps at top-left? If false, is at lower-left.
 destination         string     Should graphs and maps be displayed or written to a file?
 \                   \          Choices:
-\                   \          "display" - to a window on the screen
-\                   \          "png"     - save graph in a PNG file
+\                   \          *"display"* - to a window on the screen
+\                   \          *"png"*     - save graph in a PNG file
 ==================  =========  =========================================================================
 
 
@@ -508,8 +514,10 @@ bmBgAgRatio         scalar       Ratio of belowground to aboveground biomass.
 bmBgDist            1x3 matrix   Belowground biomass distribution; fraction into each soil layer (sum to 1.0).
 bmThreshold         scalar       Minimum biomass fraction (< 1.0) for cell to be considered vegetated.
 \                   \            **Growth:**
-rmax                scalar       Limiting growth rate (maximum daily new biomass as fraction of current biomass);
-\                   \            valid range 0-1. E.g., An estimate is maximum annual GPP / 365.
+rmax                scalar       Limiting daily growth rate (maximum daily new biomass as fraction of current biomass);
+\                   \            valid range 0-1.
+\                   \            For annuals (type 3) this value should be high enough to allow maximum potential
+\                   \            biomass to be attainable over one growing season.
 gmax                scalar       Plant water uptake: maximum specific water uptake (mm g-1 m-2 d-1).
 \                   \            Proportional to 1/(Water maintenance); from Stewart table 4, grass.
 \                   \            Units: Rietkirk 1997 = (g g-1) d-1; Rietkirk 2002 = mm d-1 m2 g-1.
@@ -580,10 +588,11 @@ Configuration Item  Data Type    Description
 *biomass*           \            **Initial biomass configuration - array; entry for each plant species:**
 distribution        scalar       \ integer: 0 = constant with noise; 1 = uniform random fraction; 2 = N random cells
 configRandom        vector       \ Zero or 3 elements: For distribution 2 (N random values), contains:
-\                   \            \ - configRandom(1) = number of random cells wanted;
-\                   \            \ - configRandom(2) = minimum distance from the grid edge (m);
-\                   \            \ - configRandom(3) = minimum distance from other cells (m).
-agLive              1x2 matrix   \ Initial aboveground live biomass per cell (g m-2) of each species per cell.
+\                   \            \ - ``configRandom(1)`` = number of random cells wanted;
+\                   \            \ - ``configRandom(2)`` = minimum distance from the grid edge (m);
+\                   \            \ - ``configRandom(3)`` = minimum distance from other cells (m).
+agLive              1xN matrix   Initial aboveground live biomass per cell (g m-2) of each species per cell.
+\                   \
 *other items*       \            \
 precipitation       scalar       Amount of rainfall (mm) for initialization.
 \                   \            The water will be applied to surface soil water content at the simulation start.
@@ -601,7 +610,7 @@ Epot                string       Evaporation: Daily potential evaporation; an eq
 \                   \            Example: ``"@(T) (0.392 * T - 0.837)^2"``
 E0                  scalar       Evaporation: Minimum daily potential evaporation under the plant canopy.
 b                   scalar       Evaporation: Changes the relative lengths of the minimum and maximum asymptotes;
-\                   \            b > **e** increases the length of the minimum asymptote.
+\                   \            ``b`` > **e** increases the length of the minimum asymptote.
 c                   scalar       Evaporation: Displacement of the inflection point along the x-axis;
 \                   \            smaller values shift left.
 Emr                 scalar       Evaporation: Slope at inflection point; proportional to the maximum change in

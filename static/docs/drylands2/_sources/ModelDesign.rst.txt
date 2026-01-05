@@ -48,6 +48,8 @@ There are several changes to algorithms from the original model, including:
   moved into the DrylandsLib package.
 * Version 6 has a new aeolian submodel for effects upon plant mortality and
   growth due to aeolian erosion and deposition.
+* Version 7 adds seed dispersal propagation, and annual plant type.
+  A new sweep subsystem can sweep any configuration parameter.
 
 A configuration file in JSON[6_] format controls the simulation.
 Input is daily precipitation, temperature, N atmospheric deposition, and
@@ -207,7 +209,7 @@ Algorithmic:
         Evaporation
         Infiltration
         initialConditions
-        Mortality
+        MortalityRate
         Plant
         Roots
         Seed
@@ -538,7 +540,7 @@ History of Plant Algorithms
 * Version 4 adds plant mortality due to water stress.
 * Version 5 adds daily soil N demand for maintenance by current biomass.
 * Version 6 adds plant mortality due to aeolian erosion and deposition.
-* Version 7 adds seed dispersal propagation, and death of annual plants.
+* Version 7 adds seed dispersal propagation, and annual plant type.
 
 Implementation of plants is in classes **Plant** and **Roots**.
 For a diagram of functional and class relationships, see the
@@ -589,13 +591,12 @@ There are multiple types of mortality:
 Prior to version 4, plant mortality is a fixed fraction of aboveground
 biomass (the plant configuration parameter **d**).
 
-Version 4 introduces mortality due to soil water stress, or drought.
+Version 4 introduced mortality due to soil water stress, or drought.
 A logistic curve of mortality vs. water stress is parameterized by
 the configuration items **plant.mortality**.
 The length of the stress period is also specifed.
 A background mortality rate is a fixed fraction of aboveground
 biomass (the configuration parameter **plant.mortality.d**).
-
 Example logistic mortality curves are displayed in the graph produced
 by the GNU Octave script ``plot-mortality.m``.
 
@@ -603,16 +604,19 @@ Water stress as implemented here is the cumulative sum of excess demand of
 soil water over available water by a plant over a time period. Stress is
 positive if the cumulative excess is > zero, otherwise it is zero.
 
-Version 7 introduces the plant type annual grass or forb. Plants of this
-type are killed at the end of the growing season (see )
-
 Mortality rate is the sum of the background rate and environmental stress
 rates. Once per simulation day, the water stress cumulative sum is updated
 with that day's value of plant demand vs available soil water. Rates have
 the units *fraction of biomass per day*.
 
-The algorithms are implemented in the classes
-**Mortality** and **WaterStress**, used by class **Plant**.
+These mortality algorithms are implemented in the classes
+**MortalityRate** and **WaterStress**, used by class **Plant**.
+
+Version 7 introduced the plant type annual grass or forb. Plants of this
+type have all aboveground biomass removed at the end of the growing season.
+
+For all mortality algorithms, the biomass N in roots is transferred to the
+soil N pool.
 
 
 
@@ -707,8 +711,8 @@ determined randomly, and the biomass of the successful seedlings is added to
 the ABGM of the grid cell. A binomial probability is used to determined
 success of germination.
 
-Class Seed manages the seed dispersal and germination. Each Plant has its
-own Seed member.
+Class **Seed** manages the seed dispersal and germination. Each **Plant**
+has its own **Seed** member.
 
 
 Species Competition
@@ -718,7 +722,7 @@ Version 2 includes the ability to have multiple plant species.
 Plant species compete implicitly through their parameterization
 for growth rate and root:shoot ratio.
 Explicit competition for soil resources uses the algorithm
-in the class ``Competition``.
+in the class **Competition**.
 
 
 Implicit Competition
@@ -1062,7 +1066,8 @@ Revision Date        Model Version        Description
 2025.10.03           6.2                  Add Introduction section `Conventions`_.
 2025.10.20           6.4                  Expand information on mounds algorithms.
 2025.12              7.x                  Describe new sweep subsystem, and new algorithms:
-\                    \                    seed dispersal propagation.
+\                    \                    seed dispersal propagation;
+\                    \                    new plant type annual grass or forb.
 ===================  ===================  ==========================================================
 
 

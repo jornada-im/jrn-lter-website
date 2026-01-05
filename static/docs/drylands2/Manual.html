@@ -287,6 +287,8 @@ moved into the DrylandsLib package.</p></li>
 <li><p><strong>Version 6</strong> adds a new aeolian submodel for effects upon plant mortality due to
 aeolian erosion and deposition. The model configuration has new sections to
 configure this submodel, and for plants, their response to aeolian stress.</p></li>
+<li><p><strong>Version 7</strong> adds seed dispersal propagation, and annual plant type.
+A new sweep subsystem can sweep any configuration parameter.</p></li>
 </ul>
 <p>A configuration file in JSON format controls the simulation.
 Input is daily precipitation, temperature, N atmospheric deposition, and
@@ -529,15 +531,23 @@ of the configuration file’s path.</p>
 <tbody>
 <tr class="row-even"><td><p>about</p></td>
 <td><p>struct</p></td>
-<td><p>About the simulation: location (site name), latitude, longitude.</p></td>
+<td><p>About the simulation: Fields: location (site name), latitude, longitude.</p></td>
 </tr>
 <tr class="row-odd"><td><p>grid</p></td>
 <td><p>struct</p></td>
-<td><p>Number of rows and columns of the square simulation grid</p></td>
+<td><p>Number of rows and columns of the square simulation grid.</p></td>
 </tr>
-<tr class="row-even"><td><p>input</p></td>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>Fields: <strong>rows</strong>, <strong>columns</strong>.</p></td>
+</tr>
+<tr class="row-odd"><td><p>input</p></td>
 <td><p>struct</p></td>
 <td><p>Input data sources; see “ <a class="reference internal" href="#input-data-configuration">Input Data Configuration</a> “.</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>Fields: <strong>precipitation</strong>, <strong>temperature</strong>, <strong>NAtmDep</strong>, <strong>wind</strong>.</p></td>
 </tr>
 <tr class="row-odd"><td><p>output</p></td>
 <td><p>struct</p></td>
@@ -547,27 +557,31 @@ of the configuration file’s path.</p>
 <td><p></p></td>
 <td><p>see “ <a class="reference internal" href="#output-configuration">Output Configuration</a> “.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>simTime</strong></p></td>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>Fields: <strong>path</strong>, <strong>saveResults</strong>, <strong>gridAvgTimeSeries</strong>, <strong>mapTS</strong>.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>simTime</strong></p></td>
 <td><p>struct</p></td>
 <td><p>Simulation time; see “ <a class="reference internal" href="#simulation-time">Simulation Time</a> “.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Field <strong>start</strong>: start year and day-of-year for the simulation (integers).</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Example: [ 2000, 1 ]</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Field <strong>stop</strong>: end year and day-of-year (integers).</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Example: [ 2010, 365 ]</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Field <strong>gsStart</strong>: The growing season starting day number of year.</p></td>
 </tr>
@@ -674,7 +688,7 @@ description of the details of the file structure.</p>
 <section id="output-configuration">
 <h3>Output Configuration<a class="headerlink" href="#output-configuration" title="Link to this heading">¶</a></h3>
 <p>The configuration item <strong>output</strong> has the following values and
-boolean switches (<strong>true</strong> = produce graph, <strong>false</strong> = do not produce graph).</p>
+boolean switches (<em>true</em> = produce graph, <em>false</em> = do not produce graph).</p>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
 <thead>
@@ -706,7 +720,7 @@ boolean switches (<strong>true</strong> = produce graph, <strong>false</strong> 
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
-<td><p>Values can be <em>false</em> (or zero), or the day number of the year at which</p></td>
+<td><p>Values can be <em>false</em> (or zero), or the <em>day number of the year</em> at which</p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
@@ -722,7 +736,7 @@ boolean switches (<strong>true</strong> = produce graph, <strong>false</strong> 
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
-<td><p>Value is boolean “false” or a positive integer in the range 1-365.</p></td>
+<td><p>Value is boolean “false” or a <em>positive integer in the range 1-365</em>.</p></td>
 </tr>
 <tr class="row-even"><td><p>resources</p></td>
 <td><p>–</p></td>
@@ -730,7 +744,7 @@ boolean switches (<strong>true</strong> = produce graph, <strong>false</strong> 
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
-<td><p>Value is boolean “false” or a positive integer in the range 1-365.</p></td>
+<td><p>Value is boolean “false” or a <em>positive integer in the range 1-365</em>.</p></td>
 </tr>
 <tr class="row-even"><td><p>spatialChanges</p></td>
 <td><p>logical</p></td>
@@ -747,7 +761,7 @@ boolean switches (<strong>true</strong> = produce graph, <strong>false</strong> 
 <section id="graphs-configuration">
 <h3>Graphs Configuration<a class="headerlink" href="#graphs-configuration" title="Link to this heading">¶</a></h3>
 <p>The configuration item <strong>graphs</strong> has the following values and
-boolean switches (<strong>true</strong> = produce graph, <strong>false</strong> = do not produce graph).</p>
+boolean switches (<em>true</em> = produce graph, <em>false</em> = do not produce graph).</p>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
 <thead>
@@ -811,11 +825,11 @@ boolean switches (<strong>true</strong> = produce graph, <strong>false</strong> 
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
-<td><p>“display” - to a window on the screen</p></td>
+<td><p><em>“display”</em> - to a window on the screen</p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
-<td><p>“png”     - save graph in a PNG file</p></td>
+<td><p><em>“png”</em>     - save graph in a PNG file</p></td>
 </tr>
 </tbody>
 </table>
@@ -875,11 +889,19 @@ mortality, and reproduction.</p>
 </tr>
 <tr class="row-even"><td><p>rmax</p></td>
 <td><p>scalar</p></td>
-<td><p>Limiting growth rate (maximum daily new biomass as fraction of current biomass);</p></td>
+<td><p>Limiting daily growth rate (maximum daily new biomass as fraction of current biomass);</p></td>
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
-<td><p>valid range 0-1. E.g., An estimate is maximum annual GPP / 365.</p></td>
+<td><p>valid range 0-1.</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>For annuals (type 3) this value should be high enough to allow maximum potential</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>biomass to be attainable over one growing season.</p></td>
 </tr>
 <tr class="row-even"><td><p>gmax</p></td>
 <td><p>scalar</p></td>
@@ -1113,201 +1135,205 @@ parameter <strong>beta</strong>, or maximum convection rate.</p>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
-<td><p>- configRandom(1) = number of random cells wanted;</p></td>
+<td><p>- <code class="docutils literal notranslate"><span class="pre">configRandom(1)</span></code> = number of random cells wanted;</p></td>
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
-<td><p>- configRandom(2) = minimum distance from the grid edge (m);</p></td>
+<td><p>- <code class="docutils literal notranslate"><span class="pre">configRandom(2)</span></code> = minimum distance from the grid edge (m);</p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
-<td><p>- configRandom(3) = minimum distance from other cells (m).</p></td>
+<td><p>- <code class="docutils literal notranslate"><span class="pre">configRandom(3)</span></code> = minimum distance from other cells (m).</p></td>
 </tr>
 <tr class="row-odd"><td><p>agLive</p></td>
-<td><p>1x2 matrix</p></td>
+<td><p>1xN matrix</p></td>
 <td><p>Initial aboveground live biomass per cell (g m-2) of each species per cell.</p></td>
 </tr>
-<tr class="row-even"><td><p><em>other items</em></p></td>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><em>other items</em></p></td>
 <td><p></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p>precipitation</p></td>
+<tr class="row-even"><td><p>precipitation</p></td>
 <td><p>scalar</p></td>
 <td><p>Amount of rainfall (mm) for initialization.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>The water will be applied to surface soil water content at the simulation start.</p></td>
 </tr>
-<tr class="row-odd"><td><p>soilN</p></td>
+<tr class="row-even"><td><p>soilN</p></td>
 <td><p>scalar</p></td>
 <td><p>Amount of plant-available N in the entire soil profile depth (g N m-2).</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>The amount will be distributed with constant density in each soil layer.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>params</strong></p></td>
+<tr class="row-even"><td><p><strong>params</strong></p></td>
 <td><p></p></td>
 <td><p><strong>Equation parameter values:</strong></p></td>
 </tr>
-<tr class="row-even"><td><p>alpha</p></td>
+<tr class="row-odd"><td><p>alpha</p></td>
 <td><p>scalar</p></td>
 <td><p>Infiltration: Proportion of surface water available for infiltration (d-1).</p></td>
 </tr>
-<tr class="row-odd"><td><p>Wo</p></td>
+<tr class="row-even"><td><p>Wo</p></td>
 <td><p>scalar</p></td>
 <td><p>Infiltration: Minimum infiltration in the absence of plants (unitless).</p></td>
 </tr>
-<tr class="row-even"><td><p>rW</p></td>
+<tr class="row-odd"><td><p>rW</p></td>
 <td><p>scalar</p></td>
 <td><p>Soil Water: specific soil water loss due to drainage (d-1).</p></td>
 </tr>
-<tr class="row-odd"><td><p>DW</p></td>
+<tr class="row-even"><td><p>DW</p></td>
 <td><p>scalar</p></td>
 <td><p>Soil Water: diffusion coefficient for soil water. Valid range is 0-1. (m2 d-1)</p></td>
 </tr>
-<tr class="row-even"><td><p>DS</p></td>
+<tr class="row-odd"><td><p>DS</p></td>
 <td><p>scalar</p></td>
 <td><p>Surface Water: diffusion coefficient for surface water (DO in Rietkirk (2002) and</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>(HilleRisLambers et al. 2001). Valid range is 0-1. (m2 d-1)</p></td>
 </tr>
-<tr class="row-even"><td><p>Epot</p></td>
+<tr class="row-odd"><td><p>Epot</p></td>
 <td><p>string</p></td>
 <td><p>Evaporation: Daily potential evaporation; an equation.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Provide a string containing anonymous function for equation in GNU Octave/MATLAB form.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Example: <code class="docutils literal notranslate"><span class="pre">&quot;&#64;(T)</span> <span class="pre">(0.392</span> <span class="pre">*</span> <span class="pre">T</span> <span class="pre">-</span> <span class="pre">0.837)^2&quot;</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>E0</p></td>
+<tr class="row-even"><td><p>E0</p></td>
 <td><p>scalar</p></td>
 <td><p>Evaporation: Minimum daily potential evaporation under the plant canopy.</p></td>
 </tr>
-<tr class="row-even"><td><p>b</p></td>
+<tr class="row-odd"><td><p>b</p></td>
 <td><p>scalar</p></td>
 <td><p>Evaporation: Changes the relative lengths of the minimum and maximum asymptotes;</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
-<td><p>b &gt; <strong>e</strong> increases the length of the minimum asymptote.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">b</span></code> &gt; <strong>e</strong> increases the length of the minimum asymptote.</p></td>
 </tr>
-<tr class="row-even"><td><p>c</p></td>
+<tr class="row-odd"><td><p>c</p></td>
 <td><p>scalar</p></td>
 <td><p>Evaporation: Displacement of the inflection point along the x-axis;</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>smaller values shift left.</p></td>
 </tr>
-<tr class="row-even"><td><p>Emr</p></td>
+<tr class="row-odd"><td><p>Emr</p></td>
 <td><p>scalar</p></td>
 <td><p>Evaporation: Slope at inflection point; proportional to the maximum change in</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>evaporation with biomass. E.g., <code class="docutils literal notranslate"><span class="pre">Emr</span> <span class="pre">=</span> <span class="pre">K</span> <span class="pre">*</span> <span class="pre">(Epot</span> <span class="pre">-</span> <span class="pre">E0)</span> <span class="pre">/</span> <span class="pre">Bmax</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p><strong>aeolian</strong></p></td>
+<tr class="row-odd"><td><p><strong>aeolian</strong></p></td>
 <td><p></p></td>
 <td><p><strong>Aeolian submodel configuration:</strong></p></td>
 </tr>
-<tr class="row-odd"><td><p>maxDailyFlux</p></td>
+<tr class="row-even"><td><p>maxDailyFlux</p></td>
 <td><p>scalar</p></td>
 <td><p>Maximum daily aeolian sediment flux (g/m/day).</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>E.g., from From Alvarez et al (2012), figure 8b, or</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Bergametti &amp; Gillette (2010), table 7. E.g., 100.0</p></td>
 </tr>
-<tr class="row-even"><td><p>textureFractions</p></td>
+<tr class="row-odd"><td><p>textureFractions</p></td>
 <td><p>struct</p></td>
 <td><p>Grid average surface texture fractions for bare soil.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>These should sum to 1.0. Fields are  “fine”, “coarse”, “gravel”, “crust”.</p></td>
 </tr>
-<tr class="row-even"><td><p>thresholdSpeed</p></td>
+<tr class="row-odd"><td><p>thresholdSpeed</p></td>
 <td><p>struct</p></td>
 <td><p>Wind threshold for aeolian entrainment for each texture (m/s).</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Fields are  “fine”, “coarse”, “gravel”, “crust”.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>E.g. see Webb et al., 2016; Bergametti and Gillette, 2010.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>mounds</strong></p></td>
+<tr class="row-even"><td><p><strong>mounds</strong></p></td>
 <td><p></p></td>
 <td><p><strong>Mounds submodel configuration:</strong></p></td>
 </tr>
-<tr class="row-even"><td><p>number</p></td>
+<tr class="row-odd"><td><p>number</p></td>
 <td><p>scalar</p></td>
 <td><p>Number of mounds; set to 0 for “mound-free” scenario.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>If zero, all other mounds parameters are ignored.</p></td>
 </tr>
-<tr class="row-even"><td><p>geometry</p></td>
+<tr class="row-odd"><td><p>geometry</p></td>
 <td><p>scalar</p></td>
 <td><p>Mound geometry: 0 = no mounds, 1 = generic, 2 = flat-top, 3 = cone.</p></td>
 </tr>
-<tr class="row-odd"><td><p>imc</p></td>
+<tr class="row-even"><td><p>imc</p></td>
 <td><p>1x2 matrix</p></td>
 <td><p>Initial on-mound plant coverage fractions; e.g., <code class="docutils literal notranslate"><span class="pre">[0.0,</span> <span class="pre">0.10]</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>iomc</p></td>
+<tr class="row-odd"><td><p>iomc</p></td>
 <td><p>scalar</p></td>
 <td><p>Initial off-mound plant coverage fraction.</p></td>
 </tr>
-<tr class="row-odd"><td><p>radii</p></td>
+<tr class="row-even"><td><p>radii</p></td>
 <td><p>1x2 matrix</p></td>
 <td><p>Growth radii (m): distance &lt;= radii(1) is “on mound”; &gt;= radii(2) is “off mound”.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Example: <code class="docutils literal notranslate"><span class="pre">[2.5,</span> <span class="pre">6]</span></code>. Additional intermediate radii can be specified.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>See “ <a class="reference internal" href="#mound-radii">Mound Radii</a> “ for details.</p></td>
 </tr>
-<tr class="row-even"><td><p>placement</p></td>
+<tr class="row-odd"><td><p>placement</p></td>
 <td><p>string</p></td>
 <td><p>Mound placement: “single”, “random”, “regular”.</p></td>
 </tr>
-<tr class="row-odd"><td><p>beta</p></td>
+<tr class="row-even"><td><p>beta</p></td>
 <td><p>scalar</p></td>
 <td><p>Maximum water gravity convection rate on mounds (mm d-1).</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>algorithms</strong></p></td>
+<tr class="row-odd"><td><p><strong>algorithms</strong></p></td>
 <td><p></p></td>
 <td><p><strong>Turn submodels on or off (true or false):</strong></p></td>
 </tr>
-<tr class="row-odd"><td><p>NAtmDep</p></td>
+<tr class="row-even"><td><p>NAtmDep</p></td>
 <td><p>scalar</p></td>
 <td><p>boolean: N atmospheric deposition( daily total wet + dry).</p></td>
 </tr>
-<tr class="row-even"><td><p>aeolian</p></td>
+<tr class="row-odd"><td><p>aeolian</p></td>
 <td><p>scalar</p></td>
 <td><p>boolean: Aeolian submodel.</p></td>
 </tr>
-<tr class="row-odd"><td><p>mounds</p></td>
+<tr class="row-even"><td><p>mounds</p></td>
 <td><p>scalar</p></td>
 <td><p>boolean: Mounds submodel.</p></td>
 </tr>
