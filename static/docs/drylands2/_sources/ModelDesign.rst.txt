@@ -439,6 +439,10 @@ The growth algorithm calculates new biomass due to available soil N, and
 includes that as one of the limiting amounts in potential growth. See
 `Growth`_ for a description of the algorithm.
 
+Plant mortality contributes dead biomass N from roots to the
+soil N pool. See the section `Mortality`_ for a description of
+these algorithms.
+
 These configuration parameters control N fluxes:
 
 **input.NAtmDep**
@@ -467,6 +471,8 @@ These configuration parameters control N fluxes:
     (gN gBiomass-1 d-1).
     Added in version 5.
 
+Functions and classes that manage N fluxes include
+**input/NAtmDep**, **getNAtmDep**, and **SoilNEq**.
 
 
 Initialization
@@ -610,13 +616,16 @@ with that day's value of plant demand vs available soil water. Rates have
 the units *fraction of biomass per day*.
 
 These mortality algorithms are implemented in the classes
-**MortalityRate** and **WaterStress**, used by class **Plant**.
+**MortalityRate** and **WaterStress**, used by class **Plant**,
+and for aeolian processes, **aeolian/aeolianEffects**.
 
 Version 7 introduced the plant type annual grass or forb. Plants of this
 type have all aboveground biomass removed at the end of the growing season.
 
 For all mortality algorithms, the biomass N in roots is transferred to the
-soil N pool.
+soil N pool. Each process that contributes to plant mortality accumulates
+dead biomass; at the end of the "start of day" section, the class **SoilNEq**
+calculates the amount of soil N from dead root biomass for each plant.
 
 
 

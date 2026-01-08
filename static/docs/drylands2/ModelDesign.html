@@ -605,6 +605,9 @@ N uptake demand for daily maintenance of above and belowground biomass.</p>
 <p>The growth algorithm calculates new biomass due to available soil N, and
 includes that as one of the limiting amounts in potential growth. See
 <a class="reference internal" href="#growth">Growth</a> for a description of the algorithm.</p>
+<p>Plant mortality contributes dead biomass N from roots to the
+soil N pool. See the section <a class="reference internal" href="#mortality">Mortality</a> for a description of
+these algorithms.</p>
 <p>These configuration parameters control N fluxes:</p>
 <p><strong>input.NAtmDep</strong></p>
 <blockquote>
@@ -631,6 +634,8 @@ Assume <code class="docutils literal notranslate"><span class="pre">cNmax</span>
 (gN gBiomass-1 d-1).
 Added in version 5.</p>
 </div></blockquote>
+<p>Functions and classes that manage N fluxes include
+<strong>input/NAtmDep</strong>, <strong>getNAtmDep</strong>, and <strong>SoilNEq</strong>.</p>
 <section id="id1">
 <h4>Initialization<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h4>
 <p>Initial soil plant-available N is specified in the configuration parameter
@@ -772,11 +777,14 @@ rates. Once per simulation day, the water stress cumulative sum is updated
 with that day’s value of plant demand vs available soil water. Rates have
 the units <em>fraction of biomass per day</em>.</p>
 <p>These mortality algorithms are implemented in the classes
-<strong>MortalityRate</strong> and <strong>WaterStress</strong>, used by class <strong>Plant</strong>.</p>
+<strong>MortalityRate</strong> and <strong>WaterStress</strong>, used by class <strong>Plant</strong>,
+and for aeolian processes, <strong>aeolian/aeolianEffects</strong>.</p>
 <p>Version 7 introduced the plant type annual grass or forb. Plants of this
 type have all aboveground biomass removed at the end of the growing season.</p>
 <p>For all mortality algorithms, the biomass N in roots is transferred to the
-soil N pool.</p>
+soil N pool. Each process that contributes to plant mortality accumulates
+dead biomass; at the end of the “start of day” section, the class <strong>SoilNEq</strong>
+calculates the amount of soil N from dead root biomass for each plant.</p>
 </section>
 <section id="spatial-propagation">
 <h4>Spatial Propagation<a class="headerlink" href="#spatial-propagation" title="Link to this heading">¶</a></h4>
