@@ -622,35 +622,70 @@ Some considerations not implemented:
 **Change in Plant Biomass P (g m**\ :sup:`-2` **d**\ :sup:`-1`\ **)** 
 ----------------------------------------------------------------------
 
+Plants reproduce and propagate to surrounding cells by way of both
+lateral vegetative propagation and reproduction via seed dispersal
+(HilleRisLambers et al., 2001).
+
 dP = Growth – Mortality + Propagation
 
-.. math:: {\frac{\partial P}{\partial t} = {G - {({d \times P})} + D_{P}}}\frac{LP}{\partial x^{2}}
+.. math:: {\frac{\partial P}{\partial t} = {G - {({d \times P})} + D_{P}}}\frac{LP_{\mathit{eff}}}{\partial x^{2}}
 
-+-----------------+-----------------+----------------+----------------+
-|                 |                 | Rietkirk value | Stewart value  |
-+-----------------+-----------------+----------------+----------------+
-| G (g            | Daily potential |                |                |
-| m\ :sup:`-2`)   | growth.         |                |                |
-+-----------------+-----------------+----------------+----------------+
-| d               | Mortality:      | 0.25           | (0.1+0.05)/365 |
-| (d\ :sup:`-1`)  | Specific loss   |                |                |
-|                 | of plant        |                |                |
-|                 | density due to  |                |                |
-|                 | mortality.      |                |                |
-+-----------------+-----------------+----------------+----------------+
-| D\ :sub:`p`     | Propagation:    | 0.1            |                |
-| (m\ :sup:`2`    | Diffusion       |                |                |
-| d\ :sup:`-1`)   | coefficient for |                |                |
-|                 | plant           |                |                |
-|                 | dispersal.      |                |                |
-+-----------------+-----------------+----------------+----------------+
++----------------+---------------+-------+--------------+----------------+
+| Parameter      |               | Range | Rietkirk     | Stewart value  |
+|                |               |       | value        |                |
++----------------+---------------+-------+--------------+----------------+
+| G (g           | Daily         |       |              |                |
+| m\ :sup:`-2`)  | potential     |       |              |                |
+|                | growth.       |       |              |                |
++----------------+---------------+-------+--------------+----------------+
+| d              | Mortality:    |       | 0.25         | (0.1+0.05)/365 |
+| (d\ :sup:`-1`) | Specific loss |       |              |                |
+|                | of plant      |       |              |                |
+|                | density due   |       |              |                |
+|                | to mortality. |       |              |                |
++----------------+---------------+-------+--------------+----------------+
+| D\ :sub:`p`    | Propagation:  | 0-1   | 0.1          |                |
+| (m\ :sup:`2`   | Diffusion     |       |              |                |
+| d\ :sup:`-1`)  | coefficient   |       |              |                |
+|                | for plant     |       |              |                |
+|                | dispersal.    |       |              |                |
++----------------+---------------+-------+--------------+----------------+
+| E              | Proportion of | 0-1   | NA           | NA             |
+|                | reproductive  |       |              |                |
+|                | effort to be  |       |              |                |
+|                | used for      |       |              |                |
+|                | vegetative    |       |              |                |
+|                | (non-seeded)  |       |              |                |
+|                | propagation.  |       |              |                |
+|                | Conversely,   |       |              |                |
+|                | 1-E is the    |       |              |                |
+|                | proportion    |       |              |                |
+|                | for           |       |              |                |
+|                | reproduction  |       |              |                |
+|                | via seed      |       |              |                |
+|                | production.   |       |              |                |
++----------------+---------------+-------+--------------+----------------+
+| K\ :sub:`r`    | Maximum       | 0-1   | NA           | NA             |
+|                | fraction of   |       |              |                |
+|                | aboveground   |       |              |                |
+|                | biomass for   |       |              |                |
+|                | reproduction. |       |              |                |
++----------------+---------------+-------+--------------+----------------+
+| P\ :sub:`eff`  | Effective     |       |              |                |
+|                | aboveground   |       |              |                |
+|                | biomass for   |       |              |                |
+|                | vegetative    |       |              |                |
+|                | reproduction  |       |              |                |
+|                | = K\ :sub:`r` |       |              |                |
+|                | \* E \* P     |       |              |                |
++----------------+---------------+-------+--------------+----------------+
 
 Notes:
 
 - Diffusion is not a function of soil water or water uptake, so growth
   can occur without soil water.
-- Mortality is provided by class **Mortality**, calculated each
-  simulation day.
+- Mortality is provided by class Mortality, calculated each simulation
+  day.
 - For multiple plant species, this equation is applied separately to
   each. However, the growth function includes an interspecies
   competition effect.
@@ -672,6 +707,42 @@ From Breshears et al (1998):
   1943; Meagher 1943) species. Small differences in soil moisture may
   have disproportionately greater effects on germination (Lauenroth et
   al. 1987).
+
+Seeded Propagation:
+
+Once per year at the end of the "growing season" (configuration item
+*simTime.gsStart*), seeds may be distributed throughout the grid. At the
+start of the growing season, they are allowed to germinate and begin
+growing. The success rate of germination is random. The biomass of the
+seedlings is added to the biomass of each cell; seedlings are not
+tracked separately. The same growth potential and constraints are
+applied to seedling biomass as to established biomass.
+
+Seed amount is proportional to aboveground biomass (AGBM) through the
+plant parameter *plant.Kr*. This proportion can be reduced by a measure
+of environmental stress estimated from the net new growth over the
+growing season relative to potential growth. When growing season stress
+is higher, less reproduction will occur.
+
+Parameter *plant.Kr* is influenced by environmental stress on growth:
+The fraction reducing *plant.Kr* = actual growing season growth /
+potential growth.
+
+| Potential growth = *plant.rmax* \* days in growing season - sum(daily
+  background mortality)
+| where *plant.rmax* = maximum daily new biomass as fraction of current
+  biomass.
+
+Ideally potential growth should be a PDE accumulating daily stress
+effect on growth, excluding background mortality. For simplicity, we
+approximate the effect at the end of the growing season. Using AGBM at
+the start and end of growing season:
+
+Effective *Kr* = *plant.Kr* \* (Pend - Pstart + *plant.d* \* mean(P)) /
+( *plant.rmax* \* Pstart \* no. days in grow season)
+
+where Pstart is the AGBM at the start of the growing season, and Pend is
+AGBM at the end.
 
 On-Mound Surface Water Convection (mm d-1) 
 -------------------------------------------
@@ -732,6 +803,10 @@ Fu, Zheng, et al., 2022. Critical soil moisture thresholds of plant
 water stress in terrestrial ecosystems. Sci. Adv. 8, eabq7827.
 DOI:10.1126/sciadv.abq7827
 
+HilleRisLambers, R., Rietkerk, M., van den Bosch, F., Prins, H.H.T. and
+de Kroon, H. (2001), Vegetation pattern formation in semi-arid grazing
+systems. Ecology, 82: 50-61.
+
 Kelly, R. D. & Walker, B. H. (1976). The effects of different forms of
 land use on the ecology of a semi-arid region in south-eastern Rhodesia.
 Journal of Ecology, 64, 553-576.
@@ -772,33 +847,33 @@ William Parton and George Innis (1972). Some Graphs and their Functional
 Forms. Technical Report No. 153, Natural Resource Ecology Laboratory,
 Colorado State University, Fort Collins, Colorado.
 
-.. |image1| image:: ./Pictures/10000000000007080000028A8286E81A.png
+.. |image1| image:: Pictures/10000000000007080000028A8286E81A.png
    :width: 6.2299in
    :height: 2.25in
-.. |image2| image:: ./Pictures/100000010000051E0000027EB0BCFC38.png
+.. |image2| image:: Pictures/100000010000051E0000027EB0BCFC38.png
    :width: 4.6402in
    :height: 2.2598in
-.. |image3| image:: ./Pictures/10000001000003F400000396B0D45B0B.png
+.. |image3| image:: Pictures/10000001000003F400000396B0D45B0B.png
    :width: 2.2in
    :height: 2in
-.. |image4| image:: ./Pictures/10000000000004B0000004B0DE403A68.png
+.. |image4| image:: Pictures/10000000000004B0000004B0DE403A68.png
    :width: 2.25in
    :height: 2.25in
-.. |image5| image:: ./Pictures/100000000000096000000514DDD74E4D.png
+.. |image5| image:: Pictures/100000000000096000000514DDD74E4D.png
    :width: 4.1598in
    :height: 2.25in
-.. |image6| image:: ./Pictures/10000000000007080000028A36A597D4.png
+.. |image6| image:: Pictures/10000000000007080000028A36A597D4.png
    :width: 6.2299in
    :height: 2.25in
-.. |image7| image:: ./Pictures/10000000000007080000028ADE89997D.png
+.. |image7| image:: Pictures/10000000000007080000028ADE89997D.png
    :width: 6.2299in
    :height: 2.25in
-.. |image8| image:: ./Pictures/10000000000004B00000028AAB6762E6.png
+.. |image8| image:: Pictures/10000000000004B00000028AAB6762E6.png
    :width: 4.6098in
    :height: 2.5in
-.. |image9| image:: ./Pictures/1000000000000640000006406A08F5CC.png
+.. |image9| image:: Pictures/1000000000000640000006406A08F5CC.png
    :width: 6in
    :height: 6in
-.. |image10| image:: ./Pictures/10000000000004B00000028AC0ACBB03.png
+.. |image10| image:: Pictures/10000000000004B00000028AC0ACBB03.png
    :width: 4.4701in
    :height: 2.5in

@@ -989,7 +989,7 @@ mortality, and reproduction.</p>
 </tr>
 <tr class="row-odd"><td><p>E</p></td>
 <td><p>scalar</p></td>
-<td><p>Proportion of effort for vegetative (non-seeded) propagation (0-1);</p></td>
+<td><p>Proportion of biomass effort for vegetative (non-seeded) propagation (0-1);</p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
@@ -1005,7 +1005,7 @@ mortality, and reproduction.</p>
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
-<td><p>Includes both vegetative + seeded reproduction.</p></td>
+<td><p>Applies to both vegetative + seeded reproduction.</p></td>
 </tr>
 <tr class="row-even"><td><p><strong>seed</strong></p></td>
 <td><p>struct</p></td>
@@ -2505,10 +2505,10 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="nt">  # maintN      - N</span><span class="p">:</span><span class="w"> </span><span class="nv">Nitrogen maintenance requirement (gN / g biomass / day)</span>
 <span class="w">  </span><span class="nt"># --- Reproducton</span><span class="p">:</span>
 <span class="nt">  # DP          - diffusion</span><span class="p">:</span><span class="w"> </span><span class="nv">lateral dispersal and propagation (m2 d-1). Valid range is 0-1.</span>
-<span class="w">  </span><span class="c1"># E           - Proportion of effort for vegetative (non-seeded) propagation (0-1);</span>
+<span class="w">  </span><span class="c1"># E           - Proportion of biomass effort for vegetative (non-seeded) propagation (0-1);</span>
 <span class="w">  </span><span class="c1">#               1-E = proportion of effort for seeded propagation (0-1).</span>
 <span class="w">  </span><span class="c1"># Kr          - Reproduction fraction per unit biomass (0-1).</span>
-<span class="w">  </span><span class="c1">#               Includes both vegetative + seeded reproduction.</span>
+<span class="w">  </span><span class="c1">#               Applies to both vegetative + seeded reproduction.</span>
 <span class="nt">  # --- Seeded reproduction</span><span class="p">:</span><span class="w"> </span><span class="nv">item &quot;seed&quot;</span>
 <span class="w">  </span><span class="c1">#   bmNewSeedling - Initial aboveground biomass of a new seedling (g/m2).</span>
 <span class="w">  </span><span class="c1">#   bmMaxRepro    - Fraction of maximum biomass per cell below which</span>

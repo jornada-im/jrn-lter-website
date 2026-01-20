@@ -996,23 +996,30 @@ added to the water stress calculation.</p>
 </section>
 <section id="change-in-plant-biomass-p-g-m-2-d-1">
 <h2><strong>Change in Plant Biomass P (g m</strong><sup>-2</sup> <strong>d</strong><sup>-1</sup><strong>)</strong><a class="headerlink" href="#change-in-plant-biomass-p-g-m-2-d-1" title="Link to this heading">¶</a></h2>
+<p>Plants reproduce and propagate to surrounding cells by way of both
+lateral vegetative propagation and reproduction via seed dispersal
+(HilleRisLambers et al., 2001).</p>
 <p>dP = Growth – Mortality + Propagation</p>
 <div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
-\[{\frac{\partial P}{\partial t} = {G - {({d \times P})} + D_{P}}}\frac{LP}{\partial x^{2}}\]</div>
+\[{\frac{\partial P}{\partial t} = {G - {({d \times P})} + D_{P}}}\frac{LP_{\mathit{eff}}}{\partial x^{2}}\]</div>
 </div>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
 <tbody>
-<tr class="row-odd"><td></td>
+<tr class="row-odd"><td><p>Parameter</p></td>
 <td></td>
-<td><p>Rietkirk value</p></td>
+<td><p>Range</p></td>
+<td><p>Rietkirk
+value</p></td>
 <td><p>Stewart value</p></td>
 </tr>
 <tr class="row-even"><td><p>G (g
 m<sup>-2</sup>)</p></td>
-<td><p>Daily potential
+<td><p>Daily
+potential
 growth.</p></td>
+<td></td>
 <td></td>
 <td></td>
 </tr>
@@ -1021,8 +1028,9 @@ growth.</p></td>
 <td><p>Mortality:
 Specific loss
 of plant
-density due to
-mortality.</p></td>
+density due
+to mortality.</p></td>
+<td></td>
 <td><p>0.25</p></td>
 <td><p>(0.1+0.05)/365</p></td>
 </tr>
@@ -1031,10 +1039,52 @@ mortality.</p></td>
 d<sup>-1</sup>)</p></td>
 <td><p>Propagation:
 Diffusion
-coefficient for
-plant
+coefficient
+for plant
 dispersal.</p></td>
+<td><p>0-1</p></td>
 <td><p>0.1</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>E</p></td>
+<td><p>Proportion of
+reproductive
+effort to be
+used for
+vegetative
+(non-seeded)
+propagation.
+Conversely,
+1-E is the
+proportion
+for
+reproduction
+via seed
+production.</p></td>
+<td><p>0-1</p></td>
+<td><p>NA</p></td>
+<td><p>NA</p></td>
+</tr>
+<tr class="row-even"><td><p>K<sub>r</sub></p></td>
+<td><p>Maximum
+fraction of
+aboveground
+biomass for
+reproduction.</p></td>
+<td><p>0-1</p></td>
+<td><p>NA</p></td>
+<td><p>NA</p></td>
+</tr>
+<tr class="row-odd"><td><p>P<sub>eff</sub></p></td>
+<td><p>Effective
+aboveground
+biomass for
+vegetative
+reproduction
+= K<sub>r</sub>
+* E * P</p></td>
+<td></td>
+<td></td>
 <td></td>
 </tr>
 </tbody>
@@ -1044,8 +1094,8 @@ dispersal.</p></td>
 <ul class="simple">
 <li><p>Diffusion is not a function of soil water or water uptake, so growth
 can occur without soil water.</p></li>
-<li><p>Mortality is provided by class <strong>Mortality</strong>, calculated each
-simulation day.</p></li>
+<li><p>Mortality is provided by class Mortality, calculated each simulation
+day.</p></li>
 <li><p>For multiple plant species, this equation is applied separately to
 each. However, the growth function includes an interspecies
 competition effect.</p></li>
@@ -1067,6 +1117,36 @@ and Sharrow 1985; Aguilera and Lauenroth 1995) and woody (Daubenmire
 have disproportionately greater effects on germination (Lauenroth et
 al. 1987).</p></li>
 </ul>
+<p>Seeded Propagation:</p>
+<p>Once per year at the end of the “growing season” (configuration item
+<em>simTime.gsStart</em>), seeds may be distributed throughout the grid. At the
+start of the growing season, they are allowed to germinate and begin
+growing. The success rate of germination is random. The biomass of the
+seedlings is added to the biomass of each cell; seedlings are not
+tracked separately. The same growth potential and constraints are
+applied to seedling biomass as to established biomass.</p>
+<p>Seed amount is proportional to aboveground biomass (AGBM) through the
+plant parameter <em>plant.Kr</em>. This proportion can be reduced by a measure
+of environmental stress estimated from the net new growth over the
+growing season relative to potential growth. When growing season stress
+is higher, less reproduction will occur.</p>
+<p>Parameter <em>plant.Kr</em> is influenced by environmental stress on growth:
+The fraction reducing <em>plant.Kr</em> = actual growing season growth /
+potential growth.</p>
+<div class="line-block">
+<div class="line">Potential growth = <em>plant.rmax</em> * days in growing season - sum(daily
+background mortality)</div>
+<div class="line">where <em>plant.rmax</em> = maximum daily new biomass as fraction of current
+biomass.</div>
+</div>
+<p>Ideally potential growth should be a PDE accumulating daily stress
+effect on growth, excluding background mortality. For simplicity, we
+approximate the effect at the end of the growing season. Using AGBM at
+the start and end of growing season:</p>
+<p>Effective <em>Kr</em> = <em>plant.Kr</em> * (Pend - Pstart + <em>plant.d</em> * mean(P)) /
+( <em>plant.rmax</em> * Pstart * no. days in grow season)</p>
+<p>where Pstart is the AGBM at the start of the growing season, and Pend is
+AGBM at the end.</p>
 </section>
 </section>
 <section id="on-mound-surface-water-convection-mm-d-1">
@@ -1129,6 +1209,9 @@ Negev, Israel. CATENA 40(3), 323-336.
 <p>Fu, Zheng, et al., 2022. Critical soil moisture thresholds of plant
 water stress in terrestrial ecosystems. Sci. Adv. 8, eabq7827.
 DOI:10.1126/sciadv.abq7827</p>
+<p>HilleRisLambers, R., Rietkerk, M., van den Bosch, F., Prins, H.H.T. and
+de Kroon, H. (2001), Vegetation pattern formation in semi-arid grazing
+systems. Ecology, 82: 50-61.</p>
 <p>Kelly, R. D. &amp; Walker, B. H. (1976). The effects of different forms of
 land use on the ecology of a semi-arid region in south-eastern Rhodesia.
 Journal of Ecology, 64, 553-576.</p>
