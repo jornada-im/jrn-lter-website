@@ -279,7 +279,8 @@ moved into the DrylandsLib package.</p></li>
 <li><p>Version 6 has a new aeolian submodel for effects upon plant mortality and
 growth due to aeolian erosion and deposition.</p></li>
 <li><p>Version 7 adds seed dispersal propagation, and annual plant type.
-A new sweep subsystem can sweep any configuration parameter.</p></li>
+A new sweep subsystem can sweep any configuration parameter.
+Adds an annual mortality algorithm for perennial plants and shrubs.</p></li>
 </ul>
 <p>A configuration file in JSON[<a class="reference internal" href="#id7">6</a>] format controls the simulation.
 Input is daily precipitation, temperature, N atmospheric deposition, and
@@ -313,9 +314,7 @@ GNU Octave is happy with LF line-endings.</p>
 <h2>Model Structure<a class="headerlink" href="#model-structure" title="Link to this heading">¶</a></h2>
 <p>The code was developed in GNU Octave, and has been kept compatibile with
 MATLAB for the most part. See this document for most compatibility issues:</p>
-<blockquote>
-<div><p><a class="reference external" href="https://en.wikibooks.org/wiki/MATLAB_Programming/Differences_between_Octave_and_MATLAB">https://en.wikibooks.org/wiki/MATLAB_Programming/Differences_between_Octave_and_MATLAB</a></p>
-</div></blockquote>
+<p><a class="reference external" href="https://en.wikibooks.org/wiki/MATLAB_Programming/Differences_between_Octave_and_MATLAB">https://en.wikibooks.org/wiki/MATLAB_Programming/Differences_between_Octave_and_MATLAB</a></p>
 <section id="source-files-organization">
 <h3>Source Files Organization<a class="headerlink" href="#source-files-organization" title="Link to this heading">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Drylands2           - Model algorithms and control functions and classes.
@@ -405,18 +404,15 @@ category, though several supporting functions are omitted.</p>
 <span class="n">BiomassFun</span>
 <span class="n">buildLaplacians</span>
 <span class="n">Competition</span>
-<span class="n">Equations</span>
-<span class="n">EulersMethod</span>
+<span class="n">equations2</span>
+<span class="n">EulersMethod</span> <span class="o">--&gt;</span> <span class="n">Equations</span>
 <span class="n">Evaporation</span>
 <span class="n">Infiltration</span>
-<span class="n">initialConditions</span>
-<span class="n">MortalityRate</span>
-<span class="n">Plant</span>
-<span class="n">Roots</span>
-<span class="n">Seed</span>
+<span class="n">initialConditions</span> <span class="o">--&gt;</span> <span class="n">initialBiomass</span><span class="p">,</span> <span class="n">initialSoilN</span>
+<span class="n">MortalityRate</span> <span class="o">--&gt;</span> <span class="n">WaterStress</span>
+<span class="n">Plant</span> <span class="o">--&gt;</span> <span class="n">Roots</span><span class="p">,</span> <span class="n">Seed</span><span class="p">,</span> <span class="n">annualMortality</span><span class="p">,</span> <span class="n">MortalityRate</span>
 <span class="n">SoilNEq</span>
 <span class="n">soilWaterUptake</span>
-<span class="n">WaterStress</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -425,7 +421,6 @@ category, though several supporting functions are omitted.</p>
 <div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Constants</span>
 <span class="n">Files</span>
 <span class="n">GridDomain</span>
-<span class="n">SimInfo</span>
 <span class="n">SimTime</span>
 <span class="n">State</span>
 <span class="n">grid</span><span class="o">/</span><span class="n">gridInit</span>
@@ -474,6 +469,15 @@ category, though several supporting functions are omitted.</p>
 </pre></div>
 </div>
 </div></blockquote>
+<p>Information:</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modelAbout</span>
+<span class="n">modelVersion</span>
+<span class="n">SimInfo</span>
+<span class="n">log</span><span class="o">/*</span>
+</pre></div>
+</div>
+</div></blockquote>
 </section>
 <section id="execution-psuedocode">
 <h3>Execution Psuedocode<a class="headerlink" href="#execution-psuedocode" title="Link to this heading">¶</a></h3>
@@ -489,9 +493,13 @@ category, though several supporting functions are omitted.</p>
             <span class="n">If</span> <span class="n">start</span> <span class="n">of</span> <span class="n">day</span><span class="p">:</span>
                 <span class="n">Get</span> <span class="n">daily</span> <span class="nb">input</span> <span class="n">data</span>
                 <span class="n">Calculate</span> <span class="n">E</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">WL</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">root</span> <span class="n">biomass</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">aeolian</span> <span class="n">effects</span>
+                <span class="n">If</span> <span class="n">start</span> <span class="n">of</span> <span class="n">growing</span> <span class="n">season</span><span class="p">:</span>
+                    <span class="n">Tell</span> <span class="n">plants</span> <span class="n">to</span> <span class="n">initialize</span> <span class="n">growing</span> <span class="n">season</span><span class="o">.</span>
             <span class="n">Solve</span> <span class="k">for</span> <span class="n">updated</span> <span class="n">W</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">P</span> <span class="n">at</span> <span class="n">subdaily</span> <span class="n">time</span> <span class="n">step</span>
             <span class="n">If</span> <span class="n">end</span> <span class="n">of</span> <span class="n">day</span><span class="p">:</span>
                 <span class="n">Save</span> <span class="n">output</span> <span class="ow">and</span> <span class="n">graphs</span> <span class="ow">and</span> <span class="n">maps</span> <span class="k">as</span> <span class="n">scheduled</span>
+                <span class="n">If</span> <span class="n">end</span> <span class="n">of</span> <span class="n">growing</span> <span class="n">season</span><span class="p">:</span>
+                    <span class="n">Tell</span> <span class="n">plants</span> <span class="n">to</span> <span class="n">finalize</span> <span class="n">growing</span> <span class="n">season</span><span class="o">.</span>
     <span class="n">Save</span> <span class="n">final</span> <span class="n">results</span>
 </pre></div>
 </div>
@@ -559,7 +567,7 @@ only from the soil layers below the surface layer. The drainage amount is a
 constant fraction of soil water content. The surface layer is not affected
 by drainage, only evaporation.</p>
 <p>The amount of drainage cannot exceed the field capacity of the soil layer.
-Field capacity (see class <code class="docutils literal notranslate"><span class="pre">Constants</span></code>) is defined as a fraction of the
+Field capacity (see class <strong>Constants</strong>) is defined as a fraction of the
 soil layer thickness (mm), representing the volume of soil water remaining
 after gravity drainage is essentially complete.
 The volumetric soil moisture content at field capacity varies with soil
@@ -718,7 +726,11 @@ forb.</p>
 <li><p>Version 4 adds plant mortality due to water stress.</p></li>
 <li><p>Version 5 adds daily soil N demand for maintenance by current biomass.</p></li>
 <li><p>Version 6 adds plant mortality due to aeolian erosion and deposition.</p></li>
-<li><p>Version 7 adds seed dispersal propagation, and annual plant type.</p></li>
+<li><dl class="simple">
+<dt>Version 7 adds seed dispersal propagation, and annual plant type, and</dt><dd><p>annual mortality.</p>
+</dd>
+</dl>
+</li>
 </ul>
 <p>Implementation of plants is in classes <strong>Plant</strong> and <strong>Roots</strong>.
 For a diagram of functional and class relationships, see the
@@ -757,30 +769,57 @@ daily air temperature, and available soil N.</p>
 <ul class="simple">
 <li><p>Constant background rate.</p></li>
 <li><p>Mortality due to environmental stressors.</p></li>
-<li><p>Mortality due to being an annual plant.</p></li>
+<li><p>Annual mortality due to being an annual plant type.</p></li>
+<li><p>Annual mortality for perennial plants and shrubs.</p></li>
 </ul>
 <p>Prior to version 4, plant mortality is a fixed fraction of aboveground
 biomass (the plant configuration parameter <strong>d</strong>).</p>
 <p>Version 4 introduced mortality due to soil water stress, or drought.
 A logistic curve of mortality vs. water stress is parameterized by
-the configuration items <strong>plant.mortality</strong>.
+the <strong>plant</strong> configuration items <strong>mortality</strong>.
 The length of the stress period is also specifed.
-A background mortality rate is a fixed fraction of aboveground
-biomass (the configuration parameter <strong>plant.mortality.d</strong>).
-Example logistic mortality curves are displayed in the graph produced
-by the GNU Octave script <code class="docutils literal notranslate"><span class="pre">plot-mortality.m</span></code>.</p>
-<p>Water stress as implemented here is the cumulative sum of excess demand of
+Water stress as implemented here is the cumulative sum of excess demand of
 soil water over available water by a plant over a time period. Stress is
 positive if the cumulative excess is &gt; zero, otherwise it is zero.</p>
-<p>Mortality rate is the sum of the background rate and environmental stress
-rates. Once per simulation day, the water stress cumulative sum is updated
-with that day’s value of plant demand vs available soil water. Rates have
-the units <em>fraction of biomass per day</em>.</p>
+<p>The daily mortality rate is the sum of the background rate and water
+stress rates. Once per simulation day, the water stress cumulative sum is
+updated with that day’s value of plant demand vs available soil water. Rates
+have the units <em>fraction of biomass per day</em>.</p>
+<p>Aeolian effects upon grasses and young shrubs result in mortality due to
+erosion and burial by aeolian dust deposition. This algorithm assumes that
+seedlings and young grasses/forbes are more sensitive to mortality from
+aeolian erosion and deposition. The <strong>plant</strong> configuration item
+<strong>aeolianEffect.minThreshold</strong> specifies minimum aboveground
+biomass to be included in aeolian calculations for shrub lee and surface
+roughness, and the maximum biomass that can be killed by aeolian effects of
+soil transport. The aeolian submodel is described further in <a class="reference internal" href="#aeolian-erosion-and-deposition">Aeolian
+Erosion and Deposition</a>.</p>
 <p>These mortality algorithms are implemented in the classes
 <strong>MortalityRate</strong> and <strong>WaterStress</strong>, used by class <strong>Plant</strong>,
-and for aeolian processes, <strong>aeolian/aeolianEffects</strong>.</p>
+and for aeolian processes, the function <strong>aeolian/aeolianEffects</strong>.
+Example logistic mortality curves are displayed in the graph produced
+by the GNU Octave script <code class="docutils literal notranslate"><span class="pre">plot-mortality.m</span></code>.</p>
 <p>Version 7 introduced the plant type annual grass or forb. Plants of this
-type have all aboveground biomass removed at the end of the growing season.</p>
+type have all aboveground biomass (excluding seed biomass) removed at the
+end of the growing season.</p>
+<p>Version 7 introduced annual biomass mortality for perennial plants and shrubs
+applied at the end of the growing season.
+This algorithm assumes that larger individuals have
+better chance of survival than younger and smaller individuals given various
+(not explicitly modelled) environmental stressors.
+The algorithm simulates non-specific annual biomass mortality using an
+inverse logistic equation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mortality</span> <span class="n">sensitivity</span> <span class="p">(</span><span class="n">Ms</span><span class="p">)</span> <span class="o">=</span>  <span class="n">d</span> <span class="o">+</span> <span class="p">(</span><span class="n">a</span><span class="o">-</span><span class="n">d</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">e</span><span class="o">^</span><span class="p">(</span><span class="n">c</span> <span class="o">*</span> <span class="n">biomass</span><span class="p">))</span>
+<span class="n">biomass</span> <span class="n">mortality</span> <span class="o">=</span> <span class="n">F</span><span class="p">(</span><span class="n">Ms</span><span class="p">,</span> <span class="n">binomial</span> <span class="n">probability</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Mortality sensitivity is defined as increased probability of mortality
+due to cumulative environmental stresses and age upon individual plants.
+Actual mortality is a binomial random probability that the mortality
+sensitivity results in biomass loss.
+The function <strong>annualMortality</strong> applies this algorithm.
+The <strong>plant</strong> configuration parameter <strong>mortality.annual</strong> holds the
+equation parameters <code class="docutils literal notranslate"><span class="pre">[a,</span> <span class="pre">b,</span> <span class="pre">c,</span> <span class="pre">d]</span></code>.</p>
 <p>For all mortality algorithms, the biomass N in roots is transferred to the
 soil N pool. Each process that contributes to plant mortality accumulates
 dead biomass; at the end of the “start of day” section, the class <strong>SoilNEq</strong>
@@ -1218,6 +1257,14 @@ Soil Sci. Soc. Am. J., 70: 1569-1578.
 <td><p></p></td>
 <td><p>new plant type annual grass or forb.</p></td>
 </tr>
+<tr class="row-odd"><td><p>2026.02</p></td>
+<td><p>7.x</p></td>
+<td><p>Describe new algorithm for annual mortality, and improve</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>the description of other mortality algorithms.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1236,32 +1283,20 @@ All are text files.</p>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">txt</span></code></p></td>
-<td><p>Plain text file; the content may either be a document, or</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">m</span></code></p></td>
+<td><p>MatLab/GNU Octave source code file.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>be for a specific application (e.g., <strong>plantuml</strong>).</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">json</span></code></p></td>
-<td><p>Contains JSON[<a class="reference internal" href="#id7">6</a>] stuctured data for configuration files.</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>This contains a non-standard feature: line comments.</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mat</span></code></p></td>
+<td><p>A data file produced by GNU Octave.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">csv</span></code></p></td>
 <td><p>Comma-Separated Values - data in text format.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">m</span></code></p></td>
-<td><p>MatLab/GNU Octave source code file.</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">json</span></code></p></td>
+<td><p>Contains JSON[<a class="reference internal" href="#id7">6</a>] stuctured data for configuration files.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mat</span></code></p></td>
-<td><p>A data file produced by GNU Octave.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">md</span></code></p></td>
-<td><p>Markdown document source file.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">rst</span></code></p></td>
-<td><p>reStructuredText document source file.</p></td>
+<tr class="row-even"><td><p></p></td>
+<td><p>This contains a non-standard JSON feature: line comments.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">R</span></code></p></td>
 <td><p>R source code file.</p></td>
@@ -1275,8 +1310,35 @@ All are text files.</p>
 <tr class="row-even"><td><p></p></td>
 <td><p>editable by Microsoft Word and Google Docs and other apps.</p></td>
 </tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Some applications (e.g., <strong>pandoc</strong>) may require this to be</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>converted to <code class="docutils literal notranslate"><span class="pre">odt</span></code> (compressed) format.</p></td>
+</tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fodg</span></code></p></td>
 <td><p>OpenDocument graph file (in text XML format).</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Some applications may require this to be converted to</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">odt</span></code> (compressed) format.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">md</span></code></p></td>
+<td><p>Markdown document source file. These markdown files</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>may include a markdown extension for tables.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">rst</span></code></p></td>
+<td><p>reStructuredText document source file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">txt</span></code></p></td>
+<td><p>Plain text file; the content may either be a document, or</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>be for a specific application (e.g., <strong>plantuml</strong>).</p></td>
 </tr>
 </tbody>
 </table>

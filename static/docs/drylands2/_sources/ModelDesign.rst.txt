@@ -16,6 +16,11 @@ Drylands2 Model Design
         section level 3   ^^^
         section level 4   ~~~
 
+.. Style conventions:
+   **bold** for configuration item names; software application names; class and function names.
+   *italics* for document names.
+   ``monospace`` for code blocks, lines and snippets.
+
 ..
   .. contents::
      :depth: 5
@@ -50,6 +55,7 @@ There are several changes to algorithms from the original model, including:
   growth due to aeolian erosion and deposition.
 * Version 7 adds seed dispersal propagation, and annual plant type.
   A new sweep subsystem can sweep any configuration parameter.
+  Adds an annual mortality algorithm for perennial plants and shrubs.
 
 A configuration file in JSON[6_] format controls the simulation.
 Input is daily precipitation, temperature, N atmospheric deposition, and
@@ -88,9 +94,9 @@ Model Structure
 ================
 
 The code was developed in GNU Octave, and has been kept compatibile with
-MATLAB for the most part. See this document for most compatibility issues:
+MATLAB for the most part. See this document for most compatibility issues::
 
-    https://en.wikibooks.org/wiki/MATLAB_Programming/Differences_between_Octave_and_MATLAB
+https://en.wikibooks.org/wiki/MATLAB_Programming/Differences_between_Octave_and_MATLAB
 
 
 Source Files Organization
@@ -204,18 +210,15 @@ Algorithmic:
         BiomassFun
         buildLaplacians
         Competition
-        Equations
-        EulersMethod
+        equations2
+        EulersMethod --> Equations
         Evaporation
         Infiltration
-        initialConditions
-        MortalityRate
-        Plant
-        Roots
-        Seed
+        initialConditions --> initialBiomass, initialSoilN
+        MortalityRate --> WaterStress
+        Plant --> Roots, Seed, annualMortality, MortalityRate
         SoilNEq
         soilWaterUptake
-        WaterStress
 
 Non-Algorithmic:
 
@@ -224,7 +227,6 @@ Non-Algorithmic:
         Constants
         Files
         GridDomain
-        SimInfo
         SimTime
         State
         grid/gridInit
@@ -271,6 +273,16 @@ Sweeps:
         SweepSeq
         plot/GraphsSweeps
 
+Information:
+
+    .. code::
+
+        modelAbout
+        modelVersion
+        SimInfo
+        log/*
+
+
 
 Execution Psuedocode
 ----------------------
@@ -290,9 +302,13 @@ The following psuedocode does not include simulation of mounds or trials.
                 If start of day:
                     Get daily input data
                     Calculate E, I, WL, U, root biomass, G, aeolian effects
+                    If start of growing season:
+                        Tell plants to initialize growing season.
                 Solve for updated W, S, N, P at subdaily time step
                 If end of day:
                     Save output and graphs and maps as scheduled
+                    If end of growing season:
+                        Tell plants to finalize growing season.
         Save final results
 
 
@@ -380,7 +396,7 @@ constant fraction of soil water content. The surface layer is not affected
 by drainage, only evaporation.
 
 The amount of drainage cannot exceed the field capacity of the soil layer.
-Field capacity (see class ``Constants``) is defined as a fraction of the
+Field capacity (see class **Constants**) is defined as a fraction of the
 soil layer thickness (mm), representing the volume of soil water remaining
 after gravity drainage is essentially complete.
 The volumetric soil moisture content at field capacity varies with soil
@@ -546,7 +562,8 @@ History of Plant Algorithms
 * Version 4 adds plant mortality due to water stress.
 * Version 5 adds daily soil N demand for maintenance by current biomass.
 * Version 6 adds plant mortality due to aeolian erosion and deposition.
-* Version 7 adds seed dispersal propagation, and annual plant type.
+* Version 7 adds seed dispersal propagation, and annual plant type, and
+            annual mortality.
 
 Implementation of plants is in classes **Plant** and **Roots**.
 For a diagram of functional and class relationships, see the
@@ -592,35 +609,63 @@ There are multiple types of mortality:
 
 * Constant background rate.
 * Mortality due to environmental stressors.
-* Mortality due to being an annual plant.
+* Annual mortality due to being an annual plant type.
+* Annual mortality for perennial plants and shrubs.
 
 Prior to version 4, plant mortality is a fixed fraction of aboveground
 biomass (the plant configuration parameter **d**).
 
 Version 4 introduced mortality due to soil water stress, or drought.
 A logistic curve of mortality vs. water stress is parameterized by
-the configuration items **plant.mortality**.
+the **plant** configuration items **mortality**.
 The length of the stress period is also specifed.
-A background mortality rate is a fixed fraction of aboveground
-biomass (the configuration parameter **plant.mortality.d**).
-Example logistic mortality curves are displayed in the graph produced
-by the GNU Octave script ``plot-mortality.m``.
-
 Water stress as implemented here is the cumulative sum of excess demand of
 soil water over available water by a plant over a time period. Stress is
 positive if the cumulative excess is > zero, otherwise it is zero.
 
-Mortality rate is the sum of the background rate and environmental stress
-rates. Once per simulation day, the water stress cumulative sum is updated
-with that day's value of plant demand vs available soil water. Rates have
-the units *fraction of biomass per day*.
+The daily mortality rate is the sum of the background rate and water
+stress rates. Once per simulation day, the water stress cumulative sum is
+updated with that day's value of plant demand vs available soil water. Rates
+have the units *fraction of biomass per day*.
+
+Aeolian effects upon grasses and young shrubs result in mortality due to
+erosion and burial by aeolian dust deposition. This algorithm assumes that
+seedlings and young grasses/forbes are more sensitive to mortality from
+aeolian erosion and deposition. The **plant** configuration item
+**aeolianEffect.minThreshold** specifies minimum aboveground
+biomass to be included in aeolian calculations for shrub lee and surface
+roughness, and the maximum biomass that can be killed by aeolian effects of
+soil transport. The aeolian submodel is described further in `Aeolian
+Erosion and Deposition`_.
 
 These mortality algorithms are implemented in the classes
 **MortalityRate** and **WaterStress**, used by class **Plant**,
-and for aeolian processes, **aeolian/aeolianEffects**.
+and for aeolian processes, the function **aeolian/aeolianEffects**.
+Example logistic mortality curves are displayed in the graph produced
+by the GNU Octave script ``plot-mortality.m``.
 
 Version 7 introduced the plant type annual grass or forb. Plants of this
-type have all aboveground biomass removed at the end of the growing season.
+type have all aboveground biomass (excluding seed biomass) removed at the
+end of the growing season.
+
+Version 7 introduced annual biomass mortality for perennial plants and shrubs
+applied at the end of the growing season.
+This algorithm assumes that larger individuals have
+better chance of survival than younger and smaller individuals given various
+(not explicitly modelled) environmental stressors.
+The algorithm simulates non-specific annual biomass mortality using an
+inverse logistic equation::
+
+    mortality sensitivity (Ms) =  d + (a-d) / (1 + b * e^(c * biomass))
+    biomass mortality = F(Ms, binomial probability)
+
+Mortality sensitivity is defined as increased probability of mortality
+due to cumulative environmental stresses and age upon individual plants.
+Actual mortality is a binomial random probability that the mortality
+sensitivity results in biomass loss.
+The function **annualMortality** applies this algorithm.
+The **plant** configuration parameter **mortality.annual** holds the
+equation parameters ``[a, b, c, d]``.
 
 For all mortality algorithms, the biomass N in roots is transferred to the
 soil N pool. Each process that contributes to plant mortality accumulates
@@ -1077,6 +1122,8 @@ Revision Date        Model Version        Description
 2025.12              7.x                  Describe new sweep subsystem, and new algorithms:
 \                    \                    seed dispersal propagation;
 \                    \                    new plant type annual grass or forb.
+2026.02              7.x                  Describe new algorithm for annual mortality, and improve
+\                    \                    the description of other mortality algorithms.
 ===================  ===================  ==========================================================
 
 
@@ -1096,20 +1143,25 @@ All are text files.
 ===================  ==========================================================
 File name extension  Format
 ===================  ==========================================================
-``txt``              Plain text file; the content may either be a document, or
-\                    be for a specific application (e.g., **plantuml**).
-``json``             Contains JSON[6_] stuctured data for configuration files.
-\                    This contains a non-standard feature: line comments.
-``csv``              Comma-Separated Values - data in text format.
 ``m``                MatLab/GNU Octave source code file.
 ``mat``              A data file produced by GNU Octave.
-``md``               Markdown document source file.
-``rst``              reStructuredText document source file.
+``csv``              Comma-Separated Values - data in text format.
+``json``             Contains JSON[6_] stuctured data for configuration files.
+\                    This contains a non-standard JSON feature: line comments.
 ``R``                R source code file.
 ``fodt``             OpenDocument document file (in text XML format).
 \                    This is a LibreOffice native format, and is
 \                    editable by Microsoft Word and Google Docs and other apps.
+\                    Some applications (e.g., **pandoc**) may require this to be
+\                    converted to ``odt`` (compressed) format.
 ``fodg``             OpenDocument graph file (in text XML format).
+\                    Some applications may require this to be converted to
+\                    ``odt`` (compressed) format.
+``md``               Markdown document source file. These markdown files
+\                    may include a markdown extension for tables.
+``rst``              reStructuredText document source file.
+``txt``              Plain text file; the content may either be a document, or
+\                    be for a specific application (e.g., **plantuml**).
 ===================  ==========================================================
 
 Other files:

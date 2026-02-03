@@ -288,7 +288,8 @@ moved into the DrylandsLib package.</p></li>
 aeolian erosion and deposition. The model configuration has new sections to
 configure this submodel, and for plants, their response to aeolian stress.</p></li>
 <li><p><strong>Version 7</strong> adds seed dispersal propagation, and annual plant type.
-A new sweep subsystem can sweep any configuration parameter.</p></li>
+A new sweep subsystem can sweep any configuration parameter.
+Adds an annual mortality algorithm for perennial plants and shrubs.</p></li>
 </ul>
 <p>A configuration file in JSON format controls the simulation.
 Input is daily precipitation, temperature, N atmospheric deposition, and
@@ -512,7 +513,19 @@ is in JSON format, the line comments in the file are not allowed in standard
 JSON file syntax. These lines are removed before the JSON data is processed.
 You can add your own line comments to your file; lines where the first
 non-blank character is <strong>#</strong> are removed.</p>
-<p>Configuration information is read using the function <strong>readConfigJSON</strong>.</p>
+<p>Configuration information is read using the function <strong>readConfigJSON</strong>. You
+can verify the configuration in the context of expected fields using the
+function <strong>verifyConfiguration</strong>. For example:</p>
+<div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">readConfigJSON</span><span class="p">(</span><span class="w"> </span><span class="s">&#39;config.json&#39;</span><span class="w"> </span><span class="p">);</span>
+<span class="p">[</span><span class="n">cfg</span><span class="p">,</span><span class="w"> </span><span class="n">failed</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">verifyConfiguration</span><span class="p">(</span><span class="w"> </span><span class="n">cfg</span><span class="w"> </span><span class="p">);</span><span class="w"> </span><span class="n">failed</span>
+<span class="s">%</span><span class="w"> </span><span class="s">if</span><span class="w"> </span><span class="s">failed</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="n">then</span><span class="w"> </span><span class="n">there</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">problem</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">configuration</span><span class="p">.</span>
+</pre></div>
+</div>
+<p>On Linux, or similar, you can check the correctness of the JSON structure
+with the utility <code class="docutils literal notranslate"><span class="pre">json_verify</span></code> after extracting the comment lines:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">grep</span> <span class="o">-</span><span class="n">Ev</span> <span class="s1">&#39;^\s*(#.*)$&#39;</span> <span class="n">config</span><span class="o">.</span><span class="n">json</span> <span class="o">|</span> <span class="n">json_verify</span>
+</pre></div>
+</div>
 <section id="general-configuration">
 <h3>General Configuration<a class="headerlink" href="#general-configuration" title="Link to this heading">¶</a></h3>
 <p>Input file names can include a partial or complete path.
@@ -841,7 +854,8 @@ boolean switches (<em>true</em> = produce graph, <em>false</em> = do not produce
 define the plant species. Each struct in the array is one species definition,
 and contains the fields described in the table below.
 Fields in <strong>bold</strong> are nested structures:
-<strong>mortality</strong>, <strong>seed</strong>, <strong>aeolianEffect</strong>.</p>
+<strong>mortality</strong>, <strong>seed</strong>, <strong>aeolianEffect</strong>.
+See the document <em>Model Design</em> for details on these algorithms.</p>
 <p>Each plant species has a type defined in the configuration item
 <strong>plant.type</strong>. Plants can be a perennial grass, a shrub, or an annual grass
 or forb. Configuration categories are biomass, growth, reproduction,
@@ -932,7 +946,7 @@ mortality, and reproduction.</p>
 <td><p>Units: Rietkirk 1997 = g g-1 d-1; Rietkirk 2002 = g mm-1 m-2.</p></td>
 </tr>
 <tr class="row-odd"><td><p>teff</p></td>
-<td><p>4x1 matrix</p></td>
+<td><p>vector[4]</p></td>
 <td><p>Parameters to gpdf for temperature effect on growth:</p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
@@ -969,7 +983,7 @@ mortality, and reproduction.</p>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
-<td><p>Typically cNmax = (c*gmax)/C:N. Units = gN gC-1 d-1.</p></td>
+<td><p>Typically <code class="docutils literal notranslate"><span class="pre">cNmax</span> <span class="pre">=</span> <span class="pre">(c*gmax)/C:N</span></code>. Units = gN gC-1 d-1.</p></td>
 </tr>
 <tr class="row-odd"><td><p>maintN</p></td>
 <td><p>scalar</p></td>
@@ -993,7 +1007,7 @@ mortality, and reproduction.</p>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
-<td><p>1-E = proportion of effort for seeded propagation (0-1).</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1-E</span></code> = proportion of effort for seeded propagation (0-1).</p></td>
 </tr>
 <tr class="row-odd"><td><p>Kr</p></td>
 <td><p>scalar</p></td>
@@ -1067,6 +1081,22 @@ mortality, and reproduction.</p>
 <td><p>scalar</p></td>
 <td><p>Number of days to track excess water demand.</p></td>
 </tr>
+<tr class="row-odd"><td><p>annual</p></td>
+<td><p>vector[4]</p></td>
+<td><p>Annual mortality for perennial plants and shrubs.</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>These are logistic function parameters <code class="docutils literal notranslate"><span class="pre">[a,</span> <span class="pre">b,</span> <span class="pre">c,</span> <span class="pre">d]</span></code>, where</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">a</span></code> = maximum (0-1), <code class="docutils literal notranslate"><span class="pre">b</span></code> = modifies inflection point (e.g., 0.005),</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">c</span></code> = modifies slopet (e.g., 0.05), <code class="docutils literal notranslate"><span class="pre">d</span></code> = minimum (0-1, <code class="docutils literal notranslate"><span class="pre">d</span></code> &lt; <code class="docutils literal notranslate"><span class="pre">a</span></code>).</p></td>
+</tr>
 <tr class="row-odd"><td><p><strong>aeolianEffect</strong></p></td>
 <td><p>struct</p></td>
 <td><p><strong>Aeolian effects from biomass upon erosion/deposition:</strong></p></td>
@@ -1085,7 +1115,7 @@ mortality, and reproduction.</p>
 </tr>
 <tr class="row-odd"><td><p>B, Bmax, Bz</p></td>
 <td><p>scalar</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">grassEffect</span></code> equation parameters. E.g., B: 0.12, Bmax: 0.99, Bz: 1000.0</p></td>
+<td><p><strong>grassEffect</strong> equation parameters. E.g., <code class="docutils literal notranslate"><span class="pre">B</span></code>: 0.12, <code class="docutils literal notranslate"><span class="pre">Bmax</span></code>: 0.99, <code class="docutils literal notranslate"><span class="pre">Bz</span></code>: 1000.0</p></td>
 </tr>
 <tr class="row-even"><td><p><em>Shrub:</em></p></td>
 <td><p></p></td>
@@ -1333,7 +1363,11 @@ parameter <strong>beta</strong>, or maximum convection rate.</p>
 <td><p>scalar</p></td>
 <td><p>boolean: Aeolian submodel.</p></td>
 </tr>
-<tr class="row-even"><td><p>mounds</p></td>
+<tr class="row-even"><td><p>annualMor</p></td>
+<td><p>scalar</p></td>
+<td><p>boolean: Annual plant mortality.</p></td>
+</tr>
+<tr class="row-odd"><td><p>mounds</p></td>
 <td><p>scalar</p></td>
 <td><p>boolean: Mounds submodel.</p></td>
 </tr>
@@ -1342,7 +1376,7 @@ parameter <strong>beta</strong>, or maximum convection rate.</p>
 </div>
 <section id="initial-state-settings">
 <h4>Initial state settings<a class="headerlink" href="#initial-state-settings" title="Link to this heading">¶</a></h4>
-<p>(TODO: Initial state settings; biomass)</p>
+<p>(TODO: Initial state settings; biomass, soil N)</p>
 </section>
 <section id="aeolian-submodel">
 <h4>Aeolian Submodel<a class="headerlink" href="#aeolian-submodel" title="Link to this heading">¶</a></h4>
@@ -1389,11 +1423,11 @@ The modified parameters are:</p>
 <dl class="simple">
 <dt>model.params.alpha:</dt><dd><p>Proportion of surface water available for infiltration (d-1).</p>
 </dd>
-<dt>plant(1).k2:</dt><dd><p>Rate at which infiltration increases with plant biomass (g m-2).</p>
+<dt>plant{1}.k2:</dt><dd><p>Rate at which infiltration increases with plant biomass (g m-2).</p>
 </dd>
-<dt>plant(1).c:</dt><dd><p>Rate of water uptake by plants to plant growth (g m-2 mm-1).</p>
+<dt>plant{1}.c:</dt><dd><p>Rate of water uptake by plants to plant growth (g m-2 mm-1).</p>
 </dd>
-<dt>plant(1).gmax:</dt><dd><p>Plant water uptake: maximum specific water uptake (mm g-1 m-2 d-1).</p>
+<dt>plant{1}.gmax:</dt><dd><p>Plant water uptake: maximum specific water uptake (mm g-1 m-2 d-1).</p>
 </dd>
 </dl>
 <p>The <em>R</em> script provided in the model source files at
@@ -1509,12 +1543,12 @@ a sweep makes sense.
 The parameter to vary expressed as a field path in the JSON configuration,
 where field names are separated by periods.
 Examples of sweep parameter paths are:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plant</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">DP</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plant</span><span class="p">{</span><span class="mi">1</span><span class="p">}</span><span class="o">.</span><span class="n">DP</span>
 <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">alpha</span>
 <span class="nb">input</span><span class="o">.</span><span class="n">NAtmDep</span>
 </pre></div>
 </div>
-<p>Currently, a plant parameter sweep can be done only for <code class="docutils literal notranslate"><span class="pre">plant(1)</span></code>.</p>
+<p>Currently, a plant parameter sweep can be done only for <code class="docutils literal notranslate"><span class="pre">plant{1}</span></code>.</p>
 <p>The configuration item <strong>sweep</strong> contains an array of parameters which
 specify the sweep configuration.</p>
 <div class="table-wrapper docutils container">
@@ -1548,7 +1582,7 @@ specify the sweep configuration.</p>
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p>integer</p></td>
-<td><p>Examples: <code class="docutils literal notranslate"><span class="pre">model.params.alpha</span></code> or <code class="docutils literal notranslate"><span class="pre">plant(1).mortality.d</span></code></p></td>
+<td><p>Examples: <code class="docutils literal notranslate"><span class="pre">model.params.alpha</span></code> or <code class="docutils literal notranslate"><span class="pre">plant{1}.mortality.d</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
@@ -1576,7 +1610,7 @@ specify the sweep configuration.</p>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
-<td><p>E.g., <code class="docutils literal notranslate"><span class="pre">sweep.parameter</span> <span class="pre">=</span> <span class="pre">2</span></code> becomes <code class="docutils literal notranslate"><span class="pre">sweep.parameter</span> <span class="pre">=</span> <span class="pre">plant(1).k2</span></code>.</p></td>
+<td><p>E.g., <code class="docutils literal notranslate"><span class="pre">sweep.parameter</span> <span class="pre">=</span> <span class="pre">2</span></code> becomes <code class="docutils literal notranslate"><span class="pre">sweep.parameter</span> <span class="pre">=</span> <span class="pre">plant{1}.k2</span></code>.</p></td>
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
@@ -2089,10 +2123,11 @@ arid ecosystems. American Naturalist 160:524–530. <a class="reference external
 </section>
 <section id="see-also">
 <h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
-<p><em>ModelDesign.pdf</em>, source: <em>ModelDesign.rst</em></p>
-<p><em>ModelDiagram.pdf</em>, source: <em>ModelDiagram.fodt</em></p>
-<p><em>ModelEquations.pdf</em>, source: <em>ModelEquations.fodt</em></p>
+<p><em>ModelDesign.pdf</em> or <em>ModelDesign.html</em>, source: <em>ModelDesign.rst</em></p>
+<p><em>ModelDiagram.pdf</em> or <em>ModelDiagram.html</em>, source: <em>ModelDiagram.fodt</em></p>
+<p><em>ModelEquations.pdf</em> or <em>ModelEquations.html</em>, source: <em>ModelEquations.fodt</em></p>
 <p><em>aeolian/AeolianEffect-Algorithms.pdf</em>, source: <em>aeolian/AeolianEffect-Algorithms.rst</em></p>
+<p><em>ModifyingModel.pdf</em> or <em>ModifyingModel.html</em>, source: <em>ModifyingModel.rst</em></p>
 </section>
 <section id="document-history">
 <h2>Document History<a class="headerlink" href="#document-history" title="Link to this heading">¶</a></h2>
@@ -2160,6 +2195,14 @@ arid ecosystems. American Naturalist 160:524–530. <a class="reference external
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>new plant type, annual grass or forb.</p></td>
+</tr>
+<tr class="row-even"><td><p>2026.02</p></td>
+<td><p>7.x</p></td>
+<td><p>Describe new algorithm for annual mortality, and improve</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>the description of other mortality algorithms.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2516,9 +2559,12 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="w">  </span><span class="c1">#   Kg            - Constant germination rate == probability of germination (0-1).</span>
 <span class="nt">  # --- Mortality</span><span class="p">:</span><span class="w"> </span><span class="nv">item &quot;mortality&quot;</span>
 <span class="w">  </span><span class="nt">#   d             - Background rate</span><span class="p">:</span><span class="w"> </span><span class="nv">specific loss of plant density due to mortality (fraction d-1).</span>
-<span class="w">  </span><span class="nt">#   B0            - Water demand excess at the logistic function inflection point (range</span><span class="p">:</span><span class="w"> </span><span class="err">&gt;</span><span class="nv">= 0.0).</span>
-<span class="w">  </span><span class="nt">#   B1            - Maximum rate of change of mortality (range</span><span class="p">:</span><span class="w"> </span><span class="err">&gt;</span><span class="nv">= 0.0).</span>
-<span class="w">  </span><span class="c1">#   lengthPeriod  - Number of days to track excess water demand (integer).</span>
+<span class="w">  </span><span class="nt">#   B0            - Water stress</span><span class="p">:</span><span class="w"> </span><span class="nv">soil H2O demand excess at the logistic function inflection point (&gt;= 0.0).</span>
+<span class="w">  </span><span class="nt">#   B1            - Water stress</span><span class="p">:</span><span class="nt"> Maximum rate of change of mortality (range</span><span class="p">:</span><span class="w"> </span><span class="err">&gt;</span><span class="nv">= 0.0).</span>
+<span class="w">  </span><span class="nt">#   lengthPeriod  - Water stress</span><span class="p">:</span><span class="w"> </span><span class="nv">Number of days to track excess water demand (integer).</span>
+<span class="w">  </span><span class="nt">#   annual        - Annual mortality</span><span class="p">:</span><span class="w"> </span><span class="nv">vector</span><span class="p p-Indicator">[</span><span class="nv">4</span><span class="p p-Indicator">]</span><span class="nv">; logistic function parameters</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">a</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">b</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">c</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">d</span><span class="p p-Indicator">],</span><span class="w"> </span><span class="nv">where</span>
+<span class="w">  </span><span class="c1">#                   a = maximum (0-1), b = modifies inflection point (e.g., 0.005),</span>
+<span class="w">  </span><span class="c1">#                   c = modifies slopet (e.g., 0.05), d = minimum (0-1, d &lt; a).</span>
 <span class="nt">  # --- aeolian effects</span><span class="p">:</span><span class="w"> </span><span class="nv">item &quot;aeolianEffect&quot;</span>
 <span class="w">  </span><span class="c1">#   minThreshold  - Minimum aboveground biomass to be included in aeolian calculations (g/m2).</span>
 <span class="w">  </span><span class="c1">#   B, Bmax, Bz   - Grasses: grassEffect equation parameters. E.g., B: 0.12, Bmax: 0.99, Bz: 1000.0</span>
@@ -2556,7 +2602,8 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="w">        </span><span class="nv">&quot;d&quot;</span><span class="p p-Indicator">:</span><span class="w">            </span><span class="nv">0.00041</span><span class="p p-Indicator">,</span>
 <span class="w">        </span><span class="s">&quot;B0&quot;</span><span class="p p-Indicator">:</span><span class="w">           </span><span class="nv">10.0</span><span class="p p-Indicator">,</span>
 <span class="w">        </span><span class="s">&quot;B1&quot;</span><span class="p p-Indicator">:</span><span class="w">           </span><span class="nv">1.0</span><span class="p p-Indicator">,</span>
-<span class="w">        </span><span class="s">&quot;lengthPeriod&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">30</span>
+<span class="w">        </span><span class="s">&quot;lengthPeriod&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">30</span><span class="p p-Indicator">,</span>
+<span class="w">        </span><span class="s">&quot;annual&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">0.4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.005</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.02</span><span class="w"> </span><span class="p p-Indicator">]</span>
 <span class="w">      </span><span class="p p-Indicator">},</span>
 <span class="w">      </span><span class="s">&quot;aeolianEffect&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
 <span class="w">        </span><span class="s">&quot;minThreshold&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">5.0</span><span class="p p-Indicator">,</span>
@@ -2672,6 +2719,8 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="w">      </span><span class="s">&quot;NAtmDep&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">,</span>
 <span class="w">      </span><span class="c1"># Aeolian submodel</span>
 <span class="w">      </span><span class="s">&quot;aeolian&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="c1"># annual plant mortality</span>
+<span class="w">      </span><span class="s">&quot;annualMor&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">,</span>
 <span class="w">      </span><span class="c1"># mounds submodel</span>
 <span class="w">      </span><span class="s">&quot;mounds&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">false</span><span class="p p-Indicator">,</span>
 <span class="nt">      # competition switch</span><span class="p">:</span><span class="w"> </span><span class="nv">currently not used</span>
@@ -2691,12 +2740,12 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="nt">    # run type</span><span class="p">:</span><span class="w"> </span><span class="nv">zero or one; 0 = sweep over range of values; 1 = single simulation</span>
 <span class="w">    </span><span class="nv">&quot;runType&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">,</span>
 <span class="w">    </span><span class="c1"># which parameter to vary? Provide configuration path. Examples:</span>
-<span class="w">    </span><span class="c1">#   &quot;plant(1).k2&quot;</span>
-<span class="w">    </span><span class="c1">#   &quot;plant(1).c&quot;</span>
-<span class="w">    </span><span class="c1">#   &quot;plant(1).gmax&quot;</span>
+<span class="w">    </span><span class="c1">#   &quot;plant{1}.k2&quot;</span>
+<span class="w">    </span><span class="c1">#   &quot;plant{1}.c&quot;</span>
+<span class="w">    </span><span class="c1">#   &quot;plant{1}.gmax&quot;</span>
 <span class="w">    </span><span class="c1">#   &quot;input.precipitation&quot;</span>
 <span class="w">    </span><span class="c1">#   &quot;model.mounds.beta&quot;</span>
-<span class="w">    </span><span class="s">&quot;parameter&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;plant(1).c&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">&quot;parameter&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;plant{1}.c&quot;</span><span class="p p-Indicator">,</span>
 <span class="w">    </span><span class="c1"># minimum and maximum values for parameter; vector 1x2</span>
 <span class="w">    </span><span class="s">&quot;range&quot;</span><span class="p p-Indicator">:</span><span class="w">     </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">14</span><span class="p p-Indicator">],</span>
 <span class="w">    </span><span class="c1"># number of values within range, inclusive; must be positive integer; if runType == 1, sweepSize = 1</span>

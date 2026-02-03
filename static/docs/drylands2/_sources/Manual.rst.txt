@@ -64,6 +64,7 @@ New algorithms beyond the original model include:
   configure this submodel, and for plants, their response to aeolian stress.
 * **Version 7** adds seed dispersal propagation, and annual plant type.
   A new sweep subsystem can sweep any configuration parameter.
+  Adds an annual mortality algorithm for perennial plants and shrubs.
 
 A configuration file in JSON format controls the simulation.
 Input is daily precipitation, temperature, N atmospheric deposition, and
@@ -337,7 +338,21 @@ JSON file syntax. These lines are removed before the JSON data is processed.
 You can add your own line comments to your file; lines where the first
 non-blank character is **#** are removed.
 
-Configuration information is read using the function **readConfigJSON**.
+Configuration information is read using the function **readConfigJSON**. You
+can verify the configuration in the context of expected fields using the
+function **verifyConfiguration**. For example:
+
+.. code:: MATLAB
+
+    cfg = readConfigJSON( 'config.json' );
+    [cfg, failed] = verifyConfiguration( cfg ); failed
+    % if failed == true, then there is a problem in the configuration.
+
+On Linux, or similar, you can check the correctness of the JSON structure
+with the utility ``json_verify`` after extracting the comment lines::
+
+    grep -Ev '^\s*(#.*)$' config.json | json_verify
+
 
 
 General Configuration
@@ -497,6 +512,7 @@ define the plant species. Each struct in the array is one species definition,
 and contains the fields described in the table below.
 Fields in **bold** are nested structures:
 **mortality**, **seed**, **aeolianEffect**.
+See the document *Model Design* for details on these algorithms.
 
 Each plant species has a type defined in the configuration item
 **plant.type**. Plants can be a perennial grass, a shrub, or an annual grass
@@ -525,7 +541,7 @@ k1                  scalar       Plant water uptake: half-saturation constant of
 c                   scalar       Plant growth: Rate of water conversion to new biomass (g m-2 mm-1),
 \                   \            aka, water-use efficiency.
 \                   \            Units: Rietkirk 1997 = g g-1 d-1; Rietkirk 2002 = g mm-1 m-2.
-teff                4x1 matrix   Parameters to gpdf for temperature effect on growth:
+teff                vector[4]    Parameters to gpdf for temperature effect on growth:
 \                   \            1 = Optimum temperature for production; the peak of the curve.
 \                   \            2 = Maximum temperature for production.
 \                   \            3 = Spread of the bell curve; smaller values = broader bell shape.
@@ -534,13 +550,13 @@ k2                  scalar       Infiltration: Rate at which infiltration increa
 \                   \            **Nitrogen:**
 CN                  scalar       Nitrogen: Average aboveground C:N of biomass for this plant (gC/gN).
 cNmax               scalar       Nitrogen: Maximum daily N uptake as fraction of plant biomass; valid range = 0-1.
-\                   \            Typically cNmax = (c*gmax)/C:N. Units = gN gC-1 d-1.
+\                   \            Typically ``cNmax = (c*gmax)/C:N``. Units = gN gC-1 d-1.
 maintN              scalar       Nitrogen daily maintenance requirement (gN gBiomass-1 d-1).
 \                   \            **Reproducton:**
 DP                  scalar       Plant growth: diffusion: lateral dispersal and propagation (m2 d-1).
 \                   \            Valid range is 0-1.
 E                   scalar       Proportion of biomass effort for vegetative (non-seeded) propagation (0-1);
-\                   \            1-E = proportion of effort for seeded propagation (0-1).
+\                   \            ``1-E`` = proportion of effort for seeded propagation (0-1).
 Kr                  scalar       Reproduction fraction per unit biomass (0-1),
 \                   \            where biomass is the previous growing season's total aboveground growth.
 \                   \            Applies to both vegetative + seeded reproduction.
@@ -559,11 +575,15 @@ B1                  scalar       Maximum rate of change of mortality (range: >= 
 \                   \            Increasing values increase the rate of change in mortality at the logistic inflection
 \                   \            point, and at a fixed water demand excess will increase the mortality rate.
 lengthPeriod        scalar       Number of days to track excess water demand.
+annual              vector[4]    Annual mortality for perennial plants and shrubs.
+\                   \            These are logistic function parameters ``[a, b, c, d]``, where
+\                   \            ``a`` = maximum (0-1), ``b`` = modifies inflection point (e.g., 0.005),
+\                   \            ``c`` = modifies slopet (e.g., 0.05), ``d`` = minimum (0-1, ``d`` < ``a``).
 **aeolianEffect**   struct       **Aeolian effects from biomass upon erosion/deposition:**
 \                   \            This struct will have different fields and values for a grass or shrub:
 *Grass:*            \            \
 minThreshold        scalar       Minimum aboveground biomass to be included in aeolian calculations (g/m2).
-B, Bmax, Bz         scalar       ``grassEffect`` equation parameters. E.g., B: 0.12, Bmax: 0.99, Bz: 1000.0
+B, Bmax, Bz         scalar       **grassEffect** equation parameters. E.g., ``B``: 0.12, ``Bmax``: 0.99, ``Bz``: 1000.0
 *Shrub:*            \            \
 minThreshold        scalar       Minimum aboveground biomass to be included in aeolian calculations (g/m2).
 ==================  ===========  =======================================================================================
@@ -638,6 +658,7 @@ beta                scalar       Maximum water gravity convection rate on mounds
 **algorithms**      \            **Turn submodels on or off (true or false):**
 NAtmDep             scalar       boolean: N atmospheric deposition( daily total wet + dry).
 aeolian             scalar       boolean: Aeolian submodel.
+annualMor           scalar       boolean: Annual plant mortality.
 mounds              scalar       boolean: Mounds submodel.
 ==================  ===========  ========================================================================================
 
@@ -645,7 +666,7 @@ mounds              scalar       boolean: Mounds submodel.
 Initial state settings
 ````````````````````````
 
-(TODO: Initial state settings; biomass)
+(TODO: Initial state settings; biomass, soil N)
 
 
 Aeolian Submodel
@@ -706,13 +727,13 @@ The modified parameters are::
 model.params.alpha:
     Proportion of surface water available for infiltration (d-1).
 
-plant(1).k2:
+plant{1}.k2:
     Rate at which infiltration increases with plant biomass (g m-2).
 
-plant(1).c:
+plant{1}.c:
     Rate of water uptake by plants to plant growth (g m-2 mm-1).
 
-plant(1).gmax:
+plant{1}.gmax:
     Plant water uptake: maximum specific water uptake (mm g-1 m-2 d-1).
 
 The *R* script provided in the model source files at
@@ -850,11 +871,11 @@ The parameter to vary expressed as a field path in the JSON configuration,
 where field names are separated by periods.
 Examples of sweep parameter paths are::
 
-    plant(1).DP
+    plant{1}.DP
     model.params.alpha
     input.NAtmDep
 
-Currently, a plant parameter sweep can be done only for ``plant(1)``.
+Currently, a plant parameter sweep can be done only for ``plant{1}``.
 
 The configuration item **sweep** contains an array of parameters which
 specify the sweep configuration.
@@ -867,14 +888,14 @@ runType                scalar     0 = sweep over range of values; 1 = single sim
 \                      \          \
 parameter              string     The parameter to vary expressed as a field path according to the
 \                      or         JSON configuration structure.
-\                      integer    Examples: ``model.params.alpha`` or ``plant(1).mortality.d``
+\                      integer    Examples: ``model.params.alpha`` or ``plant{1}.mortality.d``
 \                      \          For model versions <= 6.2, the original style of sweep parameters
 \                      \          used an integer to specify a parameter to vary:
 \                      \          Valid values are: 1 = **alpha**, 2 = **k2**, 3 = **c**,
 \                      \          4 = **gmax**, 5 = rainfall, 6 = **beta** (mound water convection rate).
 \                      \          If ``parameter`` is an integer, it will be converted to a field path
 \                      \          string, as described above.
-\                      \          E.g., ``sweep.parameter = 2`` becomes ``sweep.parameter = plant(1).k2``.
+\                      \          E.g., ``sweep.parameter = 2`` becomes ``sweep.parameter = plant{1}.k2``.
 \                      \          \
 range                  1x2 matrix The minimum and maximum values for the sweep parameter.
 \                      \          The units must be appropriate for the parameter.
@@ -1440,13 +1461,15 @@ Citations
 See Also
 ==========
 
-*ModelDesign.pdf*, source: *ModelDesign.rst*
+*ModelDesign.pdf* or *ModelDesign.html*, source: *ModelDesign.rst*
 
-*ModelDiagram.pdf*, source: *ModelDiagram.fodt*
+*ModelDiagram.pdf* or *ModelDiagram.html*, source: *ModelDiagram.fodt*
 
-*ModelEquations.pdf*, source: *ModelEquations.fodt*
+*ModelEquations.pdf* or *ModelEquations.html*, source: *ModelEquations.fodt*
 
 *aeolian/AeolianEffect-Algorithms.pdf*, source: *aeolian/AeolianEffect-Algorithms.rst*
+
+*ModifyingModel.pdf* or *ModifyingModel.html*, source: *ModifyingModel.rst*
 
 
 
@@ -1470,6 +1493,8 @@ Revision Date        Model Version        Description
 2025.12              7.x                  Describe new sweep subsystem. New configuration parameters
 \                    \                    for new algorithms for seed dispersal propagation, and a
 \                    \                    new plant type, annual grass or forb.
+2026.02              7.x                  Describe new algorithm for annual mortality, and improve
+\                    \                    the description of other mortality algorithms.
 ===================  ===================  ===============================================================
 
 
@@ -1797,9 +1822,12 @@ Additional configuration files (``*.json``) are provided in the
       #   Kg            - Constant germination rate == probability of germination (0-1).
       # --- Mortality: item "mortality"
       #   d             - Background rate: specific loss of plant density due to mortality (fraction d-1).
-      #   B0            - Water demand excess at the logistic function inflection point (range: >= 0.0).
-      #   B1            - Maximum rate of change of mortality (range: >= 0.0).
-      #   lengthPeriod  - Number of days to track excess water demand (integer).
+      #   B0            - Water stress: soil H2O demand excess at the logistic function inflection point (>= 0.0).
+      #   B1            - Water stress: Maximum rate of change of mortality (range: >= 0.0).
+      #   lengthPeriod  - Water stress: Number of days to track excess water demand (integer).
+      #   annual        - Annual mortality: vector[4]; logistic function parameters [a, b, c, d], where
+      #                   a = maximum (0-1), b = modifies inflection point (e.g., 0.005),
+      #                   c = modifies slopet (e.g., 0.05), d = minimum (0-1, d < a).
       # --- aeolian effects: item "aeolianEffect"
       #   minThreshold  - Minimum aboveground biomass to be included in aeolian calculations (g/m2).
       #   B, Bmax, Bz   - Grasses: grassEffect equation parameters. E.g., B: 0.12, Bmax: 0.99, Bz: 1000.0
@@ -1837,7 +1865,8 @@ Additional configuration files (``*.json``) are provided in the
             "d":            0.00041,
             "B0":           10.0,
             "B1":           1.0,
-            "lengthPeriod": 30
+            "lengthPeriod": 30,
+            "annual": [ 0.4, 0.005, 0.05, 0.02 ]
           },
           "aeolianEffect": {
             "minThreshold": 5.0,
@@ -1953,6 +1982,8 @@ Additional configuration files (``*.json``) are provided in the
           "NAtmDep": true,
           # Aeolian submodel
           "aeolian": true,
+          # annual plant mortality
+          "annualMor": true,
           # mounds submodel
           "mounds":  false,
           # competition switch: currently not used
@@ -1972,12 +2003,12 @@ Additional configuration files (``*.json``) are provided in the
         # run type: zero or one; 0 = sweep over range of values; 1 = single simulation
         "runType": 1,
         # which parameter to vary? Provide configuration path. Examples:
-        #   "plant(1).k2"
-        #   "plant(1).c"
-        #   "plant(1).gmax"
+        #   "plant{1}.k2"
+        #   "plant{1}.c"
+        #   "plant{1}.gmax"
         #   "input.precipitation"
         #   "model.mounds.beta"
-        "parameter": "plant(1).c",
+        "parameter": "plant{1}.c",
         # minimum and maximum values for parameter; vector 1x2
         "range":     [1, 14],
         # number of values within range, inclusive; must be positive integer; if runType == 1, sweepSize = 1
