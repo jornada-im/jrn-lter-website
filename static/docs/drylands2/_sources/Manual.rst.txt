@@ -582,10 +582,14 @@ annual              vector[4]    Annual mortality for perennial plants and shrub
 **aeolianEffect**   struct       **Aeolian effects from biomass upon erosion/deposition:**
 \                   \            This struct will have different fields and values for a grass or shrub:
 *Grass:*            \            \
-minThreshold        scalar       Minimum aboveground biomass to be included in aeolian calculations (g/m2).
+minThreshold        scalar       Minimum aboveground biomass to be included in or excluded from aeolian effects (g/m2).
+\                   \            Cell biomass > threshold contribute to effects of relative wind shear.
 B, Bmax, Bz         scalar       **grassEffect** equation parameters. E.g., ``B``: 0.12, ``Bmax``: 0.99, ``Bz``: 1000.0
+\                   \            The graphs by the GNU Octave script ``aeolian/plot-grassEffect-logistic.m``
+\                   \            show the results of different values of these parameters.
 *Shrub:*            \            \
-minThreshold        scalar       Minimum aboveground biomass to be included in aeolian calculations (g/m2).
+minThreshold        scalar       Minimum aboveground biomass to be included in or excluded from aeolian effects (g/m2).
+\                   \            Cell biomass > threshold are not erodible but contribute to lee shadow.
 ==================  ===========  =======================================================================================
 
 

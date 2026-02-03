@@ -1111,19 +1111,35 @@ mortality, and reproduction.</p>
 </tr>
 <tr class="row-even"><td><p>minThreshold</p></td>
 <td><p>scalar</p></td>
-<td><p>Minimum aboveground biomass to be included in aeolian calculations (g/m2).</p></td>
+<td><p>Minimum aboveground biomass to be included in or excluded from aeolian effects (g/m2).</p></td>
 </tr>
-<tr class="row-odd"><td><p>B, Bmax, Bz</p></td>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>Cell biomass &gt; threshold contribute to effects of relative wind shear.</p></td>
+</tr>
+<tr class="row-even"><td><p>B, Bmax, Bz</p></td>
 <td><p>scalar</p></td>
 <td><p><strong>grassEffect</strong> equation parameters. E.g., <code class="docutils literal notranslate"><span class="pre">B</span></code>: 0.12, <code class="docutils literal notranslate"><span class="pre">Bmax</span></code>: 0.99, <code class="docutils literal notranslate"><span class="pre">Bz</span></code>: 1000.0</p></td>
 </tr>
-<tr class="row-even"><td><p><em>Shrub:</em></p></td>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>The graphs by the GNU Octave script <code class="docutils literal notranslate"><span class="pre">aeolian/plot-grassEffect-logistic.m</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>show the results of different values of these parameters.</p></td>
+</tr>
+<tr class="row-odd"><td><p><em>Shrub:</em></p></td>
 <td><p></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p>minThreshold</p></td>
+<tr class="row-even"><td><p>minThreshold</p></td>
 <td><p>scalar</p></td>
-<td><p>Minimum aboveground biomass to be included in aeolian calculations (g/m2).</p></td>
+<td><p>Minimum aboveground biomass to be included in or excluded from aeolian effects (g/m2).</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>Cell biomass &gt; threshold are not erodible but contribute to lee shadow.</p></td>
 </tr>
 </tbody>
 </table>
