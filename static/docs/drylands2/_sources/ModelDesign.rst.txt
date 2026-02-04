@@ -672,6 +672,27 @@ soil N pool. Each process that contributes to plant mortality accumulates
 dead biomass; at the end of the "start of day" section, the class **SoilNEq**
 calculates the amount of soil N from dead root biomass for each plant.
 
+The mortality is accumulated during each iteration and passed to the the
+equation solver. The procedural loop is approximately:
+
+.. code:: MATLAB
+
+    Pd = zeros(n, n, numPlants);                % holds the dead biomass
+    for each iteration:                         % multiple iterations per day
+        if startOfDay:
+            Pd = plantMortality( Pd, plants );  % background mortality + drought
+            Pd = Pd + aeolianEffects( ... );    % erosion + deposition mortality
+            Nin  = SoilNEq.Nin( ..., Pd );      % soil N from decomposition
+        [Pnew, ...] = EulersMethod(..., P, Pd, ...);    % solve eqs
+        if  endOfDay and end of growing season:
+            Pd(:) = 0.0;                                % forget dead biomass
+            % New dead biomass is saved for the next day
+            for annual plants:
+                Pd = Pd + plants.kill();                % accumulate Pd
+            for perennial plants and shrubs:
+                Pd = Pd + annualMortality( plants );    % accumulate Pd
+    end iteration
+
 
 
 Spatial Propagation

@@ -212,11 +212,11 @@ examining the simulation results. These include:
   A separate **LaTeX** installation may be required for producing PDF files.
   Without Pandoc, documents are still readable as plain text.
 
-* **GNU make** is used to generated formatted document files.
+* **GNU make** is used to generated formatted document files using makefiles.
 
 * **git** is used for version control.
   This is not required to obtain and run the model,
-  but is used to manage source code history and updates.
+  but is used to manage file histories and updates.
 
 * **plantuml** (`<https://plantuml.com>`_) generates class and flowchart
   diagrams from text description files.
