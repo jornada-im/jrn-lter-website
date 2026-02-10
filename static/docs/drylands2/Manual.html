@@ -860,6 +860,12 @@ See the document <em>Model Design</em> for details on these algorithms.</p>
 <strong>plant.type</strong>. Plants can be a perennial grass, a shrub, or an annual grass
 or forb. Configuration categories are biomass, growth, reproduction,
 mortality, and reproduction.</p>
+<p>For the configuration items under <strong>plant.aeolianEffect</strong>, the graphs
+produced by the following GNU Octave script demonstrate the results of
+varying the <strong>B</strong> and <strong>Bz</strong> parameters:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">aeolian</span><span class="o">/</span><span class="n">plot</span><span class="o">-</span><span class="n">grassEffect</span><span class="o">-</span><span class="n">logistic</span><span class="o">.</span><span class="n">m</span>
+</pre></div>
+</div>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
 <thead>
@@ -2219,6 +2225,10 @@ arid ecosystems. American Naturalist 160:524–530. <a class="reference external
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>the description of other mortality algorithms.</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>Add plant configuration item <strong>mortality.annual</strong>.</p></td>
 </tr>
 </tbody>
 </table>

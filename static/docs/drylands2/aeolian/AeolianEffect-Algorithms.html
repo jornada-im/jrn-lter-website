@@ -304,8 +304,8 @@ Read the data with this GNU Octave statement which creates a
 <span class="mi">2013</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">220</span><span class="p">,</span><span class="mi">220</span><span class="p">,</span><span class="mf">0.844</span><span class="p">,</span><span class="mf">1.718</span><span class="p">,</span><span class="mf">7.099</span>
 </pre></div>
 </div>
-<p>Histograms of that wind data is available in the image file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span><span class="o">/</span><span class="n">plot</span><span class="o">-</span><span class="n">dailyWindSpeed</span><span class="o">.</span><span class="n">png</span>
+<p>Histograms of that wind data are plotted by the script:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tests</span><span class="o">/</span><span class="n">plot</span><span class="o">-</span><span class="n">dailyWindSpeed</span><span class="o">.</span><span class="n">m</span>
 </pre></div>
 </div>
 <p>Use the function <strong>getWind</strong> to retrieve the wind direction and
@@ -429,6 +429,9 @@ Uses: GrassAllometry</p>
 <span class="o">%</span>              <span class="n">NA</span>   <span class="mf">0.9057</span>       <span class="n">NA</span>   <span class="mf">0.9983</span>       <span class="n">NA</span>
 </pre></div>
 </div>
+<p>Plant configuration parameters controlling the grass effect upon wind shear
+are specified under the configuration structure <strong>plant{*}.aeolianEffect</strong>.
+See the <em>Manual</em> secton <em>Plant Species Definitions</em> for details.</p>
 </div></blockquote>
 </section>
 <section id="b-shrubs-leeward-cells">

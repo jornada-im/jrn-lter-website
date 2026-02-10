@@ -519,6 +519,13 @@ Each plant species has a type defined in the configuration item
 or forb. Configuration categories are biomass, growth, reproduction,
 mortality, and reproduction.
 
+For the configuration items under **plant.aeolianEffect**, the graphs
+produced by the following GNU Octave script demonstrate the results of
+varying the **B** and **Bz** parameters::
+
+    doc/source/aeolian/plot-grassEffect-logistic.m
+
+
 ==================  ===========  =======================================================================================
 Configuration Item  Data Type    Description
 ==================  ===========  =======================================================================================
@@ -591,6 +598,7 @@ B, Bmax, Bz         scalar       **grassEffect** equation parameters. E.g., ``B`
 minThreshold        scalar       Minimum aboveground biomass to be included in or excluded from aeolian effects (g/m2).
 \                   \            Cell biomass > threshold are not erodible but contribute to lee shadow.
 ==================  ===========  =======================================================================================
+
 
 
 Model Configuration
@@ -1499,6 +1507,7 @@ Revision Date        Model Version        Description
 \                    \                    new plant type, annual grass or forb.
 2026.02              7.x                  Describe new algorithm for annual mortality, and improve
 \                    \                    the description of other mortality algorithms.
+\                    \                    Add plant configuration item **mortality.annual**.
 ===================  ===================  ===============================================================
 
 
