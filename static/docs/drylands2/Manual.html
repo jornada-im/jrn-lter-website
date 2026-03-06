@@ -863,9 +863,17 @@ mortality, and reproduction.</p>
 <p>For the configuration items under <strong>plant.aeolianEffect</strong>, the graphs
 produced by the following GNU Octave script demonstrate the results of
 varying the <strong>B</strong> and <strong>Bz</strong> parameters:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">aeolian</span><span class="o">/</span><span class="n">plot</span><span class="o">-</span><span class="n">grassEffect</span><span class="o">-</span><span class="n">logistic</span><span class="o">.</span><span class="n">m</span>
-</pre></div>
-</div>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">doc/source/aeolian/plot-grassEffect-logistic.m</span></code></p>
+</div></blockquote>
+<p>To assist in building the list of parameters for a plant type is provided as
+a template document in</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">doc/parameters/plant-parameters-template.*</span></code></p>
+</div></blockquote>
+<p>Copy the template file to your work location with the name of the plant
+species, and then open that file in an editor to fill in the parameter
+values.</p>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
 <thead>
@@ -1051,6 +1059,22 @@ varying the <strong>B</strong> and <strong>Bz</strong> parameters:</p>
 <td><p>scalar</p></td>
 <td><p>Background mortality rate: loss of plant density due to mortality (fraction d-1).</p></td>
 </tr>
+<tr class="row-even"><td><p>annual</p></td>
+<td><p>vector[4]</p></td>
+<td><p>Annual mortality for perennial plants and shrubs.</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>These are logistic function parameters <code class="docutils literal notranslate"><span class="pre">[a,</span> <span class="pre">b,</span> <span class="pre">c,</span> <span class="pre">d]</span></code>, where</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">a</span></code> = maximum (0-1), <code class="docutils literal notranslate"><span class="pre">b</span></code> = modifies inflection point (e.g., 0.005),</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">c</span></code> = modifies slopet (e.g., 0.05), <code class="docutils literal notranslate"><span class="pre">d</span></code> = minimum (0-1, <code class="docutils literal notranslate"><span class="pre">d</span></code> &lt; <code class="docutils literal notranslate"><span class="pre">a</span></code>).</p></td>
+</tr>
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p><strong>Water stress affecting mortality:</strong></p></td>
@@ -1086,22 +1110,6 @@ varying the <strong>B</strong> and <strong>Bz</strong> parameters:</p>
 <tr class="row-even"><td><p>lengthPeriod</p></td>
 <td><p>scalar</p></td>
 <td><p>Number of days to track excess water demand.</p></td>
-</tr>
-<tr class="row-odd"><td><p>annual</p></td>
-<td><p>vector[4]</p></td>
-<td><p>Annual mortality for perennial plants and shrubs.</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p></p></td>
-<td><p>These are logistic function parameters <code class="docutils literal notranslate"><span class="pre">[a,</span> <span class="pre">b,</span> <span class="pre">c,</span> <span class="pre">d]</span></code>, where</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">a</span></code> = maximum (0-1), <code class="docutils literal notranslate"><span class="pre">b</span></code> = modifies inflection point (e.g., 0.005),</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">c</span></code> = modifies slopet (e.g., 0.05), <code class="docutils literal notranslate"><span class="pre">d</span></code> = minimum (0-1, <code class="docutils literal notranslate"><span class="pre">d</span></code> &lt; <code class="docutils literal notranslate"><span class="pre">a</span></code>).</p></td>
 </tr>
 <tr class="row-odd"><td><p><strong>aeolianEffect</strong></p></td>
 <td><p>struct</p></td>
@@ -2080,6 +2088,19 @@ See “ <a class="reference internal" href="#running-a-simulation">Running a Sim
 </pre></div>
 </div>
 </section>
+<section id="plotsweeptimeseries">
+<h4>plotSweepTimeSeries<a class="headerlink" href="#plotsweeptimeseries" title="Link to this heading">¶</a></h4>
+<p><em>GNU Octave</em> function to plot an output variable vs simulation time
+from multiple time series files produced by a simulation.
+The time series files are produced in CSV format.
+The plot is a line graph with each time series plotted
+as a separate line.</p>
+<p>To view help in <em>GNU Octave</em>:</p>
+<div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="nb">addpath</span><span class="p">(</span><span class="s">&#39;[installation-path]/src/tools&#39;</span><span class="p">)</span>
+<span class="nb">help</span><span class="w"> </span><span class="n">plotSweepTimeSeries</span>
+</pre></div>
+</div>
+</section>
 <section id="ncdrawmap">
 <h4>ncDrawMap<a class="headerlink" href="#ncdrawmap" title="Link to this heading">¶</a></h4>
 <p><em>GNU Octave</em> script to make a map image from a grid in a netCDF file produced by
@@ -2089,7 +2110,7 @@ Uses the Octave package <strong>netcdf</strong>, and functions in the source fil
 The configuration items <strong>mapTS.biomass</strong> and/or <strong>mapTS.resources</strong>
 must be set to <code class="docutils literal notranslate"><span class="pre">true</span></code> to produce the netCDF time series files
 during a simulation.</p>
-<p>To view help:</p>
+<p>To view help in <em>GNU Octave</em>:</p>
 <div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="nb">addpath</span><span class="p">(</span><span class="s">&#39;[installation-path]/src/tools&#39;</span><span class="p">)</span>
 <span class="nb">help</span><span class="w"> </span><span class="n">ncDrawMap</span>
 </pre></div>
@@ -2103,7 +2124,7 @@ during a simulation.
 Returns a 2D matrix.
 Uses the <em>GNU Octave</em> package <strong>netcdf</strong>, and functions in the source file
 <code class="docutils literal notranslate"><span class="pre">ncCommon.m</span></code>.</p>
-<p>To view help:</p>
+<p>To view help in <em>GNU Octave</em>:</p>
 <div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="nb">addpath</span><span class="p">(</span><span class="s">&#39;[installation-path]/src/tools&#39;</span><span class="p">)</span>
 <span class="nb">help</span><span class="w"> </span><span class="n">ncGetGrid</span>
 </pre></div>
@@ -2229,6 +2250,14 @@ arid ecosystems. American Naturalist 160:524–530. <a class="reference external
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Add plant configuration item <strong>mortality.annual</strong>.</p></td>
+</tr>
+<tr class="row-odd"><td><p>2026.03</p></td>
+<td><p>7.3</p></td>
+<td><p>Add Model Utilities: plotSweepTimeSeries.</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>Add info on plant-parameters-template.* document.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2417,6 +2446,9 @@ All are text files.</p>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fodg</span></code></p></td>
 <td><p>OpenDocument drawing file (in XML format)[<a class="reference internal" href="#id7">7</a>].</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fods</span></code></p></td>
+<td><p>OpenDocument spreadsheet file (in XML format)[<a class="reference internal" href="#id7">7</a>].</p></td>
 </tr>
 </tbody>
 </table>
@@ -2934,6 +2966,7 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <li><a class="reference internal" href="#info">info</a></li>
 <li><a class="reference internal" href="#plottimeseries-r">plotTimeSeries.R</a></li>
 <li><a class="reference internal" href="#plotcomparetimeseries-r">plotCompareTimeSeries.R</a></li>
+<li><a class="reference internal" href="#plotsweeptimeseries">plotSweepTimeSeries</a></li>
 <li><a class="reference internal" href="#ncdrawmap">ncDrawMap</a></li>
 <li><a class="reference internal" href="#ncgetgrid">ncGetGrid</a></li>
 </ul>

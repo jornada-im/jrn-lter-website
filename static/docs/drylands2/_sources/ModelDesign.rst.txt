@@ -1170,6 +1170,11 @@ File name extension  Format
 ``json``             Contains JSON[6_] stuctured data for configuration files.
 \                    This contains a non-standard JSON feature: line comments.
 ``R``                R source code file.
+``md``               Markdown document source file. These markdown files
+\                    may include a markdown extension for tables.
+``rst``              reStructuredText document source file.
+``txt``              Plain text file; the content may either be a document, or
+\                    be for a specific application (e.g., **plantuml**).
 ``fodt``             OpenDocument document file (in text XML format).
 \                    This is a LibreOffice native format, and is
 \                    editable by Microsoft Word and Google Docs and other apps.
@@ -1178,11 +1183,9 @@ File name extension  Format
 ``fodg``             OpenDocument graph file (in text XML format).
 \                    Some applications may require this to be converted to
 \                    ``odt`` (compressed) format.
-``md``               Markdown document source file. These markdown files
-\                    may include a markdown extension for tables.
-``rst``              reStructuredText document source file.
-``txt``              Plain text file; the content may either be a document, or
-\                    be for a specific application (e.g., **plantuml**).
+``fods``             OpenDocument spreadsheet file (in XML format)[7_].
+\                    Some applications may require this to be converted to
+\                    ``odt`` (compressed) format.
 ===================  ==========================================================
 
 Other files:

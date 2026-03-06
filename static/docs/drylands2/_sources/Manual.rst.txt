@@ -521,9 +521,18 @@ mortality, and reproduction.
 
 For the configuration items under **plant.aeolianEffect**, the graphs
 produced by the following GNU Octave script demonstrate the results of
-varying the **B** and **Bz** parameters::
+varying the **B** and **Bz** parameters:
 
-    doc/source/aeolian/plot-grassEffect-logistic.m
+    ``doc/source/aeolian/plot-grassEffect-logistic.m``
+
+To assist in building the list of parameters for a plant type is provided as
+a template document in
+
+    ``doc/parameters/plant-parameters-template.*``
+
+Copy the template file to your work location with the name of the plant
+species, and then open that file in an editor to fill in the parameter
+values.
 
 
 ==================  ===========  =======================================================================================
@@ -573,6 +582,10 @@ bmMaxRepro          scalar       Fraction of maximum biomass per cell below whic
 Kg                  scalar       Constant germination rate == probability of germination (0-1).
 **mortality**       struct       **Mortality configuration:**
 d                   scalar       Background mortality rate: loss of plant density due to mortality (fraction d-1).
+annual              vector[4]    Annual mortality for perennial plants and shrubs.
+\                   \            These are logistic function parameters ``[a, b, c, d]``, where
+\                   \            ``a`` = maximum (0-1), ``b`` = modifies inflection point (e.g., 0.005),
+\                   \            ``c`` = modifies slopet (e.g., 0.05), ``d`` = minimum (0-1, ``d`` < ``a``).
 \                   \            **Water stress affecting mortality:**
 B0                  scalar       Water demand excess at the logistic function inflection point (range: >= 0.0).
 \                   \            Increasing values at a fixed water demand excess will decrease the mortality rate,
@@ -582,10 +595,6 @@ B1                  scalar       Maximum rate of change of mortality (range: >= 
 \                   \            Increasing values increase the rate of change in mortality at the logistic inflection
 \                   \            point, and at a fixed water demand excess will increase the mortality rate.
 lengthPeriod        scalar       Number of days to track excess water demand.
-annual              vector[4]    Annual mortality for perennial plants and shrubs.
-\                   \            These are logistic function parameters ``[a, b, c, d]``, where
-\                   \            ``a`` = maximum (0-1), ``b`` = modifies inflection point (e.g., 0.005),
-\                   \            ``c`` = modifies slopet (e.g., 0.05), ``d`` = minimum (0-1, ``d`` < ``a``).
 **aeolianEffect**   struct       **Aeolian effects from biomass upon erosion/deposition:**
 \                   \            This struct will have different fields and values for a grass or shrub:
 *Grass:*            \            \
@@ -1391,6 +1400,23 @@ The R commands to view help on using is:
     plotCompareTimeSeries.help()
 
 
+plotSweepTimeSeries
+````````````````````
+
+*GNU Octave* function to plot an output variable vs simulation time
+from multiple time series files produced by a simulation.
+The time series files are produced in CSV format.
+The plot is a line graph with each time series plotted
+as a separate line.
+
+To view help in *GNU Octave*:
+
+.. code:: MATLAB
+
+    addpath('[installation-path]/src/tools')
+    help plotSweepTimeSeries
+
+
 ncDrawMap
 ``````````
 
@@ -1402,7 +1428,7 @@ The configuration items **mapTS.biomass** and/or **mapTS.resources**
 must be set to ``true`` to produce the netCDF time series files
 during a simulation.
 
-To view help:
+To view help in *GNU Octave*:
 
 .. code:: MATLAB
 
@@ -1420,7 +1446,7 @@ Returns a 2D matrix.
 Uses the *GNU Octave* package **netcdf**, and functions in the source file
 ``ncCommon.m``.
 
-To view help:
+To view help in *GNU Octave*:
 
 .. code:: MATLAB
 
@@ -1508,6 +1534,8 @@ Revision Date        Model Version        Description
 2026.02              7.x                  Describe new algorithm for annual mortality, and improve
 \                    \                    the description of other mortality algorithms.
 \                    \                    Add plant configuration item **mortality.annual**.
+2026.03              7.3                  Add Model Utilities: plotSweepTimeSeries.
+\                    \                    Add info on plant-parameters-template.* document.
 ===================  ===================  ===============================================================
 
 
@@ -1674,6 +1702,7 @@ File name extension  Format
 \                    This is a LibreOffice native format, and is
 \                    editable by Microsoft Word and Google Docs and other apps.
 ``fodg``             OpenDocument drawing file (in XML format)[7_].
+``fods``             OpenDocument spreadsheet file (in XML format)[7_].
 ===================  ==========================================================
 
 Other files:
