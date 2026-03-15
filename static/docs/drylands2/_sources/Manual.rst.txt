@@ -142,7 +142,9 @@ to hold the simulation results. You will specify this path in
 the configuration file item **output.path**.
 
 After installing successfully, you can view information about the model
-with the console command::
+with the console command:
+
+.. code:: BASH
 
     octave [installation-path]/Drylands2/src/tools/info.m
 
@@ -162,7 +164,9 @@ convenient temporary storage directory.
 Once downloaded, install the package in *GNU Octave* using the
 package manager **pkg**:
 
-|    ``pkg install "DrylandsLib.tar.gz"``
+.. code:: MATLAB
+
+    pkg install "DrylandsLib.tar.gz"
 
 You can prepend the path to file to the file name.
 
@@ -171,14 +175,18 @@ Once installed, *GNU Octave* will know the package by its lowercase name,
 
 In *GNU Octave*, load the package (using its lowercase name):
 
-|    ``warning('off', 'Octave:shadowed-function');``
-|    ``pkg load drylandslib``
+.. code:: MATLAB
+
+    warning('off', 'Octave:shadowed-function');
+    pkg load drylandslib
 
 To view the classes and functions contained in the package,
 display a help page with:
 
-|    ``page_screen_output(true)``
-|    ``help DrylandsLib``
+.. code:: MATLAB
+
+    page_screen_output(true)
+    help DrylandsLib
 
 The Drylands2 model loads the package when it runs, so you do not need
 to load it manually.
@@ -250,11 +258,15 @@ Making the Documents
 In a console window, change to the document's directory,
 e.g., ``[installation-path]/Drylands2/doc``.
 Then run **make** to build the formatted documents
-These files will have the extensions ``pdf`` and ``html``::
+These files will have the extensions ``pdf`` and ``html``:
+
+.. code:: BASH
 
     make -f makefile.local
 
-To remove the formatted documents, run **make** with the target ``clean``::
+To remove the formatted documents, run **make** with the target ``clean``:
+
+.. code:: BASH
 
     make -f makefile.local clean
 
@@ -332,11 +344,11 @@ An example configuration file is provided in the model code at
 ``tests/config.json``. You can copy this into your workspace and edit it for
 your simulation.
 
-Although the configuration data in the configuration file
-is in JSON format, the line comments in the file are not allowed in standard
-JSON file syntax. These lines are removed before the JSON data is processed.
-You can add your own line comments to your file; lines where the first
-non-blank character is **#** are removed.
+Although the configuration data in the configuration file is in JSON format,
+line comments (first character is **#**) in a configuration file are not
+allowed in standard JSON syntax. These comment lines are removed before the
+JSON data is processed. You can add your own line comments to your file;
+lines where the first non-blank character is **#** are removed.
 
 Configuration information is read using the function **readConfigJSON**. You
 can verify the configuration in the context of expected fields using the
@@ -349,10 +361,35 @@ function **verifyConfiguration**. For example:
     % if failed == true, then there is a problem in the configuration.
 
 On Linux, or similar, you can check the correctness of the JSON structure
-with the utility ``json_verify`` after extracting the comment lines::
+with the utility ``json_verify`` after extracting the comment lines:
+
+.. code:: BASH
 
     grep -Ev '^\s*(#.*)$' config.json | json_verify
 
+Within the model code, configuration parameters are contained in GNU Octave
+structures or cell arrays. In this document they are referred to using syntax
+for structure and cell arrays,
+e.g. **model.params.alpha**, or **plant{1}.DP**.
+The equivalent JSON syntax is:
+
+.. code:: JSON
+
+    "model": {
+      "params": {
+         "alpha": 0.95
+      }
+    }
+
+    "plant": [
+      {
+        "DP": 0.1
+      }
+    ]
+
+Note the difference in syntax between JSON and GNU Octave:
+JSON arrays are enclosed in square brackets **[]**
+while in Octave cell arrays are referenced with curley brackets **{}**.
 
 
 General Configuration
@@ -375,13 +412,14 @@ input               struct        Input data sources; see " `Input Data Configur
 output              struct        Output path for results and plots, and output configuration;
 \                   \             see " `Output Configuration`_ ".
 \                   \             Fields: **path**, **saveResults**, **gridAvgTimeSeries**, **mapTS**.
-**simTime**         struct        Simulation time; see " `Simulation Time`_ ".
+simTime             struct        Simulation time; see " `Simulation Time`_ ".
 \                   \             Field **start**: start year and day-of-year for the simulation (integers).
 \                   \             Example: [ 2000, 1 ]
 \                   \             Field **stop**: end year and day-of-year (integers).
 \                   \             Example: [ 2010, 365 ]
-\                   \             Field **gsStart**: The growing season starting day number of year.
+\                   \             Field **gsStart**: Growing season starting day number of year (integer).
 ==================  ============  ============================================================================
+
 
 
 Simulation Time
@@ -392,13 +430,15 @@ These limits are two pairs of integers containing a year and day-of-year.
 The first pair is the **start** date, and the 2nd pair is the **stop** date.
 The third item **gsStart** is the growing season starting day number of year (an integer).
 
-The JSON structure is like this::
+The JSON structure is like this:
 
-      "simTime": {
-        "start":   [ 2000, 1 ],
-        "stop":    [ 2010, 365 ],
-        "gsStart": 1
-      },
+.. code:: JSON
+
+    "simTime": {
+      "start":   [ 2000, 1 ],
+      "stop":    [ 2010, 365 ],
+      "gsStart": 1
+    }
 
 You can get the day-of-year from the date using the function **datenum**.
 For example, if your start year is 2013 Aug 6, then
@@ -615,12 +655,13 @@ Model Configuration
 
 The configuration item **model** is a structure containing parameters
 specifying model configuration values that are not plant-specific.
-Fields in **bold** are nested structures:
-**initial**, **params**, **aeolian**, and **mounds**.
 
 Mounds are topographic features of specified shape and size.
 Surface water flows down the mounds according to their shape and the
 parameter **beta**, or maximum convection rate.
+
+Fields in **bold** are nested structures:
+**initial**, **params**, **aeolian**, and **mounds**.
 
 ==================  ===========  ========================================================================================
 Configuration Item  Data Type    Description
@@ -875,26 +916,33 @@ might be::
 To run sweeps with “slow” convective motion of H20 due to gravity, and with
 modestly increased plant “efficiency” on mound, try::
 
-  model.params.c = 1.2
-  sweep.runType = 1
-  model.mounds.beta = 0.01
+    model.params.c = 1.2
+    sweep.runType = 1
+    model.mounds.beta = 0.01
 
 
 Sweeps
 --------
 
-A sweep is a set of simulations over a range of a configuration parameter.
-The parameter varies with a fixed interval, while all other parameters
-are constant (unless they have a random or data file initialization).
-A sweep parameter can be any field in the configuration file for which
-a sweep makes sense.
-The parameter to vary expressed as a field path in the JSON configuration,
-where field names are separated by periods.
+A sweep is a set of simulations over a set of values for a configuration
+parameter. The parameter values are specified in the configuration, while
+all other parameters are constant (unless they have a random or data file
+initialization). A sweep parameter can be any field in the configuration
+file for which a sweep makes sense. The parameter to vary expressed as a
+field path in the JSON configuration, where field names are separated by
+periods.
+
 Examples of sweep parameter paths are::
 
-    plant{1}.DP
     model.params.alpha
+    plant{1}.DP
     input.NAtmDep
+
+Examples of sweep values are::
+
+    [1, 3, 5]
+    ["1:2:5"]
+    [0.01, 0.1, "0.5:0.1:0.8"]
 
 Currently, a plant parameter sweep can be done only for ``plant{1}``.
 
@@ -918,10 +966,18 @@ parameter              string     The parameter to vary expressed as a field pat
 \                      \          string, as described above.
 \                      \          E.g., ``sweep.parameter = 2`` becomes ``sweep.parameter = plant{1}.k2``.
 \                      \          \
+values                 vector     Values to be applied to the parameter for each sweep simulation.
+\                      \          These can be individual numeric values, or
+\                      \          GNU Octave-style ranges in quotes, e.g., "2:5" or "0.1:0.1:0.5".
+\                      \          Enclose the vector in square brackets.
+\                      \          Example: [0.01, 0.1, "0.5:0.1:0.8"]
+**Obsolete**           \          \
 range                  1x2 matrix The minimum and maximum values for the sweep parameter.
 \                      \          The units must be appropriate for the parameter.
 \                      \          \
-sweepSize              scalar     The number of values within range, inclusive; a positive integer.
+sweepSize              scalar     The number of values within "range", inclusive; a positive integer.
+\                      \          While this parameter is not needed with "values" parameter, if not present, it is
+\                      \          created when the configuration parameters are processed.
 ====================== ========== ====================================================================================
 
 
@@ -1020,7 +1076,9 @@ Columns in the CSV file are:
 The data variable ``precip`` is daily precipitation in mm. This can be a
 fractional value.
 
-Example snippet of a precipitation data file::
+Example snippet of precipitation data:
+
+.. csv-table::
 
     "year","month","day","dayNumber","dayOfYear","precip"
     1980,1,11,11,11,1.524
@@ -1049,7 +1107,9 @@ Columns in the CSV file are:
 The data variables are daily minimum, daily maximum, and daily mean,
 respectively, in degrees Celcius.
 
-Example snippet of a temperature data file::
+Example snippet of temperature data:
+
+.. csv-table::
 
     "year","month","day","dayNumber","dayOfYear","Tmin","Tmax","Tavg"
     2013,8,6,218,218,24.38,34.27,30.74
@@ -1092,7 +1152,9 @@ Columns in the CSV file are:
 
 Units of ``Ndep`` are g/m2/day.
 
-Example snippet of a data file::
+Example snippet of N atmospheric deposition data:
+
+.. csv-table::
 
     "year","month","day","dayNumber","dayOfYear","Ndep"
     2013,8,6,218,218,0.2
@@ -1117,13 +1179,13 @@ Wind variables used by the aeolian submodel are ``windDir`` and ``wsMax``.
 
 Columns in the CSV file are::
 
-    year       - integer: 1-4-digit year
-    month      - integer: 1-2 digit month number (range: 1-12)
-    day        - integer: 1-2 digit day of month (range: 1-31)
-    dayOfYear  - integer: 1-3 digit day number within year (range: 1-366)
-    windDir    - floating point: daily average wind direction (degrees clockwise from N)
-    wsMean     - floating point: mean daily wind speed (m/2) at 75 cm height
-    wsMax      - floating point: maximum daily wind speed (m/2) at 75 cm height
+    year      - integer: 1-4-digit year
+    month     - integer: 1-2 digit month number (range: 1-12)
+    day       - integer: 1-2 digit day of month (range: 1-31)
+    dayOfYear - integer: 1-3 digit day number within year (range: 1-366)
+    windDir   - floating point: daily average wind direction (degrees clockwise from N)
+    wsMean    - floating point: mean daily wind speed (m/2) at 75 cm height
+    wsMax     - floating point: maximum daily wind speed (m/2) at 75 cm height
 
 This configuration item specifies the wind data file name: **input.wind**
 
@@ -1142,7 +1204,7 @@ Run the model with the following command:
 
 .. code:: MATLAB
 
-    Drylands2( configFileName, quiet=false );
+    Drylands2( configFileName, quiet=false )
 
 where *configFileName* is a string containing the path and file name
 of the configuration file (e.g., ``simulations/config.json``).
@@ -1253,11 +1315,15 @@ See " `Model Utilities`_ " for descriptions of these scripts, particularly
 
 If you have the netCDF utilities installed, you can use **ncdump** to view
 the structure and variables of the netCDF files. For example, to see the
-file structure, use the command::
+file structure, use the command:
+
+.. code:: BASH
 
     ncdump -h timeseries-biomass-map.nc
 
-or to extract the "time" values, enter::
+or to extract the "time" values, enter:
+
+.. code:: BASH
 
     ncdump -v time timeseries-biomass-map.nc                  # header and variable
     ncdump -v time timeseries-biomass-map.nc | grep 'time ='  # If using *nix
@@ -1274,7 +1340,9 @@ Class SimTime
 Class SimTime contains static functions for convenience when converting
 between some date formats that are used in the simulation configuration.
 
-To see a list of all SimTime functions in GNU Octave, use the command::
+To see a list of all SimTime functions in GNU Octave, use the command:
+
+.. code:: MATLAB
 
     methods('SimTime')
 
@@ -1312,8 +1380,11 @@ DailyPrecipForSite
 *GNU Octave* program to extract daily precipitation for a JER vegetation zone
 and site code, and save in a CSV file.
 
-Output columns are: ``year``, ``month``, ``day``, ``dayNumber``,
-``dayOfYear``, ``precip``. where ``year``, ``month``, ``day`` are integers,
+Output columns are:
+
+|    ``year``, ``month``, ``day``, ``dayNumber``, ``dayOfYear``, ``precip``
+
+where ``year``, ``month``, ``day`` are integers,
 ``dayNumber`` is the number of days from the start of the data, and
 ``dayOfYear`` is the number of the day from the start of the year.
 
@@ -1536,6 +1607,7 @@ Revision Date        Model Version        Description
 \                    \                    Add plant configuration item **mortality.annual**.
 2026.03              7.3                  Add Model Utilities: plotSweepTimeSeries.
 \                    \                    Add info on plant-parameters-template.* document.
+2026.03              7.4                  Add sweep parameter "values"; "range" is now obsolete.
 ===================  ===================  ===============================================================
 
 

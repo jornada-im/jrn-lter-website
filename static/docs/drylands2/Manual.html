@@ -354,7 +354,7 @@ to hold the simulation results. You will specify this path in
 the configuration file item <strong>output.path</strong>.</p>
 <p>After installing successfully, you can view information about the model
 with the console command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">octave</span> <span class="p">[</span><span class="n">installation</span><span class="o">-</span><span class="n">path</span><span class="p">]</span><span class="o">/</span><span class="n">Drylands2</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">tools</span><span class="o">/</span><span class="n">info</span><span class="o">.</span><span class="n">m</span>
+<div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span>octave<span class="w"> </span><span class="o">[</span>installation-path<span class="o">]</span>/Drylands2/src/tools/info.m
 </pre></div>
 </div>
 </section>
@@ -370,22 +370,22 @@ following GitHub:sup:<cite>TM</cite> URL:</p>
 convenient temporary storage directory.</p>
 <p>Once downloaded, install the package in <em>GNU Octave</em> using the
 package manager <strong>pkg</strong>:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">pkg</span> <span class="pre">install</span> <span class="pre">&quot;DrylandsLib.tar.gz&quot;</span></code></div>
+<div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="n">pkg</span><span class="w"> </span><span class="s">install</span><span class="w"> </span><span class="s">&quot;DrylandsLib.tar.gz&quot;</span>
+</pre></div>
 </div>
 <p>You can prepend the path to file to the file name.</p>
 <p>Once installed, <em>GNU Octave</em> will know the package by its lowercase name,
 <code class="docutils literal notranslate"><span class="pre">drylandslib</span></code>.</p>
 <p>In <em>GNU Octave</em>, load the package (using its lowercase name):</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">warning('off',</span> <span class="pre">'Octave:shadowed-function');</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">pkg</span> <span class="pre">load</span> <span class="pre">drylandslib</span></code></div>
+<div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="nb">warning</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Octave:shadowed-function&#39;</span><span class="p">);</span>
+<span class="n">pkg</span><span class="w"> </span><span class="s">load</span><span class="w"> </span><span class="s">drylandslib</span>
+</pre></div>
 </div>
 <p>To view the classes and functions contained in the package,
 display a help page with:</p>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">page_screen_output(true)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">help</span> <span class="pre">DrylandsLib</span></code></div>
+<div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="n">page_screen_output</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+<span class="nb">help</span><span class="w"> </span><span class="n">DrylandsLib</span>
+</pre></div>
 </div>
 <p>The Drylands2 model loads the package when it runs, so you do not need
 to load it manually.</p>
@@ -445,11 +445,11 @@ diagrams from text description files.</p></li>
 e.g., <code class="docutils literal notranslate"><span class="pre">[installation-path]/Drylands2/doc</span></code>.
 Then run <strong>make</strong> to build the formatted documents
 These files will have the extensions <code class="docutils literal notranslate"><span class="pre">pdf</span></code> and <code class="docutils literal notranslate"><span class="pre">html</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="o">-</span><span class="n">f</span> <span class="n">makefile</span><span class="o">.</span><span class="n">local</span>
+<div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>-f<span class="w"> </span>makefile.local
 </pre></div>
 </div>
 <p>To remove the formatted documents, run <strong>make</strong> with the target <code class="docutils literal notranslate"><span class="pre">clean</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="o">-</span><span class="n">f</span> <span class="n">makefile</span><span class="o">.</span><span class="n">local</span> <span class="n">clean</span>
+<div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>-f<span class="w"> </span>makefile.local<span class="w"> </span>clean
 </pre></div>
 </div>
 <p>The <strong>make</strong> scripts (<code class="docutils literal notranslate"><span class="pre">makefile</span></code>) expect the <strong>pandoc</strong> program to be
@@ -508,11 +508,11 @@ enter the command <code class="docutils literal notranslate"><span class="pre">c
 <p>An example configuration file is provided in the model code at
 <code class="docutils literal notranslate"><span class="pre">tests/config.json</span></code>. You can copy this into your workspace and edit it for
 your simulation.</p>
-<p>Although the configuration data in the configuration file
-is in JSON format, the line comments in the file are not allowed in standard
-JSON file syntax. These lines are removed before the JSON data is processed.
-You can add your own line comments to your file; lines where the first
-non-blank character is <strong>#</strong> are removed.</p>
+<p>Although the configuration data in the configuration file is in JSON format,
+line comments (first character is <strong>#</strong>) in a configuration file are not
+allowed in standard JSON syntax. These comment lines are removed before the
+JSON data is processed. You can add your own line comments to your file;
+lines where the first non-blank character is <strong>#</strong> are removed.</p>
 <p>Configuration information is read using the function <strong>readConfigJSON</strong>. You
 can verify the configuration in the context of expected fields using the
 function <strong>verifyConfiguration</strong>. For example:</p>
@@ -523,9 +523,30 @@ function <strong>verifyConfiguration</strong>. For example:</p>
 </div>
 <p>On Linux, or similar, you can check the correctness of the JSON structure
 with the utility <code class="docutils literal notranslate"><span class="pre">json_verify</span></code> after extracting the comment lines:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">grep</span> <span class="o">-</span><span class="n">Ev</span> <span class="s1">&#39;^\s*(#.*)$&#39;</span> <span class="n">config</span><span class="o">.</span><span class="n">json</span> <span class="o">|</span> <span class="n">json_verify</span>
+<div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span>grep<span class="w"> </span>-Ev<span class="w"> </span><span class="s1">&#39;^\s*(#.*)$&#39;</span><span class="w"> </span>config.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>json_verify
 </pre></div>
 </div>
+<p>Within the model code, configuration parameters are contained in GNU Octave
+structures or cell arrays. In this document they are referred to using syntax
+for structure and cell arrays,
+e.g. <strong>model.params.alpha</strong>, or <strong>plant{1}.DP</strong>.
+The equivalent JSON syntax is:</p>
+<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">     </span><span class="nt">&quot;alpha&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.95</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nt">&quot;plant&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;DP&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Note the difference in syntax between JSON and GNU Octave:
+JSON arrays are enclosed in square brackets <strong>[]</strong>
+while in Octave cell arrays are referenced with curley brackets <strong>{}</strong>.</p>
 <section id="general-configuration">
 <h3>General Configuration<a class="headerlink" href="#general-configuration" title="Link to this heading">¶</a></h3>
 <p>Input file names can include a partial or complete path.
@@ -574,7 +595,7 @@ of the configuration file’s path.</p>
 <td><p></p></td>
 <td><p>Fields: <strong>path</strong>, <strong>saveResults</strong>, <strong>gridAvgTimeSeries</strong>, <strong>mapTS</strong>.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>simTime</strong></p></td>
+<tr class="row-even"><td><p>simTime</p></td>
 <td><p>struct</p></td>
 <td><p>Simulation time; see “ <a class="reference internal" href="#simulation-time">Simulation Time</a> “.</p></td>
 </tr>
@@ -596,7 +617,7 @@ of the configuration file’s path.</p>
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
-<td><p>Field <strong>gsStart</strong>: The growing season starting day number of year.</p></td>
+<td><p>Field <strong>gsStart</strong>: Growing season starting day number of year (integer).</p></td>
 </tr>
 </tbody>
 </table>
@@ -609,11 +630,11 @@ These limits are two pairs of integers containing a year and day-of-year.
 The first pair is the <strong>start</strong> date, and the 2nd pair is the <strong>stop</strong> date.
 The third item <strong>gsStart</strong> is the growing season starting day number of year (an integer).</p>
 <p>The JSON structure is like this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;simTime&quot;</span><span class="p">:</span> <span class="p">{</span>
-  <span class="s2">&quot;start&quot;</span><span class="p">:</span>   <span class="p">[</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">1</span> <span class="p">],</span>
-  <span class="s2">&quot;stop&quot;</span><span class="p">:</span>    <span class="p">[</span> <span class="mi">2010</span><span class="p">,</span> <span class="mi">365</span> <span class="p">],</span>
-  <span class="s2">&quot;gsStart&quot;</span><span class="p">:</span> <span class="mi">1</span>
-<span class="p">},</span>
+<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;simTime&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;start&quot;</span><span class="p">:</span><span class="w">   </span><span class="p">[</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;stop&quot;</span><span class="p">:</span><span class="w">    </span><span class="p">[</span><span class="w"> </span><span class="mi">2010</span><span class="p">,</span><span class="w"> </span><span class="mi">365</span><span class="w"> </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;gsStart&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>You can get the day-of-year from the date using the function <strong>datenum</strong>.
@@ -1162,12 +1183,12 @@ values.</p>
 <section id="model-configuration">
 <h3>Model Configuration<a class="headerlink" href="#model-configuration" title="Link to this heading">¶</a></h3>
 <p>The configuration item <strong>model</strong> is a structure containing parameters
-specifying model configuration values that are not plant-specific.
-Fields in <strong>bold</strong> are nested structures:
-<strong>initial</strong>, <strong>params</strong>, <strong>aeolian</strong>, and <strong>mounds</strong>.</p>
+specifying model configuration values that are not plant-specific.</p>
 <p>Mounds are topographic features of specified shape and size.
 Surface water flows down the mounds according to their shape and the
 parameter <strong>beta</strong>, or maximum convection rate.</p>
+<p>Fields in <strong>bold</strong> are nested structures:
+<strong>initial</strong>, <strong>params</strong>, <strong>aeolian</strong>, and <strong>mounds</strong>.</p>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
 <thead>
@@ -1565,17 +1586,23 @@ modestly increased plant “efficiency” on mound, try:</p>
 </section>
 <section id="sweeps">
 <h3>Sweeps<a class="headerlink" href="#sweeps" title="Link to this heading">¶</a></h3>
-<p>A sweep is a set of simulations over a range of a configuration parameter.
-The parameter varies with a fixed interval, while all other parameters
-are constant (unless they have a random or data file initialization).
-A sweep parameter can be any field in the configuration file for which
-a sweep makes sense.
-The parameter to vary expressed as a field path in the JSON configuration,
-where field names are separated by periods.
-Examples of sweep parameter paths are:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plant</span><span class="p">{</span><span class="mi">1</span><span class="p">}</span><span class="o">.</span><span class="n">DP</span>
-<span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">alpha</span>
+<p>A sweep is a set of simulations over a set of values for a configuration
+parameter. The parameter values are specified in the configuration, while
+all other parameters are constant (unless they have a random or data file
+initialization). A sweep parameter can be any field in the configuration
+file for which a sweep makes sense. The parameter to vary expressed as a
+field path in the JSON configuration, where field names are separated by
+periods.</p>
+<p>Examples of sweep parameter paths are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">alpha</span>
+<span class="n">plant</span><span class="p">{</span><span class="mi">1</span><span class="p">}</span><span class="o">.</span><span class="n">DP</span>
 <span class="nb">input</span><span class="o">.</span><span class="n">NAtmDep</span>
+</pre></div>
+</div>
+<p>Examples of sweep values are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="p">[</span><span class="s2">&quot;1:2:5&quot;</span><span class="p">]</span>
+<span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s2">&quot;0.5:0.1:0.8&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>Currently, a plant parameter sweep can be done only for <code class="docutils literal notranslate"><span class="pre">plant{1}</span></code>.</p>
@@ -1646,6 +1673,30 @@ specify the sweep configuration.</p>
 <td><p></p></td>
 <td><p></p></td>
 </tr>
+<tr class="row-even"><td><p>values</p></td>
+<td><p>vector</p></td>
+<td><p>Values to be applied to the parameter for each sweep simulation.</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>These can be individual numeric values, or</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>GNU Octave-style ranges in quotes, e.g., “2:5” or “0.1:0.1:0.5”.</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>Enclose the vector in square brackets.</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>Example: [0.01, 0.1, “0.5:0.1:0.8”]</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Obsolete</strong></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
 <tr class="row-even"><td><p>range</p></td>
 <td><p>1x2 matrix</p></td>
 <td><p>The minimum and maximum values for the sweep parameter.</p></td>
@@ -1660,7 +1711,15 @@ specify the sweep configuration.</p>
 </tr>
 <tr class="row-odd"><td><p>sweepSize</p></td>
 <td><p>scalar</p></td>
-<td><p>The number of values within range, inclusive; a positive integer.</p></td>
+<td><p>The number of values within “range”, inclusive; a positive integer.</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>While this parameter is not needed with “values” parameter, if not present, it is</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>created when the configuration parameters are processed.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1797,12 +1856,40 @@ the file size. If found, these records are omitted from the available data.</p>
 </div>
 <p>The data variable <code class="docutils literal notranslate"><span class="pre">precip</span></code> is daily precipitation in mm. This can be a
 fractional value.</p>
-<p>Example snippet of a precipitation data file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;year&quot;</span><span class="p">,</span><span class="s2">&quot;month&quot;</span><span class="p">,</span><span class="s2">&quot;day&quot;</span><span class="p">,</span><span class="s2">&quot;dayNumber&quot;</span><span class="p">,</span><span class="s2">&quot;dayOfYear&quot;</span><span class="p">,</span><span class="s2">&quot;precip&quot;</span>
-<span class="mi">1980</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mf">1.524</span>
-<span class="mi">1980</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mf">0.508</span>
-<span class="mi">1980</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mf">9.652</span>
-</pre></div>
+<p>Example snippet of precipitation data:</p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>year</p></td>
+<td><p>month</p></td>
+<td><p>day</p></td>
+<td><p>dayNumber</p></td>
+<td><p>dayOfYear</p></td>
+<td><p>precip</p></td>
+</tr>
+<tr class="row-even"><td><p>1980</p></td>
+<td><p>1</p></td>
+<td><p>11</p></td>
+<td><p>11</p></td>
+<td><p>11</p></td>
+<td><p>1.524</p></td>
+</tr>
+<tr class="row-odd"><td><p>1980</p></td>
+<td><p>1</p></td>
+<td><p>14</p></td>
+<td><p>14</p></td>
+<td><p>14</p></td>
+<td><p>0.508</p></td>
+</tr>
+<tr class="row-even"><td><p>1980</p></td>
+<td><p>1</p></td>
+<td><p>21</p></td>
+<td><p>21</p></td>
+<td><p>21</p></td>
+<td><p>9.652</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <p>This configuration parameter specifies the precipitation data file name:</p>
 <div class="line-block">
@@ -1821,12 +1908,48 @@ the duration of the simulation.</p>
 </div>
 <p>The data variables are daily minimum, daily maximum, and daily mean,
 respectively, in degrees Celcius.</p>
-<p>Example snippet of a temperature data file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;year&quot;</span><span class="p">,</span><span class="s2">&quot;month&quot;</span><span class="p">,</span><span class="s2">&quot;day&quot;</span><span class="p">,</span><span class="s2">&quot;dayNumber&quot;</span><span class="p">,</span><span class="s2">&quot;dayOfYear&quot;</span><span class="p">,</span><span class="s2">&quot;Tmin&quot;</span><span class="p">,</span><span class="s2">&quot;Tmax&quot;</span><span class="p">,</span><span class="s2">&quot;Tavg&quot;</span>
-<span class="mi">2013</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">218</span><span class="p">,</span><span class="mi">218</span><span class="p">,</span><span class="mf">24.38</span><span class="p">,</span><span class="mf">34.27</span><span class="p">,</span><span class="mf">30.74</span>
-<span class="mi">2013</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">219</span><span class="p">,</span><span class="mi">219</span><span class="p">,</span><span class="mf">19.58</span><span class="p">,</span><span class="mf">32.84</span><span class="p">,</span><span class="mf">25.03</span>
-<span class="mi">2013</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">220</span><span class="p">,</span><span class="mi">220</span><span class="p">,</span><span class="mf">15.4</span><span class="p">,</span><span class="mf">35.38</span><span class="p">,</span><span class="mf">25.79</span>
-</pre></div>
+<p>Example snippet of temperature data:</p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>year</p></td>
+<td><p>month</p></td>
+<td><p>day</p></td>
+<td><p>dayNumber</p></td>
+<td><p>dayOfYear</p></td>
+<td><p>Tmin</p></td>
+<td><p>Tmax</p></td>
+<td><p>Tavg</p></td>
+</tr>
+<tr class="row-even"><td><p>2013</p></td>
+<td><p>8</p></td>
+<td><p>6</p></td>
+<td><p>218</p></td>
+<td><p>218</p></td>
+<td><p>24.38</p></td>
+<td><p>34.27</p></td>
+<td><p>30.74</p></td>
+</tr>
+<tr class="row-odd"><td><p>2013</p></td>
+<td><p>8</p></td>
+<td><p>7</p></td>
+<td><p>219</p></td>
+<td><p>219</p></td>
+<td><p>19.58</p></td>
+<td><p>32.84</p></td>
+<td><p>25.03</p></td>
+</tr>
+<tr class="row-even"><td><p>2013</p></td>
+<td><p>8</p></td>
+<td><p>8</p></td>
+<td><p>220</p></td>
+<td><p>220</p></td>
+<td><p>15.4</p></td>
+<td><p>35.38</p></td>
+<td><p>25.79</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <p>This configuration item specifies the temperature data file name: <strong>input.temperature</strong></p>
 <p>Temperature data is accessed using the class <strong>Temperature</strong>.
@@ -1859,12 +1982,40 @@ Columns in the CSV file are:</p>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">year,</span> <span class="pre">month,</span> <span class="pre">day,</span> <span class="pre">dayNumber,</span> <span class="pre">dayOfYear,</span> <span class="pre">Ndep</span></code></div>
 </div>
 <p>Units of <code class="docutils literal notranslate"><span class="pre">Ndep</span></code> are g/m2/day.</p>
-<p>Example snippet of a data file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;year&quot;</span><span class="p">,</span><span class="s2">&quot;month&quot;</span><span class="p">,</span><span class="s2">&quot;day&quot;</span><span class="p">,</span><span class="s2">&quot;dayNumber&quot;</span><span class="p">,</span><span class="s2">&quot;dayOfYear&quot;</span><span class="p">,</span><span class="s2">&quot;Ndep&quot;</span>
-<span class="mi">2013</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">218</span><span class="p">,</span><span class="mi">218</span><span class="p">,</span><span class="mf">0.2</span>
-<span class="mi">2013</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">219</span><span class="p">,</span><span class="mi">219</span><span class="p">,</span><span class="mf">0.1</span>
-<span class="mi">2013</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">220</span><span class="p">,</span><span class="mi">220</span><span class="p">,</span><span class="mf">0.3</span>
-</pre></div>
+<p>Example snippet of N atmospheric deposition data:</p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>year</p></td>
+<td><p>month</p></td>
+<td><p>day</p></td>
+<td><p>dayNumber</p></td>
+<td><p>dayOfYear</p></td>
+<td><p>Ndep</p></td>
+</tr>
+<tr class="row-even"><td><p>2013</p></td>
+<td><p>8</p></td>
+<td><p>6</p></td>
+<td><p>218</p></td>
+<td><p>218</p></td>
+<td><p>0.2</p></td>
+</tr>
+<tr class="row-odd"><td><p>2013</p></td>
+<td><p>8</p></td>
+<td><p>7</p></td>
+<td><p>219</p></td>
+<td><p>219</p></td>
+<td><p>0.1</p></td>
+</tr>
+<tr class="row-even"><td><p>2013</p></td>
+<td><p>8</p></td>
+<td><p>8</p></td>
+<td><p>220</p></td>
+<td><p>220</p></td>
+<td><p>0.3</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <p>N atmospheric deposition data is accessed using the class <strong>NAtmDep</strong>.
 The model function <code class="docutils literal notranslate"><span class="pre">getNAtmDep</span></code> retrieves the data for each day.</p>
@@ -1878,13 +2029,13 @@ configuration item <strong>model.algorithms.NAtmDep</strong>.</p>
 stored in a CSV file.
 Wind variables used by the aeolian submodel are <code class="docutils literal notranslate"><span class="pre">windDir</span></code> and <code class="docutils literal notranslate"><span class="pre">wsMax</span></code>.</p>
 <p>Columns in the CSV file are:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">year</span>       <span class="o">-</span> <span class="n">integer</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">4</span><span class="o">-</span><span class="n">digit</span> <span class="n">year</span>
-<span class="n">month</span>      <span class="o">-</span> <span class="n">integer</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">2</span> <span class="n">digit</span> <span class="n">month</span> <span class="n">number</span> <span class="p">(</span><span class="nb">range</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">12</span><span class="p">)</span>
-<span class="n">day</span>        <span class="o">-</span> <span class="n">integer</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">2</span> <span class="n">digit</span> <span class="n">day</span> <span class="n">of</span> <span class="n">month</span> <span class="p">(</span><span class="nb">range</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">31</span><span class="p">)</span>
-<span class="n">dayOfYear</span>  <span class="o">-</span> <span class="n">integer</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">3</span> <span class="n">digit</span> <span class="n">day</span> <span class="n">number</span> <span class="n">within</span> <span class="n">year</span> <span class="p">(</span><span class="nb">range</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">366</span><span class="p">)</span>
-<span class="n">windDir</span>    <span class="o">-</span> <span class="n">floating</span> <span class="n">point</span><span class="p">:</span> <span class="n">daily</span> <span class="n">average</span> <span class="n">wind</span> <span class="n">direction</span> <span class="p">(</span><span class="n">degrees</span> <span class="n">clockwise</span> <span class="kn">from</span><span class="w"> </span><span class="nn">N</span><span class="p">)</span>
-<span class="n">wsMean</span>     <span class="o">-</span> <span class="n">floating</span> <span class="n">point</span><span class="p">:</span> <span class="n">mean</span> <span class="n">daily</span> <span class="n">wind</span> <span class="n">speed</span> <span class="p">(</span><span class="n">m</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="n">at</span> <span class="mi">75</span> <span class="n">cm</span> <span class="n">height</span>
-<span class="n">wsMax</span>      <span class="o">-</span> <span class="n">floating</span> <span class="n">point</span><span class="p">:</span> <span class="n">maximum</span> <span class="n">daily</span> <span class="n">wind</span> <span class="n">speed</span> <span class="p">(</span><span class="n">m</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="n">at</span> <span class="mi">75</span> <span class="n">cm</span> <span class="n">height</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">year</span>      <span class="o">-</span> <span class="n">integer</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">4</span><span class="o">-</span><span class="n">digit</span> <span class="n">year</span>
+<span class="n">month</span>     <span class="o">-</span> <span class="n">integer</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">2</span> <span class="n">digit</span> <span class="n">month</span> <span class="n">number</span> <span class="p">(</span><span class="nb">range</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">day</span>       <span class="o">-</span> <span class="n">integer</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">2</span> <span class="n">digit</span> <span class="n">day</span> <span class="n">of</span> <span class="n">month</span> <span class="p">(</span><span class="nb">range</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">31</span><span class="p">)</span>
+<span class="n">dayOfYear</span> <span class="o">-</span> <span class="n">integer</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">3</span> <span class="n">digit</span> <span class="n">day</span> <span class="n">number</span> <span class="n">within</span> <span class="n">year</span> <span class="p">(</span><span class="nb">range</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">366</span><span class="p">)</span>
+<span class="n">windDir</span>   <span class="o">-</span> <span class="n">floating</span> <span class="n">point</span><span class="p">:</span> <span class="n">daily</span> <span class="n">average</span> <span class="n">wind</span> <span class="n">direction</span> <span class="p">(</span><span class="n">degrees</span> <span class="n">clockwise</span> <span class="kn">from</span><span class="w"> </span><span class="nn">N</span><span class="p">)</span>
+<span class="n">wsMean</span>    <span class="o">-</span> <span class="n">floating</span> <span class="n">point</span><span class="p">:</span> <span class="n">mean</span> <span class="n">daily</span> <span class="n">wind</span> <span class="n">speed</span> <span class="p">(</span><span class="n">m</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="n">at</span> <span class="mi">75</span> <span class="n">cm</span> <span class="n">height</span>
+<span class="n">wsMax</span>     <span class="o">-</span> <span class="n">floating</span> <span class="n">point</span><span class="p">:</span> <span class="n">maximum</span> <span class="n">daily</span> <span class="n">wind</span> <span class="n">speed</span> <span class="p">(</span><span class="n">m</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="n">at</span> <span class="mi">75</span> <span class="n">cm</span> <span class="n">height</span>
 </pre></div>
 </div>
 <p>This configuration item specifies the wind data file name: <strong>input.wind</strong></p>
@@ -1897,7 +2048,7 @@ The model function <code class="docutils literal notranslate"><span class="pre">
 <p>A simulation can be run either from the <em>GNU Octave</em> application[<a class="reference internal" href="#id3">3</a>], or from
 a console command line.</p>
 <p>Run the model with the following command:</p>
-<div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="n">Drylands2</span><span class="p">(</span><span class="w"> </span><span class="n">configFileName</span><span class="p">,</span><span class="w"> </span><span class="n">quiet</span><span class="p">=</span><span class="nb">false</span><span class="w"> </span><span class="p">);</span>
+<div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="n">Drylands2</span><span class="p">(</span><span class="w"> </span><span class="n">configFileName</span><span class="p">,</span><span class="w"> </span><span class="n">quiet</span><span class="p">=</span><span class="nb">false</span><span class="w"> </span><span class="p">)</span>
 </pre></div>
 </div>
 <p>where <em>configFileName</em> is a string containing the path and file name
@@ -1983,12 +2134,12 @@ See “ <a class="reference internal" href="#model-utilities">Model Utilities</a
 <p>If you have the netCDF utilities installed, you can use <strong>ncdump</strong> to view
 the structure and variables of the netCDF files. For example, to see the
 file structure, use the command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ncdump</span> <span class="o">-</span><span class="n">h</span> <span class="n">timeseries</span><span class="o">-</span><span class="n">biomass</span><span class="o">-</span><span class="nb">map</span><span class="o">.</span><span class="n">nc</span>
+<div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span>ncdump<span class="w"> </span>-h<span class="w"> </span>timeseries-biomass-map.nc
 </pre></div>
 </div>
 <p>or to extract the “time” values, enter:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ncdump</span> <span class="o">-</span><span class="n">v</span> <span class="n">time</span> <span class="n">timeseries</span><span class="o">-</span><span class="n">biomass</span><span class="o">-</span><span class="nb">map</span><span class="o">.</span><span class="n">nc</span>                  <span class="c1"># header and variable</span>
-<span class="n">ncdump</span> <span class="o">-</span><span class="n">v</span> <span class="n">time</span> <span class="n">timeseries</span><span class="o">-</span><span class="n">biomass</span><span class="o">-</span><span class="nb">map</span><span class="o">.</span><span class="n">nc</span> <span class="o">|</span> <span class="n">grep</span> <span class="s1">&#39;time =&#39;</span>  <span class="c1"># If using *nix</span>
+<div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span>ncdump<span class="w"> </span>-v<span class="w"> </span><span class="nb">time</span><span class="w"> </span>timeseries-biomass-map.nc<span class="w">                  </span><span class="c1"># header and variable</span>
+ncdump<span class="w"> </span>-v<span class="w"> </span><span class="nb">time</span><span class="w"> </span>timeseries-biomass-map.nc<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">&#39;time =&#39;</span><span class="w">  </span><span class="c1"># If using *nix</span>
 </pre></div>
 </div>
 </section>
@@ -2001,7 +2152,7 @@ file structure, use the command:</p>
 <p>Class SimTime contains static functions for convenience when converting
 between some date formats that are used in the simulation configuration.</p>
 <p>To see a list of all SimTime functions in GNU Octave, use the command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">methods</span><span class="p">(</span><span class="s1">&#39;SimTime&#39;</span><span class="p">)</span>
+<div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="k">methods</span><span class="p">(</span><span class="s">&#39;SimTime&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <section id="todate">
@@ -2026,8 +2177,11 @@ dates are pairs of <em>year</em> and <em>day-of-year</em>.</p>
 <h3>DailyPrecipForSite<a class="headerlink" href="#dailyprecipforsite" title="Link to this heading">¶</a></h3>
 <p><em>GNU Octave</em> program to extract daily precipitation for a JER vegetation zone
 and site code, and save in a CSV file.</p>
-<p>Output columns are: <code class="docutils literal notranslate"><span class="pre">year</span></code>, <code class="docutils literal notranslate"><span class="pre">month</span></code>, <code class="docutils literal notranslate"><span class="pre">day</span></code>, <code class="docutils literal notranslate"><span class="pre">dayNumber</span></code>,
-<code class="docutils literal notranslate"><span class="pre">dayOfYear</span></code>, <code class="docutils literal notranslate"><span class="pre">precip</span></code>. where <code class="docutils literal notranslate"><span class="pre">year</span></code>, <code class="docutils literal notranslate"><span class="pre">month</span></code>, <code class="docutils literal notranslate"><span class="pre">day</span></code> are integers,
+<p>Output columns are:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">year</span></code>, <code class="docutils literal notranslate"><span class="pre">month</span></code>, <code class="docutils literal notranslate"><span class="pre">day</span></code>, <code class="docutils literal notranslate"><span class="pre">dayNumber</span></code>, <code class="docutils literal notranslate"><span class="pre">dayOfYear</span></code>, <code class="docutils literal notranslate"><span class="pre">precip</span></code></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">year</span></code>, <code class="docutils literal notranslate"><span class="pre">month</span></code>, <code class="docutils literal notranslate"><span class="pre">day</span></code> are integers,
 <code class="docutils literal notranslate"><span class="pre">dayNumber</span></code> is the number of days from the start of the data, and
 <code class="docutils literal notranslate"><span class="pre">dayOfYear</span></code> is the number of the day from the start of the year.</p>
 </section>
@@ -2258,6 +2412,10 @@ arid ecosystems. American Naturalist 160:524–530. <a class="reference external
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Add info on plant-parameters-template.* document.</p></td>
+</tr>
+<tr class="row-odd"><td><p>2026.03</p></td>
+<td><p>7.4</p></td>
+<td><p>Add sweep parameter “values”; “range” is now obsolete.</p></td>
 </tr>
 </tbody>
 </table>
