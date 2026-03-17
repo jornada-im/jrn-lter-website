@@ -285,12 +285,12 @@ Make a work directory in which to store your simulation files. Under the
 work directory create a subdirectory to hold the simulation results. You
 will specify this subdirectory in the configuration file item **output**.
 Useful names for the output subdirectory include ``results`` or ``output``.
-Each simulation will create an subdirectory under the output directory
-with the name **about:location** configuration item, and the start date
+Each simulation will create an subdirectory under the output directory with
+the name from the **about:location** configuration item, and the start date
 and time appended.
 
 Make a configuration file.
-Copy a test configuration file ``tests/config.json`` from the Drylands2
+First, copy a test configuration file ``tests/config.json`` from the Drylands2
 model directory into your work directory, and rename to something unique and
 significant, e.g., ``config-C-SAND.json``. Edit the file with a text file
 editor to customize the configuration. There are comments in the
@@ -328,7 +328,8 @@ model files. From the command line:
 
     cd <directory containing your configuration file>
     octave <path to model>/src/tools/runsim.m [configuration file]
-    # Example:  octave ~/models/Drylands2/src/tools/runsim.m config-G-IBPE.json
+    # Example:
+    #   octave ~/models/Drylands2/src/tools/runsim.m config-G-IBPE.json
 
 If running additional simulations in the same *GNU Octave* session,
 enter the command ``clear all`` before starting the next simulation.
@@ -502,6 +503,9 @@ Configuration Item  Data Type  Description
 ==================  =========  ============================================================================
 path                string     Directory path to contain output files.
 \                   \          This path can be absolute or relative to the configuration file.
+\                   \          A simulation creates a subdirectory under this path
+\                   \          with the name from the**about:location** configuration item,
+\                   \          and the start date and time appended.
 saveResults         logical    Save final results to a "mat" file (true or false).
 gridAvgTimeSeries   logical    Write grid-average time series of pools to a CSV file (true or false).
 **mapTS**           struct     Items to create map time series output.
@@ -1046,19 +1050,23 @@ Each is a text file in CSV format with date variables common to all data types,
 and data variables specific to the data type.
 
 Date variables that are shared among data files are described in the following
-table. All date variables are integers and positive values.
+table.
 
-============== =================================================================================
-``year``       Year number, in ascending order.
-``month``      Month number in the range 1-12, in increasing order for the year.
-``day``        Day of month number, in the range 1-31, in increasing order for the month.
-``dayNumber``  Sequential day number of each calendar, increasing from 1 = Jan 1 of first year.
-\              The value for the first day of 2nd year is 365 (or 366) + 1.
-\              Unlike the dayOfYear, dayNumber is always incremented with each day.
-\              If there is a gap in the date sequence, subsequent values includes the gap days.
-``dayOfYear``  The sequential day number within the year beginning with one.
-\              At the start of each year the sequence is restarted at one.
-============== =================================================================================
+==============  ============================================  ================================================
+``year``        Year number, in ascending order.              integer; 1-4-digit year; range: 0-N years
+``month``       Month number within the year.                 integer; 1-2 digit month number; range: 1-12
+``day``         Day of month number.                          integer; 1-2 digit day of month; range: 1-31
+``dayNumber``   Sequential day number of each data set,       integer; range: 1-N sequential days in data
+\               increasing from 1 = Jan 1 of first year.
+\               The value for the first day of 2nd year is
+\               365 (or 366) + 1. Unlike the dayOfYear,
+\               dayNumber is incremented with each day.
+\               If there is a gap in the date sequence,
+\               subsequent values includes the gap days.
+``dayOfYear``   The sequential day number within the year.    integer; day number within year; range: 1-366
+\               At the start of each year the sequence is
+\               restarted at one.
+==============  ============================================  ================================================
 
 
 Precipitation Data File
@@ -1071,7 +1079,7 @@ the file size. If found, these records are omitted from the available data.
 
 Columns in the CSV file are:
 
-|    ``year, month, day, dayNumber, dayOfYear, precip``
+| ``year, month, day, dayNumber, dayOfYear, precip``
 
 The data variable ``precip`` is daily precipitation in mm. This can be a
 fractional value.
@@ -1086,8 +1094,7 @@ Example snippet of precipitation data:
     1980,1,21,21,21,9.652
 
 This configuration parameter specifies the precipitation data file name:
-
-| **input.precipitation**
+**input.precipitation**
 
 Precipitation data is accessed using the class **Precip**.
 The model function ``getPrecip`` retrieves the data for each day.
@@ -1102,10 +1109,11 @@ the duration of the simulation.
 
 Columns in the CSV file are:
 
-|    ``year, month, day, dayNumber, dayOfYear, Tmin, Tmax, Tavg``
+| ``year, month, day, dayNumber, dayOfYear, Tmin, Tmax, Tavg``
 
 The data variables are daily minimum, daily maximum, and daily mean,
-respectively, in degrees Celcius.
+respectively, in degrees Celcius.  These can be a
+fractional values.
 
 Example snippet of temperature data:
 
@@ -1116,7 +1124,8 @@ Example snippet of temperature data:
     2013,8,7,219,219,19.58,32.84,25.03
     2013,8,8,220,220,15.4,35.38,25.79
 
-This configuration item specifies the temperature data file name: **input.temperature**
+This configuration item specifies the temperature data file name:
+**input.temperature**
 
 Temperature data is accessed using the class **Temperature**.
 The model function ``getTemperature`` retrieves the data for each day.
@@ -1143,12 +1152,12 @@ Three configuration parameters control N fluxes:
 
     Maximum daily N uptake rate as fraction of plant biomass; valid range = 0-1.
     Assume ``cNmax = (c*gmax)/C:N``.
-    Units = gN gC-1 d-1.
+    Units: gN gC-1 d-1.
 
 A data file contains daily N deposition data in CSV format.
 Columns in the CSV file are:
 
-|    ``year, month, day, dayNumber, dayOfYear, Ndep``
+| ``year, month, day, dayNumber, dayOfYear, Ndep``
 
 Units of ``Ndep`` are g/m2/day.
 
@@ -1177,15 +1186,24 @@ A data file for wind contains daily date values, wind direction and speed,
 stored in a CSV file.
 Wind variables used by the aeolian submodel are ``windDir`` and ``wsMax``.
 
-Columns in the CSV file are::
+Columns in the CSV file are:
 
-    year      - integer: 1-4-digit year
-    month     - integer: 1-2 digit month number (range: 1-12)
-    day       - integer: 1-2 digit day of month (range: 1-31)
-    dayOfYear - integer: 1-3 digit day number within year (range: 1-366)
-    windDir   - floating point: daily average wind direction (degrees clockwise from N)
-    wsMean    - floating point: mean daily wind speed (m/2) at 75 cm height
-    wsMax     - floating point: maximum daily wind speed (m/2) at 75 cm height
+| ``year, month, day, dayNumber, dayOfYear, windDir, wsMean, wsMax``
+
+where
+
+| ``windDir`` - floating point: daily average wind direction (degrees clockwise from N)
+| ``wsMean``  - floating point: mean daily wind speed (m/2) at 75 cm height
+| ``wsMax``   - floating point: maximum daily wind speed (m/2) at 75 cm height
+
+Example snippet of N atmospheric deposition data:
+
+.. csv-table::
+
+    "year","month","day","dayNumber","dayOfYear","windDir","wsMean","wsMax"
+    2013,8,6,218,218,3.822,4.134,8.6
+    2013,8,7,219,219,2.449,3.254,8.6
+    2013,8,8,220,220,0.844,1.718,7.099
 
 This configuration item specifies the wind data file name: **input.wind**
 
@@ -1229,7 +1247,8 @@ executable directory is in your executable search path:
 
     cd <directory containing your configuration file>
     octave <path to model>/src/tools/runsim.m [configuration file]
-    # Example:  octave ~/models/Drylands2/src/tools/runsim.m config.json
+    # Example:
+    #   octave ~/models/Drylands2/src/tools/runsim.m config.json
 
 If running additional simulations in the same *GNU Octave* session,
 enter the command ``clear all`` before starting the next simulation.
@@ -1239,11 +1258,14 @@ enter the command ``clear all`` before starting the next simulation.
 Examining Simulation Results
 ----------------------------
 
+All simulation output files are in the output directory.
 Output files include ``simulation.log``,
 which contains a concise summary of the simulation configuration,
 and ``Results.mat``
 which contains the final matrices of state variables in **results**,
-and the structures **State**, **cfg**, and **modelFiles**.
+and the structures
+**aboutModel**, **state**, **cfg**, and **modelFiles**.
+If a sweep is run, **results** includes a structure **sweep**.
 
 Additional output files can be generated according to the configuration.
 See " `Graphs Configuration`_ " for optional graphical output.
@@ -1437,6 +1459,22 @@ configuration file specified as the first command-line argument.
 See " `Running a Simulation`_ " for further instructions.
 
 
+verifyAll
+``````````
+
+*GNU Octave* script to verify all configurations in specified JSON files.
+
+Usage:  ``verifyAll( fileNames=glob('*json'), verbose=false )``
+
+
+runAll
+````````
+
+*GNU Octave* script to run simulations for all JSON configuration files provided.
+
+Usage:  ``runAll( fileNames=glob('*json'), verbose=true )``
+
+
 info
 `````
 
@@ -1608,6 +1646,8 @@ Revision Date        Model Version        Description
 2026.03              7.3                  Add Model Utilities: plotSweepTimeSeries.
 \                    \                    Add info on plant-parameters-template.* document.
 2026.03              7.4                  Add sweep parameter "values"; "range" is now obsolete.
+\                    \                    Improve descriptions of input data files.
+\                    \                    Add model tools **runAll** and **verifyAll**.
 ===================  ===================  ===============================================================
 
 
@@ -2117,16 +2157,15 @@ Additional configuration files (``*.json``) are provided in the
         # run type: zero or one; 0 = sweep over range of values; 1 = single simulation
         "runType": 1,
         # which parameter to vary? Provide configuration path. Examples:
+        #   "input.precipitation"
+        #   "input.NAtmDep"
         #   "plant{1}.k2"
         #   "plant{1}.c"
-        #   "plant{1}.gmax"
-        #   "input.precipitation"
+        #   "model.params.alpha"
         #   "model.mounds.beta"
-        "parameter": "plant{1}.c",
-        # minimum and maximum values for parameter; vector 1x2
-        "range":     [1, 14],
-        # number of values within range, inclusive; must be positive integer; if runType == 1, sweepSize = 1
-        "sweepSize": 7
+        "parameter": "input.NAtmDep",
+        # Values to be applied to the parameter for each sweep simulation.
+        "values": [0, "0.1:0.1:0.6"]
       },
       #
       # Random trials

@@ -465,11 +465,11 @@ documentation.</p>
 work directory create a subdirectory to hold the simulation results. You
 will specify this subdirectory in the configuration file item <strong>output</strong>.
 Useful names for the output subdirectory include <code class="docutils literal notranslate"><span class="pre">results</span></code> or <code class="docutils literal notranslate"><span class="pre">output</span></code>.
-Each simulation will create an subdirectory under the output directory
-with the name <strong>about:location</strong> configuration item, and the start date
+Each simulation will create an subdirectory under the output directory with
+the name from the <strong>about:location</strong> configuration item, and the start date
 and time appended.</p>
 <p>Make a configuration file.
-Copy a test configuration file <code class="docutils literal notranslate"><span class="pre">tests/config.json</span></code> from the Drylands2
+First, copy a test configuration file <code class="docutils literal notranslate"><span class="pre">tests/config.json</span></code> from the Drylands2
 model directory into your work directory, and rename to something unique and
 significant, e.g., <code class="docutils literal notranslate"><span class="pre">config-C-SAND.json</span></code>. Edit the file with a text file
 editor to customize the configuration. There are comments in the
@@ -496,7 +496,8 @@ of the configuration file.</p>
 model files. From the command line:</p>
 <div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>&lt;directory<span class="w"> </span>containing<span class="w"> </span>your<span class="w"> </span>configuration<span class="w"> </span>file&gt;
 octave<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>model&gt;/src/tools/runsim.m<span class="w"> </span><span class="o">[</span>configuration<span class="w"> </span>file<span class="o">]</span>
-<span class="c1"># Example:  octave ~/models/Drylands2/src/tools/runsim.m config-G-IBPE.json</span>
+<span class="c1"># Example:</span>
+<span class="c1">#   octave ~/models/Drylands2/src/tools/runsim.m config-G-IBPE.json</span>
 </pre></div>
 </div>
 <p>If running additional simulations in the same <em>GNU Octave</em> session,
@@ -740,51 +741,63 @@ boolean switches (<em>true</em> = produce graph, <em>false</em> = do not produce
 <td><p></p></td>
 <td><p>This path can be absolute or relative to the configuration file.</p></td>
 </tr>
-<tr class="row-even"><td><p>saveResults</p></td>
-<td><p>logical</p></td>
-<td><p>Save final results to a “mat” file (true or false).</p></td>
-</tr>
-<tr class="row-odd"><td><p>gridAvgTimeSeries</p></td>
-<td><p>logical</p></td>
-<td><p>Write grid-average time series of pools to a CSV file (true or false).</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>mapTS</strong></p></td>
-<td><p>struct</p></td>
-<td><p>Items to create map time series output.</p></td>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>A simulation creates a subdirectory under this path</p></td>
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
-<td><p>Values can be <em>false</em> (or zero), or the <em>day number of the year</em> at which</p></td>
+<td><p>with the name from the**about:location** configuration item,</p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
-<td><p>output will be generated. Valid day numbers are in the range 1-365.</p></td>
+<td><p>and the start date and time appended.</p></td>
+</tr>
+<tr class="row-odd"><td><p>saveResults</p></td>
+<td><p>logical</p></td>
+<td><p>Save final results to a “mat” file (true or false).</p></td>
+</tr>
+<tr class="row-even"><td><p>gridAvgTimeSeries</p></td>
+<td><p>logical</p></td>
+<td><p>Write grid-average time series of pools to a CSV file (true or false).</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>mapTS</strong></p></td>
+<td><p>struct</p></td>
+<td><p>Items to create map time series output.</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>Values can be <em>false</em> (or zero), or the <em>day number of the year</em> at which</p></td>
 </tr>
 <tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>output will be generated. Valid day numbers are in the range 1-365.</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>The items are:</p></td>
 </tr>
-<tr class="row-even"><td><p>biomass</p></td>
+<tr class="row-odd"><td><p>biomass</p></td>
 <td><p>–</p></td>
 <td><p>Generate a netCDF[<a class="reference internal" href="#id6">6</a>] map time series grids for biomass for each species.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Value is boolean “false” or a <em>positive integer in the range 1-365</em>.</p></td>
 </tr>
-<tr class="row-even"><td><p>resources</p></td>
+<tr class="row-odd"><td><p>resources</p></td>
 <td><p>–</p></td>
 <td><p>Generate a netCDF[<a class="reference internal" href="#id6">6</a>] map time series grids for each resource.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Value is boolean “false” or a <em>positive integer in the range 1-365</em>.</p></td>
 </tr>
-<tr class="row-even"><td><p>spatialChanges</p></td>
+<tr class="row-odd"><td><p>spatialChanges</p></td>
 <td><p>logical</p></td>
 <td><p>Generate time series grids for annual changes in resources and biomass.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Grids are saved in an MAT file (a <em>GNU Octave</em> file format).</p></td>
 </tr>
@@ -1810,36 +1823,61 @@ contains the data file names or values.</p>
 Each is a text file in CSV format with date variables common to all data types,
 and data variables specific to the data type.</p>
 <p>Date variables that are shared among data files are described in the following
-table. All date variables are integers and positive values.</p>
+table.</p>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">year</span></code></p></td>
 <td><p>Year number, in ascending order.</p></td>
+<td><p>integer; 1-4-digit year; range: 0-N years</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">month</span></code></p></td>
-<td><p>Month number in the range 1-12, in increasing order for the year.</p></td>
+<td><p>Month number within the year.</p></td>
+<td><p>integer; 1-2 digit month number; range: 1-12</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">day</span></code></p></td>
-<td><p>Day of month number, in the range 1-31, in increasing order for the month.</p></td>
+<td><p>Day of month number.</p></td>
+<td><p>integer; 1-2 digit day of month; range: 1-31</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dayNumber</span></code></p></td>
-<td><p>Sequential day number of each calendar, increasing from 1 = Jan 1 of first year.</p></td>
+<td><p>Sequential day number of each data set,</p></td>
+<td><p>integer; range: 1-N sequential days in data</p></td>
 </tr>
 <tr class="row-odd"><td><p></p></td>
-<td><p>The value for the first day of 2nd year is 365 (or 366) + 1.</p></td>
+<td><p>increasing from 1 = Jan 1 of first year.</p></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
-<td><p>Unlike the dayOfYear, dayNumber is always incremented with each day.</p></td>
+<td><p>The value for the first day of 2nd year is</p></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><p></p></td>
-<td><p>If there is a gap in the date sequence, subsequent values includes the gap days.</p></td>
+<td><p>365 (or 366) + 1. Unlike the dayOfYear,</p></td>
+<td></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dayOfYear</span></code></p></td>
-<td><p>The sequential day number within the year beginning with one.</p></td>
+<tr class="row-even"><td><p></p></td>
+<td><p>dayNumber is incremented with each day.</p></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><p></p></td>
-<td><p>At the start of each year the sequence is restarted at one.</p></td>
+<td><p>If there is a gap in the date sequence,</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>subsequent values includes the gap days.</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dayOfYear</span></code></p></td>
+<td><p>The sequential day number within the year.</p></td>
+<td><p>integer; day number within year; range: 1-366</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>At the start of each year the sequence is</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>restarted at one.</p></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -1891,10 +1929,8 @@ fractional value.</p>
 </tbody>
 </table>
 </div>
-<p>This configuration parameter specifies the precipitation data file name:</p>
-<div class="line-block">
-<div class="line"><strong>input.precipitation</strong></div>
-</div>
+<p>This configuration parameter specifies the precipitation data file name:
+<strong>input.precipitation</strong></p>
 <p>Precipitation data is accessed using the class <strong>Precip</strong>.
 The model function <code class="docutils literal notranslate"><span class="pre">getPrecip</span></code> retrieves the data for each day.</p>
 </section>
@@ -1907,7 +1943,8 @@ the duration of the simulation.</p>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">year,</span> <span class="pre">month,</span> <span class="pre">day,</span> <span class="pre">dayNumber,</span> <span class="pre">dayOfYear,</span> <span class="pre">Tmin,</span> <span class="pre">Tmax,</span> <span class="pre">Tavg</span></code></div>
 </div>
 <p>The data variables are daily minimum, daily maximum, and daily mean,
-respectively, in degrees Celcius.</p>
+respectively, in degrees Celcius.  These can be a
+fractional values.</p>
 <p>Example snippet of temperature data:</p>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
@@ -1951,7 +1988,8 @@ respectively, in degrees Celcius.</p>
 </tbody>
 </table>
 </div>
-<p>This configuration item specifies the temperature data file name: <strong>input.temperature</strong></p>
+<p>This configuration item specifies the temperature data file name:
+<strong>input.temperature</strong></p>
 <p>Temperature data is accessed using the class <strong>Temperature</strong>.
 The model function <code class="docutils literal notranslate"><span class="pre">getTemperature</span></code> retrieves the data for each day.</p>
 </section>
@@ -1974,7 +2012,7 @@ This can be file name of a data file, or a constant value (g/m2/day).</p>
 <blockquote>
 <div><p>Maximum daily N uptake rate as fraction of plant biomass; valid range = 0-1.
 Assume <code class="docutils literal notranslate"><span class="pre">cNmax</span> <span class="pre">=</span> <span class="pre">(c*gmax)/C:N</span></code>.
-Units = gN gC-1 d-1.</p>
+Units: gN gC-1 d-1.</p>
 </div></blockquote>
 <p>A data file contains daily N deposition data in CSV format.
 Columns in the CSV file are:</p>
@@ -2029,14 +2067,57 @@ configuration item <strong>model.algorithms.NAtmDep</strong>.</p>
 stored in a CSV file.
 Wind variables used by the aeolian submodel are <code class="docutils literal notranslate"><span class="pre">windDir</span></code> and <code class="docutils literal notranslate"><span class="pre">wsMax</span></code>.</p>
 <p>Columns in the CSV file are:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">year</span>      <span class="o">-</span> <span class="n">integer</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">4</span><span class="o">-</span><span class="n">digit</span> <span class="n">year</span>
-<span class="n">month</span>     <span class="o">-</span> <span class="n">integer</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">2</span> <span class="n">digit</span> <span class="n">month</span> <span class="n">number</span> <span class="p">(</span><span class="nb">range</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">12</span><span class="p">)</span>
-<span class="n">day</span>       <span class="o">-</span> <span class="n">integer</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">2</span> <span class="n">digit</span> <span class="n">day</span> <span class="n">of</span> <span class="n">month</span> <span class="p">(</span><span class="nb">range</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">31</span><span class="p">)</span>
-<span class="n">dayOfYear</span> <span class="o">-</span> <span class="n">integer</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">3</span> <span class="n">digit</span> <span class="n">day</span> <span class="n">number</span> <span class="n">within</span> <span class="n">year</span> <span class="p">(</span><span class="nb">range</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">366</span><span class="p">)</span>
-<span class="n">windDir</span>   <span class="o">-</span> <span class="n">floating</span> <span class="n">point</span><span class="p">:</span> <span class="n">daily</span> <span class="n">average</span> <span class="n">wind</span> <span class="n">direction</span> <span class="p">(</span><span class="n">degrees</span> <span class="n">clockwise</span> <span class="kn">from</span><span class="w"> </span><span class="nn">N</span><span class="p">)</span>
-<span class="n">wsMean</span>    <span class="o">-</span> <span class="n">floating</span> <span class="n">point</span><span class="p">:</span> <span class="n">mean</span> <span class="n">daily</span> <span class="n">wind</span> <span class="n">speed</span> <span class="p">(</span><span class="n">m</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="n">at</span> <span class="mi">75</span> <span class="n">cm</span> <span class="n">height</span>
-<span class="n">wsMax</span>     <span class="o">-</span> <span class="n">floating</span> <span class="n">point</span><span class="p">:</span> <span class="n">maximum</span> <span class="n">daily</span> <span class="n">wind</span> <span class="n">speed</span> <span class="p">(</span><span class="n">m</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="n">at</span> <span class="mi">75</span> <span class="n">cm</span> <span class="n">height</span>
-</pre></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">year,</span> <span class="pre">month,</span> <span class="pre">day,</span> <span class="pre">dayNumber,</span> <span class="pre">dayOfYear,</span> <span class="pre">windDir,</span> <span class="pre">wsMean,</span> <span class="pre">wsMax</span></code></div>
+</div>
+<p>where</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">windDir</span></code> - floating point: daily average wind direction (degrees clockwise from N)</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">wsMean</span></code>  - floating point: mean daily wind speed (m/2) at 75 cm height</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">wsMax</span></code>   - floating point: maximum daily wind speed (m/2) at 75 cm height</div>
+</div>
+<p>Example snippet of N atmospheric deposition data:</p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>year</p></td>
+<td><p>month</p></td>
+<td><p>day</p></td>
+<td><p>dayNumber</p></td>
+<td><p>dayOfYear</p></td>
+<td><p>windDir</p></td>
+<td><p>wsMean</p></td>
+<td><p>wsMax</p></td>
+</tr>
+<tr class="row-even"><td><p>2013</p></td>
+<td><p>8</p></td>
+<td><p>6</p></td>
+<td><p>218</p></td>
+<td><p>218</p></td>
+<td><p>3.822</p></td>
+<td><p>4.134</p></td>
+<td><p>8.6</p></td>
+</tr>
+<tr class="row-odd"><td><p>2013</p></td>
+<td><p>8</p></td>
+<td><p>7</p></td>
+<td><p>219</p></td>
+<td><p>219</p></td>
+<td><p>2.449</p></td>
+<td><p>3.254</p></td>
+<td><p>8.6</p></td>
+</tr>
+<tr class="row-even"><td><p>2013</p></td>
+<td><p>8</p></td>
+<td><p>8</p></td>
+<td><p>220</p></td>
+<td><p>220</p></td>
+<td><p>0.844</p></td>
+<td><p>1.718</p></td>
+<td><p>7.099</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <p>This configuration item specifies the wind data file name: <strong>input.wind</strong></p>
 <p>Wind data data is accessed using the class <strong>WindData</strong>.
@@ -2067,7 +2148,8 @@ if errors were encountered.</p>
 executable directory is in your executable search path:</p>
 <div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>&lt;directory<span class="w"> </span>containing<span class="w"> </span>your<span class="w"> </span>configuration<span class="w"> </span>file&gt;
 octave<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>model&gt;/src/tools/runsim.m<span class="w"> </span><span class="o">[</span>configuration<span class="w"> </span>file<span class="o">]</span>
-<span class="c1"># Example:  octave ~/models/Drylands2/src/tools/runsim.m config.json</span>
+<span class="c1"># Example:</span>
+<span class="c1">#   octave ~/models/Drylands2/src/tools/runsim.m config.json</span>
 </pre></div>
 </div>
 <p>If running additional simulations in the same <em>GNU Octave</em> session,
@@ -2075,11 +2157,14 @@ enter the command <code class="docutils literal notranslate"><span class="pre">c
 </section>
 <section id="examining-simulation-results">
 <h3>Examining Simulation Results<a class="headerlink" href="#examining-simulation-results" title="Link to this heading">¶</a></h3>
-<p>Output files include <code class="docutils literal notranslate"><span class="pre">simulation.log</span></code>,
+<p>All simulation output files are in the output directory.
+Output files include <code class="docutils literal notranslate"><span class="pre">simulation.log</span></code>,
 which contains a concise summary of the simulation configuration,
 and <code class="docutils literal notranslate"><span class="pre">Results.mat</span></code>
 which contains the final matrices of state variables in <strong>results</strong>,
-and the structures <strong>State</strong>, <strong>cfg</strong>, and <strong>modelFiles</strong>.</p>
+and the structures
+<strong>aboutModel</strong>, <strong>state</strong>, <strong>cfg</strong>, and <strong>modelFiles</strong>.
+If a sweep is run, <strong>results</strong> includes a structure <strong>sweep</strong>.</p>
 <p>Additional output files can be generated according to the configuration.
 See “ <a class="reference internal" href="#graphs-configuration">Graphs Configuration</a> “ for optional graphical output.</p>
 <p>See the section “ <a class="reference internal" href="#model-utilities">Model Utilities</a> “ for scripts to graph time series results.</p>
@@ -2218,6 +2303,16 @@ or prefix your command with</p>
 <p><em>GNU Octave</em> script to run a Drylands2 model simulation using the
 configuration file specified as the first command-line argument.
 See “ <a class="reference internal" href="#running-a-simulation">Running a Simulation</a> “ for further instructions.</p>
+</section>
+<section id="verifyall">
+<h4>verifyAll<a class="headerlink" href="#verifyall" title="Link to this heading">¶</a></h4>
+<p><em>GNU Octave</em> script to verify all configurations in specified JSON files.</p>
+<p>Usage:  <code class="docutils literal notranslate"><span class="pre">verifyAll(</span> <span class="pre">fileNames=glob('*json'),</span> <span class="pre">verbose=false</span> <span class="pre">)</span></code></p>
+</section>
+<section id="runall">
+<h4>runAll<a class="headerlink" href="#runall" title="Link to this heading">¶</a></h4>
+<p><em>GNU Octave</em> script to run simulations for all JSON configuration files provided.</p>
+<p>Usage:  <code class="docutils literal notranslate"><span class="pre">runAll(</span> <span class="pre">fileNames=glob('*json'),</span> <span class="pre">verbose=true</span> <span class="pre">)</span></code></p>
 </section>
 <section id="info">
 <h4>info<a class="headerlink" href="#info" title="Link to this heading">¶</a></h4>
@@ -2416,6 +2511,14 @@ arid ecosystems. American Naturalist 160:524–530. <a class="reference external
 <tr class="row-odd"><td><p>2026.03</p></td>
 <td><p>7.4</p></td>
 <td><p>Add sweep parameter “values”; “range” is now obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>Improve descriptions of input data files.</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>Add model tools <strong>runAll</strong> and <strong>verifyAll</strong>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2956,16 +3059,15 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="nt">    # run type</span><span class="p">:</span><span class="w"> </span><span class="nv">zero or one; 0 = sweep over range of values; 1 = single simulation</span>
 <span class="w">    </span><span class="nv">&quot;runType&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">,</span>
 <span class="w">    </span><span class="c1"># which parameter to vary? Provide configuration path. Examples:</span>
+<span class="w">    </span><span class="c1">#   &quot;input.precipitation&quot;</span>
+<span class="w">    </span><span class="c1">#   &quot;input.NAtmDep&quot;</span>
 <span class="w">    </span><span class="c1">#   &quot;plant{1}.k2&quot;</span>
 <span class="w">    </span><span class="c1">#   &quot;plant{1}.c&quot;</span>
-<span class="w">    </span><span class="c1">#   &quot;plant{1}.gmax&quot;</span>
-<span class="w">    </span><span class="c1">#   &quot;input.precipitation&quot;</span>
+<span class="w">    </span><span class="c1">#   &quot;model.params.alpha&quot;</span>
 <span class="w">    </span><span class="c1">#   &quot;model.mounds.beta&quot;</span>
-<span class="w">    </span><span class="s">&quot;parameter&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;plant{1}.c&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="c1"># minimum and maximum values for parameter; vector 1x2</span>
-<span class="w">    </span><span class="s">&quot;range&quot;</span><span class="p p-Indicator">:</span><span class="w">     </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">14</span><span class="p p-Indicator">],</span>
-<span class="w">    </span><span class="c1"># number of values within range, inclusive; must be positive integer; if runType == 1, sweepSize = 1</span>
-<span class="w">    </span><span class="s">&quot;sweepSize&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">7</span>
+<span class="w">    </span><span class="s">&quot;parameter&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;input.NAtmDep&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="c1"># Values to be applied to the parameter for each sweep simulation.</span>
+<span class="w">    </span><span class="s">&quot;values&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;0.1:0.1:0.6&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">  </span><span class="p p-Indicator">},</span>
 <span class="w">  </span><span class="c1">#</span>
 <span class="w">  </span><span class="c1"># Random trials</span>
@@ -3121,6 +3223,8 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <li><a class="reference internal" href="#extractdailytemp">ExtractDailyTemp</a></li>
 <li><a class="reference internal" href="#model-utilities">Model Utilities</a><ul>
 <li><a class="reference internal" href="#runsim">runsim</a></li>
+<li><a class="reference internal" href="#verifyall">verifyAll</a></li>
+<li><a class="reference internal" href="#runall">runAll</a></li>
 <li><a class="reference internal" href="#info">info</a></li>
 <li><a class="reference internal" href="#plottimeseries-r">plotTimeSeries.R</a></li>
 <li><a class="reference internal" href="#plotcomparetimeseries-r">plotCompareTimeSeries.R</a></li>
