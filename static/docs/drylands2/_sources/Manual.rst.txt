@@ -406,6 +406,7 @@ of the configuration file's path.
 Configuration Item  Data Type     Description
 ==================  ============  ============================================================================
 about               struct        About the simulation: Fields: location (site name), latitude, longitude.
+\                   \             Optional fields: institution, comment.
 grid                struct        Number of rows and columns of the square simulation grid.
 \                   \             Fields: **rows**, **columns**.
 input               struct        Input data sources; see " `Input Data Configuration`_ ".
@@ -1850,9 +1851,11 @@ Additional configuration files (``*.json``) are provided in the
       # About this simulation
       #
       "about": {
-        "location":  "Jornada LTER",
-        "latitude":  32.61785,
-        "longitude": -106.73985
+        "location":    "Jornada LTER G-IBPE",
+        "latitude":    32.61785,
+        "longitude":   -106.73985,
+        "institution": "Jornada LTER",
+        "comment":     "This is an example configuration."
       },
       #
       # number of rows and columns of the simulation grid
@@ -2024,7 +2027,7 @@ Additional configuration files (``*.json``) are provided in the
           },
           "aeolianEffect": {
             "minThreshold": 5.0,
-            "B": 0.12, "Bmax": 0.99, "Bz": 1000.0
+            "B": 0.12, "Bmax": 0.99, "Bz": 100.0
           }
         }
       ],
@@ -2157,12 +2160,7 @@ Additional configuration files (``*.json``) are provided in the
         # run type: zero or one; 0 = sweep over range of values; 1 = single simulation
         "runType": 1,
         # which parameter to vary? Provide configuration path. Examples:
-        #   "input.precipitation"
-        #   "input.NAtmDep"
-        #   "plant{1}.k2"
-        #   "plant{1}.c"
-        #   "model.params.alpha"
-        #   "model.mounds.beta"
+        #   "plant{1}.k2", "input.precipitation", "model.params.DW", "model.mounds.beta"
         "parameter": "input.NAtmDep",
         # Values to be applied to the parameter for each sweep simulation.
         "values": [0, "0.1:0.1:0.6"]

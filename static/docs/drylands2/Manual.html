@@ -568,55 +568,59 @@ of the configuration file’s path.</p>
 <td><p>struct</p></td>
 <td><p>About the simulation: Fields: location (site name), latitude, longitude.</p></td>
 </tr>
-<tr class="row-odd"><td><p>grid</p></td>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>Optional fields: institution, comment.</p></td>
+</tr>
+<tr class="row-even"><td><p>grid</p></td>
 <td><p>struct</p></td>
 <td><p>Number of rows and columns of the square simulation grid.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Fields: <strong>rows</strong>, <strong>columns</strong>.</p></td>
 </tr>
-<tr class="row-odd"><td><p>input</p></td>
+<tr class="row-even"><td><p>input</p></td>
 <td><p>struct</p></td>
 <td><p>Input data sources; see “ <a class="reference internal" href="#input-data-configuration">Input Data Configuration</a> “.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Fields: <strong>precipitation</strong>, <strong>temperature</strong>, <strong>NAtmDep</strong>, <strong>wind</strong>.</p></td>
 </tr>
-<tr class="row-odd"><td><p>output</p></td>
+<tr class="row-even"><td><p>output</p></td>
 <td><p>struct</p></td>
 <td><p>Output path for results and plots, and output configuration;</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>see “ <a class="reference internal" href="#output-configuration">Output Configuration</a> “.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Fields: <strong>path</strong>, <strong>saveResults</strong>, <strong>gridAvgTimeSeries</strong>, <strong>mapTS</strong>.</p></td>
 </tr>
-<tr class="row-even"><td><p>simTime</p></td>
+<tr class="row-odd"><td><p>simTime</p></td>
 <td><p>struct</p></td>
 <td><p>Simulation time; see “ <a class="reference internal" href="#simulation-time">Simulation Time</a> “.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Field <strong>start</strong>: start year and day-of-year for the simulation (integers).</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Example: [ 2000, 1 ]</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Field <strong>stop</strong>: end year and day-of-year (integers).</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Example: [ 2010, 365 ]</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Field <strong>gsStart</strong>: Growing season starting day number of year (integer).</p></td>
 </tr>
@@ -2752,9 +2756,11 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="w">  </span><span class="c1"># About this simulation</span>
 <span class="w">  </span><span class="c1">#</span>
 <span class="w">  </span><span class="s">&quot;about&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">    </span><span class="s">&quot;location&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&quot;Jornada</span><span class="nv"> </span><span class="s">LTER&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">32.61785</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">-106.73985</span>
+<span class="w">    </span><span class="s">&quot;location&quot;</span><span class="p p-Indicator">:</span><span class="w">    </span><span class="s">&quot;Jornada</span><span class="nv"> </span><span class="s">LTER</span><span class="nv"> </span><span class="s">G-IBPE&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">:</span><span class="w">    </span><span class="nv">32.61785</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">-106.73985</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">&quot;institution&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Jornada</span><span class="nv"> </span><span class="s">LTER&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">&quot;comment&quot;</span><span class="p p-Indicator">:</span><span class="w">     </span><span class="s">&quot;This</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">an</span><span class="nv"> </span><span class="s">example</span><span class="nv"> </span><span class="s">configuration.&quot;</span>
 <span class="w">  </span><span class="p p-Indicator">},</span>
 <span class="w">  </span><span class="c1">#</span>
 <span class="w">  </span><span class="c1"># number of rows and columns of the simulation grid</span>
@@ -2926,7 +2932,7 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="w">      </span><span class="p p-Indicator">},</span>
 <span class="w">      </span><span class="s">&quot;aeolianEffect&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
 <span class="w">        </span><span class="s">&quot;minThreshold&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">5.0</span><span class="p p-Indicator">,</span>
-<span class="w">        </span><span class="s">&quot;B&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.12</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Bmax&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.99</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Bz&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">1000.0</span>
+<span class="w">        </span><span class="s">&quot;B&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.12</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Bmax&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.99</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Bz&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">100.0</span>
 <span class="w">      </span><span class="p p-Indicator">}</span>
 <span class="w">    </span><span class="p p-Indicator">}</span>
 <span class="w">  </span><span class="p p-Indicator">],</span>
@@ -3059,12 +3065,7 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="nt">    # run type</span><span class="p">:</span><span class="w"> </span><span class="nv">zero or one; 0 = sweep over range of values; 1 = single simulation</span>
 <span class="w">    </span><span class="nv">&quot;runType&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">,</span>
 <span class="w">    </span><span class="c1"># which parameter to vary? Provide configuration path. Examples:</span>
-<span class="w">    </span><span class="c1">#   &quot;input.precipitation&quot;</span>
-<span class="w">    </span><span class="c1">#   &quot;input.NAtmDep&quot;</span>
-<span class="w">    </span><span class="c1">#   &quot;plant{1}.k2&quot;</span>
-<span class="w">    </span><span class="c1">#   &quot;plant{1}.c&quot;</span>
-<span class="w">    </span><span class="c1">#   &quot;model.params.alpha&quot;</span>
-<span class="w">    </span><span class="c1">#   &quot;model.mounds.beta&quot;</span>
+<span class="w">    </span><span class="c1">#   &quot;plant{1}.k2&quot;, &quot;input.precipitation&quot;, &quot;model.params.DW&quot;, &quot;model.mounds.beta&quot;</span>
 <span class="w">    </span><span class="s">&quot;parameter&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;input.NAtmDep&quot;</span><span class="p p-Indicator">,</span>
 <span class="w">    </span><span class="c1"># Values to be applied to the parameter for each sweep simulation.</span>
 <span class="w">    </span><span class="s">&quot;values&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;0.1:0.1:0.6&quot;</span><span class="p p-Indicator">]</span>
