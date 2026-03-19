@@ -1455,7 +1455,7 @@ or in the *GNU Octave* console, enter
 runsim
 ````````
 
-*GNU Octave* script to run a Drylands2 model simulation using the
+A *GNU Octave* function to run a Drylands2 model simulation using the
 configuration file specified as the first command-line argument.
 See " `Running a Simulation`_ " for further instructions.
 
@@ -1463,7 +1463,7 @@ See " `Running a Simulation`_ " for further instructions.
 verifyAll
 ``````````
 
-*GNU Octave* script to verify all configurations in specified JSON files.
+A *GNU Octave* function to verify all configurations in specified JSON files.
 
 Usage:  ``verifyAll( fileNames=glob('*json'), verbose=false )``
 
