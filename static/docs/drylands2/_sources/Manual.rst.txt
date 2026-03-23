@@ -1452,6 +1452,14 @@ or in the *GNU Octave* console, enter
     addpath('[installation-path]/src/tools')
 
 
+info
+`````
+
+*GNU Octave* script to display information about the Drylands2 model.
+
+Usage:  ``octave [installation-path]/src/tools/info.m``
+
+
 runsim
 ````````
 
@@ -1476,12 +1484,15 @@ runAll
 Usage:  ``runAll( fileNames=glob('*json'), verbose=true )``
 
 
-info
-`````
+aboutSpChgTS
+`````````````
 
-*GNU Octave* script to display information about the Drylands2 model.
+*GNU Octave* function to display information about a SpatialChanges "mat" file.
+These output files are produced when the configuration option
+**output.spatialChanges** is set to "true".
 
-Usage:  ``octave [installation-path]/src/tools/info.m``
+Usage:  ``aboutSpChgTS( fileName )``
+where ``fileName`` is a string containing the name of SpatialChanges 'mat' file.
 
 
 plotTimeSeries.R
@@ -1508,6 +1519,22 @@ The R commands to view help on using is:
 
     source("[installation-path]/src/tools/plotCompareTimeSeries.R")
     plotCompareTimeSeries.help()
+
+
+plotNcGridTSVars
+`````````````````
+
+*GNU Octave* function to plot grid variables from a simulation's
+netCDF grid map files.
+Graphs are X-Y point plots (top row), and histograms (bottom row).
+
+To view help in *GNU Octave*:
+
+.. code:: MATLAB
+
+    addpath('[installation-path]/src/tools')
+    help plotNcGridTSVars
+
 
 
 plotSweepTimeSeries

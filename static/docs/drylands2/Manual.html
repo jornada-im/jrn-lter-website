@@ -2302,6 +2302,11 @@ or prefix your command with</p>
 <div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="nb">addpath</span><span class="p">(</span><span class="s">&#39;[installation-path]/src/tools&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+<section id="info">
+<h4>info<a class="headerlink" href="#info" title="Link to this heading">¶</a></h4>
+<p><em>GNU Octave</em> script to display information about the Drylands2 model.</p>
+<p>Usage:  <code class="docutils literal notranslate"><span class="pre">octave</span> <span class="pre">[installation-path]/src/tools/info.m</span></code></p>
+</section>
 <section id="runsim">
 <h4>runsim<a class="headerlink" href="#runsim" title="Link to this heading">¶</a></h4>
 <p>A <em>GNU Octave</em> function to run a Drylands2 model simulation using the
@@ -2318,10 +2323,13 @@ See “ <a class="reference internal" href="#running-a-simulation">Running a Sim
 <p><em>GNU Octave</em> script to run simulations for all JSON configuration files provided.</p>
 <p>Usage:  <code class="docutils literal notranslate"><span class="pre">runAll(</span> <span class="pre">fileNames=glob('*json'),</span> <span class="pre">verbose=true</span> <span class="pre">)</span></code></p>
 </section>
-<section id="info">
-<h4>info<a class="headerlink" href="#info" title="Link to this heading">¶</a></h4>
-<p><em>GNU Octave</em> script to display information about the Drylands2 model.</p>
-<p>Usage:  <code class="docutils literal notranslate"><span class="pre">octave</span> <span class="pre">[installation-path]/src/tools/info.m</span></code></p>
+<section id="aboutspchgts">
+<h4>aboutSpChgTS<a class="headerlink" href="#aboutspchgts" title="Link to this heading">¶</a></h4>
+<p><em>GNU Octave</em> function to display information about a SpatialChanges “mat” file.
+These output files are produced when the configuration option
+<strong>output.spatialChanges</strong> is set to “true”.</p>
+<p>Usage:  <code class="docutils literal notranslate"><span class="pre">aboutSpChgTS(</span> <span class="pre">fileName</span> <span class="pre">)</span></code>
+where <code class="docutils literal notranslate"><span class="pre">fileName</span></code> is a string containing the name of SpatialChanges ‘mat’ file.</p>
 </section>
 <section id="plottimeseries-r">
 <h4>plotTimeSeries.R<a class="headerlink" href="#plottimeseries-r" title="Link to this heading">¶</a></h4>
@@ -2338,6 +2346,17 @@ See “ <a class="reference internal" href="#running-a-simulation">Running a Sim
 <p>The R commands to view help on using is:</p>
 <div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">source</span><span class="p">(</span><span class="s">&quot;[installation-path]/src/tools/plotCompareTimeSeries.R&quot;</span><span class="p">)</span>
 <span class="nf">plotCompareTimeSeries.help</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="plotncgridtsvars">
+<h4>plotNcGridTSVars<a class="headerlink" href="#plotncgridtsvars" title="Link to this heading">¶</a></h4>
+<p><em>GNU Octave</em> function to plot grid variables from a simulation’s
+netCDF grid map files.
+Graphs are X-Y point plots (top row), and histograms (bottom row).</p>
+<p>To view help in <em>GNU Octave</em>:</p>
+<div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="nb">addpath</span><span class="p">(</span><span class="s">&#39;[installation-path]/src/tools&#39;</span><span class="p">)</span>
+<span class="nb">help</span><span class="w"> </span><span class="n">plotNcGridTSVars</span>
 </pre></div>
 </div>
 </section>
@@ -3223,12 +3242,14 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <li><a class="reference internal" href="#dailyprecipforsite">DailyPrecipForSite</a></li>
 <li><a class="reference internal" href="#extractdailytemp">ExtractDailyTemp</a></li>
 <li><a class="reference internal" href="#model-utilities">Model Utilities</a><ul>
+<li><a class="reference internal" href="#info">info</a></li>
 <li><a class="reference internal" href="#runsim">runsim</a></li>
 <li><a class="reference internal" href="#verifyall">verifyAll</a></li>
 <li><a class="reference internal" href="#runall">runAll</a></li>
-<li><a class="reference internal" href="#info">info</a></li>
+<li><a class="reference internal" href="#aboutspchgts">aboutSpChgTS</a></li>
 <li><a class="reference internal" href="#plottimeseries-r">plotTimeSeries.R</a></li>
 <li><a class="reference internal" href="#plotcomparetimeseries-r">plotCompareTimeSeries.R</a></li>
+<li><a class="reference internal" href="#plotncgridtsvars">plotNcGridTSVars</a></li>
 <li><a class="reference internal" href="#plotsweeptimeseries">plotSweepTimeSeries</a></li>
 <li><a class="reference internal" href="#ncdrawmap">ncDrawMap</a></li>
 <li><a class="reference internal" href="#ncgetgrid">ncGetGrid</a></li>
