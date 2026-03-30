@@ -322,6 +322,14 @@ by this, including older versions of Notepad.
 <p>There are two items to download for the Drylands2 model,
 the DrylandsLib package, and the Drylands2 model source code
 and documentation.</p>
+<section id="required-software">
+<h3>Required Software<a class="headerlink" href="#required-software" title="Link to this heading">¶</a></h3>
+<p>While this model is built and tested with <strong>GNU Octave</strong>, compatibility
+with <strong>MATLAB</strong><sup>TM</sup> is intended, but not fully tested.</p>
+<p><strong>GNU Octave</strong> can be obtained from <a class="reference external" href="https://octave.org">octave.org</a>.
+<strong>MATLAB</strong><sup>TM</sup> is a commercial application; see
+<a class="reference external" href="https://www.mathworks.com">https://www.mathworks.com</a>.</p>
+</section>
 <section id="downloading-the-model-source-code">
 <h3>Downloading the Model Source Code<a class="headerlink" href="#downloading-the-model-source-code" title="Link to this heading">¶</a></h3>
 <p>The model source code and documentation is hosted on GitHub:sup:<cite>TM</cite> at</p>
@@ -357,6 +365,19 @@ with the console command:</p>
 <div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span>octave<span class="w"> </span><span class="o">[</span>installation-path<span class="o">]</span>/Drylands2/src/tools/info.m
 </pre></div>
 </div>
+<section id="required-packages">
+<h4>Required Packages<a class="headerlink" href="#required-packages" title="Link to this heading">¶</a></h4>
+<p><strong>GNU Octave</strong> packages that are used by the model and supporting
+utilities are <em>statistics</em>, <em>io</em> and <em>netcdf</em>.
+To see if these are installed, in a <strong>GNU Octave</strong> command window,
+enter <code class="docutils literal notranslate"><span class="pre">pkg</span> <span class="pre">list</span></code>.
+To install a package, use these commands as needed:</p>
+<div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="n">pkg</span><span class="w"> </span><span class="s">install</span><span class="w"> </span><span class="s">statistics</span>
+<span class="n">pkg</span><span class="w"> </span><span class="s">install</span><span class="w"> </span><span class="s">io</span>
+<span class="n">pkg</span><span class="w"> </span><span class="s">install</span><span class="w"> </span><span class="s">netcdf</span>
+</pre></div>
+</div>
+</section>
 </section>
 <section id="obtaining-and-installing-the-drylandslib-package">
 <h3>Obtaining and Installing the DrylandsLib package<a class="headerlink" href="#obtaining-and-installing-the-drylandslib-package" title="Link to this heading">¶</a></h3>
@@ -392,9 +413,6 @@ to load it manually.</p>
 </section>
 <section id="additional-software">
 <h3>Additional Software<a class="headerlink" href="#additional-software" title="Link to this heading">¶</a></h3>
-<p><strong>GNU Octave</strong> can be obtained from <a class="reference external" href="https://octave.org">octave.org</a>.
-<strong>MATLAB</strong><sup>TM</sup> is a commercial application; see
-<a class="reference external" href="https://www.mathworks.com">https://www.mathworks.com</a>.</p>
 <p>A few software applications are useful for configuration tasks and
 examining the simulation results. These include:</p>
 <ul class="simple">
@@ -2186,8 +2204,33 @@ in the output path.</p>
 The content has the column <em>time</em> and one data column for each species.</p>
 <p>Any of the usual office suite spreadsheet applications will open a CSV file.
 You can read these files into <em>GNU Octave*[3_] using **csvread*</em> from the
-<strong>io</strong> package, or <strong>dataframe</strong> from from the <strong>dataframe</strong> package.</p>
-<p>These R scripts (found in the directory <code class="docutils literal notranslate"><span class="pre">src/tools</span></code>)
+<strong>io</strong> package, or <strong>dataframe</strong> from from the <strong>dataframe</strong> package, or the
+<strong>IOTools.readCSV</strong> function from the <strong>DrylandsLib</strong> package.</p>
+<p>For example, using package <strong>DrylandsLib</strong>:</p>
+<div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="n">pkg</span><span class="w"> </span><span class="s">load</span><span class="w"> </span><span class="s">drylandslib</span><span class="p">;</span>
+<span class="n">help</span><span class="w"> </span><span class="s">IOTools.readCSV</span>
+<span class="p">[</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">colNames</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">IOTools</span><span class="p">.</span><span class="n">readCSV</span><span class="p">(</span><span class="w"> </span><span class="s">&#39;timeseries-stateVars.csv&#39;</span><span class="w"> </span><span class="p">);</span>
+<span class="n">colNames</span><span class="w">                      </span><span class="s">%</span><span class="w"> </span><span class="s">view</span><span class="w"> </span><span class="s">the</span><span class="w"> </span><span class="s">variable</span><span class="w"> </span><span class="s">names</span>
+<span class="n">Math</span><span class="p">.</span><span class="n">descStats</span><span class="p">(</span><span class="w"> </span><span class="n">data</span><span class="p">(:,</span><span class="mi">11</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w">  </span><span class="c">% view variable statistics for biomass</span>
+<span class="nb">plot</span><span class="p">(</span><span class="w"> </span><span class="n">data</span><span class="p">(:,</span><span class="mi">11</span><span class="p">)</span><span class="w"> </span><span class="p">);</span><span class="w">           </span><span class="c">% plot biomass over time</span>
+</pre></div>
+</div>
+<p>For example, using package <strong>dataframe</strong>:</p>
+<div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="n">pkg</span><span class="w"> </span><span class="s">load</span><span class="w"> </span><span class="s">dataframe</span><span class="p">;</span>
+<span class="n">df</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">dataframe</span><span class="p">(</span><span class="s">&#39;timeseries-stateVars.csv&#39;</span><span class="p">);</span>
+<span class="n">df</span><span class="p">.</span><span class="n">colnames</span><span class="w">                   </span><span class="c">% view the variable names</span>
+<span class="nb">summary</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="w">                   </span><span class="c">% view variable statistics</span>
+<span class="nb">plot</span><span class="p">(</span><span class="w"> </span><span class="n">df</span><span class="p">(:,</span><span class="mi">11</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w">              </span><span class="c">% plot biomass over time</span>
+</pre></div>
+</div>
+<p>In <strong>R</strong> you can read the CSV data with:</p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">read.csv</span><span class="p">(</span><span class="w"> </span><span class="s">&#39;timeseries-stateVars.csv&#39;</span><span class="w"> </span><span class="p">)</span>
+<span class="nf">colnames</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="w">                </span><span class="c1"># view the variable names</span>
+<span class="nf">summary</span><span class="p">(</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="p">)</span><span class="w">               </span><span class="c1"># view variable statistics</span>
+<span class="nf">plot</span><span class="p">(</span><span class="w"> </span><span class="n">data</span><span class="p">[,</span><span class="m">11</span><span class="p">],</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s">&#39;l&#39;</span><span class="w"> </span><span class="p">)</span><span class="w">   </span><span class="c1"># plot biomass over time</span>
+</pre></div>
+</div>
+<p>R scripts available in the directory <code class="docutils literal notranslate"><span class="pre">src/tools</span></code>
 will read this time series data:
 <code class="docutils literal notranslate"><span class="pre">plotTimeSeries.R</span></code>, and <code class="docutils literal notranslate"><span class="pre">plotCompareTimeSeries.R</span></code>.
 Each script file also has a “&lt;name&gt;.help” function which shows a brief
@@ -2195,6 +2238,9 @@ description of running the script.</p>
 <p>E.g., in the R console:</p>
 <div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">source</span><span class="p">(</span><span class="w"> </span><span class="s">&#39;&lt;path to Drylands2&gt;/src/tools/plotTimeSeries.R&#39;</span><span class="w"> </span><span class="p">)</span>
 <span class="nf">plotTimeSeries.help</span><span class="p">()</span>
+
+<span class="nf">source</span><span class="p">(</span><span class="w"> </span><span class="s">&#39;&lt;path to Drylands2&gt;/src/tools/plotCompareTimeSeries.R&#39;</span><span class="w"> </span><span class="p">)</span>
+<span class="nf">plotCompareTimeSeries.help</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
@@ -2211,18 +2257,21 @@ conventions. Global variables are “time”, and the grid coordinates “x” a
 species (e.g., “black_grama”). Biomass is a variable “biomass” in that
 group. Likewise, the resource map time series is in a group named for the
 resource (e.g., “water”). Each soil layer is a variable in that group:
-“top”, “middle”, “deep”.</p>
+<em>top</em>, <em>middle</em>, <em>deep</em>.</p>
 <p>You can view the grids using a netCDF file viewer that understands
 CF conventions and netCDF4 groups.
 Some GIS applications will access and display this data, such as
 <em>GNU Octave*[3_], *R</em>, <em>QGIS</em>, and <em>MATLAB</em> can be used to extract data grids.</p>
-<p><em>GNU Octave</em> scripts are included in the model source code that read data from
-these netCDF files and generate maps (in the directory <code class="docutils literal notranslate"><span class="pre">src/tools</span></code>).
-See “ <a class="reference internal" href="#model-utilities">Model Utilities</a> “ for descriptions of these scripts, particularly
-<code class="docutils literal notranslate"><span class="pre">ncDrawMap</span></code> and <code class="docutils literal notranslate"><span class="pre">ncGetGrid</span></code>.</p>
-<p>If you have the netCDF utilities installed, you can use <strong>ncdump</strong> to view
-the structure and variables of the netCDF files. For example, to see the
-file structure, use the command:</p>
+<p><em>GNU Octave</em> functions are included in the model source code that read data
+from these netCDF files and generate maps (in the directory <code class="docutils literal notranslate"><span class="pre">src/tools</span></code>).
+See “ <a class="reference internal" href="#model-utilities">Model Utilities</a> “ for descriptions of these scripts, including
+<code class="docutils literal notranslate"><span class="pre">ncDrawMap</span></code>, <code class="docutils literal notranslate"><span class="pre">ncGetGrid</span></code>, and <code class="docutils literal notranslate"><span class="pre">plotNcGridTSVars</span></code>.
+These scripts use the <strong>GNU Octave</strong> package <em>netcdf</em>.
+Use <code class="docutils literal notranslate"><span class="pre">help</span> <span class="pre">&lt;function</span> <span class="pre">name&gt;</span></code> to view help on a utility function.
+(First add the <code class="docutils literal notranslate"><span class="pre">src/tools</span></code> directory to the search path list with <code class="docutils literal notranslate"><span class="pre">addpath()</span></code>.)</p>
+<p>If you have the netCDF command-line utilities installed, you can use
+<strong>ncdump</strong> to view the structure and variables of the netCDF files. For
+example, to see the file structure (no data), use the command:</p>
 <div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span>ncdump<span class="w"> </span>-h<span class="w"> </span>timeseries-biomass-map.nc
 </pre></div>
 </div>
@@ -2542,6 +2591,10 @@ arid ecosystems. American Naturalist 160:524–530. <a class="reference external
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Add model tools <strong>runAll</strong> and <strong>verifyAll</strong>.</p></td>
+</tr>
+<tr class="row-even"><td><p>2026.03</p></td>
+<td><p>8.0</p></td>
+<td><p>Expand info in <a class="reference internal" href="#examining-simulation-results">Examining Simulation Results</a>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -3180,8 +3233,12 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 </ul>
 </li>
 <li><a class="reference internal" href="#obtaining-and-installing-the-drylands2-model">Obtaining and Installing the Drylands2 Model</a><ul>
+<li><a class="reference internal" href="#required-software">Required Software</a></li>
 <li><a class="reference internal" href="#downloading-the-model-source-code">Downloading the Model Source Code</a></li>
-<li><a class="reference internal" href="#installing">Installing</a></li>
+<li><a class="reference internal" href="#installing">Installing</a><ul>
+<li><a class="reference internal" href="#required-packages">Required Packages</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#obtaining-and-installing-the-drylandslib-package">Obtaining and Installing the DrylandsLib package</a></li>
 <li><a class="reference internal" href="#additional-software">Additional Software</a></li>
 <li><a class="reference internal" href="#file-organization">File Organization</a></li>

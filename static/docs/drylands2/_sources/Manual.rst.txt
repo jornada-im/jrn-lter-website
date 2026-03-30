@@ -105,6 +105,17 @@ the DrylandsLib package, and the Drylands2 model source code
 and documentation.
 
 
+Required Software
+------------------
+
+While this model is built and tested with **GNU Octave**, compatibility
+with **MATLAB**:sup:`TM` is intended, but not fully tested.
+
+**GNU Octave** can be obtained from `octave.org <https://octave.org>`_.
+**MATLAB**:sup:`TM` is a commercial application; see
+`<https://www.mathworks.com>`_.
+
+
 Downloading the Model Source Code
 ----------------------------------
 
@@ -147,6 +158,24 @@ with the console command:
 .. code:: BASH
 
     octave [installation-path]/Drylands2/src/tools/info.m
+
+
+Required Packages
+`````````````````
+
+**GNU Octave** packages that are used by the model and supporting
+utilities are *statistics*, *io* and *netcdf*.
+To see if these are installed, in a **GNU Octave** command window,
+enter ``pkg list``.
+To install a package, use these commands as needed:
+
+.. code:: MATLAB
+
+    pkg install statistics
+    pkg install io
+    pkg install netcdf
+
+
 
 
 Obtaining and Installing the DrylandsLib package
@@ -195,10 +224,6 @@ to load it manually.
 
 Additional Software
 -------------------
-
-**GNU Octave** can be obtained from `octave.org <https://octave.org>`_.
-**MATLAB**:sup:`TM` is a commercial application; see
-`<https://www.mathworks.com>`_.
 
 A few software applications are useful for configuration tasks and
 examining the simulation results. These include:
@@ -1293,9 +1318,40 @@ The content has the column *time* and one data column for each species.
 
 Any of the usual office suite spreadsheet applications will open a CSV file.
 You can read these files into *GNU Octave*[3_] using **csvread** from the
-**io** package, or **dataframe** from from the **dataframe** package.
+**io** package, or **dataframe** from from the **dataframe** package, or the
+**IOTools.readCSV** function from the **DrylandsLib** package.
 
-These R scripts (found in the directory ``src/tools``)
+For example, using package **DrylandsLib**:
+
+.. code:: MATLAB
+
+    pkg load drylandslib;
+    help IOTools.readCSV
+    [data, colNames] = IOTools.readCSV( 'timeseries-stateVars.csv' );
+    colNames                      % view the variable names
+    Math.descStats( data(:,11) )  % view variable statistics for biomass
+    plot( data(:,11) );           % plot biomass over time
+
+For example, using package **dataframe**:
+
+.. code:: MATLAB
+
+    pkg load dataframe;
+    df = dataframe('timeseries-stateVars.csv');
+    df.colnames                   % view the variable names
+    summary(df)                   % view variable statistics
+    plot( df(:,11) )              % plot biomass over time
+
+In **R** you can read the CSV data with:
+
+.. code:: R
+
+    data = read.csv( 'timeseries-stateVars.csv' )
+    colnames(data)                # view the variable names
+    summary( data )               # view variable statistics
+    plot( data[,11], type='l' )   # plot biomass over time
+
+R scripts available in the directory ``src/tools``
 will read this time series data:
 ``plotTimeSeries.R``, and ``plotCompareTimeSeries.R``.
 Each script file also has a "<name>.help" function which shows a brief
@@ -1307,6 +1363,9 @@ E.g., in the R console:
 
     source( '<path to Drylands2>/src/tools/plotTimeSeries.R' )
     plotTimeSeries.help()
+
+    source( '<path to Drylands2>/src/tools/plotCompareTimeSeries.R' )
+    plotCompareTimeSeries.help()
 
 
 Map Time Series Files
@@ -1324,21 +1383,24 @@ conventions. Global variables are "time", and the grid coordinates "x" and
 species (e.g., "black_grama"). Biomass is a variable "biomass" in that
 group. Likewise, the resource map time series is in a group named for the
 resource (e.g., "water"). Each soil layer is a variable in that group:
-"top", "middle", "deep".
+*top*, *middle*, *deep*.
 
 You can view the grids using a netCDF file viewer that understands
 CF conventions and netCDF4 groups.
 Some GIS applications will access and display this data, such as
 *GNU Octave*[3_], *R*, *QGIS*, and *MATLAB* can be used to extract data grids.
 
-*GNU Octave* scripts are included in the model source code that read data from
-these netCDF files and generate maps (in the directory ``src/tools``).
-See " `Model Utilities`_ " for descriptions of these scripts, particularly
-``ncDrawMap`` and ``ncGetGrid``.
+*GNU Octave* functions are included in the model source code that read data
+from these netCDF files and generate maps (in the directory ``src/tools``).
+See " `Model Utilities`_ " for descriptions of these scripts, including
+``ncDrawMap``, ``ncGetGrid``, and ``plotNcGridTSVars``.
+These scripts use the **GNU Octave** package *netcdf*.
+Use ``help <function name>`` to view help on a utility function.
+(First add the ``src/tools`` directory to the search path list with ``addpath()``.)
 
-If you have the netCDF utilities installed, you can use **ncdump** to view
-the structure and variables of the netCDF files. For example, to see the
-file structure, use the command:
+If you have the netCDF command-line utilities installed, you can use
+**ncdump** to view the structure and variables of the netCDF files. For
+example, to see the file structure (no data), use the command:
 
 .. code:: BASH
 
@@ -1676,6 +1738,7 @@ Revision Date        Model Version        Description
 2026.03              7.4                  Add sweep parameter "values"; "range" is now obsolete.
 \                    \                    Improve descriptions of input data files.
 \                    \                    Add model tools **runAll** and **verifyAll**.
+2026.03              8.0                  Expand info in `Examining Simulation Results`_.
 ===================  ===================  ===============================================================
 
 
