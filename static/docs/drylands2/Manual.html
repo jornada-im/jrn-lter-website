@@ -2199,9 +2199,68 @@ See “ <a class="reference internal" href="#graphs-configuration">Graphs Config
 <p>A time series file of scalar values is generated when the configuration item
 <strong>output.gridAvgTimeSeries</strong> is set to <em>true</em>.
 The file is named <code class="docutils literal notranslate"><span class="pre">timeseries-stateVars.csv</span></code> and is stored
-in the output path.</p>
-<p>The file format is CSV, or comma-separated values.
-The content has the column <em>time</em> and one data column for each species.</p>
+in the output path; column (variable) descriptions are
+provided in the file <code class="docutils literal notranslate"><span class="pre">test-StateVarsTSMgr-descriptions.csv</span></code>.</p>
+<p>The file format is CSV, or comma-separated values. The content has columns
+<em>time</em>, <em>year</em>, <em>doy</em>, followed by state variables, then followed with one
+data column for biomass for each species. The first row contains the
+variable names as column headers (described in the table below).</p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>variable</p></th>
+<th class="head"><p>description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>time</p></td>
+<td><p>simulation day number</p></td>
+</tr>
+<tr class="row-odd"><td><p>year</p></td>
+<td><p>year</p></td>
+</tr>
+<tr class="row-even"><td><p>doy</p></td>
+<td><p>day-of-year</p></td>
+</tr>
+<tr class="row-odd"><td><p>R</p></td>
+<td><p>precipitation</p></td>
+</tr>
+<tr class="row-even"><td><p>I</p></td>
+<td><p>infiltration</p></td>
+</tr>
+<tr class="row-odd"><td><p>WL</p></td>
+<td><p>soil water loss</p></td>
+</tr>
+<tr class="row-even"><td><p>U</p></td>
+<td><p>soil water plant uptake</p></td>
+</tr>
+<tr class="row-odd"><td><p>O</p></td>
+<td><p>surface water</p></td>
+</tr>
+<tr class="row-even"><td><p>W</p></td>
+<td><p>soil water content</p></td>
+</tr>
+<tr class="row-odd"><td><p>N</p></td>
+<td><p>soil nitrogen content</p></td>
+</tr>
+<tr class="row-even"><td><p>Pseed</p></td>
+<td><p>total seed biomass</p></td>
+</tr>
+<tr class="row-odd"><td><p>Pd</p></td>
+<td><p>total aboveground biomass mortality</p></td>
+</tr>
+<tr class="row-even"><td><p>Nt</p></td>
+<td><p>cell count &gt;= bmThreshold</p></td>
+</tr>
+<tr class="row-odd"><td><p>P</p></td>
+<td><p>average total aboveground biomass</p></td>
+</tr>
+<tr class="row-even"><td><p>[plant name]</p></td>
+<td><p>average aboveground biomass for one plant</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <p>Any of the usual office suite spreadsheet applications will open a CSV file.
 You can read these files into <em>GNU Octave*[3_] using **csvread*</em> from the
 <strong>io</strong> package, or <strong>dataframe</strong> from from the <strong>dataframe</strong> package, or the
@@ -2243,6 +2302,7 @@ description of running the script.</p>
 <span class="nf">plotCompareTimeSeries.help</span><span class="p">()</span>
 </pre></div>
 </div>
+<p>Output variables:</p>
 </section>
 <section id="map-time-series-files">
 <h4>Map Time Series Files<a class="headerlink" href="#map-time-series-files" title="Link to this heading">¶</a></h4>

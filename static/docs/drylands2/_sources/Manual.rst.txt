@@ -1311,10 +1311,37 @@ Time Series Files
 A time series file of scalar values is generated when the configuration item
 **output.gridAvgTimeSeries** is set to *true*.
 The file is named ``timeseries-stateVars.csv`` and is stored
-in the output path.
+in the output path; column (variable) descriptions are
+provided in the file ``test-StateVarsTSMgr-descriptions.csv``.
 
-The file format is CSV, or comma-separated values.
-The content has the column *time* and one data column for each species.
+The file format is CSV, or comma-separated values. The content has columns
+*time*, *year*, *doy*, followed by state variables, then followed with one
+data column for biomass for each species. The first row contains the
+variable names as column headers (described in the table below).
+
+
+.. table:: Drylands2 Time-Series Grid-Average Output Variables
+   :align: left
+
+============   ===========================================
+ variable      description
+============   ===========================================
+time           simulation day number
+year           year
+doy            day-of-year
+R              precipitation
+I              infiltration
+WL             soil water loss
+U              soil water plant uptake
+O              surface water
+W              soil water content
+N              soil nitrogen content
+Pseed          total seed biomass
+Pd             total aboveground biomass mortality
+Nt             cell count >= bmThreshold
+P              average total aboveground biomass
+[plant name]   average aboveground biomass for one plant
+============   ===========================================
 
 Any of the usual office suite spreadsheet applications will open a CSV file.
 You can read these files into *GNU Octave*[3_] using **csvread** from the
@@ -1366,6 +1393,8 @@ E.g., in the R console:
 
     source( '<path to Drylands2>/src/tools/plotCompareTimeSeries.R' )
     plotCompareTimeSeries.help()
+
+Output variables:
 
 
 Map Time Series Files
