@@ -614,7 +614,7 @@ type                scalar       Type of plant: 1 = perennial grass, 2 = shrub, 
 Bmax                scalar       Maximum biomass (g/m2).
 bmBgAgRatio         scalar       Ratio of belowground to aboveground biomass.
 bmBgDist            1x3 matrix   Belowground biomass distribution; fraction into each soil layer (sum to 1.0).
-bmThreshold         scalar       Minimum biomass fraction (< 1.0) for cell to be considered vegetated.
+bmThreshold         scalar       Minimum biomass fraction (< 1.0) of Bmax for cell to be considered vegetated.
 \                   \            **Growth:**
 rmax                scalar       Limiting daily growth rate (maximum daily new biomass as fraction of current biomass);
 \                   \            valid range 0-1.
@@ -648,7 +648,8 @@ Kr                  scalar       Reproduction fraction per unit biomass (0-1),
 \                   \            Applies to both vegetative + seeded reproduction.
 **seed**            struct       **Seed dispsersal propagation:**
 bmNewSeedling       scalar       Initial aboveground biomass of a new seedling (g/m2).
-bmMaxRepro          scalar       Fraction of maximum biomass per cell below which seed reproduction can occur (0-1).
+bmMaxRepro          scalar       Fraction of maximum biomass (Bmax) per cell below which
+\                   \            seed reproduction can occur (0-1).
 Kg                  scalar       Constant germination rate == probability of germination (0-1).
 **mortality**       struct       **Mortality configuration:**
 d                   scalar       Background mortality rate: loss of plant density due to mortality (fraction d-1).
@@ -2115,7 +2116,7 @@ Additional configuration files (``*.json``) are provided in the
           "Bmax": 319,
           "bmBgAgRatio": 1.44,
           "bmBgDist":    [ 0.133, 0.504, 0.363 ],
-          "bmThreshold": 0.1,
+          "bmThreshold": 0.01,
           "rmax": 0.2,
           # gmax: Rietkirk = 0.05, Stewart = 0.7
           "gmax": 0.7,
