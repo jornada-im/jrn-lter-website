@@ -21,9 +21,8 @@ Drylands2 Model Design
    *italics* for document names.
    ``monospace`` for code blocks, lines and snippets.
 
-..
-  .. contents::
-     :depth: 5
+.. contents::
+    :depth: 5
 
 
 Introduction
@@ -196,10 +195,12 @@ Model Control:
     .. code::
 
         Drylands2
-        initialize
-        runSims
-        simTask
-        finalize
+        |-- initialize --> initialConditions
+        |-- runSims
+        |   |-- initForSim
+        |   |-- simTask
+        |   `-- afterSim
+        `-- finalize
 
 Algorithmic:
 
@@ -216,7 +217,7 @@ Algorithmic:
         Infiltration
         initialConditions --> initialBiomass, initialSoilN
         MortalityRate --> WaterStress
-        Plant --> Roots, Seed, annualMortality, MortalityRate
+        Plant --> Roots, Seed, GrowingSeason, annualMortality, MortalityRate
         SoilNEq
         soilWaterUptake
 
@@ -243,22 +244,18 @@ Data:
 
     .. code::
 
-        input/NAtmDep
-        input/Precip
-        input/Temperature
-        input/WindData
-        getNAtmDep
-        getPrecip
-        getTemperature
-        getWind
+        getNAtmDep --> input/NAtmDep
+        getPrecip  --> input/Precip
+        getTemperature --> input/Temperature
+        getWind --> input/WindData
 
 Output:
 
     .. code::
 
-        GridAvgTimeSeries
-        DiffusionAmts
-        SpatialChanges
+        log/*
+        output/StateVarsTSMgr --> GridAvgTimeSeries
+        DiffusionAmts + SpatialChanges
         output/NcBiomassTimeSeries
         output/NcResourceTimeSeries
         output/saveResults
@@ -280,7 +277,6 @@ Information:
         modelAbout
         modelVersion
         SimInfo
-        log/*
 
 
 
@@ -288,28 +284,28 @@ Execution Psuedocode
 ----------------------
 
 The following psuedocode does not include simulation of mounds or trials.
-
-.. code::
+::
 
     Read configuration file
     Configure paths and files
     Initialize state variables
     Initialize output
-    Run one simulation or a sweep of simulations
-        Run a simulation task
-            Calculate subdaily time step
-            Iterate by subdaily time step:
-                If start of day:
-                    Get daily input data
-                    Calculate E, I, WL, U, root biomass, G, aeolian effects
-                    If start of growing season:
-                        Tell plants to initialize growing season.
-                Solve for updated W, S, N, P at subdaily time step
-                If end of day:
-                    Save output and graphs and maps as scheduled
-                    If end of growing season:
-                        Tell plants to finalize growing season.
-        Save final results
+    Run one simulation, or a sweep or trials of simulations:
+        Run one simulation:
+        |   Initialize simulation
+        |   Iterate by subdaily time step:
+        |       If start of day:
+        |           Get daily input data
+        |           Calculate E, I, WL, U, root biomass, G, aeolian effects
+        |           If start of growing season:
+        |               Tell plants to initialize growing season.
+        |       Solve for updated W, S, N, P at subdaily time step
+        |       If end of day:
+        |           Save time-series output and graphs and maps as scheduled
+        |           If end of growing season:
+        |               Tell plants to finalize growing season.
+        |   Finalize simulation
+        Save sweep and trials results
 
 
 
@@ -648,11 +644,10 @@ Version 7 introduced the plant type annual grass or forb. Plants of this
 type have all aboveground biomass (excluding seed biomass) removed at the
 end of the growing season.
 
-Version 7 introduced annual biomass mortality for perennial plants and shrubs
-applied at the end of the growing season.
-This algorithm assumes that larger individuals have
-better chance of survival than younger and smaller individuals given various
-(not explicitly modelled) environmental stressors.
+Version 7 also introduced annual biomass mortality for perennial plants and
+shrubs applied at the end of the growing season. This algorithm assumes that
+larger individuals have better chance of survival than younger and smaller
+individuals given various (not explicitly modelled) environmental stressors.
 The algorithm simulates non-specific annual biomass mortality using an
 inverse logistic equation::
 
@@ -1124,6 +1119,11 @@ Bibliography
    [6] JSON configuration file format; see
    https://www.w3schools.com/js/js_json_intro.asp
 
+.. _7:
+
+   [7] OpenDocument Format for Office Applications; see
+   https://en.wikipedia.org/wiki/OpenDocument/
+
 
 
 Document History
@@ -1175,12 +1175,12 @@ File name extension  Format
 ``rst``              reStructuredText document source file.
 ``txt``              Plain text file; the content may either be a document, or
 \                    be for a specific application (e.g., **plantuml**).
-``fodt``             OpenDocument document file (in text XML format).
+``fodt``             OpenDocument document file (in text XML format)[7_].
 \                    This is a LibreOffice native format, and is
 \                    editable by Microsoft Word and Google Docs and other apps.
 \                    Some applications (e.g., **pandoc**) may require this to be
 \                    converted to ``odt`` (compressed) format.
-``fodg``             OpenDocument graph file (in text XML format).
+``fodg``             OpenDocument graph file (in text XML format)[7_].
 \                    Some applications may require this to be converted to
 \                    ``odt`` (compressed) format.
 ``fods``             OpenDocument spreadsheet file (in XML format)[7_].
@@ -1288,3 +1288,6 @@ with dimensions ``[numberOfTrials, sweepSize]``
     plantOffMound0(t,s) = avgP0(3)
     plantOnMound1(t,s)  = avgP1(1)
     plantOffMound1(t,s) = avgP1(3)
+
+
+..  End of ModelDesign document

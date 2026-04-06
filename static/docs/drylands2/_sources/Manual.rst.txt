@@ -20,9 +20,8 @@ Drylands2 Model Manual
 .. |nbsp| unicode:: 0xA0
    :trim:
 
-..
-  .. contents::
-     :depth: 4
+.. contents::
+    :depth: 4
 
 
 Introduction
@@ -2314,3 +2313,8 @@ Additional configuration files (``*.json``) are provided in the
       }
     }
     # end
+
+
+
+..  End of document
+
