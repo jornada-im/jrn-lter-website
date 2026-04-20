@@ -195,12 +195,13 @@ Model Control:
     .. code::
 
         Drylands2
-        |-- initialize --> initialConditions
-        |-- runSims
-        |   |-- initForSim
-        |   |-- simTask
-        |   `-- afterSim
-        `-- finalize
+        |-- initialize --> initialConditions --> initialBiomass, initialSoilN
+        `-- runSims
+            `-- runOneSim
+                |-- initForSim
+                |-- simTask
+                |-- afterSim
+                `-- finalize
 
 Algorithmic:
 
@@ -208,18 +209,18 @@ Algorithmic:
 
         aeolian/*
         mounds/*
-        BiomassFun
+        plant/
+        |-- Plant --> Roots, Seed, GrowingSeason, annualMortality, MortalityRate
+        |-- Competition
+        |-- MortalityRate --> WaterStress
+        |-- soilWaterUptake
+        `-- BiomassFun
         buildLaplacians
-        Competition
         equations2
         EulersMethod --> Equations
         Evaporation
         Infiltration
-        initialConditions --> initialBiomass, initialSoilN
-        MortalityRate --> WaterStress
-        Plant --> Roots, Seed, GrowingSeason, annualMortality, MortalityRate
         SoilNEq
-        soilWaterUptake
 
 Non-Algorithmic:
 
@@ -228,6 +229,7 @@ Non-Algorithmic:
         Constants
         Files
         GridDomain
+        SharedInit
         SimTime
         State
         grid/gridInit
@@ -260,6 +262,7 @@ Output:
         output/NcResourceTimeSeries
         output/saveResults
         output/simulationSummary
+        plot/graphsSweeps
         plot/MapPWS
 
 Sweeps:
@@ -980,6 +983,7 @@ Class State contains fields **sweep** (the current sweep number) and
 **doSweeps** (logical: true if sweeps are to be done).
 
 See the document *Manual* for details about sweep configuration parameters.
+
 
 Trials
 ------

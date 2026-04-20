@@ -564,6 +564,7 @@ diagrams from text description files.</p></li>
 |   |-- log     -   ... for writing to a log file.
 |   |-- math    - Math and statistics functions.
     |-- aeolian - Algorithms for plant effects from aeolian erosion and deposition.
+|   |-- plant   - Plant class and related classes and functions.
 |   |-- mounds  - Modeling water flow downgradient on topographic mounds.
 |   |-- tools   - Misc. usesful functions not used in a simulation.
 |   `-- util    - General utility functions.
@@ -2311,6 +2312,11 @@ See “ <a class="reference internal" href="#graphs-configuration">Graphs Config
 <section id="graphs-and-maps">
 <h4><a class="toc-backref" href="#id43" role="doc-backlink">Graphs and Maps</a><a class="headerlink" href="#graphs-and-maps" title="Link to this heading">¶</a></h4>
 <p>(TODO: Graphs and Maps)</p>
+<p>Sweep and trial simulations produce an image file of graphs named
+<code class="docutils literal notranslate"><span class="pre">Graph_Sweeps_Summary.png</span></code>. This contains line graphs of P, N, and W
+variables versus the sweep parameter values. The lines connects points
+of grid mean P, N, or W; error bars display one standard deviation
+of the values in the grid.</p>
 </section>
 <section id="time-series-files">
 <h4><a class="toc-backref" href="#id44" role="doc-backlink">Time Series Files</a><a class="headerlink" href="#time-series-files" title="Link to this heading">¶</a></h4>
@@ -3214,7 +3220,7 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="w">      </span><span class="p p-Indicator">],</span>
 <span class="w">      </span><span class="c1"># amount of precipitation (mm) for initialization</span>
 <span class="w">      </span><span class="s">&quot;precipitation&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">1.0</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="c1"># plant-available N in the soil profile depth</span>
+<span class="w">      </span><span class="c1"># Amount of plant-available N in the entire soil profile depth (g N m-2)</span>
 <span class="w">      </span><span class="s">&quot;soilN&quot;</span><span class="p p-Indicator">:</span><span class="w">         </span><span class="nv">100.0</span>
 <span class="w">    </span><span class="p p-Indicator">},</span>
 <span class="w">    </span><span class="c1"># Equation parameter values</span>

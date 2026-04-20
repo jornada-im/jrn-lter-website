@@ -269,6 +269,7 @@ The directory structure for the model files is::
     |   |-- log     -   ... for writing to a log file.
     |   |-- math    - Math and statistics functions.
         |-- aeolian - Algorithms for plant effects from aeolian erosion and deposition.
+    |   |-- plant   - Plant class and related classes and functions.
     |   |-- mounds  - Modeling water flow downgradient on topographic mounds.
     |   |-- tools   - Misc. usesful functions not used in a simulation.
     |   `-- util    - General utility functions.
@@ -1304,6 +1305,12 @@ Graphs and Maps
 
 (TODO: Graphs and Maps)
 
+Sweep and trial simulations produce an image file of graphs named
+``Graph_Sweeps_Summary.png``. This contains line graphs of P, N, and W
+variables versus the sweep parameter values. The lines connects points
+of grid mean P, N, or W; error bars display one standard deviation
+of the values in the grid.
+
 
 Time Series Files
 ``````````````````
@@ -2179,7 +2186,7 @@ Additional configuration files (``*.json``) are provided in the
           ],
           # amount of precipitation (mm) for initialization
           "precipitation": 1.0,
-          # plant-available N in the soil profile depth
+          # Amount of plant-available N in the entire soil profile depth (g N m-2)
           "soilN":         100.0
         },
         # Equation parameter values
@@ -2317,4 +2324,3 @@ Additional configuration files (``*.json``) are provided in the
 
 
 ..  End of document
-

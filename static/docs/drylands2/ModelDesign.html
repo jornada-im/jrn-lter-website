@@ -494,31 +494,32 @@ category, though several supporting functions are omitted.</p>
 <p>Model Control:</p>
 <blockquote>
 <div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Drylands2
-|-- initialize --&gt; initialConditions
-|-- runSims
-|   |-- initForSim
-|   |-- simTask
-|   `-- afterSim
-`-- finalize
+|-- initialize --&gt; initialConditions --&gt; initialBiomass, initialSoilN
+`-- runSims
+    `-- runOneSim
+        |-- initForSim
+        |-- simTask
+        |-- afterSim
+        `-- finalize
 </pre></div>
 </div>
 </div></blockquote>
 <p>Algorithmic:</p>
 <blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">aeolian</span><span class="o">/*</span>
-<span class="n">mounds</span><span class="o">/*</span>
-<span class="n">BiomassFun</span>
-<span class="n">buildLaplacians</span>
-<span class="n">Competition</span>
-<span class="n">equations2</span>
-<span class="n">EulersMethod</span> <span class="o">--&gt;</span> <span class="n">Equations</span>
-<span class="n">Evaporation</span>
-<span class="n">Infiltration</span>
-<span class="n">initialConditions</span> <span class="o">--&gt;</span> <span class="n">initialBiomass</span><span class="p">,</span> <span class="n">initialSoilN</span>
-<span class="n">MortalityRate</span> <span class="o">--&gt;</span> <span class="n">WaterStress</span>
-<span class="n">Plant</span> <span class="o">--&gt;</span> <span class="n">Roots</span><span class="p">,</span> <span class="n">Seed</span><span class="p">,</span> <span class="n">GrowingSeason</span><span class="p">,</span> <span class="n">annualMortality</span><span class="p">,</span> <span class="n">MortalityRate</span>
-<span class="n">SoilNEq</span>
-<span class="n">soilWaterUptake</span>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>aeolian/*
+mounds/*
+plant/
+|-- Plant --&gt; Roots, Seed, GrowingSeason, annualMortality, MortalityRate
+|-- Competition
+|-- MortalityRate --&gt; WaterStress
+|-- soilWaterUptake
+`-- BiomassFun
+buildLaplacians
+equations2
+EulersMethod --&gt; Equations
+Evaporation
+Infiltration
+SoilNEq
 </pre></div>
 </div>
 </div></blockquote>
@@ -527,6 +528,7 @@ category, though several supporting functions are omitted.</p>
 <div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Constants</span>
 <span class="n">Files</span>
 <span class="n">GridDomain</span>
+<span class="n">SharedInit</span>
 <span class="n">SimTime</span>
 <span class="n">State</span>
 <span class="n">grid</span><span class="o">/</span><span class="n">gridInit</span>
@@ -559,6 +561,7 @@ category, though several supporting functions are omitted.</p>
 <span class="n">output</span><span class="o">/</span><span class="n">NcResourceTimeSeries</span>
 <span class="n">output</span><span class="o">/</span><span class="n">saveResults</span>
 <span class="n">output</span><span class="o">/</span><span class="n">simulationSummary</span>
+<span class="n">plot</span><span class="o">/</span><span class="n">graphsSweeps</span>
 <span class="n">plot</span><span class="o">/</span><span class="n">MapPWS</span>
 </pre></div>
 </div>
