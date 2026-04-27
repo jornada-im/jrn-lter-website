@@ -699,11 +699,13 @@ Configuration Item  Data Type    Description
 ==================  ===========  ========================================================================================
 **initial**         \            **Initial state settings:**
 *biomass*           \            **Initial biomass configuration - array; entry for each plant species:**
-distribution        scalar       \ integer: 0 = constant with noise; 1 = uniform random fraction; 2 = N random cells
-configRandom        vector       \ Zero or 3 elements: For distribution 2 (N random values), contains:
+distribution        scalar       \ integer: 1 = uniform random fraction, 2 = constant with noise,
+\                   \            \          3 = steady-state, 4 = N random cells.
+configRandom        vector       \ Zero or 3 elements: For ``distribution`` 4 (N random values), contains:
 \                   \            \ - ``configRandom(1)`` = number of random cells wanted;
 \                   \            \ - ``configRandom(2)`` = minimum distance from the grid edge (m);
 \                   \            \ - ``configRandom(3)`` = minimum distance from other cells (m).
+\                   \            \ For other values of ``distribution``, this is ignored.
 agLive              1xN matrix   Initial aboveground live biomass per cell (g m-2) of each species per cell.
 \                   \
 *other items*       \            \
@@ -797,7 +799,7 @@ If the number of mounds is at least one, then two simulations are run, each
 with one of the values of configuration item ``model.mounds.imc``.
 
 Grid initialization with mounds must use
-``model.initial.plantDistribution`` = 1 (uniform random values).
+``model.initial.biomass.distribution`` = 1 (uniform random values).
 Other options will not initialize the mounds correctly.
 
 With a mounds simulation, two simulations are run.
@@ -1780,6 +1782,7 @@ Revision Date        Model Version        Description
 \                    \                    Improve descriptions of input data files.
 \                    \                    Add model tools **runAll** and **verifyAll**.
 2026.03              8.0                  Expand info in `Examining Simulation Results`_.
+2026.04              8.0                  Misc. corrections in `Model Configuration`_.
 ===================  ===================  ===============================================================
 
 

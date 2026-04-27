@@ -1362,23 +1362,31 @@ parameter <strong>beta</strong>, or maximum convection rate.</p>
 </tr>
 <tr class="row-even"><td><p>distribution</p></td>
 <td><p>scalar</p></td>
-<td><p>integer: 0 = constant with noise; 1 = uniform random fraction; 2 = N random cells</p></td>
-</tr>
-<tr class="row-odd"><td><p>configRandom</p></td>
-<td><p>vector</p></td>
-<td><p>Zero or 3 elements: For distribution 2 (N random values), contains:</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p></p></td>
-<td><p>- <code class="docutils literal notranslate"><span class="pre">configRandom(1)</span></code> = number of random cells wanted;</p></td>
+<td><p>integer: 1 = uniform random fraction, 2 = constant with noise,</p></td>
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
-<td><p>- <code class="docutils literal notranslate"><span class="pre">configRandom(2)</span></code> = minimum distance from the grid edge (m);</p></td>
+<td><p>         3 = steady-state, 4 = N random cells.</p></td>
+</tr>
+<tr class="row-even"><td><p>configRandom</p></td>
+<td><p>vector</p></td>
+<td><p>Zero or 3 elements: For <code class="docutils literal notranslate"><span class="pre">distribution</span></code> 4 (N random values), contains:</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>- <code class="docutils literal notranslate"><span class="pre">configRandom(1)</span></code> = number of random cells wanted;</p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
+<td><p>- <code class="docutils literal notranslate"><span class="pre">configRandom(2)</span></code> = minimum distance from the grid edge (m);</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
 <td><p>- <code class="docutils literal notranslate"><span class="pre">configRandom(3)</span></code> = minimum distance from other cells (m).</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>For other values of <code class="docutils literal notranslate"><span class="pre">distribution</span></code>, this is ignored.</p></td>
 </tr>
 <tr class="row-odd"><td><p>agLive</p></td>
 <td><p>1xN matrix</p></td>
@@ -1609,7 +1617,7 @@ growth.</p>
 <p>If the number of mounds is at least one, then two simulations are run, each
 with one of the values of configuration item <code class="docutils literal notranslate"><span class="pre">model.mounds.imc</span></code>.</p>
 <p>Grid initialization with mounds must use
-<code class="docutils literal notranslate"><span class="pre">model.initial.plantDistribution</span></code> = 1 (uniform random values).
+<code class="docutils literal notranslate"><span class="pre">model.initial.biomass.distribution</span></code> = 1 (uniform random values).
 Other options will not initialize the mounds correctly.</p>
 <p>With a mounds simulation, two simulations are run.
 If initial biomass is configured to be “random”, the first uses initial
@@ -2783,6 +2791,10 @@ arid ecosystems. American Naturalist 160:524–530. <a class="reference external
 <tr class="row-even"><td><p>2026.03</p></td>
 <td><p>8.0</p></td>
 <td><p>Expand info in <a class="reference internal" href="#examining-simulation-results">Examining Simulation Results</a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p>2026.04</p></td>
+<td><p>8.0</p></td>
+<td><p>Misc. corrections in <a class="reference internal" href="#model-configuration">Model Configuration</a>.</p></td>
 </tr>
 </tbody>
 </table>
