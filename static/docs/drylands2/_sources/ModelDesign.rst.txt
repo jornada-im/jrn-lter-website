@@ -2,9 +2,12 @@
 Drylands2 Model Design
 ======================
 
-:subtitle: Jornada Basin LTER, New Mexico State University
+:subtitle: Description of the model design and algorithms.
 :organization: Jornada Basin LTER, New Mexico State University
 :contact: https://github.com/jornada-im/Drylands2
+:URL: https://github.com/jornada-im/Drylands2
+:description: Drylands2 ecosystem model: Description of the model design and algorithms.
+:author: Jornada Basin LTER, New Mexico State University
 
 .. This is a reStructuredText document.
    Convert to HTML or PDF or LaTeX or ODT with pandoc or sphinx.
