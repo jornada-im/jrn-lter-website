@@ -432,14 +432,15 @@ MATLAB for the most part. See this document for most compatibility issues:</p>
 <h3><a class="toc-backref" href="#id13" role="doc-backlink">Source Files Organization</a><a class="headerlink" href="#source-files-organization" title="Link to this heading">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Drylands2           - Model algorithms and control functions and classes.
 `-- src
-    |-- grid        - Grid related functions and classes.
     |-- input       - Functions and classes for reading input files.
     |-- output      -   ... for writing non-graphics output files.
     |-- plot        -   ... for displaying and saving graphs and maps.
+|   |-- grid            ... for grid initialization and management.
     |-- log         -   ... for writing to a log file.
     |-- math        - Mathematical algorithms
-    |-- mounds      - Modeling water flow downgradient on topographic mounds.
     |-- aeolian     - Algorithms for plant effects from aeolian erosion and deposition.
+    |-- mounds      - Modeling water flow downgradient on topographic mounds.
+|   |-- plant       - Plant class and related classes and functions.
     |-- tools       - Misc. usesful functions not used in a simulation.
     `-- util        - General utility functions.
 </pre></div>

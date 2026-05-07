@@ -108,14 +108,15 @@ Source Files Organization
 
     Drylands2           - Model algorithms and control functions and classes.
     `-- src
-        |-- grid        - Grid related functions and classes.
         |-- input       - Functions and classes for reading input files.
         |-- output      -   ... for writing non-graphics output files.
         |-- plot        -   ... for displaying and saving graphs and maps.
+    |   |-- grid            ... for grid initialization and management.
         |-- log         -   ... for writing to a log file.
         |-- math        - Mathematical algorithms
-        |-- mounds      - Modeling water flow downgradient on topographic mounds.
         |-- aeolian     - Algorithms for plant effects from aeolian erosion and deposition.
+        |-- mounds      - Modeling water flow downgradient on topographic mounds.
+    |   |-- plant       - Plant class and related classes and functions.
         |-- tools       - Misc. usesful functions not used in a simulation.
         `-- util        - General utility functions.
 
