@@ -411,7 +411,8 @@ The equivalent JSON syntax is:
 
     "plant": [
       {
-        "DP": 0.1
+        "NfixFrac": 0.0,
+      "DP": 0.1
       }
     ]
 
@@ -640,6 +641,7 @@ CN                  scalar       Nitrogen: Average aboveground C:N of biomass fo
 cNmax               scalar       Nitrogen: Maximum daily N uptake as fraction of plant biomass; valid range = 0-1.
 \                   \            Typically ``cNmax = (c*gmax)/C:N``. Units = gN gC-1 d-1.
 maintN              scalar       Nitrogen daily maintenance requirement (gN gBiomass-1 d-1).
+NfixFrac            scalar       Proportion of plant N demand that will come from fixed N; valid range = 0-1.
 \                   \            **Reproducton:**
 DP                  scalar       Plant growth: diffusion: lateral dispersal and propagation (m2 d-1).
 \                   \            Valid range is 0-1.
@@ -1785,6 +1787,7 @@ Revision Date        Model Version        Description
 \                    \                    Add model tools **runAll** and **verifyAll**.
 2026.03              8.0                  Expand info in `Examining Simulation Results`_.
 2026.04              8.0                  Misc. corrections in `Model Configuration`_.
+\                    \                    Add new plant paramter ``NfixFrac``.
 ===================  ===================  ===============================================================
 
 
@@ -2102,6 +2105,7 @@ Additional configuration files (``*.json``) are provided in the
       # cNmax       - N: Maximum daily N uptake rate as fraction of plant biomass; valid range = 0-1.
       #               Assume cNmax = (c*gmax)/C:N; units = gN gC-1 d-1
       # maintN      - N: Nitrogen maintenance requirement (gN / g biomass / day)
+      # NfixFrac    - Proportion of plant N demand that will come from fixed N; valid range = 0-1.
       # --- Reproducton:
       # DP          - diffusion: lateral dispersal and propagation (m2 d-1). Valid range is 0-1.
       # E           - Proportion of biomass effort for vegetative (non-seeded) propagation (0-1);
@@ -2145,6 +2149,7 @@ Additional configuration files (``*.json``) are provided in the
           "cNmax": 0.025,
           # maintenance: Stewart (2014, table= 4) / 365 days
           "maintN": 0.000343,
+          "NfixFrac": 0.0,
           "DP":   0.01,
           "E":  0.9,
           "Kr": 0.2,
@@ -2175,7 +2180,7 @@ Additional configuration files (``*.json``) are provided in the
           "biomass": [
             # An array of entries, one per plant species.
             # distribution = Initial plant distribution on grid:
-            #   1 = random fraction, 2 = uniform constant, 3 = steady-state, 4 = N random.
+            #   1 = uniform random fraction, 2 = constant with noise, 3 = steady-state, 4 = N random.
             # configRandom: For 4 = N random values, contains a vector:
             #   configRandom(1) = number of random cells wanted
             #   configRandom(2) = minimum distance from the grid edge

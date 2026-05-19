@@ -682,7 +682,8 @@ The equivalent JSON syntax is:</p>
 
 <span class="nt">&quot;plant&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">  </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;DP&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span>
+<span class="w">    </span><span class="nt">&quot;NfixFrac&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;DP&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">]</span>
 </pre></div>
@@ -1183,159 +1184,163 @@ values.</p>
 <td><p>scalar</p></td>
 <td><p>Nitrogen daily maintenance requirement (gN gBiomass-1 d-1).</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-even"><td><p>NfixFrac</p></td>
+<td><p>scalar</p></td>
+<td><p>Proportion of plant N demand that will come from fixed N; valid range = 0-1.</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p><strong>Reproducton:</strong></p></td>
 </tr>
-<tr class="row-odd"><td><p>DP</p></td>
+<tr class="row-even"><td><p>DP</p></td>
 <td><p>scalar</p></td>
 <td><p>Plant growth: diffusion: lateral dispersal and propagation (m2 d-1).</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Valid range is 0-1.</p></td>
 </tr>
-<tr class="row-odd"><td><p>E</p></td>
+<tr class="row-even"><td><p>E</p></td>
 <td><p>scalar</p></td>
 <td><p>Proportion of biomass effort for vegetative (non-seeded) propagation (0-1);</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">1-E</span></code> = proportion of effort for seeded propagation (0-1).</p></td>
 </tr>
-<tr class="row-odd"><td><p>Kr</p></td>
+<tr class="row-even"><td><p>Kr</p></td>
 <td><p>scalar</p></td>
 <td><p>Reproduction fraction per unit biomass (0-1),</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>where biomass is the previous growing season’s total aboveground growth.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Applies to both vegetative + seeded reproduction.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>seed</strong></p></td>
+<tr class="row-odd"><td><p><strong>seed</strong></p></td>
 <td><p>struct</p></td>
 <td><p><strong>Seed dispsersal propagation:</strong></p></td>
 </tr>
-<tr class="row-odd"><td><p>bmNewSeedling</p></td>
+<tr class="row-even"><td><p>bmNewSeedling</p></td>
 <td><p>scalar</p></td>
 <td><p>Initial aboveground biomass of a new seedling (g/m2).</p></td>
 </tr>
-<tr class="row-even"><td><p>bmMaxRepro</p></td>
+<tr class="row-odd"><td><p>bmMaxRepro</p></td>
 <td><p>scalar</p></td>
 <td><p>Fraction of maximum biomass (Bmax) per cell below which</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>seed reproduction can occur (0-1).</p></td>
 </tr>
-<tr class="row-even"><td><p>Kg</p></td>
+<tr class="row-odd"><td><p>Kg</p></td>
 <td><p>scalar</p></td>
 <td><p>Constant germination rate == probability of germination (0-1).</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>mortality</strong></p></td>
+<tr class="row-even"><td><p><strong>mortality</strong></p></td>
 <td><p>struct</p></td>
 <td><p><strong>Mortality configuration:</strong></p></td>
 </tr>
-<tr class="row-even"><td><p>d</p></td>
+<tr class="row-odd"><td><p>d</p></td>
 <td><p>scalar</p></td>
 <td><p>Background mortality rate: loss of plant density due to mortality (fraction d-1).</p></td>
 </tr>
-<tr class="row-odd"><td><p>annual</p></td>
+<tr class="row-even"><td><p>annual</p></td>
 <td><p>vector[4]</p></td>
 <td><p>Annual mortality for perennial plants and shrubs.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>These are logistic function parameters <code class="docutils literal notranslate"><span class="pre">[a,</span> <span class="pre">b,</span> <span class="pre">c,</span> <span class="pre">d]</span></code>, where</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">a</span></code> = maximum (0-1), <code class="docutils literal notranslate"><span class="pre">b</span></code> = modifies inflection point (e.g., 0.005),</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">c</span></code> = modifies slopet (e.g., 0.05), <code class="docutils literal notranslate"><span class="pre">d</span></code> = minimum (0-1, <code class="docutils literal notranslate"><span class="pre">d</span></code> &lt; <code class="docutils literal notranslate"><span class="pre">a</span></code>).</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p><strong>Water stress affecting mortality:</strong></p></td>
 </tr>
-<tr class="row-even"><td><p>B0</p></td>
+<tr class="row-odd"><td><p>B0</p></td>
 <td><p>scalar</p></td>
 <td><p>Water demand excess at the logistic function inflection point (range: &gt;= 0.0).</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Increasing values at a fixed water demand excess will decrease the mortality rate,</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>while the maximum rate of change of mortality remains constant.</p></td>
 </tr>
-<tr class="row-odd"><td><p>B1</p></td>
+<tr class="row-even"><td><p>B1</p></td>
 <td><p>scalar</p></td>
 <td><p>Maximum rate of change of mortality (range: &gt;= 0.0).</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>This is the maximum slope at the inflection point of the logistic function.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Increasing values increase the rate of change in mortality at the logistic inflection</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>point, and at a fixed water demand excess will increase the mortality rate.</p></td>
 </tr>
-<tr class="row-odd"><td><p>lengthPeriod</p></td>
+<tr class="row-even"><td><p>lengthPeriod</p></td>
 <td><p>scalar</p></td>
 <td><p>Number of days to track excess water demand.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>aeolianEffect</strong></p></td>
+<tr class="row-odd"><td><p><strong>aeolianEffect</strong></p></td>
 <td><p>struct</p></td>
 <td><p><strong>Aeolian effects from biomass upon erosion/deposition:</strong></p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>This struct will have different fields and values for a grass or shrub:</p></td>
 </tr>
-<tr class="row-even"><td><p><em>Grass:</em></p></td>
+<tr class="row-odd"><td><p><em>Grass:</em></p></td>
 <td><p></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p>minThreshold</p></td>
+<tr class="row-even"><td><p>minThreshold</p></td>
 <td><p>scalar</p></td>
 <td><p>Minimum aboveground biomass to be included in or excluded from aeolian effects (g/m2).</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p></p></td>
-<td><p>Cell biomass &gt; threshold contribute to effects of relative wind shear.</p></td>
-</tr>
-<tr class="row-odd"><td><p>B, Bmax, Bz</p></td>
-<td><p>scalar</p></td>
-<td><p><strong>grassEffect</strong> equation parameters. E.g., <code class="docutils literal notranslate"><span class="pre">B</span></code>: 0.12, <code class="docutils literal notranslate"><span class="pre">Bmax</span></code>: 0.99, <code class="docutils literal notranslate"><span class="pre">Bz</span></code>: 1000.0</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p></p></td>
-<td><p>The graphs by the GNU Octave script <code class="docutils literal notranslate"><span class="pre">aeolian/plot-grassEffect-logistic.m</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
+<td><p>Cell biomass &gt; threshold contribute to effects of relative wind shear.</p></td>
+</tr>
+<tr class="row-even"><td><p>B, Bmax, Bz</p></td>
+<td><p>scalar</p></td>
+<td><p><strong>grassEffect</strong> equation parameters. E.g., <code class="docutils literal notranslate"><span class="pre">B</span></code>: 0.12, <code class="docutils literal notranslate"><span class="pre">Bmax</span></code>: 0.99, <code class="docutils literal notranslate"><span class="pre">Bz</span></code>: 1000.0</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>The graphs by the GNU Octave script <code class="docutils literal notranslate"><span class="pre">aeolian/plot-grassEffect-logistic.m</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
 <td><p>show the results of different values of these parameters.</p></td>
 </tr>
-<tr class="row-even"><td><p><em>Shrub:</em></p></td>
+<tr class="row-odd"><td><p><em>Shrub:</em></p></td>
 <td><p></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p>minThreshold</p></td>
+<tr class="row-even"><td><p>minThreshold</p></td>
 <td><p>scalar</p></td>
 <td><p>Minimum aboveground biomass to be included in or excluded from aeolian effects (g/m2).</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Cell biomass &gt; threshold are not erodible but contribute to lee shadow.</p></td>
 </tr>
@@ -2805,6 +2810,10 @@ arid ecosystems. American Naturalist 160:524–530. <a class="reference external
 <td><p>8.0</p></td>
 <td><p>Misc. corrections in <a class="reference internal" href="#model-configuration">Model Configuration</a>.</p></td>
 </tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>Add new plant paramter <code class="docutils literal notranslate"><span class="pre">NfixFrac</span></code>.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -3152,7 +3161,8 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="nt">  # cNmax       - N</span><span class="p">:</span><span class="w"> </span><span class="nv">Maximum daily N uptake rate as fraction of plant biomass; valid range = 0-1.</span>
 <span class="w">  </span><span class="c1">#               Assume cNmax = (c*gmax)/C:N; units = gN gC-1 d-1</span>
 <span class="nt">  # maintN      - N</span><span class="p">:</span><span class="w"> </span><span class="nv">Nitrogen maintenance requirement (gN / g biomass / day)</span>
-<span class="w">  </span><span class="nt"># --- Reproducton</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># NfixFrac    - Proportion of plant N demand that will come from fixed N; valid range = 0-1.</span>
+<span class="nt">  # --- Reproducton</span><span class="p">:</span>
 <span class="nt">  # DP          - diffusion</span><span class="p">:</span><span class="w"> </span><span class="nv">lateral dispersal and propagation (m2 d-1). Valid range is 0-1.</span>
 <span class="w">  </span><span class="c1"># E           - Proportion of biomass effort for vegetative (non-seeded) propagation (0-1);</span>
 <span class="w">  </span><span class="c1">#               1-E = proportion of effort for seeded propagation (0-1).</span>
@@ -3195,6 +3205,7 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="w">      </span><span class="s">&quot;cNmax&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.025</span><span class="p p-Indicator">,</span>
 <span class="nt">      # maintenance</span><span class="p">:</span><span class="w"> </span><span class="nv">Stewart (2014</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">table= 4) / 365 days</span>
 <span class="w">      </span><span class="nv">&quot;maintN&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.000343</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">&quot;NfixFrac&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.0</span><span class="p p-Indicator">,</span>
 <span class="w">      </span><span class="s">&quot;DP&quot;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">0.01</span><span class="p p-Indicator">,</span>
 <span class="w">      </span><span class="s">&quot;E&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">0.9</span><span class="p p-Indicator">,</span>
 <span class="w">      </span><span class="s">&quot;Kr&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.2</span><span class="p p-Indicator">,</span>
@@ -3225,7 +3236,7 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="w">      </span><span class="s">&quot;biomass&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
 <span class="w">        </span><span class="c1"># An array of entries, one per plant species.</span>
 <span class="w">        </span><span class="c1"># distribution = Initial plant distribution on grid:</span>
-<span class="w">        </span><span class="c1">#   1 = random fraction, 2 = uniform constant, 3 = steady-state, 4 = N random.</span>
+<span class="w">        </span><span class="c1">#   1 = uniform random fraction, 2 = constant with noise, 3 = steady-state, 4 = N random.</span>
 <span class="w">        </span><span class="c1"># configRandom: For 4 = N random values, contains a vector:</span>
 <span class="w">        </span><span class="c1">#   configRandom(1) = number of random cells wanted</span>
 <span class="w">        </span><span class="c1">#   configRandom(2) = minimum distance from the grid edge</span>
