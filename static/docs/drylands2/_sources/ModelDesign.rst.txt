@@ -490,8 +490,14 @@ These configuration parameters control N fluxes:
     (gN gBiomass-1 d-1).
     Added in version 5.
 
+**plant(*).NfixFrac**
+
+    Proportion of plant N demand that will come from fixed N.
+
+
 Functions and classes that manage N fluxes include
 **input/NAtmDep**, **getNAtmDep**, and **SoilNEq**.
+
 
 
 Initialization
@@ -1056,8 +1062,19 @@ Version 7
 `````````
 
 * New sweep subsystem can sweep any configuration parameter.
-* Adds algorithm for propagation by way of seed dispersal.
+* Adds algorithm for propagation by way of seed dispersal and germination.
 * New plant type: annual grass or forb.
+* New annual mortality algorithm for perennial plants and shrubs.
+
+Version 8
+`````````
+
+* Growth via diffusive spatial propagation can now be done annually.
+  See logical variable ``Constants.plantDPannual``.
+* Sweep subsystem: Sweep parameter can now be an element of a vector.
+* N fixation for N fixing plant types.
+  New **plant** configuration item **NfixFrac**.
+
 
 
 See Also

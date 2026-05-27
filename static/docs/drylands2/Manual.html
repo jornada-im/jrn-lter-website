@@ -525,6 +525,15 @@ package manager <strong>pkg</strong>:</p>
 <span class="n">pkg</span><span class="w"> </span><span class="s">load</span><span class="w"> </span><span class="s">drylandslib</span>
 </pre></div>
 </div>
+<p>If you want to load the DrylandsLib package automatically upon starting
+<em>GNU Octave</em>, you can add the <code class="docutils literal notranslate"><span class="pre">pkg</span> <span class="pre">load</span></code> command to the startup file:</p>
+<div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="c">% Open the startup file in the GNU Octave editor:</span>
+<span class="nb">edit</span><span class="w"> </span><span class="s">&#39;~/.octaverc&#39;</span>
+<span class="c">% Append the following:</span>
+<span class="n">pkg</span><span class="w"> </span><span class="s">load</span><span class="w"> </span><span class="s">drylandslib</span>
+<span class="c">% Save and close .octaverc</span>
+</pre></div>
+</div>
 <p>To view the classes and functions contained in the package,
 display a help page with:</p>
 <div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="n">page_screen_output</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
@@ -1055,6 +1064,8 @@ a template document in</p>
 <p>Copy the template file to your work location with the name of the plant
 species, and then open that file in an editor to fill in the parameter
 values.</p>
+<p>In the following table, “biomass” refers to aboveground biomass unless
+explicitly stated otherwise.</p>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
 <thead>
@@ -1070,23 +1081,31 @@ values.</p>
 </tr>
 <tr class="row-odd"><td><p>type</p></td>
 <td><p>scalar</p></td>
-<td><p>Type of plant: 1 = perennial grass, 2 = shrub, 3 = annual grass or forb</p></td>
+<td><p>Type of plant:</p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
+<td><p>1 = perennial grass, 2 = shrub, 3 = annual grass or forb.</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
 <td><p><strong>Biomass:</strong></p></td>
 </tr>
-<tr class="row-odd"><td><p>Bmax</p></td>
+<tr class="row-even"><td><p>Bmax</p></td>
 <td><p>scalar</p></td>
 <td><p>Maximum biomass (g/m2).</p></td>
 </tr>
-<tr class="row-even"><td><p>bmBgAgRatio</p></td>
+<tr class="row-odd"><td><p>bmBgAgRatio</p></td>
 <td><p>scalar</p></td>
 <td><p>Ratio of belowground to aboveground biomass.</p></td>
 </tr>
-<tr class="row-odd"><td><p>bmBgDist</p></td>
+<tr class="row-even"><td><p>bmBgDist</p></td>
 <td><p>1x3 matrix</p></td>
-<td><p>Belowground biomass distribution; fraction into each soil layer (sum to 1.0).</p></td>
+<td><p>Belowground biomass distribution; fraction in each soil layer</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>(fractions must sum to 1.0).</p></td>
 </tr>
 <tr class="row-even"><td><p>bmThreshold</p></td>
 <td><p>scalar</p></td>
@@ -1098,71 +1117,79 @@ values.</p>
 </tr>
 <tr class="row-even"><td><p>rmax</p></td>
 <td><p>scalar</p></td>
-<td><p>Limiting daily growth rate (maximum daily new biomass as fraction of current biomass);</p></td>
+<td><p>Limiting daily growth rate;</p></td>
 </tr>
 <tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>this is the maximum daily new biomass as fraction of current biomass.</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>valid range 0-1.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
-<td><p></p></td>
-<td><p>For annuals (type 3) this value should be high enough to allow maximum potential</p></td>
-</tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
-<td><p>biomass to be attainable over one growing season.</p></td>
+<td><p>For annuals (type 3) this value should be high enough to allow</p></td>
 </tr>
-<tr class="row-even"><td><p>gmax</p></td>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>maximum potential biomass to be attainable over one growing season.</p></td>
+</tr>
+<tr class="row-odd"><td><p>gmax</p></td>
 <td><p>scalar</p></td>
 <td><p>Plant water uptake: maximum specific water uptake (mm g-1 m-2 d-1).</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Proportional to 1/(Water maintenance); from Stewart table 4, grass.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Units: Rietkirk 1997 = (g g-1) d-1; Rietkirk 2002 = mm d-1 m2 g-1.</p></td>
 </tr>
-<tr class="row-odd"><td><p>k1</p></td>
+<tr class="row-even"><td><p>k1</p></td>
 <td><p>scalar</p></td>
 <td><p>Plant water uptake: half-saturation constant of plant growth and water uptake (mm).</p></td>
 </tr>
-<tr class="row-even"><td><p>c</p></td>
+<tr class="row-odd"><td><p>c</p></td>
 <td><p>scalar</p></td>
 <td><p>Plant growth: Rate of water conversion to new biomass (g m-2 mm-1),</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>aka, water-use efficiency.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Units: Rietkirk 1997 = g g-1 d-1; Rietkirk 2002 = g mm-1 m-2.</p></td>
 </tr>
-<tr class="row-odd"><td><p>teff</p></td>
+<tr class="row-even"><td><p>teff</p></td>
 <td><p>vector[4]</p></td>
 <td><p>Parameters to gpdf for temperature effect on growth:</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>1 = Optimum temperature for production; the peak of the curve.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>2 = Maximum temperature for production.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>3 = Spread of the bell curve; smaller values = broader bell shape.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>4 = Left curve shape; smaller values = more production at lower temperatures.</p></td>
 </tr>
-<tr class="row-even"><td><p>k2</p></td>
+<tr class="row-odd"><td><p>k2</p></td>
 <td><p>scalar</p></td>
-<td><p>Infiltration: Rate at which infiltration increases with plant density (g m-2).</p></td>
+<td><p>Infiltration: Rate at which infiltration increases</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>with aboveground biomass (g m-2).</p></td>
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
@@ -1190,11 +1217,27 @@ values.</p>
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
+<td><p>For a non-fixing plant use 0.</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>An N fixer typically will have an intermediate value, e.g., 0.5.</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>Crust that fixes N may be 1.0.</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
 <td><p><strong>Reproducton:</strong></p></td>
 </tr>
-<tr class="row-even"><td><p>DP</p></td>
+<tr class="row-odd"><td><p>DP</p></td>
 <td><p>scalar</p></td>
-<td><p>Plant growth: diffusion: lateral dispersal and propagation (m2 d-1).</p></td>
+<td><p>Plant growth through diffusion: This is the rate of</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>spatial dispersion or vegetation propagation (m2 d-1).</p></td>
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
@@ -1246,7 +1289,7 @@ values.</p>
 </tr>
 <tr class="row-odd"><td><p>d</p></td>
 <td><p>scalar</p></td>
-<td><p>Background mortality rate: loss of plant density due to mortality (fraction d-1).</p></td>
+<td><p>Background mortality rate: loss of biomass due to mortality (fraction d-1).</p></td>
 </tr>
 <tr class="row-even"><td><p>annual</p></td>
 <td><p>vector[4]</p></td>

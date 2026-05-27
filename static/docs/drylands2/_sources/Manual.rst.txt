@@ -210,6 +210,17 @@ In *GNU Octave*, load the package (using its lowercase name):
     warning('off', 'Octave:shadowed-function');
     pkg load drylandslib
 
+If you want to load the DrylandsLib package automatically upon starting
+*GNU Octave*, you can add the ``pkg load`` command to the startup file:
+
+.. code:: MATLAB
+
+    % Open the startup file in the GNU Octave editor:
+    edit '~/.octaverc'
+    % Append the following:
+    pkg load drylandslib
+    % Save and close .octaverc
+
 To view the classes and functions contained in the package,
 display a help page with:
 
@@ -607,22 +618,28 @@ Copy the template file to your work location with the name of the plant
 species, and then open that file in an editor to fill in the parameter
 values.
 
+In the following table, "biomass" refers to aboveground biomass unless
+explicitly stated otherwise.
+
 
 ==================  ===========  =======================================================================================
 Configuration Item  Data Type    Description
 ==================  ===========  =======================================================================================
 name                string       Name of plant species.
-type                scalar       Type of plant: 1 = perennial grass, 2 = shrub, 3 = annual grass or forb
+type                scalar       Type of plant:
+\                   \            1 = perennial grass, 2 = shrub, 3 = annual grass or forb.
 \                   \            **Biomass:**
 Bmax                scalar       Maximum biomass (g/m2).
 bmBgAgRatio         scalar       Ratio of belowground to aboveground biomass.
-bmBgDist            1x3 matrix   Belowground biomass distribution; fraction into each soil layer (sum to 1.0).
+bmBgDist            1x3 matrix   Belowground biomass distribution; fraction in each soil layer
+\                   \            (fractions must sum to 1.0).
 bmThreshold         scalar       Minimum biomass fraction (< 1.0) of Bmax for cell to be considered vegetated.
 \                   \            **Growth:**
-rmax                scalar       Limiting daily growth rate (maximum daily new biomass as fraction of current biomass);
+rmax                scalar       Limiting daily growth rate;
+\                   \            this is the maximum daily new biomass as fraction of current biomass.
 \                   \            valid range 0-1.
-\                   \            For annuals (type 3) this value should be high enough to allow maximum potential
-\                   \            biomass to be attainable over one growing season.
+\                   \            For annuals (type 3) this value should be high enough to allow
+\                   \            maximum potential biomass to be attainable over one growing season.
 gmax                scalar       Plant water uptake: maximum specific water uptake (mm g-1 m-2 d-1).
 \                   \            Proportional to 1/(Water maintenance); from Stewart table 4, grass.
 \                   \            Units: Rietkirk 1997 = (g g-1) d-1; Rietkirk 2002 = mm d-1 m2 g-1.
@@ -635,15 +652,20 @@ teff                vector[4]    Parameters to gpdf for temperature effect on gr
 \                   \            2 = Maximum temperature for production.
 \                   \            3 = Spread of the bell curve; smaller values = broader bell shape.
 \                   \            4 = Left curve shape; smaller values = more production at lower temperatures.
-k2                  scalar       Infiltration: Rate at which infiltration increases with plant density (g m-2).
+k2                  scalar       Infiltration: Rate at which infiltration increases
+\                   \            with aboveground biomass (g m-2).
 \                   \            **Nitrogen:**
 CN                  scalar       Nitrogen: Average aboveground C:N of biomass for this plant (gC/gN).
 cNmax               scalar       Nitrogen: Maximum daily N uptake as fraction of plant biomass; valid range = 0-1.
 \                   \            Typically ``cNmax = (c*gmax)/C:N``. Units = gN gC-1 d-1.
 maintN              scalar       Nitrogen daily maintenance requirement (gN gBiomass-1 d-1).
 NfixFrac            scalar       Proportion of plant N demand that will come from fixed N; valid range = 0-1.
+\                   \            For a non-fixing plant use 0.
+\                   \            An N fixer typically will have an intermediate value, e.g., 0.5.
+\                   \            Crust that fixes N may be 1.0.
 \                   \            **Reproducton:**
-DP                  scalar       Plant growth: diffusion: lateral dispersal and propagation (m2 d-1).
+DP                  scalar       Plant growth through diffusion: This is the rate of
+\                   \            spatial dispersion or vegetation propagation (m2 d-1).
 \                   \            Valid range is 0-1.
 E                   scalar       Proportion of biomass effort for vegetative (non-seeded) propagation (0-1);
 \                   \            ``1-E`` = proportion of effort for seeded propagation (0-1).
@@ -656,7 +678,7 @@ bmMaxRepro          scalar       Fraction of maximum biomass (Bmax) per cell bel
 \                   \            seed reproduction can occur (0-1).
 Kg                  scalar       Constant germination rate == probability of germination (0-1).
 **mortality**       struct       **Mortality configuration:**
-d                   scalar       Background mortality rate: loss of plant density due to mortality (fraction d-1).
+d                   scalar       Background mortality rate: loss of biomass due to mortality (fraction d-1).
 annual              vector[4]    Annual mortality for perennial plants and shrubs.
 \                   \            These are logistic function parameters ``[a, b, c, d]``, where
 \                   \            ``a`` = maximum (0-1), ``b`` = modifies inflection point (e.g., 0.005),
