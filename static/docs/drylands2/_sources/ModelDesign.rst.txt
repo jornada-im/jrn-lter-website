@@ -736,8 +736,15 @@ Vegetative Propagation
 A dispersion term in the growth equations is used for vegetative propagation
 (Reitkerk et al., 2002)[2_]. Originally implemented as the dispersion term
 in the equation for daily change in aboveground biomass (prior to model
-version 7), now it is an annual propagation calculation alongside seed
-dispersal.
+version 7), now it can also be an annual propagation calculation alongside
+seed dispersal. A constant property in class **Constants** specifies if
+daily or annual dispersion is used:
+
+.. code:: MATLAB
+
+    % diffusive growth DP*(L*P):
+    % If true, use annual algorithm; if false, daily.
+    plantDPannual = true;
 
 The original dispersion term is::
 
@@ -750,11 +757,16 @@ The annual implementation incorporates new plant parameters:
 **plant.E** (proportion of effort for vegetative propagation )
 and **plant.Kr** (reproduction fraction per unit new biomass)::
 
-    Dp * L(E * Kr * P) / dx^2
+    Dp * L * (E * Kr * P) / dx^2
 
-Conceptually, the original ``Dp`` could be considered to include ``Kr`` in
-its value, and originally ``E`` is implicitly 1. In this new term, values
-for ``Dp`` may need to be adjusted to account for ``Kr`` and ``E``.
+In the implementation, the configuration ``Dp`` is modified to include ``Kr``
+and ``E`` in its value. (Here, ``dx^2`` is always 1.0 m2).
+
+Growing season days are counted where plant AGBM exceeds a minimum fraction
+of plant parameter **Bmax** (See the property
+**Constants.plantDPannThreshold**). The maximum daily growth (parameter
+**rmax**) is multiplied by this count to get the amount of biomass
+contributing to annual vegetative reproduction.
 
 On the first day of the growing season, the annual change in aboveground
 biomass due to vegetative propagation is calculated with this dispersion
@@ -1170,6 +1182,7 @@ Revision Date        Model Version        Description
 \                    \                    new plant type annual grass or forb.
 2026.02              7.x                  Describe new algorithm for annual mortality, and improve
 \                    \                    the description of other mortality algorithms.
+2026.06              8.0                  Expand description in `Vegetative Propagation`_.
 ===================  ===================  ==========================================================
 
 

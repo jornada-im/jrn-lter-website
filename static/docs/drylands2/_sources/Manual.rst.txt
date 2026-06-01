@@ -629,7 +629,7 @@ name                string       Name of plant species.
 type                scalar       Type of plant:
 \                   \            1 = perennial grass, 2 = shrub, 3 = annual grass or forb.
 \                   \            **Biomass:**
-Bmax                scalar       Maximum biomass (g/m2).
+Bmax                scalar       Maximum biomass for this plant (g/m2).
 bmBgAgRatio         scalar       Ratio of belowground to aboveground biomass.
 bmBgDist            1x3 matrix   Belowground biomass distribution; fraction in each soil layer
 \                   \            (fractions must sum to 1.0).
@@ -1363,25 +1363,27 @@ where biomass per plant at least the threshold minimum biomass per cell.
 .. table:: Drylands2 Time-Series Grid-Average Output Variables
    :align: left
 
-============   ============================================
+============   ==================================================
 CSV variable   Description
-============   ============================================
+============   ==================================================
 time           simulation day number
 year           year
 doy            day-of-year
-R              precipitation (mm)
-I              infiltration (mm)
-WL             soil water loss (mm)
-U              soil water plant uptake (mm)
+R              precipitation (mm/day)
+I              infiltration (mm/day)
+WL             soil water loss (mm/day)
+U              soil water plant uptake (mm/day)
 O              surface water (mm)
 W              soil water content (mm)
 N              soil nitrogen content (g/m2)
+G              total daily growth (g/m2/day)
 Pseed          total biomass of germinated seed (g/m2)
-Pd             total aboveground biomass mortality (g/m2)
+Pd             total aboveground biomass mortality (g/m2/day)
 Nt             cell count >= bmThreshold * Bmax
 P              total aboveground biomass (g/m2)
 [plant name]   aboveground biomass for one plant (g/m2)
-============   ============================================
+============   ==================================================
+
 
 Any of the usual office suite spreadsheet applications will open a CSV file.
 You can read these files into *GNU Octave*[3_] using **csvread** from the
@@ -1810,6 +1812,7 @@ Revision Date        Model Version        Description
 2026.03              8.0                  Expand info in `Examining Simulation Results`_.
 2026.04              8.0                  Misc. corrections in `Model Configuration`_.
 \                    \                    Add new plant paramter ``NfixFrac``.
+\                    \                    Update table of output variables in `Time Series Files`_.
 ===================  ===================  ===============================================================
 
 

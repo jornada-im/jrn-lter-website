@@ -1093,7 +1093,7 @@ explicitly stated otherwise.</p>
 </tr>
 <tr class="row-even"><td><p>Bmax</p></td>
 <td><p>scalar</p></td>
-<td><p>Maximum biomass (g/m2).</p></td>
+<td><p>Maximum biomass for this plant (g/m2).</p></td>
 </tr>
 <tr class="row-odd"><td><p>bmBgAgRatio</p></td>
 <td><p>scalar</p></td>
@@ -2416,16 +2416,16 @@ where biomass per plant at least the threshold minimum biomass per cell.</p>
 <td><p>day-of-year</p></td>
 </tr>
 <tr class="row-odd"><td><p>R</p></td>
-<td><p>precipitation (mm)</p></td>
+<td><p>precipitation (mm/day)</p></td>
 </tr>
 <tr class="row-even"><td><p>I</p></td>
-<td><p>infiltration (mm)</p></td>
+<td><p>infiltration (mm/day)</p></td>
 </tr>
 <tr class="row-odd"><td><p>WL</p></td>
-<td><p>soil water loss (mm)</p></td>
+<td><p>soil water loss (mm/day)</p></td>
 </tr>
 <tr class="row-even"><td><p>U</p></td>
-<td><p>soil water plant uptake (mm)</p></td>
+<td><p>soil water plant uptake (mm/day)</p></td>
 </tr>
 <tr class="row-odd"><td><p>O</p></td>
 <td><p>surface water (mm)</p></td>
@@ -2436,19 +2436,22 @@ where biomass per plant at least the threshold minimum biomass per cell.</p>
 <tr class="row-odd"><td><p>N</p></td>
 <td><p>soil nitrogen content (g/m2)</p></td>
 </tr>
-<tr class="row-even"><td><p>Pseed</p></td>
+<tr class="row-even"><td><p>G</p></td>
+<td><p>total daily growth (g/m2/day)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Pseed</p></td>
 <td><p>total biomass of germinated seed (g/m2)</p></td>
 </tr>
-<tr class="row-odd"><td><p>Pd</p></td>
-<td><p>total aboveground biomass mortality (g/m2)</p></td>
+<tr class="row-even"><td><p>Pd</p></td>
+<td><p>total aboveground biomass mortality (g/m2/day)</p></td>
 </tr>
-<tr class="row-even"><td><p>Nt</p></td>
+<tr class="row-odd"><td><p>Nt</p></td>
 <td><p>cell count &gt;= bmThreshold * Bmax</p></td>
 </tr>
-<tr class="row-odd"><td><p>P</p></td>
+<tr class="row-even"><td><p>P</p></td>
 <td><p>total aboveground biomass (g/m2)</p></td>
 </tr>
-<tr class="row-even"><td><p>[plant name]</p></td>
+<tr class="row-odd"><td><p>[plant name]</p></td>
 <td><p>aboveground biomass for one plant (g/m2)</p></td>
 </tr>
 </tbody>
@@ -2856,6 +2859,10 @@ arid ecosystems. American Naturalist 160:524–530. <a class="reference external
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Add new plant paramter <code class="docutils literal notranslate"><span class="pre">NfixFrac</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>Update table of output variables in <a class="reference internal" href="#time-series-files">Time Series Files</a>.</p></td>
 </tr>
 </tbody>
 </table>
