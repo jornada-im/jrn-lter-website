@@ -1004,7 +1004,7 @@ boolean switches (<em>true</em> = produce graph, <em>false</em> = do not produce
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
-<td><p>or a string from [“first”, “last”, “annual”, “decadal”].</p></td>
+<td><p>or a string from [“first”, “last”, “monthly”, “annual”, “decadal”].</p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
@@ -3170,7 +3170,7 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="nt">    # Schedule for maps</span><span class="p">:</span><span class="w"> </span><span class="nv">used if doResultsMaps == true.</span>
 <span class="w">    </span><span class="c1"># Enter a vector of time numbers and/or strings.</span>
 <span class="w">    </span><span class="c1"># Schedule times can be a day number (&gt; zero &amp;&amp; &lt;= simTime),</span>
-<span class="w">    </span><span class="c1"># or a string from [&quot;first&quot;, &quot;last&quot;, &quot;annual&quot;, &quot;decadal&quot;]</span>
+<span class="w">    </span><span class="c1"># or a string from [&quot;first&quot;, &quot;last&quot;, &quot;monthly&quot;, &quot;annual&quot;, &quot;decadal&quot;]</span>
 <span class="nt">    # example</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;first&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">365</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;last&quot;</span><span class="p p-Indicator">]</span>
 <span class="nt">    # example</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">100</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">200</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;annual&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">    </span><span class="s">&quot;mapSchedule&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">30</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">60</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">365</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;decadal&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;last&quot;</span><span class="p p-Indicator">],</span>

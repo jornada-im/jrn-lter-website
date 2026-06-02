@@ -577,7 +577,7 @@ doResultsMaps       logical    Maps of results; one page of biomass, soil water 
 mapSchedule         vector     Schedule for maps: used if doResultsMaps == true.
 \                   \          Enter a vector of time numbers and/or strings.
 \                   \          Schedule times can be a day number (> zero && <= simTime),
-\                   \          or a string from ["first", "last", "annual", "decadal"].
+\                   \          or a string from ["first", "last", "monthly", "annual", "decadal"].
 \                   \          Example: ["first", 365, "last"]
 \                   \          Example: [1, 100, 200, "annual"]
 mapOriginAtTop      logical    Is the origin of maps at top-left? If false, is at lower-left.
@@ -2089,7 +2089,7 @@ Additional configuration files (``*.json``) are provided in the
         # Schedule for maps: used if doResultsMaps == true.
         # Enter a vector of time numbers and/or strings.
         # Schedule times can be a day number (> zero && <= simTime),
-        # or a string from ["first", "last", "annual", "decadal"]
+        # or a string from ["first", "last", "monthly", "annual", "decadal"]
         # example: ["first", 365, "last"]
         # example: [1, 100, 200, "annual"]
         "mapSchedule": [1, 30, 60, 365, "decadal", "last"],
