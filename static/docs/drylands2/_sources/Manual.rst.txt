@@ -66,6 +66,12 @@ New algorithms beyond the original model include:
 * **Version 7** adds seed dispersal propagation, and annual plant type.
   A new sweep subsystem can sweep any configuration parameter.
   Adds an annual mortality algorithm for perennial plants and shrubs.
+* **Version 8** allows growth via diffusive spatial propagation to be done annually.
+  Daily time series CSV output has additional variables.
+  There are additions to the N cycle:
+  N fixation can be specified for N fixing plant types;
+  N in litter is redistributed due to wind;
+  soil N diffuses laterally.
 
 A configuration file in JSON format controls the simulation.
 Input is daily precipitation, temperature, N atmospheric deposition, and
@@ -781,6 +787,7 @@ NAtmDep             scalar       boolean: N atmospheric deposition( daily total 
 aeolian             scalar       boolean: Aeolian submodel.
 annualMor           scalar       boolean: Annual plant mortality.
 mounds              scalar       boolean: Mounds submodel.
+litterNredistrib    scalar       boolean: Do litter N spatial redistribution?
 ==================  ===========  ========================================================================================
 
 
@@ -1813,6 +1820,7 @@ Revision Date        Model Version        Description
 2026.04              8.0                  Misc. corrections in `Model Configuration`_.
 \                    \                    Add new plant paramter ``NfixFrac``.
 \                    \                    Update table of output variables in `Time Series Files`_.
+2026.06              8.0                  Add parameters for litter N redistribution and N fluxes.
 ===================  ===================  ===============================================================
 
 
@@ -2316,7 +2324,9 @@ Additional configuration files (``*.json``) are provided in the
           # infiltration switch: currently not used
           "infiltration": true,
           # WaterStress switch: currently not used
-          "waterStress": true
+          "waterStress": true,
+          # do litter N spatial redistribution
+          "litterNredistrib": true
         }
       },
       #

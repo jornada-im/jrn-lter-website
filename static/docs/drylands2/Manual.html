@@ -413,6 +413,12 @@ configure this submodel, and for plants, their response to aeolian stress.</p></
 <li><p><strong>Version 7</strong> adds seed dispersal propagation, and annual plant type.
 A new sweep subsystem can sweep any configuration parameter.
 Adds an annual mortality algorithm for perennial plants and shrubs.</p></li>
+<li><p><strong>Version 8</strong> allows growth via diffusive spatial propagation to be done annually.
+Daily time series CSV output has additional variables.
+There are additions to the N cycle:
+N fixation can be specified for N fixing plant types;
+N in litter is redistributed due to wind;
+soil N diffuses laterally.</p></li>
 </ul>
 <p>A configuration file in JSON format controls the simulation.
 Input is daily precipitation, temperature, N atmospheric deposition, and
@@ -1641,6 +1647,10 @@ parameter <strong>beta</strong>, or maximum convection rate.</p>
 <td><p>scalar</p></td>
 <td><p>boolean: Mounds submodel.</p></td>
 </tr>
+<tr class="row-even"><td><p>litterNredistrib</p></td>
+<td><p>scalar</p></td>
+<td><p>boolean: Do litter N spatial redistribution?</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -2864,6 +2874,10 @@ arid ecosystems. American Naturalist 160:524–530. <a class="reference external
 <td><p></p></td>
 <td><p>Update table of output variables in <a class="reference internal" href="#time-series-files">Time Series Files</a>.</p></td>
 </tr>
+<tr class="row-even"><td><p>2026.06</p></td>
+<td><p>8.0</p></td>
+<td><p>Add parameters for litter N redistribution and N fluxes.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -3397,7 +3411,9 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="nt">      # infiltration switch</span><span class="p">:</span><span class="w"> </span><span class="nv">currently not used</span>
 <span class="w">      </span><span class="nv">&quot;infiltration&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">,</span>
 <span class="nt">      # WaterStress switch</span><span class="p">:</span><span class="w"> </span><span class="nv">currently not used</span>
-<span class="w">      </span><span class="nv">&quot;waterStress&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span>
+<span class="w">      </span><span class="nv">&quot;waterStress&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="c1"># do litter N spatial redistribution</span>
+<span class="w">      </span><span class="s">&quot;litterNredistrib&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span>
 <span class="w">    </span><span class="p p-Indicator">}</span>
 <span class="w">  </span><span class="p p-Indicator">},</span>
 <span class="w">  </span><span class="c1">#</span>

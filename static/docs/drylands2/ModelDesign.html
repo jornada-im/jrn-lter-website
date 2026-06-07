@@ -334,7 +334,7 @@
 </li>
 <li><p><a class="reference internal" href="#sweeps" id="id47">Sweeps</a></p></li>
 <li><p><a class="reference internal" href="#trials" id="id48">Trials</a></p></li>
-<li><p><a class="reference internal" href="#changes-to-algorithms" id="id49">Changes to Algorithms</a></p>
+<li><p><a class="reference internal" href="#history-of-model-development" id="id49">History of Model Development</a></p>
 <ul>
 <li><p><a class="reference internal" href="#version-1" id="id50">Version 1</a></p></li>
 <li><p><a class="reference internal" href="#version-2" id="id51">Version 2</a></p></li>
@@ -373,29 +373,8 @@
 landscape. Based upon the model of Rietkirk et al (1997, 2002), with the
 addition of mounds by Niall Hanan and Matthew Biesecker, and several new
 algorithms.</p>
-<p>There are several changes to algorithms from the original model, including:</p>
-<ul class="simple">
-<li><p>There are multiple (3) soil layers for soil water content.</p></li>
-<li><p>Existing algorithms were modified to use a layered soil profile.</p></li>
-<li><p>Growth follows a logistic equation, limited by soil water and temperature.</p></li>
-<li><p>Field capacity and wilting constrain soil water infiltration, uptake and losses.</p></li>
-<li><p>Evaporation from the surface soil layer.</p></li>
-<li><p>New classes manage plant aboveground and root biomass calculations.</p></li>
-<li><p>Version 2 includes the ability to have multiple plant species with resource
-competition.</p></li>
-<li><p>Version 3 adds nitrogen atmospheric deposition and plant N uptake.</p></li>
-<li><p>Version 4 has a new biomass mortality algorithm based upon stress due to
-insufficient plant-available soil water over a fixed time period.</p></li>
-<li><p>Version 5 has a new algorithm for N maintenance uptake.
-Also has a new output option for matrix time series output containing spatial changes.
-Finally, several functions and classes that are not model-specific have been
-moved into the DrylandsLib package.</p></li>
-<li><p>Version 6 has a new aeolian submodel for effects upon plant mortality and
-growth due to aeolian erosion and deposition.</p></li>
-<li><p>Version 7 adds seed dispersal propagation, and annual plant type.
-A new sweep subsystem can sweep any configuration parameter.
-Adds an annual mortality algorithm for perennial plants and shrubs.</p></li>
-</ul>
+<p>There are several changes to algorithms from the original model.
+See the section <a class="reference internal" href="#history-of-model-development">History of Model Development</a> for details.</p>
 <p>A configuration file in JSON[<a class="reference internal" href="#id7">6</a>] format controls the simulation.
 Input is daily precipitation, temperature, N atmospheric deposition, and
 wind data from CSV files.
@@ -722,10 +701,14 @@ controls the amount of soil water per grid cell.</p>
 </section>
 <section id="nitrogen-fluxes">
 <h3><a class="toc-backref" href="#id30" role="doc-backlink">Nitrogen Fluxes</a><a class="headerlink" href="#nitrogen-fluxes" title="Link to this heading">¶</a></h3>
-<p>Version 3 provides for N atmospheric deposition as an input flux, plant
+<p>Nitrogen fluxes include N atmospheric deposition as an input flux, plant
 uptake of N for growth, with decomposition of plant material returning N to
-the soil. This flux does not include aeolian deposition. Version 5 adds
-N uptake demand for daily maintenance of above and belowground biomass.</p>
+the soil. Plants have an N uptake demand for daily maintenance of above and
+belowground biomass.</p>
+<p>Before N from decomposed litter (i.e., biomass from mortality) enters the
+soil N pool, it may be spatially redistributed if the wind speed for the day
+is high enough. However, direct aeolian deposition as input to the grid is
+not included.</p>
 <p>The growth algorithm calculates new biomass due to available soil N, and
 includes that as one of the limiting amounts in potential growth. See
 <a class="reference internal" href="#growth">Growth</a> for a description of the algorithm.</p>
@@ -763,7 +746,9 @@ Added in version 5.</p>
 <div><p>Proportion of plant N demand that will come from fixed N.</p>
 </div></blockquote>
 <p>Functions and classes that manage N fluxes include
-<strong>input/NAtmDep</strong>, <strong>getNAtmDep</strong>, and <strong>SoilNEq</strong>.</p>
+<strong>input/NAtmDep</strong>, <strong>getNAtmDep</strong>, <strong>SoilNEq</strong>, <strong>NLitterRedist</strong>.</p>
+<p>A diagram illustrating N fluxes in the model is in the files
+<em>NFluxesDiagram.fodg/pdf/png</em>.</p>
 <section id="id1">
 <h4><a class="toc-backref" href="#id31" role="doc-backlink">Initialization</a><a class="headerlink" href="#id1" title="Link to this heading">¶</a></h4>
 <p>Initial soil plant-available N is specified in the configuration parameter
@@ -852,7 +837,7 @@ forb.</p>
 </dl>
 </li>
 </ul>
-<p>Implementation of plants is in classes <strong>Plant</strong> and <strong>Roots</strong>.
+<p>Implementation of plants is in classes <strong>Plant</strong>, <strong>Roots</strong> and <strong>Seed</strong>.
 For a diagram of functional and class relationships, see the
 UML class diagram in <code class="docutils literal notranslate"><span class="pre">doc/class-diagram-Plant.png</span></code></p>
 </section>
@@ -1232,8 +1217,8 @@ and one random input or parameter.
 All simulations in trials use the same initial values for state variables.</p>
 <p>See the document <em>Manual</em> for details about trials configuration parameters.</p>
 </section>
-<section id="changes-to-algorithms">
-<h3><a class="toc-backref" href="#id49" role="doc-backlink">Changes to Algorithms</a><a class="headerlink" href="#changes-to-algorithms" title="Link to this heading">¶</a></h3>
+<section id="history-of-model-development">
+<h3><a class="toc-backref" href="#id49" role="doc-backlink">History of Model Development</a><a class="headerlink" href="#history-of-model-development" title="Link to this heading">¶</a></h3>
 <p>Some of the algorithms Rietkerk et al (2002) have been modified,
 and some new algorithms added. See the document <em>ModelEquations</em>
 for equation details.</p>
@@ -1303,8 +1288,11 @@ in the multiple simulations. Mounds simulations generate a mounds map.</p></li>
 <li><p>Growth via diffusive spatial propagation can now be done annually.
 See logical variable <code class="docutils literal notranslate"><span class="pre">Constants.plantDPannual</span></code>.</p></li>
 <li><p>Sweep subsystem: Sweep parameter can now be an element of a vector.</p></li>
+<li><p>Daily time series CSV output has additional variables.</p></li>
 <li><p>N fixation for N fixing plant types.
 New <strong>plant</strong> configuration item <strong>NfixFrac</strong>.</p></li>
+<li><p>N in litter is redistributed due to wind.</p></li>
+<li><p>Soil N diffuses laterally.</p></li>
 </ul>
 </section>
 </section>
@@ -1431,6 +1419,10 @@ Soil Sci. Soc. Am. J., 70: 1569-1578.
 <tr class="row-odd"><td><p>2026.06</p></td>
 <td><p>8.0</p></td>
 <td><p>Expand description in <a class="reference internal" href="#vegetative-propagation">Vegetative Propagation</a>.</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>Add description of litter N spatial redistribution.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1796,7 +1788,7 @@ with dimensions <code class="docutils literal notranslate"><span class="pre">[nu
 </li>
 <li><a class="reference internal" href="#sweeps">Sweeps</a></li>
 <li><a class="reference internal" href="#trials">Trials</a></li>
-<li><a class="reference internal" href="#changes-to-algorithms">Changes to Algorithms</a><ul>
+<li><a class="reference internal" href="#history-of-model-development">History of Model Development</a><ul>
 <li><a class="reference internal" href="#version-1">Version 1</a></li>
 <li><a class="reference internal" href="#version-2">Version 2</a></li>
 <li><a class="reference internal" href="#version-3">Version 3</a></li>
