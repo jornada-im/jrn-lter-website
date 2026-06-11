@@ -762,6 +762,8 @@ c                   scalar       Evaporation: Displacement of the inflection poi
 \                   \            smaller values shift left.
 Emr                 scalar       Evaporation: Slope at inflection point; proportional to the maximum change in
 \                   \            evaporation with biomass. E.g., ``Emr = K * (Epot - E0) / Bmax``
+Nsmf                vector       Fraction of plant-available soil N that can be transported by soil water diffusion
+\                   \            (one value per layer: g/m2).
 **aeolian**         \            **Aeolian submodel configuration:**
 maxDailyFlux        scalar       Maximum daily aeolian sediment flux (g/m/day).
 \                   \            E.g., from From Alvarez et al (2012), figure 8b, or
@@ -1820,7 +1822,8 @@ Revision Date        Model Version        Description
 2026.04              8.0                  Misc. corrections in `Model Configuration`_.
 \                    \                    Add new plant paramter ``NfixFrac``.
 \                    \                    Update table of output variables in `Time Series Files`_.
-2026.06              8.0                  Add parameters for litter N redistribution and N fluxes.
+2026.06              8.0                  Add parameters for litter N redistribution, N fluxes, and
+\                    \                    soil N diffusion.
 ===================  ===================  ===============================================================
 
 
@@ -2256,7 +2259,9 @@ Additional configuration files (``*.json``) are provided in the
             "c": 40.0,
             # Evaporation: Slope at inflection point; proportional to the maximum change in evaporation with biomass.
             # E.g., Emr = K * (Epot - E0) / Bmax
-            "Emr": 0.033
+            "Emr": 0.033,
+            # Fraction of plant-available soil N that can be transported by soil water (per layer: g/m2)
+            "Nsmf": [0.3, 0.2, 0.1]
         },
         # Aeolian submodel parameters
         "aeolian": {

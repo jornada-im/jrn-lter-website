@@ -1547,6 +1547,14 @@ parameter <strong>beta</strong>, or maximum convection rate.</p>
 <td><p></p></td>
 <td><p>evaporation with biomass. E.g., <code class="docutils literal notranslate"><span class="pre">Emr</span> <span class="pre">=</span> <span class="pre">K</span> <span class="pre">*</span> <span class="pre">(Epot</span> <span class="pre">-</span> <span class="pre">E0)</span> <span class="pre">/</span> <span class="pre">Bmax</span></code></p></td>
 </tr>
+<tr class="row-odd"><td><p>Nsmf</p></td>
+<td><p>vector</p></td>
+<td><p>Fraction of plant-available soil N that can be transported by soil water diffusion</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>(one value per layer: g/m2).</p></td>
+</tr>
 <tr class="row-odd"><td><p><strong>aeolian</strong></p></td>
 <td><p></p></td>
 <td><p><strong>Aeolian submodel configuration:</strong></p></td>
@@ -2876,7 +2884,11 @@ arid ecosystems. American Naturalist 160:524–530. <a class="reference external
 </tr>
 <tr class="row-even"><td><p>2026.06</p></td>
 <td><p>8.0</p></td>
-<td><p>Add parameters for litter N redistribution and N fluxes.</p></td>
+<td><p>Add parameters for litter N redistribution, N fluxes, and</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>soil N diffusion.</p></td>
 </tr>
 </tbody>
 </table>
@@ -3343,7 +3355,9 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="w">        </span><span class="nv">&quot;c&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">40.0</span><span class="p p-Indicator">,</span>
 <span class="nt">        # Evaporation</span><span class="p">:</span><span class="w"> </span><span class="nv">Slope at inflection point; proportional to the maximum change in evaporation with biomass.</span>
 <span class="w">        </span><span class="c1"># E.g., Emr = K * (Epot - E0) / Bmax</span>
-<span class="w">        </span><span class="s">&quot;Emr&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.033</span>
+<span class="w">        </span><span class="s">&quot;Emr&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.033</span><span class="p p-Indicator">,</span>
+<span class="nt">        # Fraction of plant-available soil N that can be transported by soil water (per layer</span><span class="p">:</span><span class="w"> </span><span class="nv">g/m2)</span>
+<span class="w">        </span><span class="nv">&quot;Nsmf&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.1</span><span class="p p-Indicator">]</span>
 <span class="w">    </span><span class="p p-Indicator">},</span>
 <span class="w">    </span><span class="c1"># Aeolian submodel parameters</span>
 <span class="w">    </span><span class="s">&quot;aeolian&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
