@@ -374,10 +374,13 @@ landscape. Based upon the model of Rietkirk et al (1997, 2002), with the
 addition of mounds by Niall Hanan and Matthew Biesecker, and several new
 algorithms.</p>
 <p>There are several changes to algorithms from the original model.
-See the section <a class="reference internal" href="#history-of-model-development">History of Model Development</a> for details.</p>
-<p>A configuration file in JSON[<a class="reference internal" href="#id7">6</a>] format controls the simulation.
+See the section <a class="reference internal" href="#history-of-model-development">History of Model Development</a> for details.
+The <em>Introduction</em> in the document <em>Manual</em> summarizes the architecture and
+algorithms of this model.</p>
+<p>A simulation is configured and controlled by a configuration file in
+JSON[<a class="reference internal" href="#id7">6</a>] format.
 Input is daily precipitation, temperature, N atmospheric deposition, and
-wind data from CSV files.
+wind data, either as constant daily values, or daily data from CSV files.
 Output options include map images at specified times, netCDF grid time
 series, and grid-average time series for state variables saved to a CSV file.</p>
 <p>GNU Octave language is used for the model implementation, and a few GNU
@@ -701,10 +704,18 @@ controls the amount of soil water per grid cell.</p>
 </section>
 <section id="nitrogen-fluxes">
 <h3><a class="toc-backref" href="#id30" role="doc-backlink">Nitrogen Fluxes</a><a class="headerlink" href="#nitrogen-fluxes" title="Link to this heading">¶</a></h3>
+<p>Nitrogen cycle elements are atmospheric deposition; plant uptake, fixation,
+and decomposition; spatial redistribution of litter due to aeolian effects;
+and lateral diffusion of soil N.
+See the diagram <em>NFluxesDiagram</em> for a visual description of the N cycle
+implementation.</p>
 <p>Nitrogen fluxes include N atmospheric deposition as an input flux, plant
 uptake of N for growth, with decomposition of plant material returning N to
 the soil. Plants have an N uptake demand for daily maintenance of above and
 belowground biomass.</p>
+<p>Spatial movement of N occurs through diffusion of soil N with soil water,
+redistribution of litter from wind followed by decomposition, and
+through biomass with plant propagation.</p>
 <p>Before N from decomposed litter (i.e., biomass from mortality) enters the
 soil N pool, it may be spatially redistributed if the wind speed for the day
 is high enough. However, direct aeolian deposition as input to the grid is
@@ -744,6 +755,11 @@ Added in version 5.</p>
 <p><strong>plant(*).NfixFrac</strong></p>
 <blockquote>
 <div><p>Proportion of plant N demand that will come from fixed N.</p>
+</div></blockquote>
+<p><strong>model.params.Nsmf</strong></p>
+<blockquote>
+<div><p>Fraction of plant-available soil N that can be transported
+by soil water diffusion (one value per layer: g/m2).</p>
 </div></blockquote>
 <p>Functions and classes that manage N fluxes include
 <strong>input/NAtmDep</strong>, <strong>getNAtmDep</strong>, <strong>SoilNEq</strong>, <strong>NLitterRedist</strong>.</p>
@@ -1252,7 +1268,8 @@ algorithms for plant uptake of N for growth.</p></li>
 <section id="version-4">
 <h4><a class="toc-backref" href="#id53" role="doc-backlink">Version 4</a><a class="headerlink" href="#version-4" title="Link to this heading">¶</a></h4>
 <ul class="simple">
-<li><p>Added algorithms for plant mortality due to soil water stress.</p></li>
+<li><p>Added algorithms for plant mortality due to soil water stress
+due to insufficient plant-available soil water over a fixed time period.</p></li>
 </ul>
 </section>
 <section id="version-5">
@@ -1268,7 +1285,8 @@ moved into the DrylandsLib package.</p></li>
 <h4><a class="toc-backref" href="#id55" role="doc-backlink">Version 6</a><a class="headerlink" href="#version-6" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>A new aeolian submodel simulations the effects upon plant mortality due to
-aeolian erosion and deposition.</p></li>
+aeolian erosion and deposition. The model configuration has new sections to
+configure this submodel, and for plants, their response to aeolian stress.</p></li>
 <li><p>Mounds, sweeps and trials use constant initialization for state variables
 in the multiple simulations. Mounds simulations generate a mounds map.</p></li>
 </ul>
@@ -1277,7 +1295,7 @@ in the multiple simulations. Mounds simulations generate a mounds map.</p></li>
 <h4><a class="toc-backref" href="#id56" role="doc-backlink">Version 7</a><a class="headerlink" href="#version-7" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>New sweep subsystem can sweep any configuration parameter.</p></li>
-<li><p>Adds algorithm for propagation by way of seed dispersal and germination.</p></li>
+<li><p>Adds algorithm for annual propagation by way of seed dispersal and germination.</p></li>
 <li><p>New plant type: annual grass or forb.</p></li>
 <li><p>New annual mortality algorithm for perennial plants and shrubs.</p></li>
 </ul>
@@ -1289,10 +1307,16 @@ in the multiple simulations. Mounds simulations generate a mounds map.</p></li>
 See logical variable <code class="docutils literal notranslate"><span class="pre">Constants.plantDPannual</span></code>.</p></li>
 <li><p>Sweep subsystem: Sweep parameter can now be an element of a vector.</p></li>
 <li><p>Daily time series CSV output has additional variables.</p></li>
-<li><p>N fixation for N fixing plant types.
-New <strong>plant</strong> configuration item <strong>NfixFrac</strong>.</p></li>
+<li><dl class="simple">
+<dt>Additions to the N cycle:</dt><dd><ul>
+<li><p>N fixation for N fixing plant types, using a
+new <strong>plant</strong> configuration item <strong>NfixFrac</strong>.</p></li>
 <li><p>N in litter is redistributed due to wind.</p></li>
 <li><p>Soil N diffuses laterally.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
 </ul>
 </section>
 </section>
