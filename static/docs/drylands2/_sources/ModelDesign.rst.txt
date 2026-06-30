@@ -1082,9 +1082,13 @@ Version 7
 `````````
 
 * New sweep subsystem can sweep any configuration parameter.
+  See the *Manual* for a description.
 * Adds algorithm for annual propagation by way of seed dispersal and germination.
 * New plant type: annual grass or forb.
 * New annual mortality algorithm for perennial plants and shrubs.
+* New ``tools/verifyAll`` and ``tools/runAll`` to help with many simulations.
+* New ``tools/plotSweepTimeSeries`` function for graphing sweep CSV files.
+* New ``tools/plotNcGridTSVars`` function for graphing per-cell state variables.
 
 Version 8
 `````````
@@ -1094,10 +1098,11 @@ Version 8
 * Sweep subsystem: Sweep parameter can now be an element of a vector.
 * Daily time series CSV output has additional variables.
 * Additions to the N cycle:
-    - N fixation for N fixing plant types, using a
-      new **plant** configuration item **NfixFrac**.
-    - N in litter is redistributed due to wind.
-    - Soil N diffuses laterally.
+  - N fixation for N fixing plant types, using a
+    new **plant** configuration item **NfixFrac**.
+  - N in litter is redistributed due to wind.
+  - Soil N diffuses laterally with soil water diffusion.
+
 
 
 See Also
@@ -1124,6 +1129,15 @@ Descripton of the aeolian submodel.
 demonstrating equations used in these algorithms.
 
 *ModifyingModel.pdf* or *ModifyingModel.html*, source: *ModifyingModel.rst*
+
+
+
+Acknowledgments
+================
+
+This material is based upon work supported by the National Science
+Foundation under Grant No. 2425143.
+
 
 
 Bibliography
@@ -1195,6 +1209,7 @@ Revision Date        Model Version        Description
 \                    \                    the description of other mortality algorithms.
 2026.06              8.0                  Expand description in `Vegetative Propagation`_.
 \                    \                    Add description of litter N spatial redistribution.
+\                    \                    Added Acknowledgments section.
 ===================  ===================  ==========================================================
 
 

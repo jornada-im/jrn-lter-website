@@ -1758,6 +1758,15 @@ To view help in *GNU Octave*:
 
 
 
+
+Acknowledgments
+================
+
+This material is based upon work supported by the National Science
+Foundation under Grant No. 2425143.
+
+
+
 Citations
 ==========
 
@@ -1849,6 +1858,7 @@ Revision Date        Model Version        Description
 2026.06              8.0                  Add parameters for litter N redistribution, N fluxes, and
 \                    \                    soil N diffusion.
 \                    \                    Reworked the introduction with regards to model features.
+\                    \                    Added Acknowledgments section.
 ===================  ===================  ===============================================================
 
 
