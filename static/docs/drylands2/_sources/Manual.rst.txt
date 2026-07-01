@@ -2054,6 +2054,7 @@ Additional configuration files (``*.json``) are provided in the
     #
     # This is a JSON format file with comment lines (non-standard).
     # To read this in GNU Octave:
+    #   pkg load drylandslib;
     #   cfg = readConfigJSON( 'config.json' );
     # -----------------------------------------------------------------------------
     {
@@ -2199,6 +2200,8 @@ Additional configuration files (``*.json``) are provided in the
       # --- aeolian effects: item "aeolianEffect"
       #   minThreshold  - Minimum aboveground biomass to be included in aeolian calculations (g/m2).
       #   B, Bmax, Bz   - Grasses: grassEffect equation parameters. E.g., B: 0.12, Bmax: 0.99, Bz: 1000.0
+      # --- herbivory
+      #   grazeFraction - fraction of aboveground biomass removed through herbivory (average g/m2/day).
       "plant": [
         # plant 1
         {
@@ -2240,7 +2243,8 @@ Additional configuration files (``*.json``) are provided in the
           "aeolianEffect": {
             "minThreshold": 5.0,
             "B": 0.06, "Bmax": 0.99, "Bz": 100.0
-          }
+          },
+          "grazeFraction": 0.005
         }
       ],
       #

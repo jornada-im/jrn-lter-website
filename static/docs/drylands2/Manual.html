@@ -3147,6 +3147,7 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="c1">#</span>
 <span class="c1"># This is a JSON format file with comment lines (non-standard).</span>
 <span class="c1"># To read this in GNU Octave:</span>
+<span class="c1">#   pkg load drylandslib;</span>
 <span class="c1">#   cfg = readConfigJSON( &#39;config.json&#39; );</span>
 <span class="c1"># -----------------------------------------------------------------------------</span>
 <span class="p p-Indicator">{</span>
@@ -3292,6 +3293,8 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="nt">  # --- aeolian effects</span><span class="p">:</span><span class="w"> </span><span class="nv">item &quot;aeolianEffect&quot;</span>
 <span class="w">  </span><span class="c1">#   minThreshold  - Minimum aboveground biomass to be included in aeolian calculations (g/m2).</span>
 <span class="w">  </span><span class="c1">#   B, Bmax, Bz   - Grasses: grassEffect equation parameters. E.g., B: 0.12, Bmax: 0.99, Bz: 1000.0</span>
+<span class="w">  </span><span class="c1"># --- herbivory</span>
+<span class="w">  </span><span class="c1">#   grazeFraction - fraction of aboveground biomass removed through herbivory (average g/m2/day).</span>
 <span class="w">  </span><span class="s">&quot;plant&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
 <span class="w">    </span><span class="c1"># plant 1</span>
 <span class="w">    </span><span class="p p-Indicator">{</span>
@@ -3333,7 +3336,8 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="w">      </span><span class="s">&quot;aeolianEffect&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
 <span class="w">        </span><span class="s">&quot;minThreshold&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">5.0</span><span class="p p-Indicator">,</span>
 <span class="w">        </span><span class="s">&quot;B&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.06</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Bmax&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.99</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Bz&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">100.0</span>
-<span class="w">      </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">},</span>
+<span class="w">      </span><span class="s">&quot;grazeFraction&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.005</span>
 <span class="w">    </span><span class="p p-Indicator">}</span>
 <span class="w">  </span><span class="p p-Indicator">],</span>
 <span class="w">  </span><span class="c1">#</span>
