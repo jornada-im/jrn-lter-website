@@ -1052,7 +1052,8 @@ boolean switches (<em>true</em> = produce graph, <em>false</em> = do not produce
 <p>The configuration item <strong>plant</strong> contains an array of structures which
 define the plant species. Each struct in the array is one species definition,
 and contains the fields described in the table below.
-Fields in <strong>bold</strong> are nested structures:
+Fields are organized into categories referring to pools or algorithms,
+and field names in <strong>bold</strong> are nested structures:
 <strong>mortality</strong>, <strong>seed</strong>, <strong>aeolianEffect</strong>.
 See the document <em>Model Design</em> for details on these algorithms.</p>
 <p>Each plant species has a type defined in the configuration item
@@ -1300,101 +1301,117 @@ explicitly stated otherwise.</p>
 <td><p>scalar</p></td>
 <td><p>Background mortality rate: loss of biomass due to mortality (fraction d-1).</p></td>
 </tr>
-<tr class="row-even"><td><p>annual</p></td>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>The sum (mortality.d + grazeFraction) must be &lt;= Constants.maxGrazeFractionPlusD.</p></td>
+</tr>
+<tr class="row-odd"><td><p>annual</p></td>
 <td><p>vector[4]</p></td>
 <td><p>Annual mortality for perennial plants and shrubs.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>These are logistic function parameters <code class="docutils literal notranslate"><span class="pre">[a,</span> <span class="pre">b,</span> <span class="pre">c,</span> <span class="pre">d]</span></code>, where</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">a</span></code> = maximum (0-1), <code class="docutils literal notranslate"><span class="pre">b</span></code> = modifies inflection point (e.g., 0.005),</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">c</span></code> = modifies slopet (e.g., 0.05), <code class="docutils literal notranslate"><span class="pre">d</span></code> = minimum (0-1, <code class="docutils literal notranslate"><span class="pre">d</span></code> &lt; <code class="docutils literal notranslate"><span class="pre">a</span></code>).</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p><strong>Water stress affecting mortality:</strong></p></td>
 </tr>
-<tr class="row-odd"><td><p>B0</p></td>
+<tr class="row-even"><td><p>B0</p></td>
 <td><p>scalar</p></td>
 <td><p>Water demand excess at the logistic function inflection point (range: &gt;= 0.0).</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Increasing values at a fixed water demand excess will decrease the mortality rate,</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>while the maximum rate of change of mortality remains constant.</p></td>
 </tr>
-<tr class="row-even"><td><p>B1</p></td>
+<tr class="row-odd"><td><p>B1</p></td>
 <td><p>scalar</p></td>
 <td><p>Maximum rate of change of mortality (range: &gt;= 0.0).</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>This is the maximum slope at the inflection point of the logistic function.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Increasing values increase the rate of change in mortality at the logistic inflection</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>point, and at a fixed water demand excess will increase the mortality rate.</p></td>
 </tr>
-<tr class="row-even"><td><p>lengthPeriod</p></td>
+<tr class="row-odd"><td><p>lengthPeriod</p></td>
 <td><p>scalar</p></td>
 <td><p>Number of days to track excess water demand.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>aeolianEffect</strong></p></td>
+<tr class="row-even"><td><p><strong>aeolianEffect</strong></p></td>
 <td><p>struct</p></td>
 <td><p><strong>Aeolian effects from biomass upon erosion/deposition:</strong></p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>This struct will have different fields and values for a grass or shrub:</p></td>
 </tr>
-<tr class="row-odd"><td><p><em>Grass:</em></p></td>
+<tr class="row-even"><td><p><em>Grass:</em></p></td>
 <td><p></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p>minThreshold</p></td>
+<tr class="row-odd"><td><p>minThreshold</p></td>
 <td><p>scalar</p></td>
-<td><p>Minimum aboveground biomass to be included in or excluded from aeolian effects (g/m2).</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p></p></td>
-<td><p>Cell biomass &gt; threshold contribute to effects of relative wind shear.</p></td>
-</tr>
-<tr class="row-even"><td><p>B, Bmax, Bz</p></td>
-<td><p>scalar</p></td>
-<td><p><strong>grassEffect</strong> equation parameters. E.g., <code class="docutils literal notranslate"><span class="pre">B</span></code>: 0.12, <code class="docutils literal notranslate"><span class="pre">Bmax</span></code>: 0.99, <code class="docutils literal notranslate"><span class="pre">Bz</span></code>: 1000.0</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p></p></td>
-<td><p>The graphs by the GNU Octave script <code class="docutils literal notranslate"><span class="pre">aeolian/plot-grassEffect-logistic.m</span></code></p></td>
+<td><p>Minimum aboveground biomass to be affected or ignored by aeolian effects (g/m2).</p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
-<td><p>show the results of different values of these parameters.</p></td>
+<td><p>Cell biomass &gt; threshold contribute to effects of relative wind shear.</p></td>
 </tr>
-<tr class="row-odd"><td><p><em>Shrub:</em></p></td>
-<td><p></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p>minThreshold</p></td>
+<tr class="row-odd"><td><p>B, Bmax, Bz</p></td>
 <td><p>scalar</p></td>
-<td><p>Minimum aboveground biomass to be included in or excluded from aeolian effects (g/m2).</p></td>
+<td><p><strong>grassEffect</strong> equation parameters. E.g., <code class="docutils literal notranslate"><span class="pre">B</span></code>: 0.12, <code class="docutils literal notranslate"><span class="pre">Bmax</span></code>: 0.99, <code class="docutils literal notranslate"><span class="pre">Bz</span></code>: 1000.0</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>The graphs by the GNU Octave script <code class="docutils literal notranslate"><span class="pre">aeolian/plot-grassEffect-logistic.m</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
+<td><p>show the results of different values of these parameters.</p></td>
+</tr>
+<tr class="row-even"><td><p><em>Shrub:</em></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>minThreshold</p></td>
+<td><p>scalar</p></td>
+<td><p>Minimum aboveground biomass to be included in or excluded from aeolian effects (g/m2).</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
 <td><p>Cell biomass &gt; threshold are not erodible but contribute to lee shadow.</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p><strong>Herbivory:</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>grazeFraction</p></td>
+<td><p>scalar</p></td>
+<td><p>Average fraction of aboveground biomass removed per day (range: 0-1).</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>The sum (mortality.d + grazeFraction) must be &lt;= Constants.maxGrazeFractionPlusD.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2912,7 +2929,7 @@ arid ecosystems. American Naturalist 160:524–530. <a class="reference external
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
-<td><p>soil N diffusion.</p></td>
+<td><p>soil N diffusion, and herbivory.</p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
