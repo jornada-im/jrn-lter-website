@@ -706,14 +706,14 @@ controls the amount of soil water per grid cell.</p>
 <section id="nitrogen-fluxes">
 <h3><a class="toc-backref" href="#id30" role="doc-backlink">Nitrogen Fluxes</a><a class="headerlink" href="#nitrogen-fluxes" title="Link to this heading">¶</a></h3>
 <p>Nitrogen cycle elements are atmospheric deposition; plant uptake, fixation,
-and decomposition; spatial redistribution of litter due to aeolian effects;
-and lateral diffusion of soil N.
+mortality, decomposition and herbivory; spatial redistribution of litter due
+to aeolian effects; and lateral diffusion of soil N.
 See the diagram <em>NFluxesDiagram</em> for a visual description of the N cycle
 implementation.</p>
 <p>Nitrogen fluxes include N atmospheric deposition as an input flux, plant
-uptake of N for growth, with decomposition of plant material returning N to
-the soil. Plants have an N uptake demand for daily maintenance of above and
-belowground biomass.</p>
+uptake of N for growth, with decomposition and herbivory of plant material
+returning N to the soil. Plants have demand for N uptake as daily
+maintenance of above and belowground biomass.</p>
 <p>Spatial movement of N occurs through diffusion of soil N with soil water,
 redistribution of litter from wind followed by decomposition, and
 through biomass with plant propagation.</p>
@@ -724,9 +724,9 @@ not included.</p>
 <p>The growth algorithm calculates new biomass due to available soil N, and
 includes that as one of the limiting amounts in potential growth. See
 <a class="reference internal" href="#growth">Growth</a> for a description of the algorithm.</p>
-<p>Plant mortality contributes dead biomass N from roots to the
-soil N pool. See the section <a class="reference internal" href="#mortality">Mortality</a> for a description of
-these algorithms.</p>
+<p>Plant mortality contributes dead biomass N from roots to the soil N pool.
+Herbivory transfers N from aboveground biomass directly to soil. See the
+<a class="reference internal" href="#plants">Plants</a> section <a class="reference internal" href="#mortality">Mortality</a> for a description of these algorithms.</p>
 <p>These configuration parameters control N fluxes:</p>
 <p><strong>input.NAtmDep</strong></p>
 <blockquote>
@@ -736,24 +736,24 @@ A data file contains daily N data and is structured similar to the
 precipitation file.</p>
 <p>N atmospheric deposition data is accessed using the class <strong>NAtmDep</strong>.</p>
 </div></blockquote>
-<p><strong>plant(*).CN</strong></p>
+<p><strong>plant.CN</strong></p>
 <blockquote>
 <div><p>Average of the aboveground and belowground C:N of biomass for this plant.
 (TO DO: Have separate C:N for different plant parts.)</p>
 </div></blockquote>
-<p><strong>plant(*).cNmax</strong></p>
+<p><strong>plant.cNmax</strong></p>
 <blockquote>
 <div><p>Maximum daily N uptake rate as fraction of plant biomass;
 valid range = 0-1.
 Assume <code class="docutils literal notranslate"><span class="pre">cNmax</span> <span class="pre">=</span> <span class="pre">(c*gmax)/C:N</span></code>. Units = gN gC-1 d-1.</p>
 </div></blockquote>
-<p><strong>plant(*).maintN</strong></p>
+<p><strong>plant.maintN</strong></p>
 <blockquote>
 <div><p>Daily maintenance rate of uptake of N by current biomass
 (gN gBiomass-1 d-1).
 Added in version 5.</p>
 </div></blockquote>
-<p><strong>plant(*).NfixFrac</strong></p>
+<p><strong>plant.NfixFrac</strong></p>
 <blockquote>
 <div><p>Proportion of plant N demand that will come from fixed N.</p>
 </div></blockquote>

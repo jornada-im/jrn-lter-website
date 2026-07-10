@@ -433,15 +433,15 @@ Nitrogen Fluxes
 ----------------
 
 Nitrogen cycle elements are atmospheric deposition; plant uptake, fixation,
-and decomposition; spatial redistribution of litter due to aeolian effects;
-and lateral diffusion of soil N.
+mortality, decomposition and herbivory; spatial redistribution of litter due
+to aeolian effects; and lateral diffusion of soil N.
 See the diagram *NFluxesDiagram* for a visual description of the N cycle
 implementation.
 
 Nitrogen fluxes include N atmospheric deposition as an input flux, plant
-uptake of N for growth, with decomposition of plant material returning N to
-the soil. Plants have an N uptake demand for daily maintenance of above and
-belowground biomass.
+uptake of N for growth, with decomposition and herbivory of plant material
+returning N to the soil. Plants have demand for N uptake as daily
+maintenance of above and belowground biomass.
 
 Spatial movement of N occurs through diffusion of soil N with soil water,
 redistribution of litter from wind followed by decomposition, and
@@ -456,9 +456,9 @@ The growth algorithm calculates new biomass due to available soil N, and
 includes that as one of the limiting amounts in potential growth. See
 `Growth`_ for a description of the algorithm.
 
-Plant mortality contributes dead biomass N from roots to the
-soil N pool. See the section `Mortality`_ for a description of
-these algorithms.
+Plant mortality contributes dead biomass N from roots to the soil N pool.
+Herbivory transfers N from aboveground biomass directly to soil. See the
+`Plants`_ section `Mortality`_ for a description of these algorithms.
 
 These configuration parameters control N fluxes:
 
@@ -471,24 +471,24 @@ These configuration parameters control N fluxes:
 
     N atmospheric deposition data is accessed using the class **NAtmDep**.
 
-**plant(*).CN**
+**plant.CN**
 
     Average of the aboveground and belowground C:N of biomass for this plant.
     (TO DO: Have separate C:N for different plant parts.)
 
-**plant(*).cNmax**
+**plant.cNmax**
 
     Maximum daily N uptake rate as fraction of plant biomass;
     valid range = 0-1.
     Assume ``cNmax = (c*gmax)/C:N``. Units = gN gC-1 d-1.
 
-**plant(*).maintN**
+**plant.maintN**
 
     Daily maintenance rate of uptake of N by current biomass
     (gN gBiomass-1 d-1).
     Added in version 5.
 
-**plant(*).NfixFrac**
+**plant.NfixFrac**
 
     Proportion of plant N demand that will come from fixed N.
 

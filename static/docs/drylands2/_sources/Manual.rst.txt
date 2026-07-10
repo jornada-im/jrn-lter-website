@@ -541,13 +541,20 @@ precipitation       string or scalar  Daily precipitation data.
 temperature         string or scalar  Daily temperature data.
 \                   \                 Specify a file name, or a constant value (degrees C).
 NAtmDep             string or scalar  Daily total wet+dry N atmospheric deposition.
-\                   \                 Specify a file name, or a constant value (g/m2/day)
+\                   \                 Specify a file name, or a constant value (g/m2/day).
 wind                string or         Either
 \                   1x3 matrix        **Wind data file name** - CSV file contains daily data:
 \                   \                 direction (degrees clockwise from north), mean and maximum wind speeds (m/s).
 \                   \                 **Vector** containing constant direction, mean and maximum speeds,
 \                   \                 e.g., ``[270.0, 3.0, 14.0]``
 ==================  ================  ================================================================================
+
+Values for ``NAtmDep`` can vary with region.
+For the Chiricahua Mountains of Arizona and New Mexico, which are on the
+transition between Sonoran and Chihuahuan deserts,
+values of bulk N deposition are estimated to be 4-7 kg/ha/year,
+or approximately 0.001 to 0.002 g/m2/day [8_].
+
 
 
 Output Configuration
@@ -779,7 +786,8 @@ c                   scalar       Evaporation: Displacement of the inflection poi
 \                   \            smaller values shift left.
 Emr                 scalar       Evaporation: Slope at inflection point; proportional to the maximum change in
 \                   \            evaporation with biomass. E.g., ``Emr = K * (Epot - E0) / Bmax``
-Nsmf                vector       Fraction of plant-available soil N that can be transported by soil water diffusion
+Nsmf                vector       Nitrogen soil mobile fraction.
+\                   \            Fraction of plant-available soil N that can be transported by soil water diffusion
 \                   \            (one value per layer: g/m2).
 **aeolian**         \            **Aeolian submodel configuration:**
 maxDailyFlux        scalar       Maximum daily aeolian sediment flux (g/m/day).
@@ -1811,6 +1819,12 @@ Citations
    [7] OpenDocument Format for Office Applications; see
    https://en.wikipedia.org/wiki/OpenDocument/
 
+.. _8:
+
+   [8] Fenn and Allen 2005.
+   Chapter 14 SOUTHERN SEMI-ARID HIGHLANDS in USDA Forest Service GTR SRS-80.
+   https://www.srs.fs.usda.gov/pubs/gtr/gtr_srs080/gtr_srs080.pdf
+
 
 
 See Also
@@ -2089,8 +2103,8 @@ Additional configuration files (``*.json``) are provided in the
         # daily temperature file name, or a constant value (degrees C)
         "temperature": "dailyTemp-G-IBPE-GapFilled.csv",
         # daily total wet + dry N atmospheric deposition; file name, or a constant value (g/m2/day)
-        "NAtmDep": 0.2,
-        # Wind data: daily speed and direction
+        "NAtmDep": 0.0015,
+        # Wind data: direction and daily mean and maximum speed
         # Data can be in a CSV file, or as a vector of 3 constant values: dir, wsMean, wsMax
         # "wind": [ 0, 5, 18 ]
         "wind": "dailyWindSpeed.csv"
