@@ -1608,13 +1608,21 @@ parameter <strong>beta</strong>, or maximum convection rate.</p>
 <td><p></p></td>
 <td><p>These should sum to 1.0. Fields are  “fine”, “coarse”, “gravel”, “crust”.</p></td>
 </tr>
-<tr class="row-even"><td><p>thresholdSpeed</p></td>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>All cells use these values.</p></td>
+</tr>
+<tr class="row-odd"><td><p>thresholdSpeed</p></td>
 <td><p>struct</p></td>
 <td><p>Wind threshold for aeolian entrainment for each texture (m/s).</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Fields are  “fine”, “coarse”, “gravel”, “crust”.</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>Higher values mean less erosion for the texture.</p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
@@ -1672,21 +1680,25 @@ parameter <strong>beta</strong>, or maximum convection rate.</p>
 <td><p>scalar</p></td>
 <td><p>boolean: N atmospheric deposition( daily total wet + dry).</p></td>
 </tr>
-<tr class="row-even"><td><p>aeolian</p></td>
-<td><p>scalar</p></td>
-<td><p>boolean: Aeolian submodel.</p></td>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>All deposited N is assumed to be plant-available and is stored in soil N.</p></td>
 </tr>
-<tr class="row-odd"><td><p>annualMor</p></td>
+<tr class="row-odd"><td><p>aeolian</p></td>
 <td><p>scalar</p></td>
-<td><p>boolean: Annual plant mortality.</p></td>
+<td><p>boolean: Aeolian submodel. See <strong>aeolian</strong>  parameters for configuration.</p></td>
 </tr>
-<tr class="row-even"><td><p>mounds</p></td>
+<tr class="row-even"><td><p>annualMor</p></td>
 <td><p>scalar</p></td>
-<td><p>boolean: Mounds submodel.</p></td>
+<td><p>boolean: Annual plant mortality. Configuration is in plant parameters.</p></td>
 </tr>
-<tr class="row-odd"><td><p>litterNredistrib</p></td>
+<tr class="row-odd"><td><p>mounds</p></td>
 <td><p>scalar</p></td>
-<td><p>boolean: Do litter N spatial redistribution?</p></td>
+<td><p>boolean: Mounds submodel. See <strong>mounds</strong>  parameters for configuration.</p></td>
+</tr>
+<tr class="row-even"><td><p>litterNredistrib</p></td>
+<td><p>scalar</p></td>
+<td><p>boolean: Litter N spatial redistribution. Configuration is in plant parameters.</p></td>
 </tr>
 </tbody>
 </table>
@@ -3436,7 +3448,7 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="w">      </span><span class="s">&quot;maxDailyFlux&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">100.0</span><span class="p p-Indicator">,</span>
 <span class="w">      </span><span class="c1">#</span>
 <span class="w">      </span><span class="c1"># Grid average surface texture fractions (See class Surface) for bare soil</span>
-<span class="w">      </span><span class="c1"># These should sum to 1.0.</span>
+<span class="w">      </span><span class="c1"># These should sum to 1.0. All grid cells use these values.</span>
 <span class="w">      </span><span class="c1">#</span>
 <span class="w">      </span><span class="s">&quot;textureFractions&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
 <span class="w">        </span><span class="s">&quot;fine&quot;</span><span class="nt">   </span><span class="p">:</span><span class="w"> </span><span class="nv">0.30</span><span class="p p-Indicator">,</span>
@@ -3447,6 +3459,7 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="w">      </span><span class="c1">#</span>
 <span class="w">      </span><span class="c1"># Wind threshold for entrainment for each texture (m/s).</span>
 <span class="w">      </span><span class="c1"># Wind speed above this allows significant saltation.</span>
+<span class="w">      </span><span class="c1"># Higher values mean less erosion for the texture.</span>
 <span class="w">      </span><span class="c1"># E.g. see Webb et al., 2016; Bergametti and Gillette, 2010.</span>
 <span class="w">      </span><span class="c1">#</span>
 <span class="w">      </span><span class="s">&quot;thresholdSpeed&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>

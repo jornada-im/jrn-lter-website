@@ -795,8 +795,10 @@ maxDailyFlux        scalar       Maximum daily aeolian sediment flux (g/m/day).
 \                   \            Bergametti & Gillette (2010), table 7. E.g., 100.0
 textureFractions    struct       Grid average surface texture fractions for bare soil.
 \                   \            These should sum to 1.0. Fields are  "fine", "coarse", "gravel", "crust".
+\                   \            All cells use these values.
 thresholdSpeed      struct       Wind threshold for aeolian entrainment for each texture (m/s).
 \                   \            Fields are  "fine", "coarse", "gravel", "crust".
+\                   \            Higher values mean less erosion for the texture.
 \                   \            E.g. see Webb et al., 2016; Bergametti and Gillette, 2010.
 **mounds**          \            **Mounds submodel configuration:**
 number              scalar       Number of mounds; set to 0 for "mound-free" scenario.
@@ -811,10 +813,11 @@ placement           string       Mound placement: "single", "random", "regular".
 beta                scalar       Maximum water gravity convection rate on mounds (mm d-1).
 **algorithms**      \            **Turn submodels on or off (true or false):**
 NAtmDep             scalar       boolean: N atmospheric deposition( daily total wet + dry).
-aeolian             scalar       boolean: Aeolian submodel.
-annualMor           scalar       boolean: Annual plant mortality.
-mounds              scalar       boolean: Mounds submodel.
-litterNredistrib    scalar       boolean: Do litter N spatial redistribution?
+\                   \            All deposited N is assumed to be plant-available and is stored in soil N.
+aeolian             scalar       boolean: Aeolian submodel. See **aeolian**  parameters for configuration.
+annualMor           scalar       boolean: Annual plant mortality. Configuration is in plant parameters.
+mounds              scalar       boolean: Mounds submodel. See **mounds**  parameters for configuration.
+litterNredistrib    scalar       boolean: Litter N spatial redistribution. Configuration is in plant parameters.
 ==================  ===========  ========================================================================================
 
 
@@ -2331,7 +2334,7 @@ Additional configuration files (``*.json``) are provided in the
           "maxDailyFlux": 100.0,
           #
           # Grid average surface texture fractions (See class Surface) for bare soil
-          # These should sum to 1.0.
+          # These should sum to 1.0. All grid cells use these values.
           #
           "textureFractions": {
             "fine"   : 0.30,
@@ -2342,6 +2345,7 @@ Additional configuration files (``*.json``) are provided in the
           #
           # Wind threshold for entrainment for each texture (m/s).
           # Wind speed above this allows significant saltation.
+          # Higher values mean less erosion for the texture.
           # E.g. see Webb et al., 2016; Bergametti and Gillette, 2010.
           #
           "thresholdSpeed": {
