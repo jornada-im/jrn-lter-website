@@ -480,6 +480,10 @@ L :
 Citations
 ==========
 
+Alvarez, L.J., Epstein, H.E., Li, J. and Okin, G.S. (2012).
+Aeolian process effects on vegetation communities in an arid grassland ecosystem.
+Ecology and Evolution, 2: 809-821. https://doi.org/10.1002/ece3.205
+
 Bergametti, G., and D. A. Gillette (2010).
 Aeolian sediment fluxes measured over various plant/soil complexes in the Chihuahuan desert.
 J. Geophys. Res., 115, F03044, doi:10.1029/2009JF001543
@@ -502,6 +506,10 @@ Nafus, Aleta M., Mitchel P. McClaran, Steven R. Archer, Heather L. Throop (2009)
 Multispecies Allometric Models Predict Grass Biomass in Semidesert Rangeland.
 Rangeland Ecol Manage 62:68–72.
 
+Okin, G. S. (2008).
+A new model of wind erosion in the presence of vegetation.
+J. Geophys. Res., 113, F02S10, doi:10.1029/2007JF000758
+
 Webb, Nicholas P., Magda S. Galloza, Ted M. Zobeck, Jeffrey E. Herrick (2016).
 Threshold wind velocity dynamics as a driver of aeolian sediment mass flux.
 Aeolian Research 20:45–58.
@@ -514,6 +522,7 @@ Document History
 Revision Date        Model Version        Description
 ===================  ===================  ==========================================================
 2025.08.18           6.0                  Author: Thomas E. Hilinski <hilinski@nmsu.edu>
+2026.08.07           8.1                  Add 2 missing citations.
 ===================  ===================  ==========================================================
 
 
