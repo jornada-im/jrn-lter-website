@@ -1535,6 +1535,57 @@ or to extract the "time" values, enter:
 
 
 
+Use R to examine simulation output
+``````````````````````````````````
+
+The daily CSV file can be used to visualize the behaviors of your simulation
+over time.
+
+Read the daily output data with:
+
+.. code:: R
+
+    fn <- "timeseries-stateVars.csv"
+    df <- read.csv( fn )
+
+The dataframe contains these variables:
+
+.. code:: R
+
+    colnames(df)
+    #  [1] "time"          "year"          "doy"           "R"
+    #  [5] "I"             "WL"            "U"             "O"
+    #  [9] "W"             "N"             "G"             "Pseed"
+    # [13] "Pd"            "Nt"            "P"             "black_grama"
+    # [17] "creosote_bush"
+
+Example: Scatterplot matrix to examine all state variable relationships:
+
+.. code:: R
+
+    library(lattice)
+    splom( ~df[,cn], data=df[,cn], varname.cex=1.5, axis.text.cex=1.2 )
+
+Example: Compare gross C:N for two species:
+
+.. code:: R
+
+    C2biomass <- 0.47     # C:biomass dry weight
+    with( df, plot( black_grama * C2biomass / N, creosote_bush * C2biomass / N,
+                    main="C:N", xlab="black_grama", ylab="creosote_bush" ) )
+
+Example: Time series of biomass:
+
+.. code:: R
+
+    cols <- c("blue", "red")
+    with( df, plot( time, black_grama, type='l', col=cols[1],
+                    xlab="day", ylab="biomass (avg g/m2)" ) )
+    with( df, lines( time, creosote_bush, col=cols[2] ) )
+    legend( "topright", colnames(df)[16:17], text.col=cols )
+
+
+
 
 Tools and Utilities
 ===================
@@ -1771,7 +1822,6 @@ To view help in *GNU Octave*:
 
     addpath('[installation-path]/src/tools')
     help ncGetGrid
-
 
 
 
