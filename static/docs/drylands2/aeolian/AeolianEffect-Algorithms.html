@@ -292,13 +292,13 @@ is a file of daily wind speed (m/s) and the
 “from” direction (degrees clockwise from north).
 Read the data with this GNU Octave statement which creates a
 <strong>WindData</strong> object for the specified data file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fileNameCSV</span> <span class="o">=</span> <span class="s1">&#39;dailyWindSpeed.csv&#39;</span><span class="p">;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fileNameCSV</span> <span class="o">=</span> <span class="s1">'dailyWindSpeed.csv'</span><span class="p">;</span>
 <span class="n">wind</span> <span class="o">=</span> <span class="n">WindData</span><span class="p">(</span> <span class="n">fileNameCSV</span> <span class="p">);</span>
 </pre></div>
 </div>
 <p>See <code class="docutils literal notranslate"><span class="pre">help</span> <span class="pre">WindData</span></code> for details about this class.</p>
 <p>Here is a snippet of data from a CSV file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;year&quot;</span><span class="p">,</span><span class="s2">&quot;month&quot;</span><span class="p">,</span><span class="s2">&quot;day&quot;</span><span class="p">,</span><span class="s2">&quot;dayNumber&quot;</span><span class="p">,</span><span class="s2">&quot;dayOfYear&quot;</span><span class="p">,</span><span class="s2">&quot;windDir&quot;</span><span class="p">,</span><span class="s2">&quot;wsMean&quot;</span><span class="p">,</span><span class="s2">&quot;wsMax&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">"year"</span><span class="p">,</span><span class="s2">"month"</span><span class="p">,</span><span class="s2">"day"</span><span class="p">,</span><span class="s2">"dayNumber"</span><span class="p">,</span><span class="s2">"dayOfYear"</span><span class="p">,</span><span class="s2">"windDir"</span><span class="p">,</span><span class="s2">"wsMean"</span><span class="p">,</span><span class="s2">"wsMax"</span>
 <span class="mi">2013</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">218</span><span class="p">,</span><span class="mi">218</span><span class="p">,</span><span class="mf">3.822</span><span class="p">,</span><span class="mf">4.134</span><span class="p">,</span><span class="mf">8.6</span>
 <span class="mi">2013</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">219</span><span class="p">,</span><span class="mi">219</span><span class="p">,</span><span class="mf">2.449</span><span class="p">,</span><span class="mf">3.254</span><span class="p">,</span><span class="mf">8.6</span>
 <span class="mi">2013</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">220</span><span class="p">,</span><span class="mi">220</span><span class="p">,</span><span class="mf">0.844</span><span class="p">,</span><span class="mf">1.718</span><span class="p">,</span><span class="mf">7.099</span>
@@ -352,7 +352,7 @@ parameters for the aeolian algorithms.</p>
 <p>Read the configuration with these GNU Octave statements which read the
 configuration data using the function <strong>readConfigJSON</strong>, and creates a
 structure containing the configuration values.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span> <span class="o">=</span> <span class="n">readConfigJSON</span><span class="p">(</span> <span class="s1">&#39;config.json&#39;</span> <span class="p">);</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span> <span class="o">=</span> <span class="n">readConfigJSON</span><span class="p">(</span> <span class="s1">'config.json'</span> <span class="p">);</span>
 </pre></div>
 </div>
 <p>The function uses the package <strong>DrylandsLib</strong>.</p>
@@ -482,10 +482,10 @@ and functions shrubLeewardGrid, avgLeeSize, leesFindFill.</p>
                     <span class="mi">0</span>          <span class="mi">0</span>          <span class="mi">0</span>   <span class="mi">0</span>          <span class="mi">0</span>
                     <span class="mi">0</span>   <span class="mf">155.5717</span>    <span class="mf">73.6166</span>   <span class="mi">0</span>          <span class="mi">0</span>
              <span class="mf">164.2417</span>          <span class="mi">0</span>    <span class="mf">21.7593</span>   <span class="mi">0</span>   <span class="mf">128.9104</span> <span class="p">];</span>
-<span class="n">cfgShrub</span> <span class="o">=</span> <span class="n">struct</span><span class="p">(</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;creosote bush&#39;</span><span class="p">,</span> <span class="o">...</span>
-                   <span class="s1">&#39;Bmax&#39;</span><span class="p">,</span> <span class="mi">222</span><span class="p">,</span> <span class="o">...</span>
-                   <span class="s1">&#39;aeolianEffect&#39;</span><span class="p">,</span> <span class="n">struct</span><span class="p">(</span><span class="s1">&#39;minThreshold&#39;</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">)</span> <span class="p">);</span>
-<span class="n">wind</span> <span class="o">=</span> <span class="n">struct</span><span class="p">(</span> <span class="s1">&#39;dir&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;wsMax&#39;</span><span class="p">,</span> <span class="mf">15.0</span> <span class="p">);</span>   <span class="o">%</span> <span class="n">wind</span> <span class="kn">from</span><span class="w"> </span><span class="nn">the</span> <span class="n">north</span>
+<span class="n">cfgShrub</span> <span class="o">=</span> <span class="n">struct</span><span class="p">(</span> <span class="s1">'name'</span><span class="p">,</span> <span class="s1">'creosote bush'</span><span class="p">,</span> <span class="o">...</span>
+                   <span class="s1">'Bmax'</span><span class="p">,</span> <span class="mi">222</span><span class="p">,</span> <span class="o">...</span>
+                   <span class="s1">'aeolianEffect'</span><span class="p">,</span> <span class="n">struct</span><span class="p">(</span><span class="s1">'minThreshold'</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">)</span> <span class="p">);</span>
+<span class="n">wind</span> <span class="o">=</span> <span class="n">struct</span><span class="p">(</span> <span class="s1">'dir'</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s1">'wsMax'</span><span class="p">,</span> <span class="mf">15.0</span> <span class="p">);</span>   <span class="o">%</span> <span class="n">wind</span> <span class="kn">from</span><span class="w"> </span><span class="nn">the</span> <span class="n">north</span>
 <span class="p">[</span><span class="n">effect</span><span class="p">,</span> <span class="n">params</span><span class="p">]</span> <span class="o">=</span> <span class="n">shrubEffect</span><span class="p">(</span> <span class="n">bmShrubs</span><span class="p">,</span> <span class="n">cfgShrub</span><span class="p">,</span> <span class="n">wind</span> <span class="p">);</span>
 <span class="o">%</span> <span class="n">effect</span> <span class="o">=</span>
 <span class="o">%</span>       <span class="n">NA</span>        <span class="mi">0</span>       <span class="n">NA</span>       <span class="n">NA</span>        <span class="mi">0</span>
@@ -535,20 +535,20 @@ erosion potential). All bare soil cells have the same value.</p>
 E.g.:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Grid average surface texture fractions (See class Surface) for bare soil</span>
 <span class="c1"># These should sum to 1.0.</span>
-<span class="s2">&quot;textureFractions&quot;</span><span class="p">:</span> <span class="p">{</span>
-  <span class="s2">&quot;fine&quot;</span>   <span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span>
-  <span class="s2">&quot;coarse&quot;</span> <span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span>
-  <span class="s2">&quot;gravel&quot;</span> <span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span>
-  <span class="s2">&quot;crust&quot;</span>  <span class="p">:</span> <span class="mf">0.20</span>
+<span class="s2">"textureFractions"</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"fine"</span>   <span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span>
+  <span class="s2">"coarse"</span> <span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span>
+  <span class="s2">"gravel"</span> <span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span>
+  <span class="s2">"crust"</span>  <span class="p">:</span> <span class="mf">0.20</span>
 <span class="p">},</span>
 <span class="c1"># Wind threshold for entrainment for each texture (m/s).</span>
 <span class="c1"># Wind speed above this allows significant saltation.</span>
 <span class="c1"># E.g. see Webb et al., 2016; Bergametti and Gillette, 2010.</span>
-<span class="s2">&quot;thresholdSpeed&quot;</span><span class="p">:</span> <span class="p">{</span>
-  <span class="s2">&quot;fine&quot;</span>   <span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-  <span class="s2">&quot;coarse&quot;</span> <span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
-  <span class="s2">&quot;gravel&quot;</span> <span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
-  <span class="s2">&quot;crust&quot;</span>  <span class="p">:</span> <span class="mi">100</span>
+<span class="s2">"thresholdSpeed"</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"fine"</span>   <span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s2">"coarse"</span> <span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+  <span class="s2">"gravel"</span> <span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+  <span class="s2">"crust"</span>  <span class="p">:</span> <span class="mi">100</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -556,7 +556,7 @@ E.g.:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">make</span> <span class="n">bare</span> <span class="n">soil</span> <span class="n">grid</span>
 <span class="n">bsGrid</span> <span class="o">=</span> <span class="n">false</span><span class="p">(</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span> <span class="p">);</span> <span class="n">bsGrid</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">23</span><span class="p">])</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
 <span class="o">%</span> <span class="n">wind</span> <span class="n">data</span><span class="p">:</span>
-<span class="n">wind</span> <span class="o">=</span> <span class="n">struct</span><span class="p">(</span> <span class="s1">&#39;dir&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;wsMax&#39;</span><span class="p">,</span> <span class="mf">8.0</span> <span class="p">);</span>
+<span class="n">wind</span> <span class="o">=</span> <span class="n">struct</span><span class="p">(</span> <span class="s1">'dir'</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s1">'wsMax'</span><span class="p">,</span> <span class="mf">8.0</span> <span class="p">);</span>
 <span class="o">%</span>  <span class="n">bare</span> <span class="n">soil</span> <span class="n">erosion</span> <span class="n">potential</span><span class="p">:</span>
 <span class="n">epGrid</span> <span class="o">=</span> <span class="n">bareSoilErosionPotential</span><span class="p">(</span> <span class="n">txFractions</span><span class="p">,</span> <span class="n">thSpeeds</span><span class="p">,</span> <span class="n">wind</span><span class="o">.</span><span class="n">wsMax</span><span class="p">,</span> <span class="n">bsGrid</span> <span class="p">)</span>
 <span class="o">%</span> <span class="n">epGrid</span> <span class="o">=</span>

@@ -208,6 +208,8 @@ Algorithmic:
         Evaporation
         Infiltration
         SoilNEq
+        NDailyPools
+        NLitterRedist
 
 Non-Algorithmic:
 
@@ -486,11 +488,31 @@ These configuration parameters control N fluxes:
 
     Daily maintenance rate of uptake of N by current biomass
     (gN gBiomass-1 d-1).
+    If NfixFrac > zero, then that fraction of N demand is from
+    atmospheric N, while the remaining fraction is from soil N.
     Added in version 5.
 
 **plant.NfixFrac**
 
     Proportion of plant N demand that will come from fixed N.
+    This N goes directly into growth, bypassing soil N.
+    Added in version 7.
+
+**plant.mortality.d** and **plant.mortality.annual**
+
+    Background daily rate, and annual amount of biomass mortality.
+    Also, the dead biomass generated at end of the growing season
+    from annual grass and forbe death.
+    The aboveground N amount of dead biomass is transferred to to litter N.
+    The belowground N from root biomass is transferred directly to soil N.
+    Added in version 7.
+
+**plant.grazeFraction**
+
+    Average fraction of aboveground biomass removed through herbivory per day.
+    The N proportion (from CN) is transferred directly to soil N.
+    Added in version 8.
+
 
 **model.params.Nsmf**
 
@@ -499,7 +521,7 @@ These configuration parameters control N fluxes:
 
 
 Functions and classes that manage N fluxes include
-**input/NAtmDep**, **getNAtmDep**, **SoilNEq**, **NLitterRedist**.
+**input/NAtmDep**, **getNAtmDep**, **SoilNEq**, **NLitterRedist**, **NDailyPools**.
 
 A diagram illustrating N fluxes in the model is in the files
 *NFluxesDiagram.fodg/pdf/png*.
@@ -519,28 +541,6 @@ Initial values include soil N calculated from the initial values of biomass
 for each plant species, the above:belowground biomass ratio, and the
 C:N ratio. For multiple species, the initial N (g/m2) is the sum across
 all species.
-
-
-Sensitivity
-```````````
-
-The sensitivity of biomass response to **input.NAtmDep** is shown in the
-following table for site G-IBPE, with maximum biomass = 319, C:N = 58,
-and **plant.cNmax** = 0.025,
-at equal intervals of N atmospheric deposition.
-Simulations used model version 3.0.0.
-The rate of change of maximum biomass decreases as the N deposition rate
-increases.
-
-=======  ==========================  =====================
-NAtmDep  simulation maximum biomass  change in maximum (%)
-=======  ==========================  =====================
-0.2      83.3                        \
-0.4      163.4                       49.0
-0.6      257.6                       36.6
-0.8      294.6                       12.6
-1.0      307.2                       4.1
-=======  ==========================  =====================
 
 
 
@@ -1210,6 +1210,7 @@ Revision Date        Model Version        Description
 2026.06              8.0                  Expand description in `Vegetative Propagation`_.
 \                    \                    Add description of litter N spatial redistribution.
 \                    \                    Added Acknowledgments section.
+2026.08              8.1                  Expanded details in `Nitrogen Fluxes`_.
 ===================  ===================  ==========================================================
 
 
