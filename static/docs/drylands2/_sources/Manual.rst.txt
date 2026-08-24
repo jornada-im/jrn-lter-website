@@ -23,7 +23,7 @@ Drylands2 Model Manual
    :trim:
 
 .. contents::
-    :depth: 4
+    :depth: 5
 
 
 Introduction
@@ -43,6 +43,11 @@ The model is implemented in *GNU Octave* language, with intention to be
 compatible with *MATLAB*:sup:`TM`, however compatibility has not yet been
 tested.
 
+This document describes the installation, configuration,
+and running of the model.
+The document *Model Design* describes the structure and algorithms of the model.
+
+
 Model Features
 ---------------
 
@@ -59,7 +64,7 @@ Major architectural elements and algorithms in the model include:
 
 * Plant mortality from several sources, including a background rate, drought
   stress, non-specific random environmental stress, and aeolian-induced
-  mortality of grass,forbs.
+  mortality of grass,forbs. Annual grasses/forbs live for one growing season.
 
 * Three soil layers provide for vertical soil water movement and
   distribution of root biomass.
@@ -70,16 +75,17 @@ Major architectural elements and algorithms in the model include:
 
 * Nitrogen cycle elements are atmospheric deposition; plant uptake,
   fixation, and decomposition; spatial redistribution of litter due to
-  aeolian effects; and lateral diffusion of soil N.
+  aeolian effects; and lateral diffusion of soil N with soil water.
   See the diagram *NFluxesDiagram* for a visual description of the
   N cycle implementation.
 
-See the diagram *ModelDiagram* for a visual description of the algorithms
-and input data. See the diagram *NFluxesDiagram* for a visual description of
+The diagram *ModelDiagram* contains a visual description of the algorithms
+and input data. The diagram *NFluxesDiagram* has a visual description of
 the N cycle implementation.
 
 A configuration file in JSON format controls the simulation, defines
 plants, and specifies model parameters.
+See `Configuring a Simulation`_ for details.
 The section `Example Configuration File`_ provides a configuration file
 for a single plant (black grama).
 
@@ -132,7 +138,8 @@ Required Software
 ------------------
 
 While this model is built and tested with **GNU Octave**, compatibility
-with **MATLAB**:sup:`TM` is intended, but not fully tested.
+with **MATLAB**:sup:`TM` is intended, but not fully tested. The model
+uses **GNU Octave** packages that may not have the same name in **MATLAB**.
 
 **GNU Octave** can be obtained from `octave.org <https://octave.org>`_.
 **MATLAB**:sup:`TM` is a commercial application; see
@@ -186,7 +193,7 @@ with the console command:
 The Startup File
 `````````````````
 
-At startup GNU Octave reads and executes the file ``.octaverc``,
+At startup **GNU Octave** reads and executes the file ``.octaverc``,
 if present. This is a recommended file in which to put
 commands and global variables that configure all your Octave session.
 
@@ -202,7 +209,7 @@ On Linux and related systems, typically this is located in
 ``$HOME/.octaverc`` or ``~/.octaverc``.
 On Microsoft Windows systems, this file may be in
 ``%APPDATA%\octave\octaverc``.
-The GNU Octave manual has a section **Startup Files** with more
+The **GNU Octave** manual has a section **Startup Files** with more
 information on startup file locations.
 
 
@@ -228,7 +235,7 @@ To install a package, use these commands as needed:
 Obtaining and Installing the DrylandsLib package
 --------------------------------------------------
 
-The DrylandsLib package for *GNU Octave* is required for the Drylands2
+The DrylandsLib package for **GNU Octave** is required for the Drylands2
 model. You can download the latest version of this package from the
 following GitHub:sup:`TM` URL:
 
@@ -237,7 +244,7 @@ following GitHub:sup:`TM` URL:
 The file to download is ``DrylandsLib.tar.gz``. Save this to a
 convenient temporary storage directory.
 
-Once downloaded, install the package in *GNU Octave* using the
+Once downloaded, install the package in **GNU Octave** using the
 package manager **pkg**:
 
 .. code:: MATLAB
@@ -249,7 +256,7 @@ You can prepend the path to file to the file name.
 Once installed, *GNU Octave* will know the package by its lowercase name,
 ``drylandslib``.
 
-In *GNU Octave*, load the package (using its lowercase name):
+In **GNU Octave**, load the package (using its lowercase name):
 
 .. code:: MATLAB
 
@@ -257,11 +264,11 @@ In *GNU Octave*, load the package (using its lowercase name):
     pkg load drylandslib
 
 If you want to load the DrylandsLib package automatically upon starting
-*GNU Octave*, you can add the ``pkg load`` command to the startup file:
+**GNU Octave**, you can add the ``pkg load`` command to the startup file:
 
 .. code:: MATLAB
 
-    % Open the startup file in the GNU Octave editor:
+    % Open the startup file in the **GNU Octave** editor:
     edit '~/.octaverc'
     % Append the following:
     pkg load drylandslib
@@ -300,8 +307,10 @@ examining the simulation results. These include:
 * **Pandoc** is used for producing documents in HTML and PDF format from
   Markdown and reStructuredText document files.
   See `<https://pandoc.org>`_.
+  Document conversions may require additional software to be available.
   A separate **LaTeX** installation may be required for producing PDF files.
   Without Pandoc, documents are still readable as plain text.
+  **LibreOffice** is required for converting document (*fodt*) and drawing (*fodg*) files.
 
 * **GNU make** is used to generated formatted document files using makefiles.
 
@@ -312,6 +321,11 @@ examining the simulation results. These include:
 * **plantuml** (`<https://plantuml.com>`_) generates class and flowchart
   diagrams from text description files.
 
+* **LibreOffice**:sup:`TM` is used for documents containing formulas and drawings.
+  These are stored in "flat XML" text format with extensions *fodt* and *fodg*.
+  `<https://www.libreoffice.org>`_
+
+
 
 File Organization
 -----------------
@@ -320,19 +334,21 @@ The directory structure for the model files is::
 
     Drylands2
     |-- doc         - Model documentation files.
+    |   `-- source  - Additional documentation files.
     |-- src         - Model algorithms and control functions and classes.
     |   |-- input   - Functions and classes for reading input files.
     |   |-- output  -   ... for writing non-graphics output files.
     |   |-- plot    -   ... for displaying and saving graphs and maps.
-    |   |-- grid        ... for grid initialization and management.
-    |   |-- log     -   ... for writing to a log file.
+    |   |-- grid    - Grid initialization and management.
+    |   |-- log     - Managing and writing to a log file.
     |   |-- math    - Math and statistics functions.
         |-- aeolian - Algorithms for plant effects from aeolian erosion and deposition.
     |   |-- plant   - Plant class and related classes and functions.
     |   |-- mounds  - Modeling water flow downgradient on topographic mounds.
     |   |-- tools   - Misc. usesful functions not used in a simulation.
     |   `-- util    - General utility functions.
-    `-- tests       - Test and example files.
+    |-- tests       - Test and example files.
+    `-- README.*    - One page introduction to the model.
 
 
 
@@ -713,6 +729,7 @@ CN                  scalar       Nitrogen: Average aboveground C:N of biomass fo
 cNmax               scalar       Nitrogen: Maximum daily N uptake as fraction of plant biomass; valid range = 0-1.
 \                   \            Typically ``cNmax = (c*gmax)/C:N``. Units = gN gC-1 d-1.
 maintN              scalar       Nitrogen daily maintenance requirement (gN gBiomass-1 d-1).
+\                   \            From Steward et al. (2014)[9_]: black grama = 0.0003425; creosote = 0.0001507
 NfixFrac            scalar       Proportion of plant N demand that will come from fixed N; valid range = 0-1.
 \                   \            For a non-fixing plant use 0.
 \                   \            An N fixer typically will have an intermediate value, e.g., 0.5.
@@ -776,7 +793,7 @@ Surface water flows down the mounds according to their shape and the
 parameter **beta**, or maximum convection rate.
 
 Fields in **bold** are nested structures:
-**initial**, **params**, **aeolian**, and **mounds**.
+**initial**, **params**, **aeolian**, **mounds**, **algorithms**.
 
 ==================  ===========  ========================================================================================
 Configuration Item  Data Type    Description
@@ -849,11 +866,29 @@ litterNredistrib    scalar       boolean: Litter N spatial redistribution. Confi
 \                   \            If aeolian if off (false), this will be set to false.
 ==================  ===========  ========================================================================================
 
+Algorithm Toggles
+``````````````````
+
+The configuration structure ``model.algorithms`` allows some algorithms to be explicitly
+turned on or off. Additional algorithms can be turned off by setting a configuration
+parameter to zero. These include:
+
+=====================  ========================
+Algorithm              Configuration Item
+=====================  ========================
+evaporation:           ``model.params.Epot``
+infiltration:          ``model.params.alpha``
+plant reproduction:    ``plant.Kr``
+plant diffusion:       ``plant.DP``
+maintenance N uptake:  ``plant.maintN``
+herbivory:             ``plant.grazeFraction``
+=====================  ========================
+
 
 Initial state settings
 ````````````````````````
 
-(TODO: Initial state settings; biomass, soil N)
+(TODO: Initial state settings; biomass, precipitation, soil N)
 
 
 Aeolian Submodel
@@ -868,7 +903,7 @@ of deposition or erosion will be indicated by a fraction in the range 0-1,
 where 0 is none, and 1 is maximum. These erosion and deposition effects are
 applied to mortality of grass and young shrubs.
 
-Details of the aeolian algorithms are in the document *aeolian/AeolianEffect-Algorithms*.
+Details of the aeolian algorithms are in the document *source/aeolian/AeolianEffect-Algorithms*.
 
 The aeolian submodel is enabled with the configuration item ``model.algorithms.aeolian``.
 
@@ -1927,6 +1962,13 @@ Citations
    Chapter 14 SOUTHERN SEMI-ARID HIGHLANDS in USDA Forest Service GTR SRS-80.
    https://www.srs.fs.usda.gov/pubs/gtr/gtr_srs080/gtr_srs080.pdf
 
+.. _9:
+
+    [9] Stewart, J., Parsons, A.J., Wainwright, J., Okin, G.S., Bestelmeyer, B.T.,
+    Fredrickson, E.L. and Schlesinger, W.H. (2014), Modeling emergent patterns
+    of dynamic desert ecosystems. Ecological Monographs, 84: 373 -410.
+    https://doi.org/10.1890/12-1253.1
+
 
 
 See Also
@@ -1981,8 +2023,9 @@ Revision Date        Model Version        Description
 2026.06              8.0                  Add parameters for litter N redistribution, N fluxes, and
 \                    \                    soil N diffusion, and herbivory.
 \                    \                    Reworked the introduction with regards to model features.
-\                    \                    Added Acknowledgments section.
+\                    \                    Add `Acknowledgments`_ section.
 2026.08              8.1                  Add description of script ``src/tools/plotWaterVars``.
+\                    \                    Add section `Algorithm Toggles`_.
 ===================  ===================  ===============================================================
 
 

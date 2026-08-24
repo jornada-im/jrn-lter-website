@@ -241,7 +241,7 @@
         </div>
         <article role="main" id="furo-main-content">
           <section id="drylands2-model-manual">
-<h1><a class="toc-backref" href="#id9" role="doc-backlink">Drylands2 Model Manual</a><a class="headerlink" href="#drylands2-model-manual" title="Link to this heading">¶</a></h1>
+<h1><a class="toc-backref" href="#id10" role="doc-backlink">Drylands2 Model Manual</a><a class="headerlink" href="#drylands2-model-manual" title="Link to this heading">¶</a></h1>
 <dl class="field-list simple">
 <dt class="field-odd">subtitle<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Drylands2 ecosystem model: Guide to using the model.</p>
@@ -265,116 +265,126 @@
 <nav class="contents" id="contents">
 <p class="topic-title">Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#drylands2-model-manual" id="id9">Drylands2 Model Manual</a></p>
+<li><p><a class="reference internal" href="#drylands2-model-manual" id="id10">Drylands2 Model Manual</a></p>
 <ul>
-<li><p><a class="reference internal" href="#introduction" id="id10">Introduction</a></p>
+<li><p><a class="reference internal" href="#introduction" id="id11">Introduction</a></p>
 <ul>
-<li><p><a class="reference internal" href="#model-features" id="id11">Model Features</a></p></li>
-<li><p><a class="reference internal" href="#conventions" id="id12">Conventions</a></p></li>
+<li><p><a class="reference internal" href="#model-features" id="id12">Model Features</a></p></li>
+<li><p><a class="reference internal" href="#conventions" id="id13">Conventions</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#obtaining-and-installing-the-drylands2-model" id="id13">Obtaining and Installing the Drylands2 Model</a></p>
+<li><p><a class="reference internal" href="#obtaining-and-installing-the-drylands2-model" id="id14">Obtaining and Installing the Drylands2 Model</a></p>
 <ul>
-<li><p><a class="reference internal" href="#required-software" id="id14">Required Software</a></p></li>
-<li><p><a class="reference internal" href="#downloading-the-model-source-code" id="id15">Downloading the Model Source Code</a></p></li>
-<li><p><a class="reference internal" href="#installing" id="id16">Installing</a></p>
+<li><p><a class="reference internal" href="#required-software" id="id15">Required Software</a></p></li>
+<li><p><a class="reference internal" href="#downloading-the-model-source-code" id="id16">Downloading the Model Source Code</a></p></li>
+<li><p><a class="reference internal" href="#installing" id="id17">Installing</a></p>
 <ul>
-<li><p><a class="reference internal" href="#the-startup-file" id="id17">The Startup File</a></p></li>
-<li><p><a class="reference internal" href="#required-packages" id="id18">Required Packages</a></p></li>
+<li><p><a class="reference internal" href="#the-startup-file" id="id18">The Startup File</a></p></li>
+<li><p><a class="reference internal" href="#required-packages" id="id19">Required Packages</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#obtaining-and-installing-the-drylandslib-package" id="id19">Obtaining and Installing the DrylandsLib package</a></p></li>
-<li><p><a class="reference internal" href="#additional-software" id="id20">Additional Software</a></p></li>
-<li><p><a class="reference internal" href="#file-organization" id="id21">File Organization</a></p></li>
-<li><p><a class="reference internal" href="#making-the-documents" id="id22">Making the Documents</a></p></li>
+<li><p><a class="reference internal" href="#obtaining-and-installing-the-drylandslib-package" id="id20">Obtaining and Installing the DrylandsLib package</a></p></li>
+<li><p><a class="reference internal" href="#additional-software" id="id21">Additional Software</a></p></li>
+<li><p><a class="reference internal" href="#file-organization" id="id22">File Organization</a></p></li>
+<li><p><a class="reference internal" href="#making-the-documents" id="id23">Making the Documents</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#quick-start" id="id23">Quick Start</a></p></li>
-<li><p><a class="reference internal" href="#configuring-a-simulation" id="id24">Configuring a Simulation</a></p>
+<li><p><a class="reference internal" href="#quick-start" id="id24">Quick Start</a></p></li>
+<li><p><a class="reference internal" href="#configuring-a-simulation" id="id25">Configuring a Simulation</a></p>
 <ul>
-<li><p><a class="reference internal" href="#general-configuration" id="id25">General Configuration</a></p></li>
-<li><p><a class="reference internal" href="#simulation-time" id="id26">Simulation Time</a></p></li>
-<li><p><a class="reference internal" href="#input-data-configuration" id="id27">Input Data Configuration</a></p></li>
-<li><p><a class="reference internal" href="#output-configuration" id="id28">Output Configuration</a></p></li>
-<li><p><a class="reference internal" href="#graphs-configuration" id="id29">Graphs Configuration</a></p></li>
-<li><p><a class="reference internal" href="#plant-species-definitions" id="id30">Plant Species Definitions</a></p></li>
-<li><p><a class="reference internal" href="#model-configuration" id="id31">Model Configuration</a></p>
+<li><p><a class="reference internal" href="#general-configuration" id="id26">General Configuration</a></p></li>
+<li><p><a class="reference internal" href="#simulation-time" id="id27">Simulation Time</a></p></li>
+<li><p><a class="reference internal" href="#input-data-configuration" id="id28">Input Data Configuration</a></p></li>
+<li><p><a class="reference internal" href="#output-configuration" id="id29">Output Configuration</a></p></li>
+<li><p><a class="reference internal" href="#graphs-configuration" id="id30">Graphs Configuration</a></p></li>
+<li><p><a class="reference internal" href="#plant-species-definitions" id="id31">Plant Species Definitions</a></p></li>
+<li><p><a class="reference internal" href="#model-configuration" id="id32">Model Configuration</a></p>
 <ul>
-<li><p><a class="reference internal" href="#initial-state-settings" id="id32">Initial state settings</a></p></li>
-<li><p><a class="reference internal" href="#aeolian-submodel" id="id33">Aeolian Submodel</a></p></li>
-<li><p><a class="reference internal" href="#mounds" id="id34">Mounds</a></p></li>
-</ul>
-</li>
-<li><p><a class="reference internal" href="#sweeps" id="id35">Sweeps</a></p></li>
-<li><p><a class="reference internal" href="#trials" id="id36">Trials</a></p></li>
-<li><p><a class="reference internal" href="#log-file" id="id37">Log File</a></p></li>
-</ul>
-</li>
-<li><p><a class="reference internal" href="#running-a-drylands2-simulation" id="id38">Running a Drylands2 Simulation</a></p>
+<li><p><a class="reference internal" href="#algorithm-toggles" id="id33">Algorithm Toggles</a></p></li>
+<li><p><a class="reference internal" href="#initial-state-settings" id="id34">Initial state settings</a></p></li>
+<li><p><a class="reference internal" href="#aeolian-submodel" id="id35">Aeolian Submodel</a></p></li>
+<li><p><a class="reference internal" href="#mounds" id="id36">Mounds</a></p>
 <ul>
-<li><p><a class="reference internal" href="#input-data" id="id39">Input Data</a></p>
-<ul>
-<li><p><a class="reference internal" href="#precipitation-data-file" id="id40">Precipitation Data File</a></p></li>
-<li><p><a class="reference internal" href="#temperature-data-file" id="id41">Temperature Data File</a></p></li>
-<li><p><a class="reference internal" href="#nitrogen-atmospheric-deposition" id="id42">Nitrogen Atmospheric Deposition</a></p></li>
-<li><p><a class="reference internal" href="#wind-data-file" id="id43">Wind Data File</a></p></li>
-</ul>
-</li>
-<li><p><a class="reference internal" href="#running-a-simulation" id="id44">Running a Simulation</a></p></li>
-<li><p><a class="reference internal" href="#examining-simulation-results" id="id45">Examining Simulation Results</a></p>
-<ul>
-<li><p><a class="reference internal" href="#graphs-and-maps" id="id46">Graphs and Maps</a></p></li>
-<li><p><a class="reference internal" href="#time-series-files" id="id47">Time Series Files</a></p></li>
-<li><p><a class="reference internal" href="#map-time-series-files" id="id48">Map Time Series Files</a></p></li>
-<li><p><a class="reference internal" href="#use-r-to-examine-simulation-output" id="id49">Use R to examine simulation output</a></p></li>
+<li><p><a class="reference internal" href="#mound-shape" id="id37">Mound Shape</a></p></li>
+<li><p><a class="reference internal" href="#number-of-mounds" id="id38">Number of Mounds</a></p></li>
+<li><p><a class="reference internal" href="#mound-placement" id="id39">Mound Placement</a></p></li>
+<li><p><a class="reference internal" href="#mound-radii" id="id40">Mound Radii</a></p></li>
+<li><p><a class="reference internal" href="#mound-coverage-fractions" id="id41">Mound coverage fractions</a></p></li>
+<li><p><a class="reference internal" href="#examples-of-parameterization" id="id42">Examples of parameterization</a></p></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#tools-and-utilities" id="id50">Tools and Utilities</a></p>
-<ul>
-<li><p><a class="reference internal" href="#class-simtime" id="id51">Class SimTime</a></p>
-<ul>
-<li><p><a class="reference internal" href="#todate" id="id52">toDate</a></p></li>
-<li><p><a class="reference internal" href="#todayofyear" id="id53">toDayOfYear</a></p></li>
-<li><p><a class="reference internal" href="#numberofdays" id="id54">numberOfDays</a></p></li>
+<li><p><a class="reference internal" href="#sweeps" id="id43">Sweeps</a></p></li>
+<li><p><a class="reference internal" href="#trials" id="id44">Trials</a></p></li>
+<li><p><a class="reference internal" href="#log-file" id="id45">Log File</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#dailyprecipforsite" id="id55">DailyPrecipForSite</a></p></li>
-<li><p><a class="reference internal" href="#extractdailytemp" id="id56">ExtractDailyTemp</a></p></li>
-<li><p><a class="reference internal" href="#model-utilities" id="id57">Model Utilities</a></p>
+<li><p><a class="reference internal" href="#running-a-drylands2-simulation" id="id46">Running a Drylands2 Simulation</a></p>
 <ul>
-<li><p><a class="reference internal" href="#info" id="id58">info</a></p></li>
-<li><p><a class="reference internal" href="#runsim" id="id59">runsim</a></p></li>
-<li><p><a class="reference internal" href="#verifyall" id="id60">verifyAll</a></p></li>
-<li><p><a class="reference internal" href="#runall" id="id61">runAll</a></p></li>
-<li><p><a class="reference internal" href="#aboutspchgts" id="id62">aboutSpChgTS</a></p></li>
-<li><p><a class="reference internal" href="#plottimeseries-r" id="id63">plotTimeSeries.R</a></p></li>
-<li><p><a class="reference internal" href="#plotcomparetimeseries-r" id="id64">plotCompareTimeSeries.R</a></p></li>
-<li><p><a class="reference internal" href="#plotwatervars-r" id="id65">plotWaterVars.R</a></p></li>
-<li><p><a class="reference internal" href="#plotncgridtsvars" id="id66">plotNcGridTSVars</a></p></li>
-<li><p><a class="reference internal" href="#plotsweeptimeseries" id="id67">plotSweepTimeSeries</a></p></li>
-<li><p><a class="reference internal" href="#ncdrawmap" id="id68">ncDrawMap</a></p></li>
-<li><p><a class="reference internal" href="#ncgetgrid" id="id69">ncGetGrid</a></p></li>
+<li><p><a class="reference internal" href="#input-data" id="id47">Input Data</a></p>
+<ul>
+<li><p><a class="reference internal" href="#precipitation-data-file" id="id48">Precipitation Data File</a></p></li>
+<li><p><a class="reference internal" href="#temperature-data-file" id="id49">Temperature Data File</a></p></li>
+<li><p><a class="reference internal" href="#nitrogen-atmospheric-deposition" id="id50">Nitrogen Atmospheric Deposition</a></p></li>
+<li><p><a class="reference internal" href="#wind-data-file" id="id51">Wind Data File</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#running-a-simulation" id="id52">Running a Simulation</a></p></li>
+<li><p><a class="reference internal" href="#examining-simulation-results" id="id53">Examining Simulation Results</a></p>
+<ul>
+<li><p><a class="reference internal" href="#graphs-and-maps" id="id54">Graphs and Maps</a></p></li>
+<li><p><a class="reference internal" href="#time-series-files" id="id55">Time Series Files</a></p></li>
+<li><p><a class="reference internal" href="#map-time-series-files" id="id56">Map Time Series Files</a></p></li>
+<li><p><a class="reference internal" href="#use-r-to-examine-simulation-output" id="id57">Use R to examine simulation output</a></p></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#acknowledgments" id="id70">Acknowledgments</a></p></li>
-<li><p><a class="reference internal" href="#citations" id="id71">Citations</a></p></li>
-<li><p><a class="reference internal" href="#see-also" id="id72">See Also</a></p></li>
-<li><p><a class="reference internal" href="#document-history" id="id73">Document History</a></p></li>
-<li><p><a class="reference internal" href="#appendices" id="id74">Appendices</a></p>
+<li><p><a class="reference internal" href="#tools-and-utilities" id="id58">Tools and Utilities</a></p>
 <ul>
-<li><p><a class="reference internal" href="#examples-of-mound-placement" id="id75">Examples of mound placement</a></p>
+<li><p><a class="reference internal" href="#class-simtime" id="id59">Class SimTime</a></p>
 <ul>
-<li><p><a class="reference internal" href="#placement-random" id="id76">Placement “random”</a></p></li>
-<li><p><a class="reference internal" href="#placement-regular" id="id77">Placement “regular”</a></p></li>
-<li><p><a class="reference internal" href="#placement-single" id="id78">Placement “single”</a></p></li>
+<li><p><a class="reference internal" href="#todate" id="id60">toDate</a></p></li>
+<li><p><a class="reference internal" href="#todayofyear" id="id61">toDayOfYear</a></p></li>
+<li><p><a class="reference internal" href="#numberofdays" id="id62">numberOfDays</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#file-formats" id="id79">File Formats</a></p></li>
-<li><p><a class="reference internal" href="#example-configuration-file" id="id80">Example Configuration File</a></p></li>
+<li><p><a class="reference internal" href="#dailyprecipforsite" id="id63">DailyPrecipForSite</a></p></li>
+<li><p><a class="reference internal" href="#extractdailytemp" id="id64">ExtractDailyTemp</a></p></li>
+<li><p><a class="reference internal" href="#model-utilities" id="id65">Model Utilities</a></p>
+<ul>
+<li><p><a class="reference internal" href="#info" id="id66">info</a></p></li>
+<li><p><a class="reference internal" href="#runsim" id="id67">runsim</a></p></li>
+<li><p><a class="reference internal" href="#verifyall" id="id68">verifyAll</a></p></li>
+<li><p><a class="reference internal" href="#runall" id="id69">runAll</a></p></li>
+<li><p><a class="reference internal" href="#aboutspchgts" id="id70">aboutSpChgTS</a></p></li>
+<li><p><a class="reference internal" href="#plottimeseries-r" id="id71">plotTimeSeries.R</a></p></li>
+<li><p><a class="reference internal" href="#plotcomparetimeseries-r" id="id72">plotCompareTimeSeries.R</a></p></li>
+<li><p><a class="reference internal" href="#plotwatervars-r" id="id73">plotWaterVars.R</a></p></li>
+<li><p><a class="reference internal" href="#plotncgridtsvars" id="id74">plotNcGridTSVars</a></p></li>
+<li><p><a class="reference internal" href="#plotsweeptimeseries" id="id75">plotSweepTimeSeries</a></p></li>
+<li><p><a class="reference internal" href="#ncdrawmap" id="id76">ncDrawMap</a></p></li>
+<li><p><a class="reference internal" href="#ncgetgrid" id="id77">ncGetGrid</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#acknowledgments" id="id78">Acknowledgments</a></p></li>
+<li><p><a class="reference internal" href="#citations" id="id79">Citations</a></p></li>
+<li><p><a class="reference internal" href="#see-also" id="id80">See Also</a></p></li>
+<li><p><a class="reference internal" href="#document-history" id="id81">Document History</a></p></li>
+<li><p><a class="reference internal" href="#appendices" id="id82">Appendices</a></p>
+<ul>
+<li><p><a class="reference internal" href="#examples-of-mound-placement" id="id83">Examples of mound placement</a></p>
+<ul>
+<li><p><a class="reference internal" href="#placement-random" id="id84">Placement “random”</a></p></li>
+<li><p><a class="reference internal" href="#placement-regular" id="id85">Placement “regular”</a></p></li>
+<li><p><a class="reference internal" href="#placement-single" id="id86">Placement “single”</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#file-formats" id="id87">File Formats</a></p></li>
+<li><p><a class="reference internal" href="#example-configuration-file" id="id88">Example Configuration File</a></p></li>
 </ul>
 </li>
 </ul>
@@ -382,7 +392,7 @@
 </ul>
 </nav>
 <section id="introduction">
-<h2><a class="toc-backref" href="#id10" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
 <p>The Drylands2 Model simulates vegetation development within an arid to
 semiarid landscape. Drylands2 is derived from the model of Rietkirk et al
 (1997, 2002)[<a class="reference internal" href="#id4">4</a>][<a class="reference internal" href="#id5">5</a>], as originally implemented by Niall Hanan and Matthew
@@ -395,8 +405,11 @@ for development details.</p>
 <p>The model is implemented in <em>GNU Octave</em> language, with intention to be
 compatible with <em>MATLAB</em><sup>TM</sup>, however compatibility has not yet been
 tested.</p>
+<p>This document describes the installation, configuration,
+and running of the model.
+The document <em>Model Design</em> describes the structure and algorithms of the model.</p>
 <section id="model-features">
-<h3><a class="toc-backref" href="#id11" role="doc-backlink">Model Features</a><a class="headerlink" href="#model-features" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">Model Features</a><a class="headerlink" href="#model-features" title="Link to this heading">¶</a></h3>
 <p>Major architectural elements and algorithms in the model include:</p>
 <ul class="simple">
 <li><p>Multiple plant species can be included in a simulation. Available
@@ -407,7 +420,7 @@ and soil resource availability.</p></li>
 <li><p>Plant propagation can be seed dispersal or diffusive spatial propagation.</p></li>
 <li><p>Plant mortality from several sources, including a background rate, drought
 stress, non-specific random environmental stress, and aeolian-induced
-mortality of grass,forbs.</p></li>
+mortality of grass,forbs. Annual grasses/forbs live for one growing season.</p></li>
 <li><p>Three soil layers provide for vertical soil water movement and
 distribution of root biomass.</p></li>
 <li><p>Water fluxes include infiltration, evaporation, gravity drainage, lateral
@@ -415,15 +428,16 @@ diffusion, and plant uptake. Soil field capacity and wilting point constrain
 soil water infiltration, uptake and losses.</p></li>
 <li><p>Nitrogen cycle elements are atmospheric deposition; plant uptake,
 fixation, and decomposition; spatial redistribution of litter due to
-aeolian effects; and lateral diffusion of soil N.
+aeolian effects; and lateral diffusion of soil N with soil water.
 See the diagram <em>NFluxesDiagram</em> for a visual description of the
 N cycle implementation.</p></li>
 </ul>
-<p>See the diagram <em>ModelDiagram</em> for a visual description of the algorithms
-and input data. See the diagram <em>NFluxesDiagram</em> for a visual description of
+<p>The diagram <em>ModelDiagram</em> contains a visual description of the algorithms
+and input data. The diagram <em>NFluxesDiagram</em> has a visual description of
 the N cycle implementation.</p>
 <p>A configuration file in JSON format controls the simulation, defines
 plants, and specifies model parameters.
+See <a class="reference internal" href="#configuring-a-simulation">Configuring a Simulation</a> for details.
 The section <a class="reference internal" href="#example-configuration-file">Example Configuration File</a> provides a configuration file
 for a single plant (black grama).</p>
 <p>Simulation input data is daily precipitation, temperature, N atmospheric
@@ -438,7 +452,7 @@ command-line, and a variety of functions to examine simulation results
 from the output files.</p>
 </section>
 <section id="conventions">
-<h3><a class="toc-backref" href="#id12" role="doc-backlink">Conventions</a><a class="headerlink" href="#conventions" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">Conventions</a><a class="headerlink" href="#conventions" title="Link to this heading">¶</a></h3>
 <p>Directory paths shown herein use a slash (<strong>/</strong>) path separator,
 which is the convention in UNIX-style directory specification.
 Microsoft Windows uses the backslash (<strong>\</strong>) separator in paths.
@@ -457,20 +471,21 @@ by this, including older versions of Notepad.
 </section>
 </section>
 <section id="obtaining-and-installing-the-drylands2-model">
-<h2><a class="toc-backref" href="#id13" role="doc-backlink">Obtaining and Installing the Drylands2 Model</a><a class="headerlink" href="#obtaining-and-installing-the-drylands2-model" title="Link to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id14" role="doc-backlink">Obtaining and Installing the Drylands2 Model</a><a class="headerlink" href="#obtaining-and-installing-the-drylands2-model" title="Link to this heading">¶</a></h2>
 <p>There are two items to download for the Drylands2 model,
 the DrylandsLib package, and the Drylands2 model source code
 and documentation.</p>
 <section id="required-software">
-<h3><a class="toc-backref" href="#id14" role="doc-backlink">Required Software</a><a class="headerlink" href="#required-software" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">Required Software</a><a class="headerlink" href="#required-software" title="Link to this heading">¶</a></h3>
 <p>While this model is built and tested with <strong>GNU Octave</strong>, compatibility
-with <strong>MATLAB</strong><sup>TM</sup> is intended, but not fully tested.</p>
+with <strong>MATLAB</strong><sup>TM</sup> is intended, but not fully tested. The model
+uses <strong>GNU Octave</strong> packages that may not have the same name in <strong>MATLAB</strong>.</p>
 <p><strong>GNU Octave</strong> can be obtained from <a class="reference external" href="https://octave.org">octave.org</a>.
 <strong>MATLAB</strong><sup>TM</sup> is a commercial application; see
 <a class="reference external" href="https://www.mathworks.com">https://www.mathworks.com</a>.</p>
 </section>
 <section id="downloading-the-model-source-code">
-<h3><a class="toc-backref" href="#id15" role="doc-backlink">Downloading the Model Source Code</a><a class="headerlink" href="#downloading-the-model-source-code" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">Downloading the Model Source Code</a><a class="headerlink" href="#downloading-the-model-source-code" title="Link to this heading">¶</a></h3>
 <p>The model source code and documentation is hosted on GitHub:sup:<cite>TM</cite> at</p>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">https://github.com/jornada-im/Drylands2</span></code></div>
@@ -487,7 +502,7 @@ select <strong>commits</strong> from the right side of the header for the
 list of directories and files.</p>
 </section>
 <section id="installing">
-<h3><a class="toc-backref" href="#id16" role="doc-backlink">Installing</a><a class="headerlink" href="#installing" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id17" role="doc-backlink">Installing</a><a class="headerlink" href="#installing" title="Link to this heading">¶</a></h3>
 <p>Create two directories (substitute your actual paths for these place holders):</p>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">installation-path</span> <span class="pre">-</span></code> Put the model files here.</div>
@@ -505,8 +520,8 @@ with the console command:</p>
 </pre></div>
 </div>
 <section id="the-startup-file">
-<h4><a class="toc-backref" href="#id17" role="doc-backlink">The Startup File</a><a class="headerlink" href="#the-startup-file" title="Link to this heading">¶</a></h4>
-<p>At startup GNU Octave reads and executes the file <code class="docutils literal notranslate"><span class="pre">.octaverc</span></code>,
+<h4><a class="toc-backref" href="#id18" role="doc-backlink">The Startup File</a><a class="headerlink" href="#the-startup-file" title="Link to this heading">¶</a></h4>
+<p>At startup <strong>GNU Octave</strong> reads and executes the file <code class="docutils literal notranslate"><span class="pre">.octaverc</span></code>,
 if present. This is a recommended file in which to put
 commands and global variables that configure all your Octave session.</p>
 <p>For better performance, it may be helpful to tell Octave how many
@@ -519,11 +534,11 @@ file (change the number to at most the available cores in your CPU):</p>
 <code class="docutils literal notranslate"><span class="pre">$HOME/.octaverc</span></code> or <code class="docutils literal notranslate"><span class="pre">~/.octaverc</span></code>.
 On Microsoft Windows systems, this file may be in
 <code class="docutils literal notranslate"><span class="pre">%APPDATA%\octave\octaverc</span></code>.
-The GNU Octave manual has a section <strong>Startup Files</strong> with more
+The <strong>GNU Octave</strong> manual has a section <strong>Startup Files</strong> with more
 information on startup file locations.</p>
 </section>
 <section id="required-packages">
-<h4><a class="toc-backref" href="#id18" role="doc-backlink">Required Packages</a><a class="headerlink" href="#required-packages" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id19" role="doc-backlink">Required Packages</a><a class="headerlink" href="#required-packages" title="Link to this heading">¶</a></h4>
 <p><strong>GNU Octave</strong> packages that are used by the model and supporting
 utilities are <em>statistics</em>, <em>io</em> and <em>netcdf</em>.
 To see if these are installed, in a <strong>GNU Octave</strong> command window,
@@ -537,8 +552,8 @@ To install a package, use these commands as needed:</p>
 </section>
 </section>
 <section id="obtaining-and-installing-the-drylandslib-package">
-<h3><a class="toc-backref" href="#id19" role="doc-backlink">Obtaining and Installing the DrylandsLib package</a><a class="headerlink" href="#obtaining-and-installing-the-drylandslib-package" title="Link to this heading">¶</a></h3>
-<p>The DrylandsLib package for <em>GNU Octave</em> is required for the Drylands2
+<h3><a class="toc-backref" href="#id20" role="doc-backlink">Obtaining and Installing the DrylandsLib package</a><a class="headerlink" href="#obtaining-and-installing-the-drylandslib-package" title="Link to this heading">¶</a></h3>
+<p>The DrylandsLib package for <strong>GNU Octave</strong> is required for the Drylands2
 model. You can download the latest version of this package from the
 following GitHub:sup:<cite>TM</cite> URL:</p>
 <div class="line-block">
@@ -546,7 +561,7 @@ following GitHub:sup:<cite>TM</cite> URL:</p>
 </div>
 <p>The file to download is <code class="docutils literal notranslate"><span class="pre">DrylandsLib.tar.gz</span></code>. Save this to a
 convenient temporary storage directory.</p>
-<p>Once downloaded, install the package in <em>GNU Octave</em> using the
+<p>Once downloaded, install the package in <strong>GNU Octave</strong> using the
 package manager <strong>pkg</strong>:</p>
 <div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="n">pkg</span><span class="w"> </span><span class="s">install</span><span class="w"> </span><span class="s">"DrylandsLib.tar.gz"</span>
 </pre></div>
@@ -554,14 +569,14 @@ package manager <strong>pkg</strong>:</p>
 <p>You can prepend the path to file to the file name.</p>
 <p>Once installed, <em>GNU Octave</em> will know the package by its lowercase name,
 <code class="docutils literal notranslate"><span class="pre">drylandslib</span></code>.</p>
-<p>In <em>GNU Octave</em>, load the package (using its lowercase name):</p>
+<p>In <strong>GNU Octave</strong>, load the package (using its lowercase name):</p>
 <div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="nb">warning</span><span class="p">(</span><span class="s">'off'</span><span class="p">,</span><span class="w"> </span><span class="s">'Octave:shadowed-function'</span><span class="p">);</span>
 <span class="n">pkg</span><span class="w"> </span><span class="s">load</span><span class="w"> </span><span class="s">drylandslib</span>
 </pre></div>
 </div>
 <p>If you want to load the DrylandsLib package automatically upon starting
-<em>GNU Octave</em>, you can add the <code class="docutils literal notranslate"><span class="pre">pkg</span> <span class="pre">load</span></code> command to the startup file:</p>
-<div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="c">% Open the startup file in the GNU Octave editor:</span>
+<strong>GNU Octave</strong>, you can add the <code class="docutils literal notranslate"><span class="pre">pkg</span> <span class="pre">load</span></code> command to the startup file:</p>
+<div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="c">% Open the startup file in the **GNU Octave** editor:</span>
 <span class="nb">edit</span><span class="w"> </span><span class="s">'~/.octaverc'</span>
 <span class="c">% Append the following:</span>
 <span class="n">pkg</span><span class="w"> </span><span class="s">load</span><span class="w"> </span><span class="s">drylandslib</span>
@@ -578,7 +593,7 @@ display a help page with:</p>
 to load it manually.</p>
 </section>
 <section id="additional-software">
-<h3><a class="toc-backref" href="#id20" role="doc-backlink">Additional Software</a><a class="headerlink" href="#additional-software" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id21" role="doc-backlink">Additional Software</a><a class="headerlink" href="#additional-software" title="Link to this heading">¶</a></h3>
 <p>A few software applications are useful for configuration tasks and
 examining the simulation results. These include:</p>
 <ul class="simple">
@@ -593,39 +608,46 @@ simulation results, including graphs and maps.</p></li>
 <li><p><strong>Pandoc</strong> is used for producing documents in HTML and PDF format from
 Markdown and reStructuredText document files.
 See <a class="reference external" href="https://pandoc.org">https://pandoc.org</a>.
+Document conversions may require additional software to be available.
 A separate <strong>LaTeX</strong> installation may be required for producing PDF files.
-Without Pandoc, documents are still readable as plain text.</p></li>
+Without Pandoc, documents are still readable as plain text.
+<strong>LibreOffice</strong> is required for converting document (<em>fodt</em>) and drawing (<em>fodg</em>) files.</p></li>
 <li><p><strong>GNU make</strong> is used to generated formatted document files using makefiles.</p></li>
 <li><p><strong>git</strong> is used for version control.
 This is not required to obtain and run the model,
 but is used to manage file histories and updates.</p></li>
 <li><p><strong>plantuml</strong> (<a class="reference external" href="https://plantuml.com">https://plantuml.com</a>) generates class and flowchart
 diagrams from text description files.</p></li>
+<li><p><strong>LibreOffice</strong><sup>TM</sup> is used for documents containing formulas and drawings.
+These are stored in “flat XML” text format with extensions <em>fodt</em> and <em>fodg</em>.
+<a class="reference external" href="https://www.libreoffice.org">https://www.libreoffice.org</a></p></li>
 </ul>
 </section>
 <section id="file-organization">
-<h3><a class="toc-backref" href="#id21" role="doc-backlink">File Organization</a><a class="headerlink" href="#file-organization" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id22" role="doc-backlink">File Organization</a><a class="headerlink" href="#file-organization" title="Link to this heading">¶</a></h3>
 <p>The directory structure for the model files is:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Drylands2
 |-- doc         - Model documentation files.
+|   `-- source  - Additional documentation files.
 |-- src         - Model algorithms and control functions and classes.
 |   |-- input   - Functions and classes for reading input files.
 |   |-- output  -   ... for writing non-graphics output files.
 |   |-- plot    -   ... for displaying and saving graphs and maps.
-|   |-- grid        ... for grid initialization and management.
-|   |-- log     -   ... for writing to a log file.
+|   |-- grid    - Grid initialization and management.
+|   |-- log     - Managing and writing to a log file.
 |   |-- math    - Math and statistics functions.
     |-- aeolian - Algorithms for plant effects from aeolian erosion and deposition.
 |   |-- plant   - Plant class and related classes and functions.
 |   |-- mounds  - Modeling water flow downgradient on topographic mounds.
 |   |-- tools   - Misc. usesful functions not used in a simulation.
 |   `-- util    - General utility functions.
-`-- tests       - Test and example files.
+|-- tests       - Test and example files.
+`-- README.*    - One page introduction to the model.
 </pre></div>
 </div>
 </section>
 <section id="making-the-documents">
-<h3><a class="toc-backref" href="#id22" role="doc-backlink">Making the Documents</a><a class="headerlink" href="#making-the-documents" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id23" role="doc-backlink">Making the Documents</a><a class="headerlink" href="#making-the-documents" title="Link to this heading">¶</a></h3>
 <p>In a console window, change to the document’s directory,
 e.g., <code class="docutils literal notranslate"><span class="pre">[installation-path]/Drylands2/doc</span></code>.
 Then run <strong>make</strong> to build the formatted documents
@@ -645,7 +667,7 @@ documentation.</p>
 </section>
 </section>
 <section id="quick-start">
-<h2><a class="toc-backref" href="#id23" role="doc-backlink">Quick Start</a><a class="headerlink" href="#quick-start" title="Link to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id24" role="doc-backlink">Quick Start</a><a class="headerlink" href="#quick-start" title="Link to this heading">¶</a></h2>
 <p>Make a work directory in which to store your simulation files. Under the
 work directory create a subdirectory to hold the simulation results. You
 will specify this subdirectory in the configuration file item <strong>output</strong>.
@@ -689,7 +711,7 @@ octave<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w">
 enter the command <code class="docutils literal notranslate"><span class="pre">clear</span> <span class="pre">all</span></code> before starting the next simulation.</p>
 </section>
 <section id="configuring-a-simulation">
-<h2><a class="toc-backref" href="#id24" role="doc-backlink">Configuring a Simulation</a><a class="headerlink" href="#configuring-a-simulation" title="Link to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id25" role="doc-backlink">Configuring a Simulation</a><a class="headerlink" href="#configuring-a-simulation" title="Link to this heading">¶</a></h2>
 <p>A configuration file is a text file using JSON[<a class="reference internal" href="#id1">1</a>] format and structures.</p>
 <p>An example configuration file is provided in the model code at
 <code class="docutils literal notranslate"><span class="pre">tests/config.json</span></code>. You can copy this into your workspace and edit it for
@@ -735,7 +757,7 @@ The equivalent JSON syntax is:</p>
 JSON arrays are enclosed in square brackets <strong>[]</strong>
 while in Octave cell arrays are referenced with curley brackets <strong>{}</strong>.</p>
 <section id="general-configuration">
-<h3><a class="toc-backref" href="#id25" role="doc-backlink">General Configuration</a><a class="headerlink" href="#general-configuration" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id26" role="doc-backlink">General Configuration</a><a class="headerlink" href="#general-configuration" title="Link to this heading">¶</a></h3>
 <p>Input file names can include a partial or complete path.
 If no path is included, the file is assumed to be located in the same
 directory as the configuration file.
@@ -815,7 +837,7 @@ of the configuration file’s path.</p>
 </div>
 </section>
 <section id="simulation-time">
-<h3><a class="toc-backref" href="#id26" role="doc-backlink">Simulation Time</a><a class="headerlink" href="#simulation-time" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id27" role="doc-backlink">Simulation Time</a><a class="headerlink" href="#simulation-time" title="Link to this heading">¶</a></h3>
 <p>The configuration item <strong>simTime</strong> specifies the simulation time limits.
 These limits are two pairs of integers containing a year and day-of-year.
 The first pair is the <strong>start</strong> date, and the 2nd pair is the <strong>stop</strong> date.
@@ -849,7 +871,7 @@ day number is</p>
 automatic. You must be sure that the data files span your time limits.</p>
 </section>
 <section id="input-data-configuration">
-<h3><a class="toc-backref" href="#id27" role="doc-backlink">Input Data Configuration</a><a class="headerlink" href="#input-data-configuration" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id28" role="doc-backlink">Input Data Configuration</a><a class="headerlink" href="#input-data-configuration" title="Link to this heading">¶</a></h3>
 <p>The configuration item <strong>input</strong> describes the sources of input data.
 If the item is a data file name, see the section “ <a class="reference internal" href="#input-data">Input Data</a> “ for a
 description of the details of the file structure.</p>
@@ -916,7 +938,7 @@ values of bulk N deposition are estimated to be 4-7 kg/ha/year,
 or approximately 0.001 to 0.002 g/m2/day [<a class="reference internal" href="#id8">8</a>].</p>
 </section>
 <section id="output-configuration">
-<h3><a class="toc-backref" href="#id28" role="doc-backlink">Output Configuration</a><a class="headerlink" href="#output-configuration" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id29" role="doc-backlink">Output Configuration</a><a class="headerlink" href="#output-configuration" title="Link to this heading">¶</a></h3>
 <p>The configuration item <strong>output</strong> has the following values and
 boolean switches (<em>true</em> = produce graph, <em>false</em> = do not produce graph).</p>
 <div class="table-wrapper docutils container">
@@ -1001,7 +1023,7 @@ boolean switches (<em>true</em> = produce graph, <em>false</em> = do not produce
 </div>
 </section>
 <section id="graphs-configuration">
-<h3><a class="toc-backref" href="#id29" role="doc-backlink">Graphs Configuration</a><a class="headerlink" href="#graphs-configuration" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id30" role="doc-backlink">Graphs Configuration</a><a class="headerlink" href="#graphs-configuration" title="Link to this heading">¶</a></h3>
 <p>The configuration item <strong>graphs</strong> has the following values and
 boolean switches (<em>true</em> = produce graph, <em>false</em> = do not produce graph).</p>
 <div class="table-wrapper docutils container">
@@ -1078,7 +1100,7 @@ boolean switches (<em>true</em> = produce graph, <em>false</em> = do not produce
 </div>
 </section>
 <section id="plant-species-definitions">
-<h3><a class="toc-backref" href="#id30" role="doc-backlink">Plant Species Definitions</a><a class="headerlink" href="#plant-species-definitions" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id31" role="doc-backlink">Plant Species Definitions</a><a class="headerlink" href="#plant-species-definitions" title="Link to this heading">¶</a></h3>
 <p>The configuration item <strong>plant</strong> contains an array of structures which
 define the plant species. Each struct in the array is one species definition,
 and contains the fields described in the table below.
@@ -1251,195 +1273,199 @@ explicitly stated otherwise.</p>
 <td><p>scalar</p></td>
 <td><p>Nitrogen daily maintenance requirement (gN gBiomass-1 d-1).</p></td>
 </tr>
-<tr class="row-even"><td><p>NfixFrac</p></td>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>From Steward et al. (2014)[<a class="reference internal" href="#id9">9</a>]: black grama = 0.0003425; creosote = 0.0001507</p></td>
+</tr>
+<tr class="row-odd"><td><p>NfixFrac</p></td>
 <td><p>scalar</p></td>
 <td><p>Proportion of plant N demand that will come from fixed N; valid range = 0-1.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>For a non-fixing plant use 0.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>An N fixer typically will have an intermediate value, e.g., 0.5.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Crust that fixes N may be 1.0.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p><strong>Reproducton:</strong></p></td>
 </tr>
-<tr class="row-odd"><td><p>DP</p></td>
+<tr class="row-even"><td><p>DP</p></td>
 <td><p>scalar</p></td>
 <td><p>Plant growth through diffusion: This is the rate of</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>spatial dispersion or vegetation propagation (m2 d-1).</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Valid range is 0-1.</p></td>
 </tr>
-<tr class="row-even"><td><p>E</p></td>
+<tr class="row-odd"><td><p>E</p></td>
 <td><p>scalar</p></td>
 <td><p>Proportion of biomass effort for vegetative (non-seeded) propagation (0-1);</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">1-E</span></code> = proportion of effort for seeded propagation (0-1).</p></td>
 </tr>
-<tr class="row-even"><td><p>Kr</p></td>
+<tr class="row-odd"><td><p>Kr</p></td>
 <td><p>scalar</p></td>
 <td><p>Reproduction fraction per unit biomass (0-1),</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>where biomass is the previous growing season’s total aboveground growth.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Applies to both vegetative + seeded reproduction.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>seed</strong></p></td>
+<tr class="row-even"><td><p><strong>seed</strong></p></td>
 <td><p>struct</p></td>
 <td><p><strong>Seed dispsersal propagation:</strong></p></td>
 </tr>
-<tr class="row-even"><td><p>bmNewSeedling</p></td>
+<tr class="row-odd"><td><p>bmNewSeedling</p></td>
 <td><p>scalar</p></td>
 <td><p>Initial aboveground biomass of a new seedling (g/m2).</p></td>
 </tr>
-<tr class="row-odd"><td><p>bmMaxRepro</p></td>
+<tr class="row-even"><td><p>bmMaxRepro</p></td>
 <td><p>scalar</p></td>
 <td><p>Fraction of maximum biomass (Bmax) per cell below which</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>seed reproduction can occur (0-1).</p></td>
 </tr>
-<tr class="row-odd"><td><p>Kg</p></td>
+<tr class="row-even"><td><p>Kg</p></td>
 <td><p>scalar</p></td>
 <td><p>Constant germination rate == probability of germination (0-1).</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>mortality</strong></p></td>
+<tr class="row-odd"><td><p><strong>mortality</strong></p></td>
 <td><p>struct</p></td>
 <td><p><strong>Mortality configuration:</strong></p></td>
 </tr>
-<tr class="row-odd"><td><p>d</p></td>
+<tr class="row-even"><td><p>d</p></td>
 <td><p>scalar</p></td>
 <td><p>Background mortality rate: loss of biomass due to mortality (fraction d-1).</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>The sum (mortality.d + grazeFraction) must be &lt;= Constants.maxGrazeFractionPlusD.</p></td>
 </tr>
-<tr class="row-odd"><td><p>annual</p></td>
+<tr class="row-even"><td><p>annual</p></td>
 <td><p>vector[4]</p></td>
 <td><p>Annual mortality for perennial plants and shrubs.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>These are logistic function parameters <code class="docutils literal notranslate"><span class="pre">[a,</span> <span class="pre">b,</span> <span class="pre">c,</span> <span class="pre">d]</span></code>, where</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">a</span></code> = maximum (0-1), <code class="docutils literal notranslate"><span class="pre">b</span></code> = modifies inflection point (e.g., 0.005),</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">c</span></code> = modifies slopet (e.g., 0.05), <code class="docutils literal notranslate"><span class="pre">d</span></code> = minimum (0-1, <code class="docutils literal notranslate"><span class="pre">d</span></code> &lt; <code class="docutils literal notranslate"><span class="pre">a</span></code>).</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p><strong>Water stress affecting mortality:</strong></p></td>
 </tr>
-<tr class="row-even"><td><p>B0</p></td>
+<tr class="row-odd"><td><p>B0</p></td>
 <td><p>scalar</p></td>
 <td><p>Water demand excess at the logistic function inflection point (range: &gt;= 0.0).</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Increasing values at a fixed water demand excess will decrease the mortality rate,</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>while the maximum rate of change of mortality remains constant.</p></td>
 </tr>
-<tr class="row-odd"><td><p>B1</p></td>
+<tr class="row-even"><td><p>B1</p></td>
 <td><p>scalar</p></td>
 <td><p>Maximum rate of change of mortality (range: &gt;= 0.0).</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>This is the maximum slope at the inflection point of the logistic function.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Increasing values increase the rate of change in mortality at the logistic inflection</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>point, and at a fixed water demand excess will increase the mortality rate.</p></td>
 </tr>
-<tr class="row-odd"><td><p>lengthPeriod</p></td>
+<tr class="row-even"><td><p>lengthPeriod</p></td>
 <td><p>scalar</p></td>
 <td><p>Number of days to track excess water demand.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>aeolianEffect</strong></p></td>
+<tr class="row-odd"><td><p><strong>aeolianEffect</strong></p></td>
 <td><p>struct</p></td>
 <td><p><strong>Aeolian effects from biomass upon erosion/deposition:</strong></p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>This struct will have different fields and values for a grass or shrub:</p></td>
 </tr>
-<tr class="row-even"><td><p><em>Grass:</em></p></td>
+<tr class="row-odd"><td><p><em>Grass:</em></p></td>
 <td><p></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p>minThreshold</p></td>
+<tr class="row-even"><td><p>minThreshold</p></td>
 <td><p>scalar</p></td>
 <td><p>Minimum aboveground biomass to be affected or ignored by aeolian effects (g/m2).</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Cell biomass &gt; threshold contribute to effects of relative wind shear.</p></td>
 </tr>
-<tr class="row-odd"><td><p>B, Bmax, Bz</p></td>
+<tr class="row-even"><td><p>B, Bmax, Bz</p></td>
 <td><p>scalar</p></td>
 <td><p><strong>grassEffect</strong> equation parameters. E.g., <code class="docutils literal notranslate"><span class="pre">B</span></code>: 0.12, <code class="docutils literal notranslate"><span class="pre">Bmax</span></code>: 0.99, <code class="docutils literal notranslate"><span class="pre">Bz</span></code>: 1000.0</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>The graphs by the GNU Octave script <code class="docutils literal notranslate"><span class="pre">aeolian/plot-grassEffect-logistic.m</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>show the results of different values of these parameters.</p></td>
 </tr>
-<tr class="row-even"><td><p><em>Shrub:</em></p></td>
+<tr class="row-odd"><td><p><em>Shrub:</em></p></td>
 <td><p></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p>minThreshold</p></td>
+<tr class="row-even"><td><p>minThreshold</p></td>
 <td><p>scalar</p></td>
 <td><p>Minimum aboveground biomass to be included in or excluded from aeolian effects (g/m2).</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Cell biomass &gt; threshold are not erodible but contribute to lee shadow.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p><strong>Herbivory:</strong></p></td>
 </tr>
-<tr class="row-even"><td><p>grazeFraction</p></td>
+<tr class="row-odd"><td><p>grazeFraction</p></td>
 <td><p>scalar</p></td>
 <td><p>Average fraction of aboveground biomass removed per day (range: 0-1).</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>The sum (mortality.d + grazeFraction) must be &lt;= Constants.maxGrazeFractionPlusD.</p></td>
 </tr>
@@ -1448,14 +1474,14 @@ explicitly stated otherwise.</p>
 </div>
 </section>
 <section id="model-configuration">
-<h3><a class="toc-backref" href="#id31" role="doc-backlink">Model Configuration</a><a class="headerlink" href="#model-configuration" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id32" role="doc-backlink">Model Configuration</a><a class="headerlink" href="#model-configuration" title="Link to this heading">¶</a></h3>
 <p>The configuration item <strong>model</strong> is a structure containing parameters
 specifying model configuration values that are not plant-specific.</p>
 <p>Mounds are topographic features of specified shape and size.
 Surface water flows down the mounds according to their shape and the
 parameter <strong>beta</strong>, or maximum convection rate.</p>
 <p>Fields in <strong>bold</strong> are nested structures:
-<strong>initial</strong>, <strong>params</strong>, <strong>aeolian</strong>, and <strong>mounds</strong>.</p>
+<strong>initial</strong>, <strong>params</strong>, <strong>aeolian</strong>, <strong>mounds</strong>, <strong>algorithms</strong>.</p>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
 <thead>
@@ -1732,12 +1758,47 @@ parameter <strong>beta</strong>, or maximum convection rate.</p>
 </tbody>
 </table>
 </div>
+<section id="algorithm-toggles">
+<h4><a class="toc-backref" href="#id33" role="doc-backlink">Algorithm Toggles</a><a class="headerlink" href="#algorithm-toggles" title="Link to this heading">¶</a></h4>
+<p>The configuration structure <code class="docutils literal notranslate"><span class="pre">model.algorithms</span></code> allows some algorithms to be explicitly
+turned on or off. Additional algorithms can be turned off by setting a configuration
+parameter to zero. These include:</p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Algorithm</p></th>
+<th class="head"><p>Configuration Item</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>evaporation:</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">model.params.Epot</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>infiltration:</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">model.params.alpha</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>plant reproduction:</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">plant.Kr</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>plant diffusion:</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">plant.DP</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>maintenance N uptake:</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">plant.maintN</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>herbivory:</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">plant.grazeFraction</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
 <section id="initial-state-settings">
-<h4><a class="toc-backref" href="#id32" role="doc-backlink">Initial state settings</a><a class="headerlink" href="#initial-state-settings" title="Link to this heading">¶</a></h4>
-<p>(TODO: Initial state settings; biomass, soil N)</p>
+<h4><a class="toc-backref" href="#id34" role="doc-backlink">Initial state settings</a><a class="headerlink" href="#initial-state-settings" title="Link to this heading">¶</a></h4>
+<p>(TODO: Initial state settings; biomass, precipitation, soil N)</p>
 </section>
 <section id="aeolian-submodel">
-<h4><a class="toc-backref" href="#id33" role="doc-backlink">Aeolian Submodel</a><a class="headerlink" href="#aeolian-submodel" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id35" role="doc-backlink">Aeolian Submodel</a><a class="headerlink" href="#aeolian-submodel" title="Link to this heading">¶</a></h4>
 <p>The aeolian submodel estimates effects upon plants by erosion and deposition
 of aeolian transport of soil. The intent is to not track actual amounts of
 material transported across a grid, rather track the effects of erosion and
@@ -1746,11 +1807,11 @@ locations that will experience deposition or erosion. The relative magnitude
 of deposition or erosion will be indicated by a fraction in the range 0-1,
 where 0 is none, and 1 is maximum. These erosion and deposition effects are
 applied to mortality of grass and young shrubs.</p>
-<p>Details of the aeolian algorithms are in the document <em>aeolian/AeolianEffect-Algorithms</em>.</p>
+<p>Details of the aeolian algorithms are in the document <em>source/aeolian/AeolianEffect-Algorithms</em>.</p>
 <p>The aeolian submodel is enabled with the configuration item <code class="docutils literal notranslate"><span class="pre">model.algorithms.aeolian</span></code>.</p>
 </section>
 <section id="mounds">
-<h4><a class="toc-backref" href="#id34" role="doc-backlink">Mounds</a><a class="headerlink" href="#mounds" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id36" role="doc-backlink">Mounds</a><a class="headerlink" href="#mounds" title="Link to this heading">¶</a></h4>
 <p>Mounds are circular topographic features of specified shape and size.
 Surface water flows down the mounds according to their shape and the
 parameter <code class="docutils literal notranslate"><span class="pre">model.mounds.beta</span></code>, or maximum gravity convection rate.</p>
@@ -1796,7 +1857,7 @@ The <em>R</em> command is:</p>
 </pre></div>
 </div>
 <section id="mound-shape">
-<h5>Mound Shape<a class="headerlink" href="#mound-shape" title="Link to this heading">¶</a></h5>
+<h5><a class="toc-backref" href="#id37" role="doc-backlink">Mound Shape</a><a class="headerlink" href="#mound-shape" title="Link to this heading">¶</a></h5>
 <p>Mound shape is determined by a set of [x,y] pairs in two vectors, the slope
 (or convection velocity) and the radial distance from the mound center.</p>
 <p>You can plot the one-sided velocity (slope) profile for each geometry, and the
@@ -1807,7 +1868,7 @@ files at <code class="docutils literal notranslate"><span class="pre">doc/mounds
 </div>
 </section>
 <section id="number-of-mounds">
-<h5>Number of Mounds<a class="headerlink" href="#number-of-mounds" title="Link to this heading">¶</a></h5>
+<h5><a class="toc-backref" href="#id38" role="doc-backlink">Number of Mounds</a><a class="headerlink" href="#number-of-mounds" title="Link to this heading">¶</a></h5>
 <p>The number of mounds is specified in the configuration parameter
 <code class="docutils literal notranslate"><span class="pre">model.mounds.number</span></code>. This may be associated with
 the initial amount of fine or coarse arrangement of plants.</p>
@@ -1816,7 +1877,7 @@ depends upon the placement method, the grid dimensions, and the mound’s
 radius.</p>
 </section>
 <section id="mound-placement">
-<h5>Mound Placement<a class="headerlink" href="#mound-placement" title="Link to this heading">¶</a></h5>
+<h5><a class="toc-backref" href="#id39" role="doc-backlink">Mound Placement</a><a class="headerlink" href="#mound-placement" title="Link to this heading">¶</a></h5>
 <dl class="simple">
 <dt>single:</dt><dd><p>Ignores the number of mounds requested, and centers one mound within the
 grid.</p>
@@ -1841,7 +1902,7 @@ Results will be invalid if the mounds are overlapping and convection is on
 to keep mound centers at least 8 meters apart.</p>
 </section>
 <section id="mound-radii">
-<h5>Mound Radii<a class="headerlink" href="#mound-radii" title="Link to this heading">¶</a></h5>
+<h5><a class="toc-backref" href="#id40" role="doc-backlink">Mound Radii</a><a class="headerlink" href="#mound-radii" title="Link to this heading">¶</a></h5>
 <p>The configuration for mounds specifies at least two mound radii (m)
 (<code class="docutils literal notranslate"><span class="pre">model.mounds.radii</span></code>):
 Radius(1) bounds the area of “on mound” growth at the top of the mound.
@@ -1856,7 +1917,7 @@ For example, if the mound radius == 1 m, then the mound centers will
 have at least 3 m (3 grid cells) separation.</p>
 </section>
 <section id="mound-coverage-fractions">
-<h5>Mound coverage fractions<a class="headerlink" href="#mound-coverage-fractions" title="Link to this heading">¶</a></h5>
+<h5><a class="toc-backref" href="#id41" role="doc-backlink">Mound coverage fractions</a><a class="headerlink" href="#mound-coverage-fractions" title="Link to this heading">¶</a></h5>
 <p>The configuration for mounds specifies two fields for
 the initial mound biomass (called “coverage” here).
 These are used when the biomass initialization is “random”,
@@ -1872,7 +1933,7 @@ of two values.
 </dl>
 </section>
 <section id="examples-of-parameterization">
-<h5>Examples of parameterization<a class="headerlink" href="#examples-of-parameterization" title="Link to this heading">¶</a></h5>
+<h5><a class="toc-backref" href="#id42" role="doc-backlink">Examples of parameterization</a><a class="headerlink" href="#examples-of-parameterization" title="Link to this heading">¶</a></h5>
 <p>For example, to run without convective motion of H20 due to gravity, but
 with modestly reduced permeability on mounds, the configuration parameters
 might be:</p>
@@ -1892,7 +1953,7 @@ modestly increased plant “efficiency” on mound, try:</p>
 </section>
 </section>
 <section id="sweeps">
-<h3><a class="toc-backref" href="#id35" role="doc-backlink">Sweeps</a><a class="headerlink" href="#sweeps" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id43" role="doc-backlink">Sweeps</a><a class="headerlink" href="#sweeps" title="Link to this heading">¶</a></h3>
 <p>A sweep is a set of simulations over a set of values for a configuration
 parameter. The parameter values are specified in the configuration, while
 all other parameters are constant (unless they have a random or data file
@@ -2049,7 +2110,7 @@ specify the sweep configuration.</p>
 </div>
 </section>
 <section id="trials">
-<h3><a class="toc-backref" href="#id36" role="doc-backlink">Trials</a><a class="headerlink" href="#trials" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id44" role="doc-backlink">Trials</a><a class="headerlink" href="#trials" title="Link to this heading">¶</a></h3>
 <p>Trials are multiple simulations with fixed configuration parameters
 and one random input or parameter.
 This is only useful if the initial conditions vary randomly.
@@ -2076,7 +2137,7 @@ specify the trials configuration.</p>
 </div>
 </section>
 <section id="log-file">
-<h3><a class="toc-backref" href="#id37" role="doc-backlink">Log File</a><a class="headerlink" href="#log-file" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id45" role="doc-backlink">Log File</a><a class="headerlink" href="#log-file" title="Link to this heading">¶</a></h3>
 <p>The configuration item <strong>log</strong> contains fields specifying how the log file
 is used. If item <strong>makeLog</strong> is <em>false</em>, the other items are ignored.</p>
 <div class="table-wrapper docutils container">
@@ -2114,7 +2175,7 @@ is used. If item <strong>makeLog</strong> is <em>false</em>, the other items are
 </section>
 </section>
 <section id="running-a-drylands2-simulation">
-<h2><a class="toc-backref" href="#id38" role="doc-backlink">Running a Drylands2 Simulation</a><a class="headerlink" href="#running-a-drylands2-simulation" title="Link to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id46" role="doc-backlink">Running a Drylands2 Simulation</a><a class="headerlink" href="#running-a-drylands2-simulation" title="Link to this heading">¶</a></h2>
 <p>The steps to running a simulation are:</p>
 <ol class="arabic simple">
 <li><p>Obtain the input data</p></li>
@@ -2123,7 +2184,7 @@ is used. If item <strong>makeLog</strong> is <em>false</em>, the other items are
 <li><p>Examine the results.</p></li>
 </ol>
 <section id="input-data">
-<h3><a class="toc-backref" href="#id39" role="doc-backlink">Input Data</a><a class="headerlink" href="#input-data" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id47" role="doc-backlink">Input Data</a><a class="headerlink" href="#input-data" title="Link to this heading">¶</a></h3>
 <p>Data for the model is daily precipitation, temperature,
 N atmospheric deposition, and wind data.
 Each can be sourced from a data file, or be a constant value.
@@ -2193,7 +2254,7 @@ table.</p>
 </table>
 </div>
 <section id="precipitation-data-file">
-<h4><a class="toc-backref" href="#id40" role="doc-backlink">Precipitation Data File</a><a class="headerlink" href="#precipitation-data-file" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id48" role="doc-backlink">Precipitation Data File</a><a class="headerlink" href="#precipitation-data-file" title="Link to this heading">¶</a></h4>
 <p>Precipitation records can be continuous or for days when precipitation
 events occurred, i.e., daily precipitation is greater than zero.
 Excluding records with zero or near zero precipitation can greatly reduce
@@ -2245,7 +2306,7 @@ fractional value.</p>
 The model function <code class="docutils literal notranslate"><span class="pre">getPrecip</span></code> retrieves the data for each day.</p>
 </section>
 <section id="temperature-data-file">
-<h4><a class="toc-backref" href="#id41" role="doc-backlink">Temperature Data File</a><a class="headerlink" href="#temperature-data-file" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id49" role="doc-backlink">Temperature Data File</a><a class="headerlink" href="#temperature-data-file" title="Link to this heading">¶</a></h4>
 <p>Temperature records are expected to be continuous and without gaps for
 the duration of the simulation.</p>
 <p>Columns in the CSV file are:</p>
@@ -2304,7 +2365,7 @@ fractional values.</p>
 The model function <code class="docutils literal notranslate"><span class="pre">getTemperature</span></code> retrieves the data for each day.</p>
 </section>
 <section id="nitrogen-atmospheric-deposition">
-<h4><a class="toc-backref" href="#id42" role="doc-backlink">Nitrogen Atmospheric Deposition</a><a class="headerlink" href="#nitrogen-atmospheric-deposition" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id50" role="doc-backlink">Nitrogen Atmospheric Deposition</a><a class="headerlink" href="#nitrogen-atmospheric-deposition" title="Link to this heading">¶</a></h4>
 <p>N atmospheric deposition is an input flux contributing to plant uptake of N
 for growth, with decomposition of plant material returning N to the soil.
 This flux does not include aeolian deposition.
@@ -2371,7 +2432,7 @@ The model function <code class="docutils literal notranslate"><span class="pre">
 configuration item <strong>model.algorithms.NAtmDep</strong>.</p>
 </section>
 <section id="wind-data-file">
-<h4><a class="toc-backref" href="#id43" role="doc-backlink">Wind Data File</a><a class="headerlink" href="#wind-data-file" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id51" role="doc-backlink">Wind Data File</a><a class="headerlink" href="#wind-data-file" title="Link to this heading">¶</a></h4>
 <p>The aeolian submodel requires wind direction and maximum speed.</p>
 <p>A data file for wind contains daily date values, wind direction and speed,
 stored in a CSV file.
@@ -2435,7 +2496,7 @@ The model function <code class="docutils literal notranslate"><span class="pre">
 </section>
 </section>
 <section id="running-a-simulation">
-<h3><a class="toc-backref" href="#id44" role="doc-backlink">Running a Simulation</a><a class="headerlink" href="#running-a-simulation" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id52" role="doc-backlink">Running a Simulation</a><a class="headerlink" href="#running-a-simulation" title="Link to this heading">¶</a></h3>
 <p>A simulation can be run either from the <em>GNU Octave</em> application[<a class="reference internal" href="#id3">3</a>], or from
 a console command line.</p>
 <p>Run the model with the following command:</p>
@@ -2466,7 +2527,7 @@ octave<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w">
 enter the command <code class="docutils literal notranslate"><span class="pre">clear</span> <span class="pre">all</span></code> before starting the next simulation.</p>
 </section>
 <section id="examining-simulation-results">
-<h3><a class="toc-backref" href="#id45" role="doc-backlink">Examining Simulation Results</a><a class="headerlink" href="#examining-simulation-results" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id53" role="doc-backlink">Examining Simulation Results</a><a class="headerlink" href="#examining-simulation-results" title="Link to this heading">¶</a></h3>
 <p>All simulation output files are in the output directory.
 Output files include <code class="docutils literal notranslate"><span class="pre">simulation.log</span></code>,
 which contains a concise summary of the simulation configuration,
@@ -2479,7 +2540,7 @@ If a sweep is run, <strong>results</strong> includes a structure <strong>sweep</
 See “ <a class="reference internal" href="#graphs-configuration">Graphs Configuration</a> “ for optional graphical output.</p>
 <p>See the section “ <a class="reference internal" href="#model-utilities">Model Utilities</a> “ for scripts to graph time series results.</p>
 <section id="graphs-and-maps">
-<h4><a class="toc-backref" href="#id46" role="doc-backlink">Graphs and Maps</a><a class="headerlink" href="#graphs-and-maps" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id54" role="doc-backlink">Graphs and Maps</a><a class="headerlink" href="#graphs-and-maps" title="Link to this heading">¶</a></h4>
 <p>(TODO: Graphs and Maps)</p>
 <p>Sweep and trial simulations produce an image file of graphs named
 <code class="docutils literal notranslate"><span class="pre">Graph_Sweeps_Summary.png</span></code>. This contains line graphs of P, N, and W
@@ -2488,7 +2549,7 @@ of grid mean P, N, or W; error bars display one standard deviation
 of the values in the grid.</p>
 </section>
 <section id="time-series-files">
-<h4><a class="toc-backref" href="#id47" role="doc-backlink">Time Series Files</a><a class="headerlink" href="#time-series-files" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id55" role="doc-backlink">Time Series Files</a><a class="headerlink" href="#time-series-files" title="Link to this heading">¶</a></h4>
 <p>A time series file of scalar values is generated when the configuration item
 <strong>output.gridAvgTimeSeries</strong> is set to <em>true</em>.
 The file is named <code class="docutils literal notranslate"><span class="pre">timeseries-stateVars.csv</span></code> and is stored
@@ -2605,7 +2666,7 @@ description of running the script.</p>
 <p>Output variables:</p>
 </section>
 <section id="map-time-series-files">
-<h4><a class="toc-backref" href="#id48" role="doc-backlink">Map Time Series Files</a><a class="headerlink" href="#map-time-series-files" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id56" role="doc-backlink">Map Time Series Files</a><a class="headerlink" href="#map-time-series-files" title="Link to this heading">¶</a></h4>
 <p>The configuration options in item <strong>output.mapTS</strong> can be set to generate an
 output file of biomass, resources, or spatial changes grids as an annual
 time series. The output is generated annually on the day of the year
@@ -2642,7 +2703,7 @@ ncdump<span class="w"> </span>-v<span class="w"> </span><span class="nb">time</s
 </div>
 </section>
 <section id="use-r-to-examine-simulation-output">
-<h4><a class="toc-backref" href="#id49" role="doc-backlink">Use R to examine simulation output</a><a class="headerlink" href="#use-r-to-examine-simulation-output" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id57" role="doc-backlink">Use R to examine simulation output</a><a class="headerlink" href="#use-r-to-examine-simulation-output" title="Link to this heading">¶</a></h4>
 <p>The daily CSV file can be used to visualize the behaviors of your simulation
 over time.</p>
 <p>Read the daily output data with:</p>
@@ -2682,9 +2743,9 @@ over time.</p>
 </section>
 </section>
 <section id="tools-and-utilities">
-<h2><a class="toc-backref" href="#id50" role="doc-backlink">Tools and Utilities</a><a class="headerlink" href="#tools-and-utilities" title="Link to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id58" role="doc-backlink">Tools and Utilities</a><a class="headerlink" href="#tools-and-utilities" title="Link to this heading">¶</a></h2>
 <section id="class-simtime">
-<h3><a class="toc-backref" href="#id51" role="doc-backlink">Class SimTime</a><a class="headerlink" href="#class-simtime" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id59" role="doc-backlink">Class SimTime</a><a class="headerlink" href="#class-simtime" title="Link to this heading">¶</a></h3>
 <p>Class SimTime contains static functions for convenience when converting
 between some date formats that are used in the simulation configuration.</p>
 <p>To see a list of all SimTime functions in GNU Octave, use the command:</p>
@@ -2692,25 +2753,25 @@ between some date formats that are used in the simulation configuration.</p>
 </pre></div>
 </div>
 <section id="todate">
-<h4><a class="toc-backref" href="#id52" role="doc-backlink">toDate</a><a class="headerlink" href="#todate" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id60" role="doc-backlink">toDate</a><a class="headerlink" href="#todate" title="Link to this heading">¶</a></h4>
 <p>Return the year and day-of-year as a date string.</p>
 <p>Usage: <code class="docutils literal notranslate"><span class="pre">ds</span> <span class="pre">=</span> <span class="pre">SimTime.toDate(</span> <span class="pre">year,</span> <span class="pre">doy,</span> <span class="pre">dateFormat='yyyy</span> <span class="pre">mmm</span> <span class="pre">dd'</span> <span class="pre">)</span></code></p>
 </section>
 <section id="todayofyear">
-<h4><a class="toc-backref" href="#id53" role="doc-backlink">toDayOfYear</a><a class="headerlink" href="#todayofyear" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id61" role="doc-backlink">toDayOfYear</a><a class="headerlink" href="#todayofyear" title="Link to this heading">¶</a></h4>
 <p>Return the day of the year given the date as
 year, month number, and day of the month.</p>
 <p>Usage: <code class="docutils literal notranslate"><span class="pre">doy</span> <span class="pre">=</span> <span class="pre">SimTime.toDayOfYear(</span> <span class="pre">year,</span> <span class="pre">month,</span> <span class="pre">day</span> <span class="pre">)</span></code></p>
 </section>
 <section id="numberofdays">
-<h4><a class="toc-backref" href="#id54" role="doc-backlink">numberOfDays</a><a class="headerlink" href="#numberofdays" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id62" role="doc-backlink">numberOfDays</a><a class="headerlink" href="#numberofdays" title="Link to this heading">¶</a></h4>
 <p>Calculates the number of dates between to dates, where
 dates are pairs of <em>year</em> and <em>day-of-year</em>.</p>
 <p>Usage: <code class="docutils literal notranslate"><span class="pre">dayCount</span> <span class="pre">=</span> <span class="pre">SimTime.numberOfDays(</span> <span class="pre">startYear,</span> <span class="pre">startDOY,</span> <span class="pre">endYear,</span> <span class="pre">endDOY</span> <span class="pre">)</span></code></p>
 </section>
 </section>
 <section id="dailyprecipforsite">
-<h3><a class="toc-backref" href="#id55" role="doc-backlink">DailyPrecipForSite</a><a class="headerlink" href="#dailyprecipforsite" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id63" role="doc-backlink">DailyPrecipForSite</a><a class="headerlink" href="#dailyprecipforsite" title="Link to this heading">¶</a></h3>
 <p><em>GNU Octave</em> program to extract daily precipitation for a JER vegetation zone
 and site code, and save in a CSV file.</p>
 <p>Output columns are:</p>
@@ -2722,7 +2783,7 @@ and site code, and save in a CSV file.</p>
 <code class="docutils literal notranslate"><span class="pre">dayOfYear</span></code> is the number of the day from the start of the year.</p>
 </section>
 <section id="extractdailytemp">
-<h3><a class="toc-backref" href="#id56" role="doc-backlink">ExtractDailyTemp</a><a class="headerlink" href="#extractdailytemp" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id64" role="doc-backlink">ExtractDailyTemp</a><a class="headerlink" href="#extractdailytemp" title="Link to this heading">¶</a></h3>
 <p><em>GNU Octave</em> program to extract date and temperatures from daily
 meteorological summary data files for a JER site, and save in CSV format.
 Missing values are replaced with simple gap-filling algorithms.</p>
@@ -2733,7 +2794,7 @@ the name of the site (e.g., <code class="docutils literal notranslate"><span cla
 directory in which the Drylands2 model files were installed.</p>
 </section>
 <section id="model-utilities">
-<h3><a class="toc-backref" href="#id57" role="doc-backlink">Model Utilities</a><a class="headerlink" href="#model-utilities" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id65" role="doc-backlink">Model Utilities</a><a class="headerlink" href="#model-utilities" title="Link to this heading">¶</a></h3>
 <p>The following scripts are available from the
 <code class="docutils literal notranslate"><span class="pre">[installation-path]/src/tools</span></code> directory,
 where <code class="docutils literal notranslate"><span class="pre">[installation-path]</span></code> is the directory in which the
@@ -2752,28 +2813,28 @@ or prefix your command with</p>
 </pre></div>
 </div>
 <section id="info">
-<h4><a class="toc-backref" href="#id58" role="doc-backlink">info</a><a class="headerlink" href="#info" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id66" role="doc-backlink">info</a><a class="headerlink" href="#info" title="Link to this heading">¶</a></h4>
 <p><em>GNU Octave</em> script to display information about the Drylands2 model.</p>
 <p>Usage:  <code class="docutils literal notranslate"><span class="pre">octave</span> <span class="pre">[installation-path]/src/tools/info.m</span></code></p>
 </section>
 <section id="runsim">
-<h4><a class="toc-backref" href="#id59" role="doc-backlink">runsim</a><a class="headerlink" href="#runsim" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id67" role="doc-backlink">runsim</a><a class="headerlink" href="#runsim" title="Link to this heading">¶</a></h4>
 <p>A <em>GNU Octave</em> function to run a Drylands2 model simulation using the
 configuration file specified as the first command-line argument.
 See “ <a class="reference internal" href="#running-a-simulation">Running a Simulation</a> “ for further instructions.</p>
 </section>
 <section id="verifyall">
-<h4><a class="toc-backref" href="#id60" role="doc-backlink">verifyAll</a><a class="headerlink" href="#verifyall" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id68" role="doc-backlink">verifyAll</a><a class="headerlink" href="#verifyall" title="Link to this heading">¶</a></h4>
 <p>A <em>GNU Octave</em> function to verify all configurations in specified JSON files.</p>
 <p>Usage:  <code class="docutils literal notranslate"><span class="pre">verifyAll(</span> <span class="pre">fileNames=glob('*json'),</span> <span class="pre">verbose=false</span> <span class="pre">)</span></code></p>
 </section>
 <section id="runall">
-<h4><a class="toc-backref" href="#id61" role="doc-backlink">runAll</a><a class="headerlink" href="#runall" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id69" role="doc-backlink">runAll</a><a class="headerlink" href="#runall" title="Link to this heading">¶</a></h4>
 <p><em>GNU Octave</em> script to run simulations for all JSON configuration files provided.</p>
 <p>Usage:  <code class="docutils literal notranslate"><span class="pre">runAll(</span> <span class="pre">fileNames=glob('*json'),</span> <span class="pre">verbose=true</span> <span class="pre">)</span></code></p>
 </section>
 <section id="aboutspchgts">
-<h4><a class="toc-backref" href="#id62" role="doc-backlink">aboutSpChgTS</a><a class="headerlink" href="#aboutspchgts" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id70" role="doc-backlink">aboutSpChgTS</a><a class="headerlink" href="#aboutspchgts" title="Link to this heading">¶</a></h4>
 <p><em>GNU Octave</em> function to display information about a SpatialChanges “mat” file.
 These output files are produced when the configuration option
 <strong>output.spatialChanges</strong> is set to “true”.</p>
@@ -2781,7 +2842,7 @@ These output files are produced when the configuration option
 where <code class="docutils literal notranslate"><span class="pre">fileName</span></code> is a string containing the name of SpatialChanges ‘mat’ file.</p>
 </section>
 <section id="plottimeseries-r">
-<h4><a class="toc-backref" href="#id63" role="doc-backlink">plotTimeSeries.R</a><a class="headerlink" href="#plottimeseries-r" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id71" role="doc-backlink">plotTimeSeries.R</a><a class="headerlink" href="#plottimeseries-r" title="Link to this heading">¶</a></h4>
 <p><em>R</em> script to plot a time series CSV file of state variables generated by a
 simulation.</p>
 <p>The R commands to view help on using is:</p>
@@ -2791,7 +2852,7 @@ simulation.</p>
 </div>
 </section>
 <section id="plotcomparetimeseries-r">
-<h4><a class="toc-backref" href="#id64" role="doc-backlink">plotCompareTimeSeries.R</a><a class="headerlink" href="#plotcomparetimeseries-r" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id72" role="doc-backlink">plotCompareTimeSeries.R</a><a class="headerlink" href="#plotcomparetimeseries-r" title="Link to this heading">¶</a></h4>
 <p><em>R</em> script to graphically compare two daily time series of state variables
 generated by simulations.</p>
 <p>The R commands to view help on using is:</p>
@@ -2801,7 +2862,7 @@ generated by simulations.</p>
 </div>
 </section>
 <section id="plotwatervars-r">
-<h4><a class="toc-backref" href="#id65" role="doc-backlink">plotWaterVars.R</a><a class="headerlink" href="#plotwatervars-r" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id73" role="doc-backlink">plotWaterVars.R</a><a class="headerlink" href="#plotwatervars-r" title="Link to this heading">¶</a></h4>
 <p><em>R</em> script to generate graphs of water-related state variables and
 the water budget from a time series CSV file generated by a simulation.</p>
 <p>The R commands to view help on using is:</p>
@@ -2811,7 +2872,7 @@ the water budget from a time series CSV file generated by a simulation.</p>
 </div>
 </section>
 <section id="plotncgridtsvars">
-<h4><a class="toc-backref" href="#id66" role="doc-backlink">plotNcGridTSVars</a><a class="headerlink" href="#plotncgridtsvars" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id74" role="doc-backlink">plotNcGridTSVars</a><a class="headerlink" href="#plotncgridtsvars" title="Link to this heading">¶</a></h4>
 <p><em>GNU Octave</em> function to plot grid variables from a simulation’s
 netCDF grid map files.
 Graphs are X-Y point plots (top row), and histograms (bottom row).</p>
@@ -2822,7 +2883,7 @@ Graphs are X-Y point plots (top row), and histograms (bottom row).</p>
 </div>
 </section>
 <section id="plotsweeptimeseries">
-<h4><a class="toc-backref" href="#id67" role="doc-backlink">plotSweepTimeSeries</a><a class="headerlink" href="#plotsweeptimeseries" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id75" role="doc-backlink">plotSweepTimeSeries</a><a class="headerlink" href="#plotsweeptimeseries" title="Link to this heading">¶</a></h4>
 <p><em>GNU Octave</em> function to plot an output variable vs simulation time
 from multiple time series files produced by a simulation.
 The time series files are produced in CSV format.
@@ -2835,7 +2896,7 @@ as a separate line.</p>
 </div>
 </section>
 <section id="ncdrawmap">
-<h4><a class="toc-backref" href="#id68" role="doc-backlink">ncDrawMap</a><a class="headerlink" href="#ncdrawmap" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id76" role="doc-backlink">ncDrawMap</a><a class="headerlink" href="#ncdrawmap" title="Link to this heading">¶</a></h4>
 <p><em>GNU Octave</em> script to make a map image from a grid in a netCDF file produced by
 <code class="docutils literal notranslate"><span class="pre">NcBiomassTimeSeries</span></code> or <code class="docutils literal notranslate"><span class="pre">NcResourceTimeSeries</span></code> during a simulation.
 This uses the Octave package <strong>netcdf</strong>, and functions in the source files
@@ -2850,7 +2911,7 @@ during a simulation.</p>
 </div>
 </section>
 <section id="ncgetgrid">
-<h4><a class="toc-backref" href="#id69" role="doc-backlink">ncGetGrid</a><a class="headerlink" href="#ncgetgrid" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id77" role="doc-backlink">ncGetGrid</a><a class="headerlink" href="#ncgetgrid" title="Link to this heading">¶</a></h4>
 <p><em>GNU Octave</em> script to get a grid for a species at a time, from a netCDF file
 produced by <code class="docutils literal notranslate"><span class="pre">NcBiomassTimeSeries</span></code> or <code class="docutils literal notranslate"><span class="pre">NcResourceTimeSeries</span></code>
 during a simulation.
@@ -2866,12 +2927,12 @@ This uses the <em>GNU Octave</em> package <strong>netcdf</strong>, and functions
 </section>
 </section>
 <section id="acknowledgments">
-<h2><a class="toc-backref" href="#id70" role="doc-backlink">Acknowledgments</a><a class="headerlink" href="#acknowledgments" title="Link to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id78" role="doc-backlink">Acknowledgments</a><a class="headerlink" href="#acknowledgments" title="Link to this heading">¶</a></h2>
 <p>This material is based upon work supported by the National Science
 Foundation under Grant No. 2425143.</p>
 </section>
 <section id="citations">
-<h2><a class="toc-backref" href="#id71" role="doc-backlink">Citations</a><a class="headerlink" href="#citations" title="Link to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id79" role="doc-backlink">Citations</a><a class="headerlink" href="#citations" title="Link to this heading">¶</a></h2>
 <blockquote id="id1">
 <div><p>[1] JSON configuration file format; see
 <a class="reference external" href="https://www.w3schools.com/js/js_json_intro.asp">https://www.w3schools.com/js/js_json_intro.asp</a></p>
@@ -2906,9 +2967,15 @@ arid ecosystems. American Naturalist 160:524–530. <a class="reference external
 Chapter 14 SOUTHERN SEMI-ARID HIGHLANDS in USDA Forest Service GTR SRS-80.
 <a class="reference external" href="https://www.srs.fs.usda.gov/pubs/gtr/gtr_srs080/gtr_srs080.pdf">https://www.srs.fs.usda.gov/pubs/gtr/gtr_srs080/gtr_srs080.pdf</a></p>
 </div></blockquote>
+<blockquote id="id9">
+<div><p>[9] Stewart, J., Parsons, A.J., Wainwright, J., Okin, G.S., Bestelmeyer, B.T.,
+Fredrickson, E.L. and Schlesinger, W.H. (2014), Modeling emergent patterns
+of dynamic desert ecosystems. Ecological Monographs, 84: 373 -410.
+<a class="reference external" href="https://doi.org/10.1890/12-1253.1">https://doi.org/10.1890/12-1253.1</a></p>
+</div></blockquote>
 </section>
 <section id="see-also">
-<h2><a class="toc-backref" href="#id72" role="doc-backlink">See Also</a><a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id80" role="doc-backlink">See Also</a><a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
 <p><em>ModelDesign.pdf</em> or <em>ModelDesign.html</em>, source: <em>source/ModelDesign.rst</em></p>
 <p><em>ModelDiagram.pdf</em> or <em>ModelDiagram.html</em>, source: <em>ModelDiagram.fodt</em></p>
 <p><em>ModelEquations.pdf</em> or <em>ModelEquations.html</em>, source: <em>source/ModelEquations.fodt</em></p>
@@ -2917,7 +2984,7 @@ Chapter 14 SOUTHERN SEMI-ARID HIGHLANDS in USDA Forest Service GTR SRS-80.
 <p><em>NFluxesDiagram.pdf</em> or <em>NFluxesDiagram.png</em>, source: <em>NFluxesDiagram.fodg</em></p>
 </section>
 <section id="document-history">
-<h2><a class="toc-backref" href="#id73" role="doc-backlink">Document History</a><a class="headerlink" href="#document-history" title="Link to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id81" role="doc-backlink">Document History</a><a class="headerlink" href="#document-history" title="Link to this heading">¶</a></h2>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
 <thead>
@@ -3045,20 +3112,24 @@ Chapter 14 SOUTHERN SEMI-ARID HIGHLANDS in USDA Forest Service GTR SRS-80.
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
-<td><p>Added Acknowledgments section.</p></td>
+<td><p>Add <a class="reference internal" href="#acknowledgments">Acknowledgments</a> section.</p></td>
 </tr>
 <tr class="row-even"><td><p>2026.08</p></td>
 <td><p>8.1</p></td>
 <td><p>Add description of script <code class="docutils literal notranslate"><span class="pre">src/tools/plotWaterVars</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>Add section <a class="reference internal" href="#algorithm-toggles">Algorithm Toggles</a>.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </section>
 <section id="appendices">
-<h2><a class="toc-backref" href="#id74" role="doc-backlink">Appendices</a><a class="headerlink" href="#appendices" title="Link to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id82" role="doc-backlink">Appendices</a><a class="headerlink" href="#appendices" title="Link to this heading">¶</a></h2>
 <section id="examples-of-mound-placement">
-<h3><a class="toc-backref" href="#id75" role="doc-backlink">Examples of mound placement</a><a class="headerlink" href="#examples-of-mound-placement" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id83" role="doc-backlink">Examples of mound placement</a><a class="headerlink" href="#examples-of-mound-placement" title="Link to this heading">¶</a></h3>
 <p>The following examples use the function <code class="docutils literal notranslate"><span class="pre">buildMoundsVer1</span></code> located in the
 source directory <code class="docutils literal notranslate"><span class="pre">mounds</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">addpath</span><span class="p">(</span><span class="s1">'[Drylands2 model path]/src/mounds'</span><span class="p">);</span>
@@ -3067,7 +3138,7 @@ source directory <code class="docutils literal notranslate"><span class="pre">mo
 <p>In the <strong>mask</strong> matrices, the mounds are specified by square groups of
 <code class="docutils literal notranslate"><span class="pre">1</span></code> values, and no-mound areas are zeros.</p>
 <section id="placement-random">
-<h4><a class="toc-backref" href="#id76" role="doc-backlink">Placement “random”</a><a class="headerlink" href="#placement-random" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id84" role="doc-backlink">Placement “random”</a><a class="headerlink" href="#placement-random" title="Link to this heading">¶</a></h4>
 <div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="n">placement</span><span class="p">=</span><span class="s">'random'</span><span class="p">;</span><span class="w"> </span><span class="n">numberOfMounds</span><span class="p">=</span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="n">radius</span><span class="p">=</span><span class="mf">1.5</span><span class="p">;</span><span class="w"> </span><span class="n">dSize</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">21</span><span class="p">;</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
 <span class="p">[</span><span class="n">indices</span><span class="p">,</span><span class="w"> </span><span class="n">numberOfMounds</span><span class="p">,</span><span class="w"> </span><span class="n">mask</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">buildMoundsVer1</span><span class="p">(</span><span class="n">placement</span><span class="p">,</span><span class="w"> </span><span class="n">numberOfMounds</span><span class="p">,</span><span class="w"> </span><span class="n">radius</span><span class="p">,</span><span class="w"> </span><span class="n">dSize</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="p">);</span>
 <span class="c">% for display of mask, replace '0' with dots</span>
@@ -3109,7 +3180,7 @@ source directory <code class="docutils literal notranslate"><span class="pre">mo
 </div>
 </section>
 <section id="placement-regular">
-<h4><a class="toc-backref" href="#id77" role="doc-backlink">Placement “regular”</a><a class="headerlink" href="#placement-regular" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id85" role="doc-backlink">Placement “regular”</a><a class="headerlink" href="#placement-regular" title="Link to this heading">¶</a></h4>
 <div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="n">placement</span><span class="p">=</span><span class="s">'regular'</span><span class="p">;</span><span class="w"> </span><span class="n">numberOfMounds</span><span class="p">=</span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="n">radius</span><span class="p">=</span><span class="mf">1.5</span><span class="p">;</span><span class="w"> </span><span class="n">dSize</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">21</span><span class="p">;</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
 <span class="p">[</span><span class="n">indices</span><span class="p">,</span><span class="w"> </span><span class="n">numberOfMounds</span><span class="p">,</span><span class="w"> </span><span class="n">mask</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">buildMoundsVer1</span><span class="p">(</span><span class="n">placement</span><span class="p">,</span><span class="w"> </span><span class="n">numberOfMounds</span><span class="p">,</span><span class="w"> </span><span class="n">radius</span><span class="p">,</span><span class="w"> </span><span class="n">dSize</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="p">);</span>
 <span class="c">% for display of mask, replace '0' with dots</span>
@@ -3150,7 +3221,7 @@ source directory <code class="docutils literal notranslate"><span class="pre">mo
 </div>
 </section>
 <section id="placement-single">
-<h4><a class="toc-backref" href="#id78" role="doc-backlink">Placement “single”</a><a class="headerlink" href="#placement-single" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id86" role="doc-backlink">Placement “single”</a><a class="headerlink" href="#placement-single" title="Link to this heading">¶</a></h4>
 <div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="n">placement</span><span class="p">=</span><span class="s">'single'</span><span class="p">;</span><span class="w"> </span><span class="n">numberOfMounds</span><span class="p">=</span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="n">radius</span><span class="p">=</span><span class="mf">1.5</span><span class="p">;</span><span class="w"> </span><span class="n">dSize</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">21</span><span class="p">;</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
 <span class="p">[</span><span class="n">indices</span><span class="p">,</span><span class="w"> </span><span class="n">numberOfMounds</span><span class="p">,</span><span class="w"> </span><span class="n">mask</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">buildMoundsVer1</span><span class="p">(</span><span class="n">placement</span><span class="p">,</span><span class="w"> </span><span class="n">numberOfMounds</span><span class="p">,</span><span class="w"> </span><span class="n">radius</span><span class="p">,</span><span class="w"> </span><span class="n">dSize</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="p">);</span>
 <span class="c">% for display of mask, replace '0' with dots</span>
@@ -3186,7 +3257,7 @@ source directory <code class="docutils literal notranslate"><span class="pre">mo
 </section>
 </section>
 <section id="file-formats">
-<h3><a class="toc-backref" href="#id79" role="doc-backlink">File Formats</a><a class="headerlink" href="#file-formats" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id87" role="doc-backlink">File Formats</a><a class="headerlink" href="#file-formats" title="Link to this heading">¶</a></h3>
 <p>Several file formats are used with this model.
 All are text files.</p>
 <div class="table-wrapper docutils container">
@@ -3268,7 +3339,7 @@ All are text files.</p>
 </div>
 </section>
 <section id="example-configuration-file">
-<h3><a class="toc-backref" href="#id80" role="doc-backlink">Example Configuration File</a><a class="headerlink" href="#example-configuration-file" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id88" role="doc-backlink">Example Configuration File</a><a class="headerlink" href="#example-configuration-file" title="Link to this heading">¶</a></h3>
 <p>Below is an example of a configuration file.
 Additional configuration files (<code class="docutils literal notranslate"><span class="pre">*.json</span></code>) are provided in the
 <strong>tests</strong> subdirectory of the model files.</p>
@@ -3722,6 +3793,7 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <li><a class="reference internal" href="#graphs-configuration">Graphs Configuration</a></li>
 <li><a class="reference internal" href="#plant-species-definitions">Plant Species Definitions</a></li>
 <li><a class="reference internal" href="#model-configuration">Model Configuration</a><ul>
+<li><a class="reference internal" href="#algorithm-toggles">Algorithm Toggles</a></li>
 <li><a class="reference internal" href="#initial-state-settings">Initial state settings</a></li>
 <li><a class="reference internal" href="#aeolian-submodel">Aeolian Submodel</a></li>
 <li><a class="reference internal" href="#mounds">Mounds</a><ul>

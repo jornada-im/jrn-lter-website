@@ -53,6 +53,12 @@ Octave packages are used. Otherwise the implementation is intended to be
 mostly compatible with MATLAB:sup:`TM`, however compatibility has not yet been
 tested.
 
+This document describes the structure and algorithms of the model.
+The document *Manual* describes the installation, configuration,
+and running of the model.
+
+
+
 Conventions
 ------------
 
@@ -78,7 +84,7 @@ GNU Octave is happy with LF line-endings.
 Model Structure
 ================
 
-The code was developed in GNU Octave, and has been kept compatibile with
+The code was developed in GNU Octave, and has been kept compatible with
 MATLAB for the most part. See this document for most compatibility issues::
 
 https://en.wikibooks.org/wiki/MATLAB_Programming/Differences_between_Octave_and_MATLAB
@@ -98,9 +104,9 @@ Source Files Organization
         |-- log         -   ... for writing to a log file.
         |-- math        - Mathematical algorithms
         |-- aeolian     - Algorithms for plant effects from aeolian erosion and deposition.
-        |-- mounds      - Modeling water flow downgradient on topographic mounds.
+        |-- mounds      - Modeling water flow down-gradient on topographic mounds.
     |   |-- plant       - Plant class and related classes and functions.
-        |-- tools       - Misc. usesful functions not used in a simulation.
+        |-- tools       - Misc. useful functions not used in a simulation.
         `-- util        - General utility functions.
 
 
@@ -1102,6 +1108,7 @@ Version 8
     new **plant** configuration item **NfixFrac**.
   - N in litter is redistributed due to wind.
   - Soil N diffuses laterally with soil water diffusion.
+* New ``tools/plotWaterVars`` function for graphing water-related output variables.
 
 
 
