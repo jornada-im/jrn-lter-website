@@ -753,11 +753,13 @@ Assume <code class="docutils literal notranslate"><span class="pre">cNmax</span>
 </div></blockquote>
 <p><strong>plant.maintN</strong></p>
 <blockquote>
-<div><p>Daily maintenance rate of uptake of N by current biomass
-(gN gBiomass-1 d-1).
-If NfixFrac &gt; zero, then that fraction of N demand is from
-atmospheric N, while the remaining fraction is from soil N.
-Added in version 5.</p>
+<div><p>Maximum daily maintenance rate of uptake of N by the
+current day’s biomass (g N / g biomass / d).
+If <strong>plant.NfixFrac</strong> &gt; zero, then that fraction of N demand is
+from atmospheric N, while the remaining fraction is from soil N.
+Actual demand is determined by plant temperature sensitivity
+specified by <strong>plant.teff</strong>.
+Added in versions 5 and 8.</p>
 </div></blockquote>
 <p><strong>plant.NfixFrac</strong></p>
 <blockquote>
@@ -834,6 +836,11 @@ forb.</p>
 </dd>
 </dl>
 </li>
+<li><dl class="simple">
+<dt>Version 8 adds simple herbivory, and</dt><dd><p>temperature-influenced N maintenance uptake.</p>
+</dd>
+</dl>
+</li>
 </ul>
 <p>Implementation of plants is in classes <strong>Plant</strong>, <strong>Roots</strong> and <strong>Seed</strong>.
 For a diagram of functional and class relationships, see the
@@ -872,8 +879,10 @@ daily air temperature, and available soil N.</p>
 <ul class="simple">
 <li><p>Constant background rate.</p></li>
 <li><p>Mortality due to environmental stressors.</p></li>
+<li><p>Mortality from grazing and browsing.</p></li>
 <li><p>Annual mortality due to being an annual plant type.</p></li>
 <li><p>Annual mortality for perennial plants and shrubs.</p></li>
+<li><p>Mortality of ungerminated seeds.</p></li>
 </ul>
 <p>Prior to version 4, plant mortality is a fixed fraction of aboveground
 biomass (the plant configuration parameter <strong>d</strong>).</p>

@@ -492,11 +492,13 @@ These configuration parameters control N fluxes:
 
 **plant.maintN**
 
-    Daily maintenance rate of uptake of N by current biomass
-    (gN gBiomass-1 d-1).
-    If NfixFrac > zero, then that fraction of N demand is from
-    atmospheric N, while the remaining fraction is from soil N.
-    Added in version 5.
+    Maximum daily maintenance rate of uptake of N by the
+    current day's biomass (g N / g biomass / d).
+    If **plant.NfixFrac** > zero, then that fraction of N demand is
+    from atmospheric N, while the remaining fraction is from soil N.
+    Actual demand is determined by plant temperature sensitivity
+    specified by **plant.teff**.
+    Added in versions 5 and 8.
 
 **plant.NfixFrac**
 
@@ -585,6 +587,8 @@ History of Plant Algorithms
 * Version 6 adds plant mortality due to aeolian erosion and deposition.
 * Version 7 adds seed dispersal propagation, and annual plant type, and
             annual mortality.
+* Version 8 adds simple herbivory, and
+            temperature-influenced N maintenance uptake.
 
 Implementation of plants is in classes **Plant**, **Roots** and **Seed**.
 For a diagram of functional and class relationships, see the
@@ -630,8 +634,10 @@ There are multiple types of mortality:
 
 * Constant background rate.
 * Mortality due to environmental stressors.
+* Mortality from grazing and browsing.
 * Annual mortality due to being an annual plant type.
 * Annual mortality for perennial plants and shrubs.
+* Mortality of ungerminated seeds.
 
 Prior to version 4, plant mortality is a fixed fraction of aboveground
 biomass (the plant configuration parameter **d**).
