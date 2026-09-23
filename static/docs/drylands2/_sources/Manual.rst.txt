@@ -697,7 +697,9 @@ Configuration Item  Data Type    Description
 ==================  ===========  =======================================================================================
 name                string       Name of plant species.
 type                scalar       Type of plant:
-\                   \            1 = perennial grass, 2 = shrub, 3 = annual grass or forb.
+\                   \            1 = perennial grass or forb, 2 = shrub, 3 = annual grass or forb, 4 = crust.
+\                   \            Note: Crusts are defined in the section "crust"; do not define under "plant".
+\                   \            See `Crust Configuration`_ for crust configuration items.
 \                   \            **Biomass:**
 Bmax                scalar       Maximum biomass for this plant (g/m2).
 bmBgAgRatio         scalar       Ratio of belowground to aboveground biomass.
@@ -778,6 +780,50 @@ minThreshold        scalar       Minimum aboveground biomass to be included in o
 \                   \            **Herbivory:**
 grazeFraction       scalar       Average fraction of aboveground biomass removed per day (range: 0-1).
 \                   \            The sum (mortality.d + grazeFraction) must be <= Constants.maxGrazeFractionPlusD.
+==================  ===========  =======================================================================================
+
+
+
+
+Crust Configuration
+-------------------
+
+The configuration item **crust** contains a structure specifying
+the types and parameters for biocrust on the soil surface.
+
+==================  ===========  =======================================================================================
+Configuration Item  Data Type    Description
+==================  ===========  =======================================================================================
+crustTypes          vector       integers: Crust ID numbers: for bare soil, light cyano, dark cyano crust types.
+\                   \            These are defined in: ``CrustKind.kinds.id``
+\                   \            Example: ``"crustTypes": [ 1, 2, 3 ]``
+
+gridFractions       vector       Fractions of grid cells for each crust type.
+\                   \            Valid range of each = 0-1. The sum must be <= 1.0.
+\                   \            If sum < 1.0, remaining cells will be bare soil.
+\                   \            Vector length must be same length as ``crustTypes``.
+\                   \            Example: ``"gridFractions": [ 0.6, 0.2, 0.2 ]``
+
+soilType            scalar       integer: Surface soil type: One of ``CrustSoil.kinds.index``.
+\                   \            All grid cells have the same soil type.
+\                   \            Example: ``"soilType": 2``
+
+intensity           scalar       Intensity of disturbance: the fraction of crust cells to be disturbed annually.
+\                   \            Valid range = 0-1.
+\                   \            Example: ``"intensity":  0.2``
+
+recoveryAlgorithm   scalar       Specifies the disturbance recovery algorithm:
+\                   \            1 = constant crust type per cell
+\                   \            2 = crust succession sequence
+\                   \            Example: ``"recoveryAlgorithm": 1``
+
+recoveryFraction    scalar       For recovery algorithm 1: Annual recovery fraction. Valid range = 0-1.
+\                   \            This specifies the fraction of disturbed cells that can begin developing crust.
+\                   \            Example: ``"recoveryFraction": 0.25``
+
+ageMaximum          vector       For recovery algorithm 2: These values are the maximum age for each crust type,
+\                   \            which when reached, resets to bare soil as though disturbed.
+\                   \            Vector length must be same length as ``crustTypes``.
 ==================  ===========  =======================================================================================
 
 
@@ -2026,6 +2072,8 @@ Revision Date        Model Version        Description
 \                    \                    Add `Acknowledgments`_ section.
 2026.08              8.1                  Add description of script ``src/tools/plotWaterVars``.
 \                    \                    Add section `Algorithm Toggles`_.
+2026.09              9.0                  Add section `Crust Configuration`_.
+\                    \                    Add a crust section to the example configuration.
 ===================  ===================  ===============================================================
 
 
@@ -2319,7 +2367,9 @@ Additional configuration files (``*.json``) are provided in the
       # An array of entries, one per plant species.
       #
       # name        - Common or scientific name of plant species
-      # type        - Type of plant: 1 = perennial grass, 2 = shrub, 3 = annual grass or forb
+      # type        - Type of plant: 1 = perennial grass, 2 = shrub, 3 = annual grass or forb, 4 = crust
+      #               Note: Crusts are defined in the section "crust"; do not define under "plant".
+      #               See `Crust Configuration`_ for crust configuration items.
       # --- Biomass:
       # Bmax        - Maximum biomass (g/m2)
       # bmBgAgRatio - Ratio of belowground to aboveground biomass
@@ -2414,6 +2464,42 @@ Additional configuration files (``*.json``) are provided in the
           "grazeFraction": 0.005
         }
       ],
+      "crust":
+      {
+          #
+          # Vector of crust ID numbers: for bare soil, light cyano, dark cyano
+          #
+          "crustTypes": [ 2, 3, 4 ],
+          #
+          # Vector of grid cell fractions; if sum < 1.0, remaining cells are bare soil.
+          # Vector length must be same length as crustTypes.
+          #
+          "gridFractions": [ 0.6, 0.2, 0.2 ],
+          #
+          # Surface soil type: One of CrustSoil.kinds.index
+          # All grid cells have the same soil type.
+          #
+          "soilType": 2,
+          #
+          # Intensity of disturbance: fraction of crust cells to be disturbed annually.
+          #
+          "intensity":  0.2,
+          #
+          # Disturbance recovery algorithm:
+          # 1 = constant crust type per cell;
+          # 2 = succession sequence
+          #
+          "recoveryAlgorithm": 1,
+          #
+          # For algorithm 1: annual recovery fraction.
+          #
+          "recoveryFraction": 0.25,
+          #
+          # For algorithm 2: maximum age (years) for each crust type.
+          # Vector length must be same length as crustTypes.
+          #
+          "ageMaximum": [2, 4, 10]
+      },
       #
       # model configuration
       #
