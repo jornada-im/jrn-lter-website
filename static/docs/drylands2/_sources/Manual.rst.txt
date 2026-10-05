@@ -790,6 +790,7 @@ Crust Configuration
 
 The configuration item **crust** contains a structure specifying
 the types and parameters for biocrust on the soil surface.
+This section is optional - you may omit it if no crust is to be simulated.
 
 ==================  ===========  =======================================================================================
 Configuration Item  Data Type    Description
@@ -812,7 +813,7 @@ intensity           scalar       Intensity of disturbance: the fraction of crust
 \                   \            Valid range = 0-1.
 \                   \            Example: ``"intensity":  0.2``
 
-recoveryAlgorithm   scalar       Specifies the disturbance recovery algorithm:
+recoveryAlgorithm   scalar       Specifies the disturbance recovery algorithm. Values can be:
 \                   \            1 = constant crust type per cell
 \                   \            2 = crust succession sequence
 \                   \            Example: ``"recoveryAlgorithm": 1``
@@ -2450,7 +2451,6 @@ Additional configuration files (``*.json``) are provided in the
             "Kg":            0.5
           },
           "mortality": {
-            # d: Rietkirk = 0.25; exceeds growth rate. Using Stewart value.
             "d":            0.00041,
             "B0":           10.0,
             "B1":           1.0,
@@ -2464,6 +2464,9 @@ Additional configuration files (``*.json``) are provided in the
           "grazeFraction": 0.005
         }
       ],
+      #
+      # crust configuration
+      #
       "crust":
       {
           #

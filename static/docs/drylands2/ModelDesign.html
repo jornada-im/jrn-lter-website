@@ -241,7 +241,7 @@
         </div>
         <article role="main" id="furo-main-content">
           <section id="drylands2-model-design">
-<h1><a class="toc-backref" href="#id9" role="doc-backlink">Drylands2 Model Design</a><a class="headerlink" href="#drylands2-model-design" title="Link to this heading">¶</a></h1>
+<h1><a class="toc-backref" href="#id10" role="doc-backlink">Drylands2 Model Design</a><a class="headerlink" href="#drylands2-model-design" title="Link to this heading">¶</a></h1>
 <dl class="field-list simple">
 <dt class="field-odd">subtitle<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Description of the model design and algorithms.</p>
@@ -265,100 +265,108 @@
 <nav class="contents" id="contents">
 <p class="topic-title">Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#drylands2-model-design" id="id9">Drylands2 Model Design</a></p>
+<li><p><a class="reference internal" href="#drylands2-model-design" id="id10">Drylands2 Model Design</a></p>
 <ul>
-<li><p><a class="reference internal" href="#introduction" id="id10">Introduction</a></p>
+<li><p><a class="reference internal" href="#introduction" id="id11">Introduction</a></p>
 <ul>
-<li><p><a class="reference internal" href="#conventions" id="id11">Conventions</a></p></li>
+<li><p><a class="reference internal" href="#conventions" id="id12">Conventions</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#model-structure" id="id12">Model Structure</a></p>
+<li><p><a class="reference internal" href="#model-structure" id="id13">Model Structure</a></p>
 <ul>
-<li><p><a class="reference internal" href="#source-files-organization" id="id13">Source Files Organization</a></p></li>
-<li><p><a class="reference internal" href="#major-model-parts" id="id14">Major Model Parts</a></p>
+<li><p><a class="reference internal" href="#source-files-organization" id="id14">Source Files Organization</a></p></li>
+<li><p><a class="reference internal" href="#major-model-parts" id="id15">Major Model Parts</a></p>
 <ul>
-<li><p><a class="reference internal" href="#simulation-grid" id="id15">Simulation Grid</a></p></li>
-<li><p><a class="reference internal" href="#time-loops" id="id16">Time loops</a></p></li>
-<li><p><a class="reference internal" href="#soil-structure" id="id17">Soil Structure</a></p></li>
-<li><p><a class="reference internal" href="#simulation-results" id="id18">Simulation Results</a></p></li>
+<li><p><a class="reference internal" href="#simulation-grid" id="id16">Simulation Grid</a></p></li>
+<li><p><a class="reference internal" href="#time-loops" id="id17">Time loops</a></p></li>
+<li><p><a class="reference internal" href="#soil-structure" id="id18">Soil Structure</a></p></li>
+<li><p><a class="reference internal" href="#simulation-results" id="id19">Simulation Results</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#major-functions-and-classes" id="id19">Major Functions and Classes</a></p></li>
-<li><p><a class="reference internal" href="#execution-psuedocode" id="id20">Execution Psuedocode</a></p></li>
+<li><p><a class="reference internal" href="#major-functions-and-classes" id="id20">Major Functions and Classes</a></p></li>
+<li><p><a class="reference internal" href="#execution-psuedocode" id="id21">Execution Psuedocode</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#algorithms" id="id21">Algorithms</a></p>
+<li><p><a class="reference internal" href="#algorithms" id="id22">Algorithms</a></p>
 <ul>
-<li><p><a class="reference internal" href="#water-fluxes" id="id22">Water Fluxes</a></p>
+<li><p><a class="reference internal" href="#water-fluxes" id="id23">Water Fluxes</a></p>
 <ul>
-<li><p><a class="reference internal" href="#precipitation-and-temperature" id="id23">Precipitation and Temperature</a></p></li>
-<li><p><a class="reference internal" href="#infiltration" id="id24">Infiltration</a></p></li>
-<li><p><a class="reference internal" href="#evaporation" id="id25">Evaporation</a></p></li>
-<li><p><a class="reference internal" href="#soil-water-drainage" id="id26">Soil Water Drainage</a></p></li>
-<li><p><a class="reference internal" href="#plant-soil-water-uptake" id="id27">Plant Soil Water Uptake</a></p></li>
-<li><p><a class="reference internal" href="#spatial-dispersion" id="id28">Spatial Dispersion</a></p></li>
-<li><p><a class="reference internal" href="#initialization" id="id29">Initialization</a></p></li>
+<li><p><a class="reference internal" href="#precipitation-and-temperature" id="id24">Precipitation and Temperature</a></p></li>
+<li><p><a class="reference internal" href="#infiltration" id="id25">Infiltration</a></p></li>
+<li><p><a class="reference internal" href="#evaporation" id="id26">Evaporation</a></p></li>
+<li><p><a class="reference internal" href="#soil-water-drainage" id="id27">Soil Water Drainage</a></p></li>
+<li><p><a class="reference internal" href="#plant-soil-water-uptake" id="id28">Plant Soil Water Uptake</a></p></li>
+<li><p><a class="reference internal" href="#spatial-dispersion" id="id29">Spatial Dispersion</a></p></li>
+<li><p><a class="reference internal" href="#initialization" id="id30">Initialization</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#nitrogen-fluxes" id="id30">Nitrogen Fluxes</a></p>
+<li><p><a class="reference internal" href="#nitrogen-fluxes" id="id31">Nitrogen Fluxes</a></p>
 <ul>
-<li><p><a class="reference internal" href="#id1" id="id31">Initialization</a></p></li>
+<li><p><a class="reference internal" href="#id1" id="id32">Initialization</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#aeolian-erosion-and-deposition" id="id32">Aeolian Erosion and Deposition</a></p></li>
-<li><p><a class="reference internal" href="#plants" id="id33">Plants</a></p>
+<li><p><a class="reference internal" href="#aeolian-erosion-and-deposition" id="id33">Aeolian Erosion and Deposition</a></p></li>
+<li><p><a class="reference internal" href="#plants" id="id34">Plants</a></p>
 <ul>
-<li><p><a class="reference internal" href="#history-of-plant-algorithms" id="id34">History of Plant Algorithms</a></p></li>
-<li><p><a class="reference internal" href="#growth" id="id35">Growth</a></p></li>
-<li><p><a class="reference internal" href="#mortality" id="id36">Mortality</a></p></li>
-<li><p><a class="reference internal" href="#spatial-propagation" id="id37">Spatial Propagation</a></p>
+<li><p><a class="reference internal" href="#history-of-plant-algorithms" id="id35">History of Plant Algorithms</a></p></li>
+<li><p><a class="reference internal" href="#growth" id="id36">Growth</a></p></li>
+<li><p><a class="reference internal" href="#mortality" id="id37">Mortality</a></p></li>
+<li><p><a class="reference internal" href="#spatial-propagation" id="id38">Spatial Propagation</a></p>
 <ul>
-<li><p><a class="reference internal" href="#vegetative-propagation" id="id38">Vegetative Propagation</a></p></li>
-<li><p><a class="reference internal" href="#seed-dispersal-propagation" id="id39">Seed Dispersal Propagation</a></p></li>
+<li><p><a class="reference internal" href="#vegetative-propagation" id="id39">Vegetative Propagation</a></p></li>
+<li><p><a class="reference internal" href="#seed-dispersal-propagation" id="id40">Seed Dispersal Propagation</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#species-competition" id="id40">Species Competition</a></p>
+<li><p><a class="reference internal" href="#species-competition" id="id41">Species Competition</a></p>
 <ul>
-<li><p><a class="reference internal" href="#implicit-competition" id="id41">Implicit Competition</a></p></li>
-<li><p><a class="reference internal" href="#explicit-competition" id="id42">Explicit Competition</a></p></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><a class="reference internal" href="#mounds" id="id43">Mounds</a></p>
-<ul>
-<li><p><a class="reference internal" href="#mound-shape" id="id44">Mound Shape</a></p></li>
-<li><p><a class="reference internal" href="#algorithm-flow-simplified" id="id45">Algorithm flow (simplified)</a></p></li>
-</ul>
-</li>
-<li><p><a class="reference internal" href="#sweeps" id="id46">Sweeps</a></p></li>
-<li><p><a class="reference internal" href="#trials" id="id47">Trials</a></p></li>
-<li><p><a class="reference internal" href="#history-of-model-development" id="id48">History of Model Development</a></p>
-<ul>
-<li><p><a class="reference internal" href="#version-1" id="id49">Version 1</a></p></li>
-<li><p><a class="reference internal" href="#version-2" id="id50">Version 2</a></p></li>
-<li><p><a class="reference internal" href="#version-3" id="id51">Version 3</a></p></li>
-<li><p><a class="reference internal" href="#version-4" id="id52">Version 4</a></p></li>
-<li><p><a class="reference internal" href="#version-5" id="id53">Version 5</a></p></li>
-<li><p><a class="reference internal" href="#version-6" id="id54">Version 6</a></p></li>
-<li><p><a class="reference internal" href="#version-7" id="id55">Version 7</a></p></li>
-<li><p><a class="reference internal" href="#version-8" id="id56">Version 8</a></p></li>
+<li><p><a class="reference internal" href="#implicit-competition" id="id42">Implicit Competition</a></p></li>
+<li><p><a class="reference internal" href="#explicit-competition" id="id43">Explicit Competition</a></p></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#see-also" id="id57">See Also</a></p></li>
-<li><p><a class="reference internal" href="#acknowledgments" id="id58">Acknowledgments</a></p></li>
-<li><p><a class="reference internal" href="#bibliography" id="id59">Bibliography</a></p></li>
-<li><p><a class="reference internal" href="#document-history" id="id60">Document History</a></p></li>
-<li><p><a class="reference internal" href="#appendices" id="id61">Appendices</a></p>
+<li><p><a class="reference internal" href="#crust" id="id44">Crust</a></p>
 <ul>
-<li><p><a class="reference internal" href="#file-formats" id="id62">File Formats</a></p></li>
-<li><p><a class="reference internal" href="#field-capacity-and-wilting-point" id="id63">Field Capacity and Wilting Point</a></p></li>
-<li><p><a class="reference internal" href="#simulation-result-matrices" id="id64">Simulation Result Matrices</a></p>
+<li><p><a class="reference internal" href="#id2" id="id45">Infiltration</a></p></li>
+<li><p><a class="reference internal" href="#disturbance-and-recovery" id="id46">Disturbance and Recovery</a></p></li>
+<li><p><a class="reference internal" href="#crust-classes-and-functions" id="id47">Crust Classes and Functions</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#mounds" id="id48">Mounds</a></p>
 <ul>
-<li><p><a class="reference internal" href="#relevant-functions" id="id65">Relevant functions:</a></p></li>
-<li><p><a class="reference internal" href="#result-matrices" id="id66">Result Matrices</a></p></li>
+<li><p><a class="reference internal" href="#mound-shape" id="id49">Mound Shape</a></p></li>
+<li><p><a class="reference internal" href="#algorithm-flow-simplified" id="id50">Algorithm flow (simplified)</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#sweeps" id="id51">Sweeps</a></p></li>
+<li><p><a class="reference internal" href="#trials" id="id52">Trials</a></p></li>
+<li><p><a class="reference internal" href="#history-of-model-development" id="id53">History of Model Development</a></p>
+<ul>
+<li><p><a class="reference internal" href="#version-1" id="id54">Version 1</a></p></li>
+<li><p><a class="reference internal" href="#version-2" id="id55">Version 2</a></p></li>
+<li><p><a class="reference internal" href="#version-3" id="id56">Version 3</a></p></li>
+<li><p><a class="reference internal" href="#version-4" id="id57">Version 4</a></p></li>
+<li><p><a class="reference internal" href="#version-5" id="id58">Version 5</a></p></li>
+<li><p><a class="reference internal" href="#version-6" id="id59">Version 6</a></p></li>
+<li><p><a class="reference internal" href="#version-7" id="id60">Version 7</a></p></li>
+<li><p><a class="reference internal" href="#version-8" id="id61">Version 8</a></p></li>
+<li><p><a class="reference internal" href="#version-9" id="id62">Version 9</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#see-also" id="id63">See Also</a></p></li>
+<li><p><a class="reference internal" href="#acknowledgments" id="id64">Acknowledgments</a></p></li>
+<li><p><a class="reference internal" href="#bibliography" id="id65">Bibliography</a></p></li>
+<li><p><a class="reference internal" href="#document-history" id="id66">Document History</a></p></li>
+<li><p><a class="reference internal" href="#appendices" id="id67">Appendices</a></p>
+<ul>
+<li><p><a class="reference internal" href="#file-formats" id="id68">File Formats</a></p></li>
+<li><p><a class="reference internal" href="#field-capacity-and-wilting-point" id="id69">Field Capacity and Wilting Point</a></p></li>
+<li><p><a class="reference internal" href="#simulation-result-matrices" id="id70">Simulation Result Matrices</a></p>
+<ul>
+<li><p><a class="reference internal" href="#relevant-functions" id="id71">Relevant functions:</a></p></li>
+<li><p><a class="reference internal" href="#result-matrices" id="id72">Result Matrices</a></p></li>
 </ul>
 </li>
 </ul>
@@ -368,7 +376,7 @@
 </ul>
 </nav>
 <section id="introduction">
-<h2><a class="toc-backref" href="#id10" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
 <p>The Drylands2 Model simulates vegetation development within an arid to semiarid
 landscape. Based upon the model of Rietkirk et al (1997, 2002), with the
 addition of mounds by Niall Hanan and Matthew Biesecker, and several new
@@ -378,7 +386,7 @@ See the section <a class="reference internal" href="#history-of-model-developmen
 The <em>Introduction</em> in the document <em>Manual</em> summarizes the architecture and
 algorithms of this model.</p>
 <p>A simulation is configured and controlled by a configuration file in
-JSON[<a class="reference internal" href="#id7">6</a>] format.
+JSON[<a class="reference internal" href="#id8">6</a>] format.
 Input is daily precipitation, temperature, N atmospheric deposition, and
 wind data, either as constant daily values, or daily data from CSV files.
 Output options include map images at specified times, netCDF grid time
@@ -391,15 +399,15 @@ tested.</p>
 The document <em>Manual</em> describes the installation, configuration,
 and running of the model.</p>
 <section id="conventions">
-<h3><a class="toc-backref" href="#id11" role="doc-backlink">Conventions</a><a class="headerlink" href="#conventions" title="Link to this heading">¶</a></h3>
-<p>Directory paths shown herein use a slash (<strong>/</strong>) path separator,
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">Conventions</a><a class="headerlink" href="#conventions" title="Link to this heading">¶</a></h3>
+<p>Directory paths shown herein use a slash (<code class="docutils literal notranslate"><span class="pre">/</span></code>) path separator,
 which is the convention in UNIX-style directory specification.
-Microsoft Windows uses the backslash (<strong>\</strong>) separator in paths.
-Apple macOS (or OS X) also uses the <strong>/</strong> separator.
-GNU Octave seems to accept the native separator on which it is running,
-in most instances.
-R requires a double-backslash on Microsoft Windows when a path is a
-string variable.</p>
+Microsoft Windows uses the backslash (<code class="docutils literal notranslate"><span class="pre">\</span></code>) separator in paths.
+Apple macOS (or OS X) also uses the <code class="docutils literal notranslate"><span class="pre">/</span></code> separator.
+GNU Octave seems to accept the native separator for the system on which it
+is running.
+R on Microsoft Windows requires a slash (<code class="docutils literal notranslate"><span class="pre">/</span></code>) or
+double-backslash (<code class="docutils literal notranslate"><span class="pre">\\</span></code>) when a path is a string variable.</p>
 <p>File line-end characters vary with operating system.
 UNIX-style systems (including Linux and Apple macOS) use LF.
 Microsoft Windows uses CR+LF.
@@ -407,15 +415,26 @@ The files for this model as provided from the git repository
 use LF. Some text editors on Microsoft Windows may be confused
 by this, including older versions of Notepad.
 GNU Octave is happy with LF line-endings.</p>
+<p>GNU Octave has function <code class="docutils literal notranslate"><span class="pre">filesep()</span></code> and <code class="docutils literal notranslate"><span class="pre">newline()</span></code> to provide separators
+native to the system being used.
+R provides the variable <code class="docutils literal notranslate"><span class="pre">.Platform$file.sep</span></code> for the native path separator.
+For newlines in R strings, always use <code class="docutils literal notranslate"><span class="pre">\n</span></code>.</p>
+<p><em>Model source code:</em>
+Class names are capitalized (e.g., <strong>Plant</strong>).
+Function names are (usually) not capitalized (e.g., <strong>initialize</strong>).
+Source file names follow the class and function conventions.
+Variable and parameter names are usually not capitalized.
+Camel case is used for names containing multiple words (e.g., <strong>getPrecip</strong>).</p>
 </section>
 </section>
 <section id="model-structure">
-<h2><a class="toc-backref" href="#id12" role="doc-backlink">Model Structure</a><a class="headerlink" href="#model-structure" title="Link to this heading">¶</a></h2>
-<p>The code was developed in GNU Octave, and has been kept compatible with
-MATLAB for the most part. See this document for most compatibility issues:</p>
+<h2><a class="toc-backref" href="#id13" role="doc-backlink">Model Structure</a><a class="headerlink" href="#model-structure" title="Link to this heading">¶</a></h2>
+<p>The code was developed for GNU Octave, and the language has been kept
+compatible with MATLAB for the most part. See this document for most
+compatibility issues:</p>
 <p><a class="reference external" href="https://en.wikibooks.org/wiki/MATLAB_Programming/Differences_between_Octave_and_MATLAB">https://en.wikibooks.org/wiki/MATLAB_Programming/Differences_between_Octave_and_MATLAB</a></p>
 <section id="source-files-organization">
-<h3><a class="toc-backref" href="#id13" role="doc-backlink">Source Files Organization</a><a class="headerlink" href="#source-files-organization" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">Source Files Organization</a><a class="headerlink" href="#source-files-organization" title="Link to this heading">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Drylands2           - Model algorithms and control functions and classes.
 `-- src
     |-- input       - Functions and classes for reading input files.
@@ -433,9 +452,9 @@ MATLAB for the most part. See this document for most compatibility issues:</p>
 </div>
 </section>
 <section id="major-model-parts">
-<h3><a class="toc-backref" href="#id14" role="doc-backlink">Major Model Parts</a><a class="headerlink" href="#major-model-parts" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">Major Model Parts</a><a class="headerlink" href="#major-model-parts" title="Link to this heading">¶</a></h3>
 <section id="simulation-grid">
-<h4><a class="toc-backref" href="#id15" role="doc-backlink">Simulation Grid</a><a class="headerlink" href="#simulation-grid" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id16" role="doc-backlink">Simulation Grid</a><a class="headerlink" href="#simulation-grid" title="Link to this heading">¶</a></h4>
 <p>The simulation grid is square. The size of the grid is constant, and is
 specified in the simulation configuration. Cell sizes are constant and
 assumed to be 1 m:sup:<cite>2</cite>.</p>
@@ -444,7 +463,7 @@ solver of the timestep equations. These are trimmed when results
 are saved and maps are created.</p>
 </section>
 <section id="time-loops">
-<h4><a class="toc-backref" href="#id16" role="doc-backlink">Time loops</a><a class="headerlink" href="#time-loops" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id17" role="doc-backlink">Time loops</a><a class="headerlink" href="#time-loops" title="Link to this heading">¶</a></h4>
 <p>Processes simulated by the Drylands2 model are represented as either
 difference equations (e.g., daily plant growth) approximating PDEs,
 or sporadic events (e.g., rainfall).</p>
@@ -458,11 +477,11 @@ to produce smooth transitions between cells.</p>
 Class State tracks the iteration through days.</p>
 </section>
 <section id="soil-structure">
-<h4><a class="toc-backref" href="#id17" role="doc-backlink">Soil Structure</a><a class="headerlink" href="#soil-structure" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id18" role="doc-backlink">Soil Structure</a><a class="headerlink" href="#soil-structure" title="Link to this heading">¶</a></h4>
 <p>The soil is defined as 3 layers: top (surface), middle and deep soil layer.
 Actual depths are not used directly in the model but are implied in some of
 the algorithm designs.
-Stewart et al (2014, page 384)[<a class="reference internal" href="#id4">3</a>] specifies the layer depths to be
+Stewart et al (2014, page 384)[<a class="reference internal" href="#id5">3</a>] specifies the layer depths to be
 100 mm, 350 mm, and 1500 mm, respectively, and some parameterization and
 algorithms assume those depths. These depths are mostly not used explicitly,
 but as proportions of total soil depth for each layer.
@@ -472,7 +491,7 @@ In Drylands2, the layer thicknesses are specified in the class <strong>Constants
 or permeability of each soil layer.</p>
 </section>
 <section id="simulation-results">
-<h4><a class="toc-backref" href="#id18" role="doc-backlink">Simulation Results</a><a class="headerlink" href="#simulation-results" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id19" role="doc-backlink">Simulation Results</a><a class="headerlink" href="#simulation-results" title="Link to this heading">¶</a></h4>
 <p>Each time step stores results in a structure <strong>results</strong> containing several
 matrices. The actual matrices present are dependent upon whether a single
 simulation is run, or if mounds are simulated, or if multiple sweeps or
@@ -481,7 +500,7 @@ trials are run. The <strong>results</strong> matrices are described in the appen
 </section>
 </section>
 <section id="major-functions-and-classes">
-<h3><a class="toc-backref" href="#id19" role="doc-backlink">Major Functions and Classes</a><a class="headerlink" href="#major-functions-and-classes" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id20" role="doc-backlink">Major Functions and Classes</a><a class="headerlink" href="#major-functions-and-classes" title="Link to this heading">¶</a></h3>
 <p>The “main” function is <code class="docutils literal notranslate"><span class="pre">Drylands2</span></code>.
 Class names are capitalized.
 Function names are (usually) not capitalized.</p>
@@ -582,7 +601,7 @@ NLitterRedist
 </div></blockquote>
 </section>
 <section id="execution-psuedocode">
-<h3><a class="toc-backref" href="#id20" role="doc-backlink">Execution Psuedocode</a><a class="headerlink" href="#execution-psuedocode" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id21" role="doc-backlink">Execution Psuedocode</a><a class="headerlink" href="#execution-psuedocode" title="Link to this heading">¶</a></h3>
 <p>The following psuedocode does not include simulation of mounds or trials.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Read</span> <span class="n">configuration</span> <span class="n">file</span>
 <span class="n">Configure</span> <span class="n">paths</span> <span class="ow">and</span> <span class="n">files</span>
@@ -609,7 +628,7 @@ NLitterRedist
 </section>
 </section>
 <section id="algorithms">
-<h2><a class="toc-backref" href="#id21" role="doc-backlink">Algorithms</a><a class="headerlink" href="#algorithms" title="Link to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id22" role="doc-backlink">Algorithms</a><a class="headerlink" href="#algorithms" title="Link to this heading">¶</a></h2>
 <p>The processes modelled include: water and N infiltration, evaporation from
 surface soil, soil water drainage, soil water uptake by plant roots, and
 plant growth and mortality. The pools of biomass and water are modified by
@@ -620,21 +639,21 @@ aeolian erosion and deposition.</p>
 <p>For an explanation of the equations used for major processes, see the
 document <em>ModelEquations.pdf/html</em>.</p>
 <section id="water-fluxes">
-<h3><a class="toc-backref" href="#id22" role="doc-backlink">Water Fluxes</a><a class="headerlink" href="#water-fluxes" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id23" role="doc-backlink">Water Fluxes</a><a class="headerlink" href="#water-fluxes" title="Link to this heading">¶</a></h3>
 <p>Water is moved through the grid cells via infiltration from surface water,
 soil water losses (evaporation and drainage), and plant uptake of soil
 water. Surface water originates from precipitation and lateral flow via
 dispersion. See the document <em>ModelEquations.pdf</em> for the
 equations and their descriptions.</p>
 <section id="precipitation-and-temperature">
-<h4><a class="toc-backref" href="#id23" role="doc-backlink">Precipitation and Temperature</a><a class="headerlink" href="#precipitation-and-temperature" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id24" role="doc-backlink">Precipitation and Temperature</a><a class="headerlink" href="#precipitation-and-temperature" title="Link to this heading">¶</a></h4>
 <p>Precipitation is a daily amount (or zero) from either a constant value
 specified in the configuration, or a precipitation data file.</p>
 <p>Temperature is a daily value from either a constant value
 specified in the configuration, or a temperature data file.</p>
 </section>
 <section id="infiltration">
-<h4><a class="toc-backref" href="#id24" role="doc-backlink">Infiltration</a><a class="headerlink" href="#infiltration" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id25" role="doc-backlink">Infiltration</a><a class="headerlink" href="#infiltration" title="Link to this heading">¶</a></h4>
 <p>Infiltration is assumed to occur homogeneously throughout the soil depth, and
 at a rate much less than one day. This assumption of approximately constant
 hydraulic conductivity is used within the context of the daily timestep of
@@ -646,12 +665,14 @@ parameter <strong>alpha</strong>.
 All soil layers receive infiltrated water, however the amount cannot exceed
 the estimated maximum volumetric soil water content (see <strong>Constants.vwc</strong>)
 for each soil layer.</p>
-<p>The infiltration parameter <strong>k2</strong> is the rate at which infiltration
+<p>Plants influence infiltration using the equation of Rietkerk et al. (1997, 2002).
+The infiltration parameter <strong>k2</strong> is the rate at which infiltration
 increases with biomass, and is species-specific. Infiltration for each plant
 is a function of root biomass for that plant.</p>
+<p>Crust infiltration has its own equations: See the section <a class="reference internal" href="#crust">Crust</a> for details.</p>
 </section>
 <section id="evaporation">
-<h4><a class="toc-backref" href="#id25" role="doc-backlink">Evaporation</a><a class="headerlink" href="#evaporation" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id26" role="doc-backlink">Evaporation</a><a class="headerlink" href="#evaporation" title="Link to this heading">¶</a></h4>
 <p>The amount of actual evaporation is assumed to generally decrease as biomass
 density increases (CITE). Evaporation is from the surface soil layer only,
 and is a inverse function of biomass per cell.</p>
@@ -664,7 +685,7 @@ evaporation associated with the cell fraction of aboveground biomass for
 each plant.</p>
 </section>
 <section id="soil-water-drainage">
-<h4><a class="toc-backref" href="#id26" role="doc-backlink">Soil Water Drainage</a><a class="headerlink" href="#soil-water-drainage" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id27" role="doc-backlink">Soil Water Drainage</a><a class="headerlink" href="#soil-water-drainage" title="Link to this heading">¶</a></h4>
 <p>Soil water drainage from the bottom of the soil profile is assumed to occur
 only from the soil layers below the surface layer. The drainage amount is a
 constant fraction of soil water content. The surface layer is not affected
@@ -675,10 +696,10 @@ soil layer thickness (mm), representing the volume of soil water remaining
 after gravity drainage is essentially complete.
 The volumetric soil moisture content at field capacity varies with soil
 texture. There are several tables of average values available,
-such as Saxton and Rawls (2006)[<a class="reference internal" href="#id5">4</a>], table 3; see <a class="reference internal" href="#appendix-2">Appendix_2</a>.</p>
+such as Saxton and Rawls (2006)[<a class="reference internal" href="#id6">4</a>], table 3; see <a class="reference internal" href="#appendix-2">Appendix_2</a>.</p>
 </section>
 <section id="plant-soil-water-uptake">
-<h4><a class="toc-backref" href="#id27" role="doc-backlink">Plant Soil Water Uptake</a><a class="headerlink" href="#plant-soil-water-uptake" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id28" role="doc-backlink">Plant Soil Water Uptake</a><a class="headerlink" href="#plant-soil-water-uptake" title="Link to this heading">¶</a></h4>
 <p>Plants take up soil water proportional to plant biomass. Uptake is estimated
 separately for each soil layer. Plant species configuration parameters
 <strong>bmBgAgRatio</strong> and <strong>bmBgDist</strong> determine the proportions of biomass in each
@@ -687,12 +708,12 @@ soil layer, and the uptake parameters <strong>k1</strong> and <strong>gmax</stro
 water content to below the wilting point of the soil layer. The wilting
 point here is assumed to be 0.53 of the field capacity (see class
 <code class="docutils literal notranslate"><span class="pre">Constants</span></code>), which is the mean of the ratios from Saxton and Rawls
-(2006)[<a class="reference internal" href="#id5">4</a>], table 3; see <a class="reference internal" href="#appendix-2">Appendix_2</a>.</p>
+(2006)[<a class="reference internal" href="#id6">4</a>], table 3; see <a class="reference internal" href="#appendix-2">Appendix_2</a>.</p>
 <p>For multiple plant species, uptake per species is subject to contraints from
 resource competition (see <a class="reference internal" href="#species-competition">Species Competition</a>).</p>
 </section>
 <section id="spatial-dispersion">
-<h4><a class="toc-backref" href="#id28" role="doc-backlink">Spatial Dispersion</a><a class="headerlink" href="#spatial-dispersion" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id29" role="doc-backlink">Spatial Dispersion</a><a class="headerlink" href="#spatial-dispersion" title="Link to this heading">¶</a></h4>
 <p>The equations for surface water, soil water, and plant propagation have
 diffusion components which spread those pools into adjacent grid cells.
 Smaller values of the diffusion rates tend to decrease the size and increase
@@ -700,7 +721,7 @@ the number of the “clumps” within the grid.</p>
 <p>(TO DO: implementation of Spatial Dispersion)</p>
 </section>
 <section id="initialization">
-<h4><a class="toc-backref" href="#id29" role="doc-backlink">Initialization</a><a class="headerlink" href="#initialization" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id30" role="doc-backlink">Initialization</a><a class="headerlink" href="#initialization" title="Link to this heading">¶</a></h4>
 <p>Soil water content is initialized indirectly through the configuration
 item <strong>model.initial.precipitation</strong>, in which the initial biomass
 (see <strong>model.initial.biomass(*).distribution</strong>).
@@ -708,7 +729,7 @@ controls the amount of soil water per grid cell.</p>
 </section>
 </section>
 <section id="nitrogen-fluxes">
-<h3><a class="toc-backref" href="#id30" role="doc-backlink">Nitrogen Fluxes</a><a class="headerlink" href="#nitrogen-fluxes" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id31" role="doc-backlink">Nitrogen Fluxes</a><a class="headerlink" href="#nitrogen-fluxes" title="Link to this heading">¶</a></h3>
 <p>Nitrogen cycle elements are atmospheric deposition; plant uptake, fixation,
 mortality, decomposition and herbivory; spatial redistribution of litter due
 to aeolian effects; and lateral diffusion of soil N.
@@ -742,8 +763,7 @@ precipitation file.</p>
 </div></blockquote>
 <p><strong>plant.CN</strong></p>
 <blockquote>
-<div><p>Average of the aboveground and belowground C:N of biomass for this plant.
-(TO DO: Have separate C:N for different plant parts.)</p>
+<div><p>Average of the aboveground and belowground C:N of biomass for this plant.</p>
 </div></blockquote>
 <p><strong>plant.cNmax</strong></p>
 <blockquote>
@@ -792,7 +812,7 @@ by soil water diffusion (one value per layer: g/m2).</p>
 <p>A diagram illustrating N fluxes in the model is in the files
 <em>NFluxesDiagram.fodg/pdf/png</em>.</p>
 <section id="id1">
-<h4><a class="toc-backref" href="#id31" role="doc-backlink">Initialization</a><a class="headerlink" href="#id1" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id32" role="doc-backlink">Initialization</a><a class="headerlink" href="#id1" title="Link to this heading">¶</a></h4>
 <p>Initial soil plant-available N is specified in the configuration parameter
 <strong>model.initial.soilN</strong>.
 Units are gN/m2. Allowed values are &gt;= zero.
@@ -805,7 +825,7 @@ all species.</p>
 </section>
 </section>
 <section id="aeolian-erosion-and-deposition">
-<h3><a class="toc-backref" href="#id32" role="doc-backlink">Aeolian Erosion and Deposition</a><a class="headerlink" href="#aeolian-erosion-and-deposition" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id33" role="doc-backlink">Aeolian Erosion and Deposition</a><a class="headerlink" href="#aeolian-erosion-and-deposition" title="Link to this heading">¶</a></h3>
 <p>The aeolian submodel estimates effects upon plants by erosion and deposition
 of aeolian transport of soil. The intent is to not track actual amounts of
 material transported across a grid, rather track the effects of erosion and
@@ -818,12 +838,12 @@ applied to mortality of grass and young shrubs.</p>
 <em>aeolian/AeolianEffect-Algorithms</em>.</p>
 </section>
 <section id="plants">
-<h3><a class="toc-backref" href="#id33" role="doc-backlink">Plants</a><a class="headerlink" href="#plants" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id34" role="doc-backlink">Plants</a><a class="headerlink" href="#plants" title="Link to this heading">¶</a></h3>
 <p>Each plant species is defined in the configuration file under the item
 <strong>plant</strong>. Plants can be a perennial grass, a shrub, or an annual grass or
 forb.</p>
 <section id="history-of-plant-algorithms">
-<h4><a class="toc-backref" href="#id34" role="doc-backlink">History of Plant Algorithms</a><a class="headerlink" href="#history-of-plant-algorithms" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id35" role="doc-backlink">History of Plant Algorithms</a><a class="headerlink" href="#history-of-plant-algorithms" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Version 1 of this model simulates one plant species.</p></li>
 <li><p>Version 2 simulates multiple plant species with resource competition.</p></li>
@@ -847,7 +867,7 @@ For a diagram of functional and class relationships, see the
 UML class diagram in <code class="docutils literal notranslate"><span class="pre">doc/class-diagram-Plant.png</span></code></p>
 </section>
 <section id="growth">
-<h4><a class="toc-backref" href="#id35" role="doc-backlink">Growth</a><a class="headerlink" href="#growth" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id36" role="doc-backlink">Growth</a><a class="headerlink" href="#growth" title="Link to this heading">¶</a></h4>
 <p>Daily growth = minimum of the above potentials:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">G</span> <span class="o">=</span> <span class="n">minimum</span><span class="p">(</span><span class="n">dPU</span><span class="p">,</span> <span class="n">dPB</span><span class="p">,</span> <span class="n">dPT</span><span class="p">,</span> <span class="n">dPN</span><span class="p">)</span>
 </pre></div>
@@ -869,12 +889,12 @@ maximum growth rate.</p>
 Poisson density function curve to simulate the growth response to temperature.
 The configuration parameter <strong>plant.teff</strong> determines the shape and range of
 this curve.</p>
-<p>By way of Liebig’s law of the minimum[<a class="reference internal" href="#id6">5</a>], growth is limited by the least of
+<p>By way of Liebig’s law of the minimum[<a class="reference internal" href="#id7">5</a>], growth is limited by the least of
 the contribution from plant-available water, maximum potential biomass, mean
 daily air temperature, and available soil N.</p>
 </section>
 <section id="mortality">
-<h4><a class="toc-backref" href="#id36" role="doc-backlink">Mortality</a><a class="headerlink" href="#mortality" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id37" role="doc-backlink">Mortality</a><a class="headerlink" href="#mortality" title="Link to this heading">¶</a></h4>
 <p>There are multiple types of mortality:</p>
 <ul class="simple">
 <li><p>Constant background rate.</p></li>
@@ -956,7 +976,7 @@ equation solver. The procedural loop is approximately:</p>
 </div>
 </section>
 <section id="spatial-propagation">
-<h4><a class="toc-backref" href="#id37" role="doc-backlink">Spatial Propagation</a><a class="headerlink" href="#spatial-propagation" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id38" role="doc-backlink">Spatial Propagation</a><a class="headerlink" href="#spatial-propagation" title="Link to this heading">¶</a></h4>
 <p>Plants reproduce and propagate to surrounding cells by way of both
 vegetative propagation and reproduction with seed dispersal. The
 configuration plant parameter <strong>plant.E</strong> is the proportion of reproductive
@@ -978,9 +998,9 @@ day before that value. So here, the length of the growing season is always
 one year, but the timing of environmental conditions determine actual plant
 growth.</p>
 <section id="vegetative-propagation">
-<h5><a class="toc-backref" href="#id38" role="doc-backlink">Vegetative Propagation</a><a class="headerlink" href="#vegetative-propagation" title="Link to this heading">¶</a></h5>
+<h5><a class="toc-backref" href="#id39" role="doc-backlink">Vegetative Propagation</a><a class="headerlink" href="#vegetative-propagation" title="Link to this heading">¶</a></h5>
 <p>A dispersion term in the growth equations is used for vegetative propagation
-(Reitkerk et al., 2002)[<a class="reference internal" href="#id3">2</a>]. Originally implemented as the dispersion term
+(Reitkerk et al., 2002)[<a class="reference internal" href="#id4">2</a>]. Originally implemented as the dispersion term
 in the equation for daily change in aboveground biomass (prior to model
 version 7), now it can also be an annual propagation calculation alongside
 seed dispersal. A constant property in class <strong>Constants</strong> specifies if
@@ -1014,7 +1034,7 @@ biomass due to vegetative propagation is calculated with this dispersion
 term.</p>
 </section>
 <section id="seed-dispersal-propagation">
-<h5><a class="toc-backref" href="#id39" role="doc-backlink">Seed Dispersal Propagation</a><a class="headerlink" href="#seed-dispersal-propagation" title="Link to this heading">¶</a></h5>
+<h5><a class="toc-backref" href="#id40" role="doc-backlink">Seed Dispersal Propagation</a><a class="headerlink" href="#seed-dispersal-propagation" title="Link to this heading">¶</a></h5>
 <p>Once per year at the end of the “growing season” (<strong>simTime.gsStart</strong>),
 seeds may be distributed throughout the grid. At the start of the growing
 season, they are allowed to germinate and begin growing. The success rate of
@@ -1046,14 +1066,14 @@ has its own <strong>Seed</strong> member.</p>
 </section>
 </section>
 <section id="species-competition">
-<h4><a class="toc-backref" href="#id40" role="doc-backlink">Species Competition</a><a class="headerlink" href="#species-competition" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id41" role="doc-backlink">Species Competition</a><a class="headerlink" href="#species-competition" title="Link to this heading">¶</a></h4>
 <p>Version 2 includes the ability to have multiple plant species.
 Plant species compete implicitly through their parameterization
 for growth rate and root:shoot ratio.
 Explicit competition for soil resources uses the algorithm
 in the class <strong>Competition</strong>.</p>
 <section id="implicit-competition">
-<h5><a class="toc-backref" href="#id41" role="doc-backlink">Implicit Competition</a><a class="headerlink" href="#implicit-competition" title="Link to this heading">¶</a></h5>
+<h5><a class="toc-backref" href="#id42" role="doc-backlink">Implicit Competition</a><a class="headerlink" href="#implicit-competition" title="Link to this heading">¶</a></h5>
 <p>Each species has configuration items that specify the proportions of
 available soil resources relative to root biomass: <strong>plant.bmBgAgRatio</strong>
 (ratio of belowground to aboveground biomass), and <strong>plant.bmBgDist</strong>
@@ -1085,7 +1105,7 @@ available for resource uptake. See <strong>c</strong>, <strong>rmax</strong> and
 the temperature effect upon growth rate limitation (<strong>teff</strong>).</p>
 </section>
 <section id="explicit-competition">
-<h5><a class="toc-backref" href="#id42" role="doc-backlink">Explicit Competition</a><a class="headerlink" href="#explicit-competition" title="Link to this heading">¶</a></h5>
+<h5><a class="toc-backref" href="#id43" role="doc-backlink">Explicit Competition</a><a class="headerlink" href="#explicit-competition" title="Link to this heading">¶</a></h5>
 <p>Competition factors are values in the range 0-1 that specify for each plant,
 the fraction of a resource in a soil layer to which plant roots have access.
 Factors are calculated from the relative amounts of root biomass for each
@@ -1097,8 +1117,82 @@ resource.</p>
 </section>
 </section>
 </section>
+<section id="crust">
+<h3><a class="toc-backref" href="#id44" role="doc-backlink">Crust</a><a class="headerlink" href="#crust" title="Link to this heading">¶</a></h3>
+<p>Crust is implemented as a kind of Plant. This allows crusts to use many of
+the same algorithms and processing steps for plants. Exceptions include
+infiltration, and growth and mortality.
+Infiltration uses different equations than plants,
+while growth increases cell area fraction occupied by crust rather than
+biomass.</p>
+<p>There are four types of crust known in this model: light and dark
+cyanobacteria, lichen-dominated, and moss-dominated. Each can be combined
+with one of three surface soil substrates: clay, sand, gravel.</p>
+<section id="id2">
+<h4><a class="toc-backref" href="#id45" role="doc-backlink">Infiltration</a><a class="headerlink" href="#id2" title="Link to this heading">¶</a></h4>
+<p>Generally, crust infiltration varies with soil texture,
+crust type, and crust development.
+Mature biologic soil crust often reduces infiltration, particularly on
+sandy soils (Belnap, 2006; Warren, 2014).
+In coarse textured calcareous soils, infiltration can be higher
+in crust vs bare soil (Chamizo et al, 2016).</p>
+<p>TODO: Crust Infiltration implementation</p>
+</section>
+<section id="disturbance-and-recovery">
+<h4><a class="toc-backref" href="#id46" role="doc-backlink">Disturbance and Recovery</a><a class="headerlink" href="#disturbance-and-recovery" title="Link to this heading">¶</a></h4>
+<p>The disturbance algorithm alters crust states by resetting a fraction of
+randomly selected crust cells to be bare soil. The random fraction is
+weighted by shrub biomass; greater biomass suggests less probability of
+disturbance.</p>
+<p>The recovery crust type or the succession sequence follows according to
+the recovery algorithm specified. Recovery from disturbance is initiated at
+start of growing season.</p>
+<p>Two algorithms are available for post-disturbance recovery: (1) constant
+crust type for recovery; (2) succession sequence of crust types. Use
+configuration option to specify which method.</p>
+<ol class="arabic">
+<li><p>Constant crust type per cell</p>
+<p>Recovery rate (random fraction of disturbed cells/year) is specified in
+the configuration. This fraction of disturbed cells can start developing
+crust at the start of each growing season.</p>
+</li>
+<li><p>Crust succession</p>
+<p>The sequence of succession depends upon the surface soil type.
+Each succession crust type develops until it reaches it maximum age
+(years), after which it is set to bare soil. Then the next succession
+crust type begins growing.</p>
+</li>
+</ol>
+<p>TODO: Crust Disturbance implementation</p>
+</section>
+<section id="crust-classes-and-functions">
+<h4><a class="toc-backref" href="#id47" role="doc-backlink">Crust Classes and Functions</a><a class="headerlink" href="#crust-classes-and-functions" title="Link to this heading">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Plant</span><span class="p">:</span> <span class="nb">type</span>   <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="mi">4</span> <span class="p">(</span><span class="mi">4</span> <span class="o">:=</span> <span class="n">crust</span><span class="p">)</span>
+       <span class="n">agLive</span> <span class="o">=</span> <span class="n">grid</span> <span class="n">of</span> <span class="n">biomass</span> <span class="p">(</span><span class="n">g</span><span class="o">/</span><span class="n">m2</span><span class="p">)</span>
+  <span class="o">^</span>
+  <span class="o">|</span>
+<span class="n">Crust</span><span class="p">:</span> <span class="n">kind</span>     <span class="o">=</span> <span class="n">CrustKind</span><span class="o">.</span><span class="n">kinds</span><span class="o">.</span><span class="n">id</span>    <span class="o">&lt;--</span> <span class="n">CrustKind</span><span class="o">.</span><span class="n">kind</span><span class="p">;</span> <span class="n">also</span> <span class="n">CrustSequence</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+       <span class="n">age</span>      <span class="o">=</span> <span class="n">grid</span><span class="p">:</span> <span class="n">age</span> <span class="n">of</span> <span class="n">crust</span>    <span class="o">&lt;--</span> <span class="n">Reset</span> <span class="n">by</span> <span class="n">Crust</span><span class="o">.</span><span class="n">succession</span><span class="p">()</span>
+       <span class="n">soilType</span> <span class="o">=</span> <span class="n">CrustSoil</span><span class="o">.</span><span class="n">kinds</span><span class="o">.</span><span class="n">index</span>
+       <span class="n">agLive</span>   <span class="o">=</span> <span class="n">grid</span><span class="p">:</span> <span class="n">crust</span> <span class="n">area</span>      <span class="o">&lt;--</span> <span class="n">Growth</span> <span class="n">increases</span> <span class="n">area</span><span class="p">;</span> <span class="n">disturbance</span> <span class="n">reduces</span>
+
+<span class="n">CrustKind</span><span class="p">:</span> <span class="nb">property</span> <span class="s2">"kind"</span><span class="p">:</span> <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span><span class="nb">id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">...</span><span class="p">}</span>
+
+<span class="n">CrustSequence</span><span class="p">:</span> <span class="nb">property</span> <span class="s2">"table"</span><span class="p">:</span> <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span><span class="n">index</span><span class="p">,</span> <span class="n">sequence</span><span class="p">}</span>
+
+<span class="n">CrustSoil</span><span class="p">:</span> <span class="nb">property</span> <span class="s2">"kinds"</span><span class="p">:</span> <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="p">}</span>
+
+<span class="n">crustInfiltration</span><span class="p">:</span> <span class="n">Infiltration</span> <span class="n">varies</span> <span class="k">with</span> <span class="n">soil</span> <span class="nb">type</span> <span class="ow">and</span> <span class="n">crust</span> <span class="n">amount</span><span class="o">.</span>
+
+<span class="n">crustDisturbance</span><span class="p">:</span>  <span class="n">Disturb</span> <span class="n">crust</span><span class="o">.</span>
+
+<span class="n">crustRecovery</span><span class="p">:</span>     <span class="n">Recover</span> <span class="kn">from</span><span class="w"> </span><span class="nn">disturbance.</span>
+</pre></div>
+</div>
+</section>
+</section>
 <section id="mounds">
-<h3><a class="toc-backref" href="#id43" role="doc-backlink">Mounds</a><a class="headerlink" href="#mounds" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id48" role="doc-backlink">Mounds</a><a class="headerlink" href="#mounds" title="Link to this heading">¶</a></h3>
 <p>A mounds submodel simulates water flow over the mound surface. Mounds are
 topographic features of specified shape and size. Shape is specified by a
 slope at a radial distance from the mound center. Mound topography
@@ -1127,7 +1221,7 @@ The results for each simulation are stored separately.</p>
 <p>Configuration items <strong>model.mounds</strong> and class <strong>Mounds</strong> manage the parameters
 controlling mound shape and behavior.</p>
 <section id="mound-shape">
-<h4><a class="toc-backref" href="#id44" role="doc-backlink">Mound Shape</a><a class="headerlink" href="#mound-shape" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id49" role="doc-backlink">Mound Shape</a><a class="headerlink" href="#mound-shape" title="Link to this heading">¶</a></h4>
 <p>Mound shape is determined by a set of [x,y] pairs in two vectors,
 the radial distance from the mound center,
 and the slope (or convection velocity).
@@ -1141,7 +1235,7 @@ files at <code class="docutils literal notranslate"><span class="pre">doc/mounds
 </div>
 </section>
 <section id="algorithm-flow-simplified">
-<h4><a class="toc-backref" href="#id45" role="doc-backlink">Algorithm flow (simplified)</a><a class="headerlink" href="#algorithm-flow-simplified" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id50" role="doc-backlink">Algorithm flow (simplified)</a><a class="headerlink" href="#algorithm-flow-simplified" title="Link to this heading">¶</a></h4>
 <div class="highlight-MATLAB notranslate"><div class="highlight"><pre><span></span><span class="n">For</span><span class="w"> </span><span class="s">each</span><span class="w"> </span><span class="s">simulation:</span>
 <span class="w">    </span><span class="n">runOneSim</span><span class="p">()</span>
 <span class="w">        </span><span class="n">simTask</span><span class="p">(</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="n">mounds</span><span class="p">.</span><span class="n">imc</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w">    </span><span class="c">% use on-mound initial coverage for mounds</span>
@@ -1170,7 +1264,7 @@ files at <code class="docutils literal notranslate"><span class="pre">doc/mounds
 </section>
 </section>
 <section id="sweeps">
-<h3><a class="toc-backref" href="#id46" role="doc-backlink">Sweeps</a><a class="headerlink" href="#sweeps" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id51" role="doc-backlink">Sweeps</a><a class="headerlink" href="#sweeps" title="Link to this heading">¶</a></h3>
 <p>A sweep is a set of simulations over a range of a configuration parameter.
 The parameter varies with a fixed interval.
 A sweep parameter can be any field in the configuration file for which
@@ -1218,19 +1312,19 @@ simulation.</p>
 <p>See the document <em>Manual</em> for details about sweep configuration parameters.</p>
 </section>
 <section id="trials">
-<h3><a class="toc-backref" href="#id47" role="doc-backlink">Trials</a><a class="headerlink" href="#trials" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id52" role="doc-backlink">Trials</a><a class="headerlink" href="#trials" title="Link to this heading">¶</a></h3>
 <p>Trials are multiple simulations with fixed configuration parameters
 and one random input or parameter.
 All simulations in trials use the same initial values for state variables.</p>
 <p>See the document <em>Manual</em> for details about trials configuration parameters.</p>
 </section>
 <section id="history-of-model-development">
-<h3><a class="toc-backref" href="#id48" role="doc-backlink">History of Model Development</a><a class="headerlink" href="#history-of-model-development" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id53" role="doc-backlink">History of Model Development</a><a class="headerlink" href="#history-of-model-development" title="Link to this heading">¶</a></h3>
 <p>Some of the algorithms Rietkerk et al (2002) have been modified,
 and some new algorithms added. See the document <em>ModelEquations</em>
 for equation details.</p>
 <section id="version-1">
-<h4><a class="toc-backref" href="#id49" role="doc-backlink">Version 1</a><a class="headerlink" href="#version-1" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id54" role="doc-backlink">Version 1</a><a class="headerlink" href="#version-1" title="Link to this heading">¶</a></h4>
 <p>Modified and new algorithms include:</p>
 <ul class="simple">
 <li><p>There are three soil layers for soil resources and distribution of root biomass.</p></li>
@@ -1243,28 +1337,28 @@ for equation details.</p>
 </ul>
 </section>
 <section id="version-2">
-<h4><a class="toc-backref" href="#id50" role="doc-backlink">Version 2</a><a class="headerlink" href="#version-2" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id55" role="doc-backlink">Version 2</a><a class="headerlink" href="#version-2" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Simulation can include multiple plant species with resource competition based
 upon proportion of biomass.</p></li>
 </ul>
 </section>
 <section id="version-3">
-<h4><a class="toc-backref" href="#id51" role="doc-backlink">Version 3</a><a class="headerlink" href="#version-3" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id56" role="doc-backlink">Version 3</a><a class="headerlink" href="#version-3" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Added N atmospheric deposition as an input flux, and
 algorithms for plant uptake of N for growth.</p></li>
 </ul>
 </section>
 <section id="version-4">
-<h4><a class="toc-backref" href="#id52" role="doc-backlink">Version 4</a><a class="headerlink" href="#version-4" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id57" role="doc-backlink">Version 4</a><a class="headerlink" href="#version-4" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Added algorithms for plant mortality due to soil water stress
 due to insufficient plant-available soil water over a fixed time period.</p></li>
 </ul>
 </section>
 <section id="version-5">
-<h4><a class="toc-backref" href="#id53" role="doc-backlink">Version 5</a><a class="headerlink" href="#version-5" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id58" role="doc-backlink">Version 5</a><a class="headerlink" href="#version-5" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Added daily soil N demand for maintenance by current biomass.</p></li>
 <li><p>New configuration option for matrix time series output containing spatial changes.</p></li>
@@ -1273,7 +1367,7 @@ moved into the DrylandsLib package.</p></li>
 </ul>
 </section>
 <section id="version-6">
-<h4><a class="toc-backref" href="#id54" role="doc-backlink">Version 6</a><a class="headerlink" href="#version-6" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id59" role="doc-backlink">Version 6</a><a class="headerlink" href="#version-6" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>A new aeolian submodel simulations the effects upon plant mortality due to
 aeolian erosion and deposition. The model configuration has new sections to
@@ -1283,7 +1377,7 @@ in the multiple simulations. Mounds simulations generate a mounds map.</p></li>
 </ul>
 </section>
 <section id="version-7">
-<h4><a class="toc-backref" href="#id55" role="doc-backlink">Version 7</a><a class="headerlink" href="#version-7" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id60" role="doc-backlink">Version 7</a><a class="headerlink" href="#version-7" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>New sweep subsystem can sweep any configuration parameter.
 See the <em>Manual</em> for a description.</p></li>
@@ -1296,7 +1390,7 @@ See the <em>Manual</em> for a description.</p></li>
 </ul>
 </section>
 <section id="version-8">
-<h4><a class="toc-backref" href="#id56" role="doc-backlink">Version 8</a><a class="headerlink" href="#version-8" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id61" role="doc-backlink">Version 8</a><a class="headerlink" href="#version-8" title="Link to this heading">¶</a></h4>
 <ul>
 <li><p>Growth via diffusive spatial propagation can now be done annually.
 See logical variable <code class="docutils literal notranslate"><span class="pre">Constants.plantDPannual</span></code>.</p></li>
@@ -1315,10 +1409,16 @@ See logical variable <code class="docutils literal notranslate"><span class="pre
 <li><p>New <code class="docutils literal notranslate"><span class="pre">tools/plotWaterVars</span></code> function for graphing water-related output variables.</p></li>
 </ul>
 </section>
+<section id="version-9">
+<h4><a class="toc-backref" href="#id62" role="doc-backlink">Version 9</a><a class="headerlink" href="#version-9" title="Link to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>New submodel - Crust which simulates biocrust growth, mortality, and disturbance.</p></li>
+</ul>
+</section>
 </section>
 </section>
 <section id="see-also">
-<h2><a class="toc-backref" href="#id57" role="doc-backlink">See Also</a><a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id63" role="doc-backlink">See Also</a><a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
 <p><em>Manual.pdf</em> or <em>Manual.html</em>, source: <em>Manual.rst</em></p>
 <p><em>ModelDiagram.pdf</em> or <em>ModelDiagram.html</em>, source: <em>ModelDiagram.fodt</em></p>
 <p><em>ModelEquations.pdf</em>, source: <em>ModelEquations.fodt</em></p>
@@ -1335,51 +1435,51 @@ demonstrating equations used in these algorithms.</p>
 <p><em>ModifyingModel.pdf</em> or <em>ModifyingModel.html</em>, source: <em>ModifyingModel.rst</em></p>
 </section>
 <section id="acknowledgments">
-<h2><a class="toc-backref" href="#id58" role="doc-backlink">Acknowledgments</a><a class="headerlink" href="#acknowledgments" title="Link to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id64" role="doc-backlink">Acknowledgments</a><a class="headerlink" href="#acknowledgments" title="Link to this heading">¶</a></h2>
 <p>This material is based upon work supported by the National Science
 Foundation under Grant No. 2425143.</p>
 </section>
 <section id="bibliography">
-<h2><a class="toc-backref" href="#id59" role="doc-backlink">Bibliography</a><a class="headerlink" href="#bibliography" title="Link to this heading">¶</a></h2>
-<blockquote id="id2">
+<h2><a class="toc-backref" href="#id65" role="doc-backlink">Bibliography</a><a class="headerlink" href="#bibliography" title="Link to this heading">¶</a></h2>
+<blockquote id="id3">
 <div><p>[1] Rietkerk, M., F. van den Bosch, and J. van de Koppel. 1997. Site-specific
 properties and irreversible vegetation changes in semi-arid grazing systems.
 Oikos 80: 241–252.</p>
 </div></blockquote>
-<blockquote id="id3">
+<blockquote id="id4">
 <div><p>[2] Rietkerk, M., M. C. Boerlijsr, F. van Langevelde, R. Hille-RisLambers, J.
 Van de Koppel, L. Kumar, and A. M. de Roos. 2002. Self- organization of
 vegetation in arid ecosystems. American Naturalist 160:524–530.
 <a class="reference external" href="https://doi.org/10.1086/342078">https://doi.org/10.1086/342078</a></p>
 </div></blockquote>
-<blockquote id="id4">
+<blockquote id="id5">
 <div><p>[3] Stewart, J., Parsons, A.J., Wainwright, J., Okin, G.S., Bestelmeyer, B.T.,
 Fredrickson, E.L. and Schlesinger, W.H. (2014), Modeling emergent patterns
 of dynamic desert ecosystems. Ecological Monographs, 84: 373 -410.
 <a class="reference external" href="https://doi.org/10.1890/12-1253.1">https://doi.org/10.1890/12-1253.1</a></p>
 </div></blockquote>
-<blockquote id="id5">
+<blockquote id="id6">
 <div><p>[4] Saxton, K.E. and Rawls, W.J. (2006), Soil Water Characteristic
 Estimates by Texture and Organic Matter for Hydrologic Solutions;
 table 3.
 Soil Sci. Soc. Am. J., 70: 1569-1578.
 <a class="reference external" href="https://doi.org/10.2136/sssaj2005.0117">https://doi.org/10.2136/sssaj2005.0117</a></p>
 </div></blockquote>
-<blockquote id="id6">
+<blockquote id="id7">
 <div><p>[5] Liebig’s law of the minimum.
 <a class="reference external" href="https://en.wikipedia.org/wiki/Liebig%27s_law_of_the_minimum">https://en.wikipedia.org/wiki/Liebig%27s_law_of_the_minimum</a></p>
 </div></blockquote>
-<blockquote id="id7">
+<blockquote id="id8">
 <div><p>[6] JSON configuration file format; see
 <a class="reference external" href="https://www.w3schools.com/js/js_json_intro.asp">https://www.w3schools.com/js/js_json_intro.asp</a></p>
 </div></blockquote>
-<blockquote id="id8">
+<blockquote id="id9">
 <div><p>[7] OpenDocument Format for Office Applications; see
 <a class="reference external" href="https://en.wikipedia.org/wiki/OpenDocument/">https://en.wikipedia.org/wiki/OpenDocument/</a></p>
 </div></blockquote>
 </section>
 <section id="document-history">
-<h2><a class="toc-backref" href="#id60" role="doc-backlink">Document History</a><a class="headerlink" href="#document-history" title="Link to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id66" role="doc-backlink">Document History</a><a class="headerlink" href="#document-history" title="Link to this heading">¶</a></h2>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
 <thead>
@@ -1457,14 +1557,18 @@ Soil Sci. Soc. Am. J., 70: 1569-1578.
 <td><p>8.1</p></td>
 <td><p>Expanded details in <a class="reference internal" href="#nitrogen-fluxes">Nitrogen Fluxes</a>.</p></td>
 </tr>
+<tr class="row-odd"><td><p>2026.09</p></td>
+<td><p>9.0</p></td>
+<td><p>New Crust submodel is described in section <a class="reference internal" href="#crust">Crust</a>.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
 </section>
 <section id="appendices">
-<h2><a class="toc-backref" href="#id61" role="doc-backlink">Appendices</a><a class="headerlink" href="#appendices" title="Link to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id67" role="doc-backlink">Appendices</a><a class="headerlink" href="#appendices" title="Link to this heading">¶</a></h2>
 <section id="file-formats">
-<span id="appendix-1"></span><h3><a class="toc-backref" href="#id62" role="doc-backlink">File Formats</a><a class="headerlink" href="#file-formats" title="Link to this heading">¶</a></h3>
+<span id="appendix-1"></span><h3><a class="toc-backref" href="#id68" role="doc-backlink">File Formats</a><a class="headerlink" href="#file-formats" title="Link to this heading">¶</a></h3>
 <p>Several file formats are used with this model.
 All are text files.</p>
 <div class="table-wrapper docutils container">
@@ -1485,7 +1589,7 @@ All are text files.</p>
 <td><p>Comma-Separated Values - data in text format.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">json</span></code></p></td>
-<td><p>Contains JSON[<a class="reference internal" href="#id7">6</a>] stuctured data for configuration files.</p></td>
+<td><p>Contains JSON[<a class="reference internal" href="#id8">6</a>] stuctured data for configuration files.</p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p>This contains a non-standard JSON feature: line comments.</p></td>
@@ -1509,7 +1613,7 @@ All are text files.</p>
 <td><p>be for a specific application (e.g., <strong>plantuml</strong>).</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fodt</span></code></p></td>
-<td><p>OpenDocument document file (in text XML format)[<a class="reference internal" href="#id8">7</a>].</p></td>
+<td><p>OpenDocument document file (in text XML format)[<a class="reference internal" href="#id9">7</a>].</p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p>This is a LibreOffice native format, and is</p></td>
@@ -1524,7 +1628,7 @@ All are text files.</p>
 <td><p>converted to <code class="docutils literal notranslate"><span class="pre">odt</span></code> (compressed) format.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fodg</span></code></p></td>
-<td><p>OpenDocument graph file (in text XML format)[<a class="reference internal" href="#id8">7</a>].</p></td>
+<td><p>OpenDocument graph file (in text XML format)[<a class="reference internal" href="#id9">7</a>].</p></td>
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p>Some applications may require this to be converted to</p></td>
@@ -1533,7 +1637,7 @@ All are text files.</p>
 <td><p><code class="docutils literal notranslate"><span class="pre">odt</span></code> (compressed) format.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fods</span></code></p></td>
-<td><p>OpenDocument spreadsheet file (in XML format)[<a class="reference internal" href="#id8">7</a>].</p></td>
+<td><p>OpenDocument spreadsheet file (in XML format)[<a class="reference internal" href="#id9">7</a>].</p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p>Some applications may require this to be converted to</p></td>
@@ -1567,8 +1671,8 @@ All are text files.</p>
 </div>
 </section>
 <section id="field-capacity-and-wilting-point">
-<span id="appendix-2"></span><h3><a class="toc-backref" href="#id63" role="doc-backlink">Field Capacity and Wilting Point</a><a class="headerlink" href="#field-capacity-and-wilting-point" title="Link to this heading">¶</a></h3>
-<p>From Saxton and Rawls (2006)[<a class="reference internal" href="#id5">4</a>], table 3:</p>
+<span id="appendix-2"></span><h3><a class="toc-backref" href="#id69" role="doc-backlink">Field Capacity and Wilting Point</a><a class="headerlink" href="#field-capacity-and-wilting-point" title="Link to this heading">¶</a></h3>
+<p>From Saxton and Rawls (2006)[<a class="reference internal" href="#id6">4</a>], table 3:</p>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
 <thead>
@@ -1649,9 +1753,9 @@ All are text files.</p>
 </div>
 </section>
 <section id="simulation-result-matrices">
-<h3><a class="toc-backref" href="#id64" role="doc-backlink">Simulation Result Matrices</a><a class="headerlink" href="#simulation-result-matrices" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id70" role="doc-backlink">Simulation Result Matrices</a><a class="headerlink" href="#simulation-result-matrices" title="Link to this heading">¶</a></h3>
 <section id="relevant-functions">
-<h4><a class="toc-backref" href="#id65" role="doc-backlink">Relevant functions:</a><a class="headerlink" href="#relevant-functions" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id71" role="doc-backlink">Relevant functions:</a><a class="headerlink" href="#relevant-functions" title="Link to this heading">¶</a></h4>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">simTask</span></code></dt><dd><p>Initializes all result matrices.</p>
 </dd>
@@ -1669,7 +1773,7 @@ Called by initialConditions.</p>
 </dl>
 </section>
 <section id="result-matrices">
-<h4><a class="toc-backref" href="#id66" role="doc-backlink">Result Matrices</a><a class="headerlink" href="#result-matrices" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id72" role="doc-backlink">Result Matrices</a><a class="headerlink" href="#result-matrices" title="Link to this heading">¶</a></h4>
 <p>Structure <strong>results</strong> contains the timestep result matrices:</p>
 <p>Output matrices of state variables are replaced at each time step.
 These are used for producing maps; each is a 2D matrix.
@@ -1813,6 +1917,12 @@ with dimensions <code class="docutils literal notranslate"><span class="pre">[nu
 </li>
 </ul>
 </li>
+<li><a class="reference internal" href="#crust">Crust</a><ul>
+<li><a class="reference internal" href="#id2">Infiltration</a></li>
+<li><a class="reference internal" href="#disturbance-and-recovery">Disturbance and Recovery</a></li>
+<li><a class="reference internal" href="#crust-classes-and-functions">Crust Classes and Functions</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#mounds">Mounds</a><ul>
 <li><a class="reference internal" href="#mound-shape">Mound Shape</a></li>
 <li><a class="reference internal" href="#algorithm-flow-simplified">Algorithm flow (simplified)</a></li>
@@ -1829,6 +1939,7 @@ with dimensions <code class="docutils literal notranslate"><span class="pre">[nu
 <li><a class="reference internal" href="#version-6">Version 6</a></li>
 <li><a class="reference internal" href="#version-7">Version 7</a></li>
 <li><a class="reference internal" href="#version-8">Version 8</a></li>
+<li><a class="reference internal" href="#version-9">Version 9</a></li>
 </ul>
 </li>
 </ul>

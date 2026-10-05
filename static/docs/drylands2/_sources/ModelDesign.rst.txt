@@ -62,14 +62,14 @@ and running of the model.
 Conventions
 ------------
 
-Directory paths shown herein use a slash (**/**) path separator,
+Directory paths shown herein use a slash (``/``) path separator,
 which is the convention in UNIX-style directory specification.
-Microsoft Windows uses the backslash (**\\**) separator in paths.
-Apple macOS (or OS X) also uses the **/** separator.
-GNU Octave seems to accept the native separator on which it is running,
-in most instances.
-R requires a double-backslash on Microsoft Windows when a path is a
-string variable.
+Microsoft Windows uses the backslash (``\``) separator in paths.
+Apple macOS (or OS X) also uses the ``/`` separator.
+GNU Octave seems to accept the native separator for the system on which it
+is running.
+R on Microsoft Windows requires a slash (``/``) or
+double-backslash (``\\``) when a path is a string variable.
 
 File line-end characters vary with operating system.
 UNIX-style systems (including Linux and Apple macOS) use LF.
@@ -79,13 +79,26 @@ use LF. Some text editors on Microsoft Windows may be confused
 by this, including older versions of Notepad.
 GNU Octave is happy with LF line-endings.
 
+GNU Octave has function ``filesep()`` and ``newline()`` to provide separators
+native to the system being used.
+R provides the variable ``.Platform$file.sep`` for the native path separator.
+For newlines in R strings, always use ``\n``.
+
+*Model source code:*
+Class names are capitalized (e.g., **Plant**).
+Function names are (usually) not capitalized (e.g., **initialize**).
+Source file names follow the class and function conventions.
+Variable and parameter names are usually not capitalized.
+Camel case is used for names containing multiple words (e.g., **getPrecip**).
+
 
 
 Model Structure
 ================
 
-The code was developed in GNU Octave, and has been kept compatible with
-MATLAB for the most part. See this document for most compatibility issues::
+The code was developed for GNU Octave, and the language has been kept
+compatible with MATLAB for the most part. See this document for most
+compatibility issues::
 
 https://en.wikibooks.org/wiki/MATLAB_Programming/Differences_between_Octave_and_MATLAB
 
@@ -359,9 +372,13 @@ All soil layers receive infiltrated water, however the amount cannot exceed
 the estimated maximum volumetric soil water content (see **Constants.vwc**)
 for each soil layer.
 
+Plants influence infiltration using the equation of Rietkerk et al. (1997, 2002).
 The infiltration parameter **k2** is the rate at which infiltration
 increases with biomass, and is species-specific. Infiltration for each plant
 is a function of root biomass for that plant.
+
+Crust infiltration has its own equations: See the section `Crust`_ for details.
+
 
 
 Evaporation
@@ -482,7 +499,6 @@ These configuration parameters control N fluxes:
 **plant.CN**
 
     Average of the aboveground and belowground C:N of biomass for this plant.
-    (TO DO: Have separate C:N for different plant parts.)
 
 **plant.cNmax**
 
@@ -880,6 +896,96 @@ Currently, explicit competition is used for soil water and N uptake.
 The algorithm is implemented in the class **Competition**.
 
 
+
+Crust
+------
+
+Crust is implemented as a kind of Plant. This allows crusts to use many of
+the same algorithms and processing steps for plants. Exceptions include
+infiltration, and growth and mortality.
+Infiltration uses different equations than plants,
+while growth increases cell area fraction occupied by crust rather than
+biomass.
+
+There are four types of crust known in this model: light and dark
+cyanobacteria, lichen-dominated, and moss-dominated. Each can be combined
+with one of three surface soil substrates: clay, sand, gravel.
+
+
+Infiltration
+`````````````
+
+Generally, crust infiltration varies with soil texture,
+crust type, and crust development.
+Mature biologic soil crust often reduces infiltration, particularly on
+sandy soils (Belnap, 2006; Warren, 2014).
+In coarse textured calcareous soils, infiltration can be higher
+in crust vs bare soil (Chamizo et al, 2016).
+
+TODO: Crust Infiltration implementation
+
+
+Disturbance and Recovery
+````````````````````````
+
+The disturbance algorithm alters crust states by resetting a fraction of
+randomly selected crust cells to be bare soil. The random fraction is
+weighted by shrub biomass; greater biomass suggests less probability of
+disturbance.
+
+The recovery crust type or the succession sequence follows according to
+the recovery algorithm specified. Recovery from disturbance is initiated at
+start of growing season.
+
+Two algorithms are available for post-disturbance recovery: (1) constant
+crust type for recovery; (2) succession sequence of crust types. Use
+configuration option to specify which method.
+
+1. Constant crust type per cell
+
+   Recovery rate (random fraction of disturbed cells/year) is specified in
+   the configuration. This fraction of disturbed cells can start developing
+   crust at the start of each growing season.
+
+2. Crust succession
+
+   The sequence of succession depends upon the surface soil type.
+   Each succession crust type develops until it reaches it maximum age
+   (years), after which it is set to bare soil. Then the next succession
+   crust type begins growing.
+
+TODO: Crust Disturbance implementation
+
+
+
+Crust Classes and Functions
+````````````````````````````
+
+::
+
+    Plant: type   = 1-4 (4 := crust)
+           agLive = grid of biomass (g/m2)
+      ^
+      |
+    Crust: kind     = CrustKind.kinds.id    <-- CrustKind.kind; also CrustSequence.next()
+           age      = grid: age of crust    <-- Reset by Crust.succession()
+           soilType = CrustSoil.kinds.index
+           agLive   = grid: crust area      <-- Growth increases area; disturbance reduces
+
+    CrustKind: property "kind": fields = {id, name, ...}
+
+    CrustSequence: property "table": fields = {index, sequence}
+
+    CrustSoil: property "kinds": fields = {index, name}
+
+    crustInfiltration: Infiltration varies with soil type and crust amount.
+
+    crustDisturbance:  Disturb crust.
+
+    crustRecovery:     Recover from disturbance.
+
+
+
 Mounds
 ------
 
@@ -1116,6 +1222,12 @@ Version 8
   - Soil N diffuses laterally with soil water diffusion.
 * New ``tools/plotWaterVars`` function for graphing water-related output variables.
 
+Version 9
+``````````
+
+* New submodel - Crust which simulates biocrust growth, mortality, and disturbance.
+
+
 
 
 See Also
@@ -1224,6 +1336,7 @@ Revision Date        Model Version        Description
 \                    \                    Add description of litter N spatial redistribution.
 \                    \                    Added Acknowledgments section.
 2026.08              8.1                  Expanded details in `Nitrogen Fluxes`_.
+2026.09              9.0                  New Crust submodel is described in section `Crust`_.
 ===================  ===================  ==========================================================
 
 

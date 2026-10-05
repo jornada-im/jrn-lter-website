@@ -1485,7 +1485,8 @@ explicitly stated otherwise.</p>
 <section id="crust-configuration">
 <h3><a class="toc-backref" href="#id32" role="doc-backlink">Crust Configuration</a><a class="headerlink" href="#crust-configuration" title="Link to this heading">¶</a></h3>
 <p>The configuration item <strong>crust</strong> contains a structure specifying
-the types and parameters for biocrust on the soil surface.</p>
+the types and parameters for biocrust on the soil surface.
+This section is optional - you may omit it if no crust is to be simulated.</p>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
 <thead>
@@ -1553,7 +1554,7 @@ the types and parameters for biocrust on the soil surface.</p>
 </tr>
 <tr class="row-even"><td><p>recoveryAlgorithm</p></td>
 <td><p>scalar</p></td>
-<td><p>Specifies the disturbance recovery algorithm:</p></td>
+<td><p>Specifies the disturbance recovery algorithm. Values can be:</p></td>
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
@@ -3658,8 +3659,7 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="w">        </span><span class="s">"Kg"</span><span class="p p-Indicator">:</span><span class="w">            </span><span class="nv">0.5</span>
 <span class="w">      </span><span class="p p-Indicator">},</span>
 <span class="w">      </span><span class="s">"mortality"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="nt">        # d</span><span class="p">:</span><span class="w"> </span><span class="nv">Rietkirk = 0.25; exceeds growth rate. Using Stewart value.</span>
-<span class="w">        </span><span class="nv">"d"</span><span class="p p-Indicator">:</span><span class="w">            </span><span class="nv">0.00041</span><span class="p p-Indicator">,</span>
+<span class="w">        </span><span class="s">"d"</span><span class="p p-Indicator">:</span><span class="w">            </span><span class="nv">0.00041</span><span class="p p-Indicator">,</span>
 <span class="w">        </span><span class="s">"B0"</span><span class="p p-Indicator">:</span><span class="w">           </span><span class="nv">10.0</span><span class="p p-Indicator">,</span>
 <span class="w">        </span><span class="s">"B1"</span><span class="p p-Indicator">:</span><span class="w">           </span><span class="nv">1.0</span><span class="p p-Indicator">,</span>
 <span class="w">        </span><span class="s">"lengthPeriod"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">30</span><span class="p p-Indicator">,</span>
@@ -3672,6 +3672,9 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="w">      </span><span class="s">"grazeFraction"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.005</span>
 <span class="w">    </span><span class="p p-Indicator">}</span>
 <span class="w">  </span><span class="p p-Indicator">],</span>
+<span class="w">  </span><span class="c1">#</span>
+<span class="w">  </span><span class="c1"># crust configuration</span>
+<span class="w">  </span><span class="c1">#</span>
 <span class="w">  </span><span class="s">"crust"</span><span class="p p-Indicator">:</span>
 <span class="w">  </span><span class="p p-Indicator">{</span>
 <span class="w">      </span><span class="c1">#</span>
