@@ -40,7 +40,7 @@ See the section *History of Model Development* in the *Model Design* document
 for development details.
 
 The model is implemented in *GNU Octave* language, with intention to be
-compatible with *MATLAB*:sup:`TM`, however compatibility has not yet been
+compatible with **MATLAB**:sup:`TM`, however compatibility has not yet been
 tested.
 
 This document describes the installation, configuration,
@@ -111,7 +111,7 @@ Directory paths shown herein use a slash (**/**) path separator,
 which is the convention in UNIX-style directory specification.
 Microsoft Windows uses the backslash (**\\**) separator in paths.
 Apple macOS (or OS X) also uses the **/** separator.
-*GNU Octave* seems to accept the native separator on which it is running,
+GNU Octave seems to accept the native separator on which it is running,
 in most instances.
 R requires a double-backslash on Microsoft Windows when a path is a
 string variable.
@@ -122,7 +122,7 @@ Microsoft Windows uses CR+LF.
 The files for this model as provided from the git repository
 use LF. Some text editors on Microsoft Windows may be confused
 by this, including older versions of Notepad.
-*GNU Octave* is happy with LF line-endings.
+GNU Octave is happy with LF line-endings.
 
 
 
@@ -137,11 +137,11 @@ and documentation.
 Required Software
 ------------------
 
-While this model is built and tested with **GNU Octave**, compatibility
+While this model is built and tested with GNU Octave, compatibility
 with **MATLAB**:sup:`TM` is intended, but not fully tested. The model
-uses **GNU Octave** packages that may not have the same name in **MATLAB**.
+uses GNU Octave packages that may not have the same name in **MATLAB**.
 
-**GNU Octave** can be obtained from `octave.org <https://octave.org>`_.
+*GNU Octave* can be obtained from `octave.org <https://octave.org>`_.
 **MATLAB**:sup:`TM` is a commercial application; see
 `<https://www.mathworks.com>`_.
 
@@ -193,7 +193,7 @@ with the console command:
 The Startup File
 `````````````````
 
-At startup **GNU Octave** reads and executes the file ``.octaverc``,
+At startup GNU Octave reads and executes the file ``.octaverc``,
 if present. This is a recommended file in which to put
 commands and global variables that configure all your Octave session.
 
@@ -209,7 +209,7 @@ On Linux and related systems, typically this is located in
 ``$HOME/.octaverc`` or ``~/.octaverc``.
 On Microsoft Windows systems, this file may be in
 ``%APPDATA%\octave\octaverc``.
-The **GNU Octave** manual has a section **Startup Files** with more
+The GNU Octave manual has a section **Startup Files** with more
 information on startup file locations.
 
 
@@ -217,9 +217,9 @@ information on startup file locations.
 Required Packages
 `````````````````
 
-**GNU Octave** packages that are used by the model and supporting
+GNU Octave packages that are used by the model and supporting
 utilities are *statistics*, *io* and *netcdf*.
-To see if these are installed, in a **GNU Octave** command window,
+To see if these are installed, in a GNU Octave command window,
 enter ``pkg list``.
 To install a package, use these commands as needed:
 
@@ -235,7 +235,7 @@ To install a package, use these commands as needed:
 Obtaining and Installing the DrylandsLib package
 --------------------------------------------------
 
-The DrylandsLib package for **GNU Octave** is required for the Drylands2
+The **DrylandsLib** package for GNU Octave is required for the Drylands2
 model. You can download the latest version of this package from the
 following GitHub:sup:`TM` URL:
 
@@ -244,7 +244,7 @@ following GitHub:sup:`TM` URL:
 The file to download is ``DrylandsLib.tar.gz``. Save this to a
 convenient temporary storage directory.
 
-Once downloaded, install the package in **GNU Octave** using the
+Once downloaded, install the package in GNU Octave using the
 package manager **pkg**:
 
 .. code:: MATLAB
@@ -253,10 +253,10 @@ package manager **pkg**:
 
 You can prepend the path to file to the file name.
 
-Once installed, *GNU Octave* will know the package by its lowercase name,
+Once installed, GNU Octave will know the package by its lowercase name,
 ``drylandslib``.
 
-In **GNU Octave**, load the package (using its lowercase name):
+In GNU Octave, load the package (using its lowercase name):
 
 .. code:: MATLAB
 
@@ -264,11 +264,11 @@ In **GNU Octave**, load the package (using its lowercase name):
     pkg load drylandslib
 
 If you want to load the DrylandsLib package automatically upon starting
-**GNU Octave**, you can add the ``pkg load`` command to the startup file:
+GNU Octave, you can add the ``pkg load`` command to the startup file:
 
 .. code:: MATLAB
 
-    % Open the startup file in the **GNU Octave** editor:
+    % Open the startup file in the GNU Octave editor:
     edit '~/.octaverc'
     % Append the following:
     pkg load drylandslib
@@ -397,7 +397,7 @@ editor to customize the configuration. There are comments in the
 configuration file describing each item. See additional information in the
 section " `Configuring a Simulation`_ ".
 
-After starting *GNU Octave*, specify the directory where
+After starting GNU Octave, specify the directory where
 the source code for the models is:
 
 .. code:: MATLAB
@@ -431,7 +431,7 @@ model files. From the command line:
     # Example:
     #   octave ~/models/Drylands2/src/tools/runsim.m config-G-IBPE.json
 
-If running additional simulations in the same *GNU Octave* session,
+If running additional simulations in the same GNU Octave session,
 enter the command ``clear all`` before starting the next simulation.
 
 
@@ -626,7 +626,7 @@ biomass             --         Generate a netCDF[6_] map time series grids for b
 resources           --         Generate a netCDF[6_] map time series grids for each resource.
 \                   \          Value is boolean "false" or a *positive integer in the range 1-365*.
 spatialChanges      logical    Generate time series grids for annual changes in resources and biomass.
-\                   \          Grids are saved in an MAT file (a *GNU Octave* file format).
+\                   \          Grids are saved in an MAT file (a GNU Octave file format).
 ==================  =========  ============================================================================
 
 
@@ -805,14 +805,26 @@ gridFractions       vector       Fractions of grid cells for each crust type.
 \                   \            Vector length must be same length as ``crustTypes``.
 \                   \            Example: ``"gridFractions": [ 0.6, 0.2, 0.2 ]``
 
+ageMaximum          vector       For recovery algorithm 2: These values are the maximum age for each crust type,
+\                   \            which when reached, resets to bare soil as though disturbed.
+\                   \            Vector length must be same length as ``crustTypes``.
+\                   \            Example: ``"ageMaximum": [2, 4, 10]``
+
 soilType            scalar       integer: Surface soil type: One of ``CrustSoil.kinds.index``.
 \                   \            All grid cells have the same soil type.
 \                   \            Example: ``"soilType": 2``
 
+**disturbance**     struct       **Crust disturbance:**
+schedule            vector       Annual schedule of disturbances. This can be:
+\                   \            ``290`` = day of year for one disturbance.
+\                   \            ``[10, 20, 3]`` = 3 random days in the range 10-20 days-of-year, inclusive.
+\                   \            ``[ [30, 90, 10], [250, 300, 10] ]`` = 2 ranges
+\                   \            Example: ``"schedule":  [250, 300, 10]``
 intensity           scalar       Intensity of disturbance: the fraction of crust cells to be disturbed annually.
 \                   \            Valid range = 0-1.
 \                   \            Example: ``"intensity":  0.2``
 
+\                   \            **Recovery**
 recoveryAlgorithm   scalar       Specifies the disturbance recovery algorithm. Values can be:
 \                   \            1 = constant crust type per cell
 \                   \            2 = crust succession sequence
@@ -821,10 +833,6 @@ recoveryAlgorithm   scalar       Specifies the disturbance recovery algorithm. V
 recoveryFraction    scalar       For recovery algorithm 1: Annual recovery fraction. Valid range = 0-1.
 \                   \            This specifies the fraction of disturbed cells that can begin developing crust.
 \                   \            Example: ``"recoveryFraction": 0.25``
-
-ageMaximum          vector       For recovery algorithm 2: These values are the maximum age for each crust type,
-\                   \            which when reached, resets to bare soil as though disturbed.
-\                   \            Vector length must be same length as ``crustTypes``.
 ==================  ===========  =======================================================================================
 
 
@@ -1023,7 +1031,7 @@ Mound shape is determined by a set of [x,y] pairs in two vectors, the slope
 
 You can plot the one-sided velocity (slope) profile for each geometry, and the
 mound topographic profile using the script provided in the model source
-files at ``doc/mounds/plotMoundShapes.m``. The *GNU Octave* command is:
+files at ``doc/mounds/plotMoundShapes.m``. The GNU Octave command is:
 
 .. code:: MATLAB
 
@@ -1430,7 +1438,7 @@ The model function ``getWind`` retrieves the data for each day.
 Running a Simulation
 --------------------
 
-A simulation can be run either from the *GNU Octave* application[3_], or from
+A simulation can be run either from the GNU Octave application[3_], or from
 a console command line.
 
 Run the model with the following command:
@@ -1447,7 +1455,7 @@ If argument ``quiet`` is ``true``, then most non-error messages are not displaye
 The model returns zero (``false``) if successful, or 1 (``true``)
 if errors were encountered.
 
-In the *GNU Octave* application's **Command Window**:
+In the GNU Octave application's **Command Window**:
 
 .. code:: MATLAB
 
@@ -1455,7 +1463,7 @@ In the *GNU Octave* application's **Command Window**:
     configFileName = 'path and name of your configuration file';
     Drylands2( configFileName )
 
-From a console or shell prompt, assuming the *GNU Octave*
+From a console or shell prompt, assuming the GNU Octave
 executable directory is in your executable search path:
 
 .. code:: BASH
@@ -1465,7 +1473,7 @@ executable directory is in your executable search path:
     # Example:
     #   octave ~/models/Drylands2/src/tools/runsim.m config.json
 
-If running additional simulations in the same *GNU Octave* session,
+If running additional simulations in the same GNU Octave session,
 enter the command ``clear all`` before starting the next simulation.
 
 
@@ -1545,41 +1553,6 @@ P              total aboveground biomass (g/m2)
 ============   ==================================================
 
 
-Any of the usual office suite spreadsheet applications will open a CSV file.
-You can read these files into *GNU Octave*[3_] using **csvread** from the
-**io** package, or **dataframe** from from the **dataframe** package, or the
-**IOTools.readCSV** function from the **DrylandsLib** package.
-
-For example, using package **DrylandsLib**:
-
-.. code:: MATLAB
-
-    pkg load drylandslib;
-    help IOTools.readCSV
-    [data, colNames] = IOTools.readCSV( 'timeseries-stateVars.csv' );
-    colNames                      % view the variable names
-    Math.descStats( data(:,11) )  % view variable statistics for biomass
-    plot( data(:,11) );           % plot biomass over time
-
-For example, using package **dataframe**:
-
-.. code:: MATLAB
-
-    pkg load dataframe;
-    df = dataframe('timeseries-stateVars.csv');
-    df.colnames                   % view the variable names
-    summary(df)                   % view variable statistics
-    plot( df(:,11) )              % plot biomass over time
-
-In **R** you can read the CSV data with:
-
-.. code:: R
-
-    data = read.csv( 'timeseries-stateVars.csv' )
-    colnames(data)                # view the variable names
-    summary( data )               # view variable statistics
-    plot( data[,11], type='l' )   # plot biomass over time
-
 R scripts available in the directory ``src/tools``
 will read this time series data:
 ``plotTimeSeries.R``, and ``plotCompareTimeSeries.R``.
@@ -1590,13 +1563,21 @@ E.g., in the R console:
 
 .. code:: R
 
-    source( '<path to Drylands2>/src/tools/plotTimeSeries.R' )
+    source( "<path to Drylands2>/src/tools/plotTimeSeries.R" )
     plotTimeSeries.help()
 
-    source( '<path to Drylands2>/src/tools/plotCompareTimeSeries.R' )
+    source( "<path to Drylands2>/src/tools/plotCompareTimeSeries.R" )
     plotCompareTimeSeries.help()
 
-Output variables:
+
+Any of the usual office suite spreadsheet applications will open a CSV file.
+You can read these files into GNU Octave[3_] using **csvread** from the
+**io** package, or **dataframe** from from the **dataframe** package, or the
+**IOTools.readCSV** function from the **DrylandsLib** package.
+
+See the `Appendices`_ for examples of using GNU Octave and R to
+explore the time series output.
+
 
 
 Map Time Series Files
@@ -1616,16 +1597,20 @@ group. Likewise, the resource map time series is in a group named for the
 resource (e.g., "water"). Each soil layer is a variable in that group:
 *top*, *middle*, *deep*.
 
+Viewing data files
+^^^^^^^^^^^^^^^^^^^
+
 You can view the grids using a netCDF file viewer that understands
 CF conventions and netCDF4 groups.
 Some GIS applications will access and display this data, such as
-*GNU Octave*[3_], *R*, *QGIS*, and *MATLAB* can be used to extract data grids.
+**GNU Octave**[3_], **R**, **Panoply**[10_], **QGIS**, and **MATLAB**
+can be used to extract data grids.
 
-*GNU Octave* functions are included in the model source code that read data
+GNU Octave functions are included in the model source code that read data
 from these netCDF files and generate maps (in the directory ``src/tools``).
 See " `Model Utilities`_ " for descriptions of these scripts, including
 ``ncDrawMap``, ``ncGetGrid``, and ``plotNcGridTSVars``.
-These scripts use the **GNU Octave** package *netcdf*.
+These scripts use the GNU Octave package *netcdf*.
 Use ``help <function name>`` to view help on a utility function.
 (First add the ``src/tools`` directory to the search path list with ``addpath()``.)
 
@@ -1642,59 +1627,51 @@ or to extract the "time" values, enter:
 .. code:: BASH
 
     ncdump -v time timeseries-biomass-map.nc                  # header and variable
-    ncdump -v time timeseries-biomass-map.nc | grep 'time ='  # If using *nix
+    ncdump -v time timeseries-biomass-map.nc | grep 'time ='  # If using Linux etc.
 
+Some visualization tools do not navigate netCDF groups, such as UCAR's IDV
+application. To view the data in this case, you can "flatten" the structure
+by copying a netCDF variable within a group to a new netCDF file at the root
+group ('/'). If you have the **NCO**[11_] utilities installed, use **ncks** as
+follows. This example copies the map time series for black grama biomass to
+a new netCDF file containing only biomass in the root group:
 
+.. code:: BASH
 
-Use R to examine simulation output
-``````````````````````````````````
+    cd <your simulation output directory>
+    ncks -G : -v /black_grama/biomass timeseries-biomass-map.nc timeseries-biomass-map_black_grama.nc
 
-The daily CSV file can be used to visualize the behaviors of your simulation
-over time.
+Here's a simplified view of the original file structure, followed by the new file:
 
-Read the daily output data with:
+.. code:: C
 
-.. code:: R
+    netcdf timeseries-biomass-map {
+      dimensions:
+              y = 50;
+              x = 50;
+              time = 9;
+      variables:
+              short y(y);
+              short x(x);
+              short y(y);
+              int time(time);
+      group: black_grama {
+        variables:
+              float biomass(time, x, y);
+        } // group black_grama
+    }
 
-    fn <- "timeseries-stateVars.csv"
-    df <- read.csv( fn )
-
-The dataframe contains these variables:
-
-.. code:: R
-
-    colnames(df)
-    #  [1] "time"          "year"          "doy"           "R"
-    #  [5] "I"             "WL"            "U"             "O"
-    #  [9] "W"             "N"             "G"             "Pseed"
-    # [13] "Pd"            "Nt"            "P"             "black_grama"
-    # [17] "creosote_bush"
-
-Example: Scatterplot matrix to examine all state variable relationships:
-
-.. code:: R
-
-    library(lattice)
-    splom( ~df[,cn], data=df[,cn], varname.cex=1.5, axis.text.cex=1.2 )
-
-Example: Compare gross C:N for two species:
-
-.. code:: R
-
-    C2biomass <- 0.47     # C:biomass dry weight
-    with( df, plot( black_grama * C2biomass / N, creosote_bush * C2biomass / N,
-                    main="C:N", xlab="black_grama", ylab="creosote_bush" ) )
-
-Example: Time series of biomass:
-
-.. code:: R
-
-    cols <- c("blue", "red")
-    with( df, plot( time, black_grama, type='l', col=cols[1],
-                    xlab="day", ylab="biomass (avg g/m2)" ) )
-    with( df, lines( time, creosote_bush, col=cols[2] ) )
-    legend( "topright", colnames(df)[16:17], text.col=cols )
-
+    netcdf timeseries-biomass-map_black_grama {
+      dimensions:
+              time = 9;
+              x = 50;
+              y = 50;
+      variables:
+              float biomass(time, x, y);
+              int time(time);
+              short x(x);
+              short y(y);
+    }
 
 
 
@@ -1744,7 +1721,7 @@ Usage: ``dayCount = SimTime.numberOfDays( startYear, startDOY, endYear, endDOY )
 DailyPrecipForSite
 -------------------
 
-*GNU Octave* program to extract daily precipitation for a JER vegetation zone
+GNU Octave program to extract daily precipitation for a JER vegetation zone
 and site code, and save in a CSV file.
 
 Output columns are:
@@ -1759,7 +1736,7 @@ where ``year``, ``month``, ``day`` are integers,
 ExtractDailyTemp
 -----------------
 
-*GNU Octave* program to extract date and temperatures from daily
+GNU Octave program to extract date and temperatures from daily
 meteorological summary data files for a JER site, and save in CSV format.
 Missing values are replaced with simple gap-filling algorithms.
 
@@ -1792,7 +1769,7 @@ or prefix your command with
 
     [installation-path]/src/tools
 
-or in the *GNU Octave* console, enter
+or in the GNU Octave console, enter
 
 .. code:: MATLAB
 
@@ -1802,7 +1779,7 @@ or in the *GNU Octave* console, enter
 info
 `````
 
-*GNU Octave* script to display information about the Drylands2 model.
+GNU Octave script to display information about the Drylands2 model.
 
 Usage:  ``octave [installation-path]/src/tools/info.m``
 
@@ -1810,7 +1787,7 @@ Usage:  ``octave [installation-path]/src/tools/info.m``
 runsim
 ````````
 
-A *GNU Octave* function to run a Drylands2 model simulation using the
+A GNU Octave function to run a Drylands2 model simulation using the
 configuration file specified as the first command-line argument.
 See " `Running a Simulation`_ " for further instructions.
 
@@ -1818,7 +1795,7 @@ See " `Running a Simulation`_ " for further instructions.
 verifyAll
 ``````````
 
-A *GNU Octave* function to verify all configurations in specified JSON files.
+A GNU Octave function to verify all configurations in specified JSON files.
 
 Usage:  ``verifyAll( fileNames=glob('*json'), verbose=false )``
 
@@ -1826,7 +1803,7 @@ Usage:  ``verifyAll( fileNames=glob('*json'), verbose=false )``
 runAll
 ````````
 
-*GNU Octave* script to run simulations for all JSON configuration files provided.
+GNU Octave script to run simulations for all JSON configuration files provided.
 
 Usage:  ``runAll( fileNames=glob('*json'), verbose=true )``
 
@@ -1834,7 +1811,7 @@ Usage:  ``runAll( fileNames=glob('*json'), verbose=true )``
 aboutSpChgTS
 `````````````
 
-*GNU Octave* function to display information about a SpatialChanges "mat" file.
+GNU Octave function to display information about a SpatialChanges "mat" file.
 These output files are produced when the configuration option
 **output.spatialChanges** is set to "true".
 
@@ -1888,11 +1865,11 @@ The R commands to view help on using is:
 plotNcGridTSVars
 `````````````````
 
-*GNU Octave* function to plot grid variables from a simulation's
+GNU Octave function to plot grid variables from a simulation's
 netCDF grid map files.
 Graphs are X-Y point plots (top row), and histograms (bottom row).
 
-To view help in *GNU Octave*:
+To view help in GNU Octave:
 
 .. code:: MATLAB
 
@@ -1904,13 +1881,13 @@ To view help in *GNU Octave*:
 plotSweepTimeSeries
 ````````````````````
 
-*GNU Octave* function to plot an output variable vs simulation time
+GNU Octave function to plot an output variable vs simulation time
 from multiple time series files produced by a simulation.
 The time series files are produced in CSV format.
 The plot is a line graph with each time series plotted
 as a separate line.
 
-To view help in *GNU Octave*:
+To view help in GNU Octave:
 
 .. code:: MATLAB
 
@@ -1921,7 +1898,7 @@ To view help in *GNU Octave*:
 ncDrawMap
 ``````````
 
-*GNU Octave* script to make a map image from a grid in a netCDF file produced by
+GNU Octave script to make a map image from a grid in a netCDF file produced by
 ``NcBiomassTimeSeries`` or ``NcResourceTimeSeries`` during a simulation.
 This uses the Octave package **netcdf**, and functions in the source files
 ``ncCommon.m`` and ``ncGetGrid.m``.
@@ -1929,7 +1906,7 @@ The configuration items **mapTS.biomass** and/or **mapTS.resources**
 must be set to ``true`` to produce the netCDF time series files
 during a simulation.
 
-To view help in *GNU Octave*:
+To view help in GNU Octave:
 
 .. code:: MATLAB
 
@@ -1940,14 +1917,14 @@ To view help in *GNU Octave*:
 ncGetGrid
 ``````````
 
-*GNU Octave* script to get a grid for a species at a time, from a netCDF file
+GNU Octave script to get a grid for a species at a time, from a netCDF file
 produced by ``NcBiomassTimeSeries`` or ``NcResourceTimeSeries``
 during a simulation.
 Returns a 2D matrix.
-This uses the *GNU Octave* package **netcdf**, and functions in the source file
+This uses the GNU Octave package **netcdf**, and functions in the source file
 ``ncCommon.m``.
 
-To view help in *GNU Octave*:
+To view help in GNU Octave:
 
 .. code:: MATLAB
 
@@ -2016,6 +1993,13 @@ Citations
     of dynamic desert ecosystems. Ecological Monographs, 84: 373 -410.
     https://doi.org/10.1890/12-1253.1
 
+.. _10:
+
+    [10] Panolpy: https://www.giss.nasa.gov/tools/panoply/
+
+.. _11:
+
+    [11] NCO NetCDF Operators: https://github.com/nco/nco
 
 
 See Also
@@ -2075,12 +2059,100 @@ Revision Date        Model Version        Description
 \                    \                    Add section `Algorithm Toggles`_.
 2026.09              9.0                  Add section `Crust Configuration`_.
 \                    \                    Add a crust section to the example configuration.
+\                    \                    Improve section `Map Time Series Files`_.
 ===================  ===================  ===============================================================
 
 
 
 Appendices
 ==========
+
+Examine time series output in GNU Octave: Examples
+---------------------------------------------------
+
+The daily time series CSV file can be used in GNU Octave and MATLAB to
+visualize the behavior of your simulation over time.
+
+Example using package **DrylandsLib**:
+
+.. code:: MATLAB
+
+    pkg load drylandslib;
+    help IOTools.readCSV
+    [data, colNames] = IOTools.readCSV( 'timeseries-stateVars.csv' );
+    colNames                                % view the variable names
+    iP = find( ismember(colNames, "P") );   % column of variable "P"
+    Math.descStats( data(:,iP) )            % view variable statistics for biomass
+    plot( data(:,iP) );                     % plot biomass over time
+    xlabel("day"); ylabel("biomass");
+
+Example using package **dataframe**:
+
+.. code:: MATLAB
+
+    pkg load dataframe;
+    df = dataframe('timeseries-stateVars.csv');
+    summary(df)                               % view variable statistics
+    colNames = cellstr(df.colnames)           % view the variable names
+    iP = find( ismember(colNames, "x_P_") );  % column of variable "P"
+    plot( df(:,iP) );                         % plot biomass over time
+    xlabel("day"); ylabel("biomass");
+
+
+
+Use R to examine daily time series output
+-------------------------------------------
+
+Using R with the daily time series CSV file,
+you can graphically visualize the behavior of
+your simulation over time.
+
+Read the daily output data with:
+
+.. code:: R
+
+    fn <- "timeseries-stateVars.csv"
+    df <- read.csv( fn )          # get the CSV data in a data.frame
+    summary( df )                 # view variable statistics
+
+The dataframe contains these variables:
+
+.. code:: R
+
+    colnames(df)
+    #  [1] "time"          "year"          "doy"           "R"
+    #  [5] "I"             "WL"            "U"             "O"
+    #  [9] "W"             "N"             "G"             "Pseed"
+    # [13] "Pd"            "Nt"            "P"             "black_grama"
+    # [17] "creosote_bush"
+
+**Example:** Scatterplot matrix to examine all state variable relationships:
+
+.. code:: R
+
+    library(lattice)
+    cn <- 4:ncol(df)      # columns to plot
+    splom( ~df[,cn], data=df[,cn], varname.cex=1.5, axis.text.cex=1.2 )
+
+**Example:** Compare gross C:N for two species (if both are present):
+
+.. code:: R
+
+    C2biomass <- 0.47     # C:biomass dry weight
+    with( df, plot( black_grama * C2biomass / N, creosote_bush * C2biomass / N,
+                    main="C:N", xlab="black_grama", ylab="creosote_bush" ) )
+
+**Example:** Time series of biomass for two species (if both are present):
+
+.. code:: R
+
+    cols <- c("blue", "red")
+    with( df, plot( time, black_grama, type='l', col=cols[1],
+                    xlab="day", ylab="biomass (avg g/m2)" ) )
+    with( df, lines( time, creosote_bush, col=cols[2] ) )
+    legend( "topright", colnames(df)[16:17], text.col=cols )
+
+
 
 Examples of mound placement
 ---------------------------
