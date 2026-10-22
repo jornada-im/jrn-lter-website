@@ -792,12 +792,17 @@ The configuration item **crust** contains a structure specifying
 the types and parameters for biocrust on the soil surface.
 This section is optional - you may omit it if no crust is to be simulated.
 
+The first three items describe each type of crust to be simulated. The number
+of values in each are for each crust type, in the same order.
+The remaining configuration items apply to all crusts.
+
 ==================  ===========  =======================================================================================
 Configuration Item  Data Type    Description
 ==================  ===========  =======================================================================================
 crustTypes          vector       integers: Crust ID numbers: for bare soil, light cyano, dark cyano crust types.
 \                   \            These are defined in: ``CrustKind.kinds.id``
 \                   \            Example: ``"crustTypes": [ 1, 2, 3 ]``
+\                   \            Each crust type must have an associated *gridFractions* and *ageMaximum* entry.
 
 gridFractions       vector       Fractions of grid cells for each crust type.
 \                   \            Valid range of each = 0-1. The sum must be <= 1.0.
@@ -815,7 +820,7 @@ soilType            scalar       integer: Surface soil type: One of ``CrustSoil.
 \                   \            Example: ``"soilType": 2``
 
 **disturbance**     struct       **Crust disturbance:**
-schedule            vector       Annual schedule of disturbances. This can be:
+schedule            vector       Annual schedule of disturbances. This can be of the forms::
 \                   \            ``290`` = day of year for one disturbance.
 \                   \            ``[10, 20, 3]`` = 3 random days in the range 10-20 days-of-year, inclusive.
 \                   \            ``[ [30, 90, 10], [250, 300, 10] ]`` = 2 ranges
@@ -824,15 +829,15 @@ intensity           scalar       Intensity of disturbance: the fraction of crust
 \                   \            Valid range = 0-1.
 \                   \            Example: ``"intensity":  0.2``
 
-\                   \            **Recovery**
-recoveryAlgorithm   scalar       Specifies the disturbance recovery algorithm. Values can be:
+**recovery**        struct       **Crust recovery from disturbance**
+algorithm           scalar       Specifies the disturbance recovery algorithm:
 \                   \            1 = constant crust type per cell
 \                   \            2 = crust succession sequence
-\                   \            Example: ``"recoveryAlgorithm": 1``
+\                   \            Example: ``"algorithm": 1``
 
-recoveryFraction    scalar       For recovery algorithm 1: Annual recovery fraction. Valid range = 0-1.
+fraction            scalar       For recovery algorithm 1: Annual recovery fraction. Valid range = 0-1.
 \                   \            This specifies the fraction of disturbed cells that can begin developing crust.
-\                   \            Example: ``"recoveryFraction": 0.25``
+\                   \            Example: ``"fraction": 0.25``
 ==================  ===========  =======================================================================================
 
 
@@ -1569,7 +1574,6 @@ E.g., in the R console:
     source( "<path to Drylands2>/src/tools/plotCompareTimeSeries.R" )
     plotCompareTimeSeries.help()
 
-
 Any of the usual office suite spreadsheet applications will open a CSV file.
 You can read these files into GNU Octave[3_] using **csvread** from the
 **io** package, or **dataframe** from from the **dataframe** package, or the
@@ -1577,7 +1581,6 @@ You can read these files into GNU Octave[3_] using **csvread** from the
 
 See the `Appendices`_ for examples of using GNU Octave and R to
 explore the time series output.
-
 
 
 Map Time Series Files
@@ -1603,14 +1606,15 @@ Viewing data files
 You can view the grids using a netCDF file viewer that understands
 CF conventions and netCDF4 groups.
 Some GIS applications will access and display this data, such as
-**GNU Octave**[3_], **R**, **Panoply**[10_], **QGIS**, and **MATLAB**
+**GNU Octave**[3_], **R**, **Panoply**[10_], and **MATLAB**
 can be used to extract data grids.
 
 GNU Octave functions are included in the model source code that read data
 from these netCDF files and generate maps (in the directory ``src/tools``).
 See " `Model Utilities`_ " for descriptions of these scripts, including
 ``ncDrawMap``, ``ncGetGrid``, and ``plotNcGridTSVars``.
-These scripts use the GNU Octave package *netcdf*.
+These scripts use the GNU Octave package **netcdf** through wrapper
+functions in ``ncCommon``.
 Use ``help <function name>`` to view help on a utility function.
 (First add the ``src/tools`` directory to the search path list with ``addpath()``.)
 
@@ -1650,14 +1654,14 @@ Here's a simplified view of the original file structure, followed by the new fil
               y = 50;
               x = 50;
               time = 9;
-      variables:
+      variables:                          // root group
               short y(y);
               short x(x);
               short y(y);
               int time(time);
-      group: black_grama {
+      group: black_grama {                // <== Group to flatten
         variables:
-              float biomass(time, x, y);
+              float biomass(time, x, y);  // <== Variable in group
         } // group black_grama
     }
 
@@ -1666,8 +1670,8 @@ Here's a simplified view of the original file structure, followed by the new fil
               time = 9;
               x = 50;
               y = 50;
-      variables:
-              float biomass(time, x, y);
+      variables:                          // root group
+              float biomass(time, x, y);  // <== Variable moved
               int time(time);
               short x(x);
               short y(y);
@@ -2541,39 +2545,56 @@ Additional configuration files (``*.json``) are provided in the
       #
       "crust":
       {
+        #
+        # Vector of crust ID numbers: for bare soil, light cyano, dark cyano
+        # These are from: CrustKind.kinds.id
+        #
+        "crustTypes": [ 2, 3, 4 ],
+        #
+        # Vector of grid cell fractions; if sum < 1.0, remaining cells are bare soil.
+        #
+        "gridFractions": [ 0.6, 0.2, 0.2 ],
+        #
+        # For algorithm 2: maximum age (years) for each crust type.
+        # Vector length must be same length as crustTypes.
+        #
+        "ageMaximum": [2, 4, 10],
+        #
+        # Surface soil type: One of CrustSoil.kinds.index
+        # All grid cells have the same soil type.
+        #
+        "soilType": 2,
+        #
+        # Crust disturbance
+        #
+        "disturbance": {
           #
-          # Vector of crust ID numbers: for bare soil, light cyano, dark cyano
+          # Schedule of disturbance as days-of-year integers.
+          # Example: 290 = day of year for one disturbance.
+          # Example: [10, 20, 3] = 3 random days in the range 10-20 days-of-year.
+          # Example: [ [30, 90, 10], [250, 300, 10] ] = 2 ranges
           #
-          "crustTypes": [ 2, 3, 4 ],
+          "schedule": [ [30, 90, 10], [250, 300, 10] ],
           #
-          # Vector of grid cell fractions; if sum < 1.0, remaining cells are bare soil.
-          # Vector length must be same length as crustTypes.
+          # Intensity of disturbance: fraction of crust cells to be disturbed annually
           #
-          "gridFractions": [ 0.6, 0.2, 0.2 ],
+          "intensity":  0.2
+        },
+        #
+        # Disturbance recovery
+        #
+        "recovery": {
           #
-          # Surface soil type: One of CrustSoil.kinds.index
-          # All grid cells have the same soil type.
-          #
-          "soilType": 2,
-          #
-          # Intensity of disturbance: fraction of crust cells to be disturbed annually.
-          #
-          "intensity":  0.2,
-          #
-          # Disturbance recovery algorithm:
+          # disturbance recovery algorithm:
           # 1 = constant crust type per cell;
           # 2 = succession sequence
           #
-          "recoveryAlgorithm": 1,
+          "algorithm": 1,
           #
-          # For algorithm 1: annual recovery fraction.
+          # recovery algorithm 1: annual recovery fraction
           #
-          "recoveryFraction": 0.25,
-          #
-          # For algorithm 2: maximum age (years) for each crust type.
-          # Vector length must be same length as crustTypes.
-          #
-          "ageMaximum": [2, 4, 10]
+          "fraction": 0.25
+        }
       },
       #
       # model configuration

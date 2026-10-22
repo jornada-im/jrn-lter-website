@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Drylands2 Model: Aeolian Effect Algorithms" href="aeolian/AeolianEffect-Algorithms.html"><link rel="prev" title="Drylands2 Model Equations" href="ModelEquations.html">
 
-    <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
+    <!-- Generated with Sphinx 9.2.0 and Furo 2025.12.19 -->
         <title>Drylands2 Model Manual - Drylands2 model 6.5.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
@@ -1488,6 +1488,9 @@ explicitly stated otherwise.</p>
 <p>The configuration item <strong>crust</strong> contains a structure specifying
 the types and parameters for biocrust on the soil surface.
 This section is optional - you may omit it if no crust is to be simulated.</p>
+<p>The first three items describe each type of crust to be simulated. The number
+of values in each are for each crust type, in the same order.
+The remaining configuration items apply to all crusts.</p>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
 <thead>
@@ -1509,121 +1512,125 @@ This section is optional - you may omit it if no crust is to be simulated.</p>
 <td><p></p></td>
 <td><p>Example: <code class="docutils literal notranslate"><span class="pre">&quot;crustTypes&quot;:</span> <span class="pre">[</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">3</span> <span class="pre">]</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>gridFractions</p></td>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>Each crust type must have an associated <em>gridFractions</em> and <em>ageMaximum</em> entry.</p></td>
+</tr>
+<tr class="row-even"><td><p>gridFractions</p></td>
 <td><p>vector</p></td>
 <td><p>Fractions of grid cells for each crust type.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Valid range of each = 0-1. The sum must be &lt;= 1.0.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>If sum &lt; 1.0, remaining cells will be bare soil.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Vector length must be same length as <code class="docutils literal notranslate"><span class="pre">crustTypes</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Example: <code class="docutils literal notranslate"><span class="pre">&quot;gridFractions&quot;:</span> <span class="pre">[</span> <span class="pre">0.6,</span> <span class="pre">0.2,</span> <span class="pre">0.2</span> <span class="pre">]</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>ageMaximum</p></td>
+<tr class="row-odd"><td><p>ageMaximum</p></td>
 <td><p>vector</p></td>
 <td><p>For recovery algorithm 2: These values are the maximum age for each crust type,</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>which when reached, resets to bare soil as though disturbed.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Vector length must be same length as <code class="docutils literal notranslate"><span class="pre">crustTypes</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Example: <code class="docutils literal notranslate"><span class="pre">&quot;ageMaximum&quot;:</span> <span class="pre">[2,</span> <span class="pre">4,</span> <span class="pre">10]</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>soilType</p></td>
+<tr class="row-odd"><td><p>soilType</p></td>
 <td><p>scalar</p></td>
 <td><p>integer: Surface soil type: One of <code class="docutils literal notranslate"><span class="pre">CrustSoil.kinds.index</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>All grid cells have the same soil type.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Example: <code class="docutils literal notranslate"><span class="pre">&quot;soilType&quot;:</span> <span class="pre">2</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>disturbance</strong></p></td>
+<tr class="row-even"><td><p><strong>disturbance</strong></p></td>
 <td><p>struct</p></td>
 <td><p><strong>Crust disturbance:</strong></p></td>
 </tr>
-<tr class="row-even"><td><p>schedule</p></td>
+<tr class="row-odd"><td><p>schedule</p></td>
 <td><p>vector</p></td>
-<td><p>Annual schedule of disturbances. This can be:</p></td>
+<td><p>Annual schedule of disturbances. This can be of the forms:</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">290</span></code> = day of year for one disturbance.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">[10,</span> <span class="pre">20,</span> <span class="pre">3]</span></code> = 3 random days in the range 10-20 days-of-year, inclusive.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">[30,</span> <span class="pre">90,</span> <span class="pre">10],</span> <span class="pre">[250,</span> <span class="pre">300,</span> <span class="pre">10]</span> <span class="pre">]</span></code> = 2 ranges</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Example: <code class="docutils literal notranslate"><span class="pre">&quot;schedule&quot;:</span>&#160; <span class="pre">[250,</span> <span class="pre">300,</span> <span class="pre">10]</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>intensity</p></td>
+<tr class="row-even"><td><p>intensity</p></td>
 <td><p>scalar</p></td>
 <td><p>Intensity of disturbance: the fraction of crust cells to be disturbed annually.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>Valid range = 0-1.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>Example: <code class="docutils literal notranslate"><span class="pre">&quot;intensity&quot;:</span>&#160; <span class="pre">0.2</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
-<td><p></p></td>
-<td><p><strong>Recovery</strong></p></td>
+<tr class="row-odd"><td><p><strong>recovery</strong></p></td>
+<td><p>struct</p></td>
+<td><p><strong>Crust recovery from disturbance</strong></p></td>
 </tr>
-<tr class="row-odd"><td><p>recoveryAlgorithm</p></td>
+<tr class="row-even"><td><p>algorithm</p></td>
 <td><p>scalar</p></td>
-<td><p>Specifies the disturbance recovery algorithm. Values can be:</p></td>
+<td><p>Specifies the disturbance recovery algorithm:</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>1 = constant crust type per cell</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
 <td><p>2 = crust succession sequence</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
-<td><p>Example: <code class="docutils literal notranslate"><span class="pre">&quot;recoveryAlgorithm&quot;:</span> <span class="pre">1</span></code></p></td>
+<td><p>Example: <code class="docutils literal notranslate"><span class="pre">&quot;algorithm&quot;:</span> <span class="pre">1</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>recoveryFraction</p></td>
+<tr class="row-even"><td><p>fraction</p></td>
 <td><p>scalar</p></td>
 <td><p>For recovery algorithm 1: Annual recovery fraction. Valid range = 0-1.</p></td>
 </tr>
-<tr class="row-even"><td><p></p></td>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p>This specifies the fraction of disturbed cells that can begin developing crust.</p></td>
 </tr>
-<tr class="row-odd"><td><p></p></td>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
-<td><p>Example: <code class="docutils literal notranslate"><span class="pre">&quot;recoveryFraction&quot;:</span> <span class="pre">0.25</span></code></p></td>
+<td><p>Example: <code class="docutils literal notranslate"><span class="pre">&quot;fraction&quot;:</span> <span class="pre">0.25</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -2815,13 +2822,14 @@ resource (e.g., “water”). Each soil layer is a variable in that group:
 <p>You can view the grids using a netCDF file viewer that understands
 CF conventions and netCDF4 groups.
 Some GIS applications will access and display this data, such as
-<strong>GNU Octave**[3_], **R</strong>, <strong>Panoply**[10_], **QGIS</strong>, and <strong>MATLAB</strong>
+<strong>GNU Octave**[3_], **R</strong>, <strong>Panoply**[10_], and **MATLAB</strong>
 can be used to extract data grids.</p>
 <p>GNU Octave functions are included in the model source code that read data
 from these netCDF files and generate maps (in the directory <code class="docutils literal notranslate"><span class="pre">src/tools</span></code>).
 See “ <a class="reference internal" href="#model-utilities">Model Utilities</a> “ for descriptions of these scripts, including
 <code class="docutils literal notranslate"><span class="pre">ncDrawMap</span></code>, <code class="docutils literal notranslate"><span class="pre">ncGetGrid</span></code>, and <code class="docutils literal notranslate"><span class="pre">plotNcGridTSVars</span></code>.
-These scripts use the GNU Octave package <em>netcdf</em>.
+These scripts use the GNU Octave package <strong>netcdf</strong> through wrapper
+functions in <code class="docutils literal notranslate"><span class="pre">ncCommon</span></code>.
 Use <code class="docutils literal notranslate"><span class="pre">help</span> <span class="pre">&lt;function</span> <span class="pre">name&gt;</span></code> to view help on a utility function.
 (First add the <code class="docutils literal notranslate"><span class="pre">src/tools</span></code> directory to the search path list with <code class="docutils literal notranslate"><span class="pre">addpath()</span></code>.)</p>
 <p>If you have the netCDF command-line utilities installed, you can use
@@ -2851,14 +2859,14 @@ ncks<span class="w"> </span>-G<span class="w"> </span>:<span class="w"> </span>-
 <span class="w">          </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span><span class="p">;</span>
 <span class="w">          </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span><span class="p">;</span>
 <span class="w">          </span><span class="n">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span><span class="p">;</span>
-<span class="w">  </span><span class="nl">variables</span><span class="p">:</span>
+<span class="w">  </span><span class="nl">variables</span><span class="p">:</span><span class="w">                          </span><span class="c1">// root group</span>
 <span class="w">          </span><span class="kt">short</span><span class="w"> </span><span class="nf">y</span><span class="p">(</span><span class="n">y</span><span class="p">);</span>
 <span class="w">          </span><span class="kt">short</span><span class="w"> </span><span class="nf">x</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
 <span class="w">          </span><span class="kt">short</span><span class="w"> </span><span class="nf">y</span><span class="p">(</span><span class="n">y</span><span class="p">);</span>
 <span class="w">          </span><span class="kt">int</span><span class="w"> </span><span class="nf">time</span><span class="p">(</span><span class="n">time</span><span class="p">);</span>
-<span class="w">  </span><span class="nl">group</span><span class="p">:</span><span class="w"> </span><span class="n">black_grama</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nl">group</span><span class="p">:</span><span class="w"> </span><span class="n">black_grama</span><span class="w"> </span><span class="p">{</span><span class="w">                </span><span class="c1">// &lt;== Group to flatten</span>
 <span class="w">    </span><span class="nl">variables</span><span class="p">:</span>
-<span class="w">          </span><span class="kt">float</span><span class="w"> </span><span class="nf">biomass</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span>
+<span class="w">          </span><span class="kt">float</span><span class="w"> </span><span class="nf">biomass</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span><span class="w">  </span><span class="c1">// &lt;== Variable in group</span>
 <span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="c1">// group black_grama</span>
 <span class="p">}</span>
 
@@ -2867,8 +2875,8 @@ ncks<span class="w"> </span>-G<span class="w"> </span>:<span class="w"> </span>-
 <span class="w">          </span><span class="n">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span><span class="p">;</span>
 <span class="w">          </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span><span class="p">;</span>
 <span class="w">          </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span><span class="p">;</span>
-<span class="w">  </span><span class="nl">variables</span><span class="p">:</span>
-<span class="w">          </span><span class="kt">float</span><span class="w"> </span><span class="nf">biomass</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span>
+<span class="w">  </span><span class="nl">variables</span><span class="p">:</span><span class="w">                          </span><span class="c1">// root group</span>
+<span class="w">          </span><span class="kt">float</span><span class="w"> </span><span class="nf">biomass</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span><span class="w">  </span><span class="c1">// &lt;== Variable moved</span>
 <span class="w">          </span><span class="kt">int</span><span class="w"> </span><span class="nf">time</span><span class="p">(</span><span class="n">time</span><span class="p">);</span>
 <span class="w">          </span><span class="kt">short</span><span class="w"> </span><span class="nf">x</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
 <span class="w">          </span><span class="kt">short</span><span class="w"> </span><span class="nf">y</span><span class="p">(</span><span class="n">y</span><span class="p">);</span>
@@ -3767,39 +3775,56 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="w">  </span><span class="c1">#</span>
 <span class="w">  </span><span class="s">"crust"</span><span class="p p-Indicator">:</span>
 <span class="w">  </span><span class="p p-Indicator">{</span>
+<span class="w">    </span><span class="c1">#</span>
+<span class="nt">    # Vector of crust ID numbers</span><span class="p">:</span><span class="w"> </span><span class="nv">for bare soil</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">light cyano</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">dark cyano</span>
+<span class="w">    </span><span class="nt"># These are from</span><span class="p">:</span><span class="w"> </span><span class="nv">CrustKind.kinds.id</span>
+<span class="w">    </span><span class="c1">#</span>
+<span class="w">    </span><span class="s">"crustTypes"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">4</span><span class="w"> </span><span class="p p-Indicator">],</span>
+<span class="w">    </span><span class="c1">#</span>
+<span class="w">    </span><span class="c1"># Vector of grid cell fractions; if sum &lt; 1.0, remaining cells are bare soil.</span>
+<span class="w">    </span><span class="c1">#</span>
+<span class="w">    </span><span class="s">"gridFractions"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">0.6</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.2</span><span class="w"> </span><span class="p p-Indicator">],</span>
+<span class="w">    </span><span class="c1">#</span>
+<span class="nt">    # For algorithm 2</span><span class="p">:</span><span class="w"> </span><span class="nv">maximum age (years) for each crust type.</span>
+<span class="w">    </span><span class="c1"># Vector length must be same length as crustTypes.</span>
+<span class="w">    </span><span class="c1">#</span>
+<span class="w">    </span><span class="s">"ageMaximum"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">10</span><span class="p p-Indicator">],</span>
+<span class="w">    </span><span class="c1">#</span>
+<span class="nt">    # Surface soil type</span><span class="p">:</span><span class="w"> </span><span class="nv">One of CrustSoil.kinds.index</span>
+<span class="w">    </span><span class="c1"># All grid cells have the same soil type.</span>
+<span class="w">    </span><span class="c1">#</span>
+<span class="w">    </span><span class="s">"soilType"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">2</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="c1">#</span>
+<span class="w">    </span><span class="c1"># Crust disturbance</span>
+<span class="w">    </span><span class="c1">#</span>
+<span class="w">    </span><span class="s">"disturbance"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
 <span class="w">      </span><span class="c1">#</span>
-<span class="nt">      # Vector of crust ID numbers</span><span class="p">:</span><span class="w"> </span><span class="nv">for bare soil</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">light cyano</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">dark cyano</span>
+<span class="w">      </span><span class="c1"># Schedule of disturbance as days-of-year integers.</span>
+<span class="nt">      # Example</span><span class="p">:</span><span class="w"> </span><span class="nv">290 = day of year for one disturbance.</span>
+<span class="w">      </span><span class="nt"># Example</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">10</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">20</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="nv">= 3 random days in the range 10-20 days-of-year.</span>
+<span class="w">      </span><span class="nt"># Example</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">30</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">90</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">10</span><span class="p p-Indicator">],</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">250</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">300</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">10</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="p p-Indicator">]</span><span class="w"> </span><span class="nv">= 2 ranges</span>
 <span class="w">      </span><span class="c1">#</span>
-<span class="w">      </span><span class="s">"crustTypes"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">4</span><span class="w"> </span><span class="p p-Indicator">],</span>
+<span class="w">      </span><span class="s">"schedule"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">30</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">90</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">10</span><span class="p p-Indicator">],</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">250</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">300</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">10</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="p p-Indicator">],</span>
 <span class="w">      </span><span class="c1">#</span>
-<span class="w">      </span><span class="c1"># Vector of grid cell fractions; if sum &lt; 1.0, remaining cells are bare soil.</span>
-<span class="w">      </span><span class="c1"># Vector length must be same length as crustTypes.</span>
+<span class="nt">      # Intensity of disturbance</span><span class="p">:</span><span class="w"> </span><span class="nv">fraction of crust cells to be disturbed annually</span>
 <span class="w">      </span><span class="c1">#</span>
-<span class="w">      </span><span class="s">"gridFractions"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">0.6</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.2</span><span class="w"> </span><span class="p p-Indicator">],</span>
+<span class="w">      </span><span class="s">"intensity"</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">0.2</span>
+<span class="w">    </span><span class="p p-Indicator">},</span>
+<span class="w">    </span><span class="c1">#</span>
+<span class="w">    </span><span class="c1"># Disturbance recovery</span>
+<span class="w">    </span><span class="c1">#</span>
+<span class="w">    </span><span class="s">"recovery"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
 <span class="w">      </span><span class="c1">#</span>
-<span class="nt">      # Surface soil type</span><span class="p">:</span><span class="w"> </span><span class="nv">One of CrustSoil.kinds.index</span>
-<span class="w">      </span><span class="c1"># All grid cells have the same soil type.</span>
-<span class="w">      </span><span class="c1">#</span>
-<span class="w">      </span><span class="s">"soilType"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">2</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="c1">#</span>
-<span class="nt">      # Intensity of disturbance</span><span class="p">:</span><span class="w"> </span><span class="nv">fraction of crust cells to be disturbed annually.</span>
-<span class="w">      </span><span class="c1">#</span>
-<span class="w">      </span><span class="s">"intensity"</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">0.2</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="c1">#</span>
-<span class="nt">      # Disturbance recovery algorithm</span><span class="p">:</span>
+<span class="nt">      # disturbance recovery algorithm</span><span class="p">:</span>
 <span class="w">      </span><span class="c1"># 1 = constant crust type per cell;</span>
 <span class="w">      </span><span class="c1"># 2 = succession sequence</span>
 <span class="w">      </span><span class="c1">#</span>
-<span class="w">      </span><span class="s">"recoveryAlgorithm"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">"algorithm"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">,</span>
 <span class="w">      </span><span class="c1">#</span>
-<span class="nt">      # For algorithm 1</span><span class="p">:</span><span class="w"> </span><span class="nv">annual recovery fraction.</span>
+<span class="nt">      # recovery algorithm 1</span><span class="p">:</span><span class="w"> </span><span class="nv">annual recovery fraction</span>
 <span class="w">      </span><span class="c1">#</span>
-<span class="w">      </span><span class="s">"recoveryFraction"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.25</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="c1">#</span>
-<span class="nt">      # For algorithm 2</span><span class="p">:</span><span class="w"> </span><span class="nv">maximum age (years) for each crust type.</span>
-<span class="w">      </span><span class="c1"># Vector length must be same length as crustTypes.</span>
-<span class="w">      </span><span class="c1">#</span>
-<span class="w">      </span><span class="s">"ageMaximum"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">10</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="s">"fraction"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.25</span>
+<span class="w">    </span><span class="p p-Indicator">}</span>
 <span class="w">  </span><span class="p p-Indicator">},</span>
 <span class="w">  </span><span class="c1">#</span>
 <span class="w">  </span><span class="c1"># model configuration</span>
