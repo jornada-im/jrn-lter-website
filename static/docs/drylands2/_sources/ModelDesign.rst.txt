@@ -88,7 +88,8 @@ For newlines in R strings, always use ``\n``.
 Class names are capitalized (e.g., **Plant**).
 Function names are (usually) not capitalized (e.g., **initialize**).
 Source file names follow the class and function conventions.
-Variable and parameter names are usually not capitalized.
+Variable and parameter names are usually not capitalized, though most
+state variables are (e.g., P := plant biomass).
 Camel case is used for names containing multiple words (e.g., **getPrecip**).
 
 
@@ -113,12 +114,14 @@ Source Files Organization
         |-- input       - Functions and classes for reading input files.
         |-- output      -   ... for writing non-graphics output files.
         |-- plot        -   ... for displaying and saving graphs and maps.
+        |-- events      -   ... for scheduling events.
         |-- grid            ... for grid initialization and management.
         |-- log         -   ... for writing to a log file.
         |-- math        - Mathematical algorithms
         |-- aeolian     - Algorithms for plant effects from aeolian erosion and deposition.
-        |-- mounds      - Modeling water flow down-gradient on topographic mounds.
+        |-- crust       - Crust class and related classes and functions.
         |-- plant       - Plant class and related classes and functions.
+        |-- mounds      - Modeling water flow down-gradient on topographic mounds.
         |-- testing     - Functions to assist in testing model algorithms.
         |-- tools       - Misc. useful functions not used in a simulation.
         \-- util        - General utility functions.
@@ -217,11 +220,16 @@ Algorithmic:
         aeolian/*
         mounds/*
         plant/
-        |-- Plant --> Roots, Seed, GrowingSeason, annualMortality, MortalityRate
+        |-- Plant --> Roots, Seed, GrowingSeason, plantGrowth, plantInfiltration,
+        |             annualMortality, MortalityRate
         |-- Competition
         |-- MortalityRate --> WaterStress
         |-- soilWaterUptake
         `-- BiomassFun
+        crust/
+        |-- Crust --> CrustKind, CrustSoil, CrustSequence, CrustDisRec,
+        |-- CrustMgr
+        `-- crustDisturbance, crustRecovery, crustInfiltration
         buildLaplacians
         equations2
         EulersMethod --> Equations
@@ -242,14 +250,15 @@ Non-Algorithmic:
         SimTime
         State
         grid/gridInit
+        events/EventSchedule
 
 Configuration:
 
     .. code::
 
         input/readConfigJSON
-        input/verifyConfiguration
-        input/Schedule
+        input/verifyConfiguration --> checkPlantConfig, checkCrustConfig
+        events/Schedule
 
 Data:
 
@@ -304,18 +313,20 @@ The following psuedocode does not include simulation of mounds or trials.
     Initialize output
     Run one simulation, or a sweep or trials of simulations:
         Run one simulation:
-        |   Initialize simulation
+        |   Initialize simulation (plants and crust)
         |   Iterate by subdaily time step:
-        |       If start of day:
-        |           Get daily input data
-        |           Calculate E, I, WL, U, root biomass, G, aeolian effects
-        |           If start of growing season:
-        |               Tell plants to initialize growing season.
-        |       Solve for updated W, S, N, P at subdaily time step
-        |       If end of day:
-        |           Save time-series output and graphs and maps as scheduled
-        |           If end of growing season:
-        |               Tell plants to finalize growing season.
+        |   |   If start of day:
+        |   |       Get daily input data
+        |   |       Calculate E, I, WL, U, root biomass, G, aeolian effects
+        |   |       Calculate plant mortality and crust disturbance
+        |   |       If start of growing season:
+        |   |           Tell plants to initialize growing season.
+        |   |           Disturbed crust can begin recovery.
+        |   |   Solve for updated W, S, N, P at subdaily time step
+        |   |   If end of day:
+        |   |       Save time-series output and graphs and maps as scheduled
+        |   |       If end of growing season:
+        |   |           Tell plants to finalize growing season.
         |   Finalize simulation
         Save sweep and trials results
 
@@ -932,7 +943,8 @@ Disturbance and Recovery
 The disturbance algorithm alters crust states by resetting a fraction of
 randomly selected crust cells to be bare soil. The random fraction is
 weighted by shrub biomass; greater biomass suggests less probability of
-disturbance.
+disturbance. Days when when disturbance occurs is specified as a
+**schedule** item in the **crust** configuration.
 
 The recovery crust type or the succession sequence follows according to
 the recovery algorithm specified. Recovery from disturbance is initiated at
@@ -966,6 +978,9 @@ Major classes and global functions for crusts are shown below.
 See the full class diagram in ``doc/class-diagram-Crust.[txt, png]``.
 Source code files are in subdirectory ``src/crust``.
 
+A class diagram is in *doc/class-diagram-Crust.png*
+(generated by the command ``plantuml doc/class-diagram-Crust.txt``).
+
 ::
 
     Plant: type   = 1-4 (4 := crust)
@@ -977,17 +992,17 @@ Source code files are in subdirectory ``src/crust``.
            soilType = CrustSoil.kinds.index
            agLive   = grid: crust area      <-- Growth increases area; disturbance reduces
 
-    CrustKind: property "kind": fields = {id, name, ...}
-
-    CrustSequence: property "table": fields = {index, sequence}
-
-    CrustSoil: property "kinds": fields = {index, name}
+    CrustKind:     table "kind":  fields = {id, name, ...}
+    CrustSequence: table "table": fields = {index, sequence}
+    CrustSoil:     table "kinds": fields = {index, name}
+    CrustDisRec:   Manages disturbance and recovery for one crust.
 
     crustInfiltration: Infiltration varies with soil type and crust amount.
-
     crustDisturbance:  Disturb crust.
-
     crustRecovery:     Recover from disturbance.
+
+    CrustMgr:   Manage crust actions.
+    CrustUtils: Collection of helper functions for crust objects and data.
 
 
 
@@ -1249,6 +1264,12 @@ A UML class diagram description for the Plant classes,
 used by the application **PlantUML**.
 Create a PNG image of the diagram with the command:
 ``plantuml class-diagram-Plant.txt``
+
+*class-diagram-Crust.png* or *class-diagram-Crust.txt*:
+A UML class diagram description for the Crust classes,
+used by the application **PlantUML**.
+Create a PNG image of the diagram with the command:
+``plantuml class-diagram-Crust.txt``
 
 *aeolian/AeolianEffect-Algorithms*:
 Descripton of the aeolian submodel.

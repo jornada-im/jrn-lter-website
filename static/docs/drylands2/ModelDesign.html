@@ -423,7 +423,8 @@ For newlines in R strings, always use <code class="docutils literal notranslate"
 Class names are capitalized (e.g., <strong>Plant</strong>).
 Function names are (usually) not capitalized (e.g., <strong>initialize</strong>).
 Source file names follow the class and function conventions.
-Variable and parameter names are usually not capitalized.
+Variable and parameter names are usually not capitalized, though most
+state variables are (e.g., P := plant biomass).
 Camel case is used for names containing multiple words (e.g., <strong>getPrecip</strong>).</p>
 </section>
 </section>
@@ -440,12 +441,14 @@ compatibility issues:</p>
     <span class="o">|--</span> <span class="nb">input</span>       <span class="o">-</span> <span class="n">Functions</span> <span class="ow">and</span> <span class="n">classes</span> <span class="k">for</span> <span class="n">reading</span> <span class="nb">input</span> <span class="n">files</span><span class="o">.</span>
     <span class="o">|--</span> <span class="n">output</span>      <span class="o">-</span>   <span class="o">...</span> <span class="k">for</span> <span class="n">writing</span> <span class="n">non</span><span class="o">-</span><span class="n">graphics</span> <span class="n">output</span> <span class="n">files</span><span class="o">.</span>
     <span class="o">|--</span> <span class="n">plot</span>        <span class="o">-</span>   <span class="o">...</span> <span class="k">for</span> <span class="n">displaying</span> <span class="ow">and</span> <span class="n">saving</span> <span class="n">graphs</span> <span class="ow">and</span> <span class="n">maps</span><span class="o">.</span>
+    <span class="o">|--</span> <span class="n">events</span>      <span class="o">-</span>   <span class="o">...</span> <span class="k">for</span> <span class="n">scheduling</span> <span class="n">events</span><span class="o">.</span>
     <span class="o">|--</span> <span class="n">grid</span>            <span class="o">...</span> <span class="k">for</span> <span class="n">grid</span> <span class="n">initialization</span> <span class="ow">and</span> <span class="n">management</span><span class="o">.</span>
     <span class="o">|--</span> <span class="n">log</span>         <span class="o">-</span>   <span class="o">...</span> <span class="k">for</span> <span class="n">writing</span> <span class="n">to</span> <span class="n">a</span> <span class="n">log</span> <span class="n">file</span><span class="o">.</span>
     <span class="o">|--</span> <span class="n">math</span>        <span class="o">-</span> <span class="n">Mathematical</span> <span class="n">algorithms</span>
     <span class="o">|--</span> <span class="n">aeolian</span>     <span class="o">-</span> <span class="n">Algorithms</span> <span class="k">for</span> <span class="n">plant</span> <span class="n">effects</span> <span class="kn">from</span><span class="w"> </span><span class="nn">aeolian</span> <span class="n">erosion</span> <span class="ow">and</span> <span class="n">deposition</span><span class="o">.</span>
-    <span class="o">|--</span> <span class="n">mounds</span>      <span class="o">-</span> <span class="n">Modeling</span> <span class="n">water</span> <span class="n">flow</span> <span class="n">down</span><span class="o">-</span><span class="n">gradient</span> <span class="n">on</span> <span class="n">topographic</span> <span class="n">mounds</span><span class="o">.</span>
+    <span class="o">|--</span> <span class="n">crust</span>       <span class="o">-</span> <span class="n">Crust</span> <span class="k">class</span><span class="w"> </span><span class="nc">and</span> <span class="n">related</span> <span class="n">classes</span> <span class="ow">and</span> <span class="n">functions</span><span class="o">.</span>
     <span class="o">|--</span> <span class="n">plant</span>       <span class="o">-</span> <span class="n">Plant</span> <span class="k">class</span><span class="w"> </span><span class="nc">and</span> <span class="n">related</span> <span class="n">classes</span> <span class="ow">and</span> <span class="n">functions</span><span class="o">.</span>
+    <span class="o">|--</span> <span class="n">mounds</span>      <span class="o">-</span> <span class="n">Modeling</span> <span class="n">water</span> <span class="n">flow</span> <span class="n">down</span><span class="o">-</span><span class="n">gradient</span> <span class="n">on</span> <span class="n">topographic</span> <span class="n">mounds</span><span class="o">.</span>
     <span class="o">|--</span> <span class="n">testing</span>     <span class="o">-</span> <span class="n">Functions</span> <span class="n">to</span> <span class="n">assist</span> <span class="ow">in</span> <span class="n">testing</span> <span class="n">model</span> <span class="n">algorithms</span><span class="o">.</span>
     <span class="o">|--</span> <span class="n">tools</span>       <span class="o">-</span> <span class="n">Misc</span><span class="o">.</span> <span class="n">useful</span> <span class="n">functions</span> <span class="ow">not</span> <span class="n">used</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">simulation</span><span class="o">.</span>
     \<span class="o">--</span> <span class="n">util</span>        <span class="o">-</span> <span class="n">General</span> <span class="n">utility</span> <span class="n">functions</span><span class="o">.</span>
@@ -525,11 +528,16 @@ category, though several supporting functions are omitted.</p>
 <div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>aeolian/*
 mounds/*
 plant/
-|-- Plant --&gt; Roots, Seed, GrowingSeason, annualMortality, MortalityRate
+|-- Plant --&gt; Roots, Seed, GrowingSeason, plantGrowth, plantInfiltration,
+|             annualMortality, MortalityRate
 |-- Competition
 |-- MortalityRate --&gt; WaterStress
 |-- soilWaterUptake
 `-- BiomassFun
+crust/
+|-- Crust --&gt; CrustKind, CrustSoil, CrustSequence, CrustDisRec,
+|-- CrustMgr
+`-- crustDisturbance, crustRecovery, crustInfiltration
 buildLaplacians
 equations2
 EulersMethod --&gt; Equations
@@ -550,14 +558,15 @@ NLitterRedist
 <span class="n">SimTime</span>
 <span class="n">State</span>
 <span class="n">grid</span><span class="o">/</span><span class="n">gridInit</span>
+<span class="n">events</span><span class="o">/</span><span class="n">EventSchedule</span>
 </pre></div>
 </div>
 </div></blockquote>
 <p>Configuration:</p>
 <blockquote>
 <div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">input</span><span class="o">/</span><span class="n">readConfigJSON</span>
-<span class="nb">input</span><span class="o">/</span><span class="n">verifyConfiguration</span>
-<span class="nb">input</span><span class="o">/</span><span class="n">Schedule</span>
+<span class="nb">input</span><span class="o">/</span><span class="n">verifyConfiguration</span> <span class="o">--&gt;</span> <span class="n">checkPlantConfig</span><span class="p">,</span> <span class="n">checkCrustConfig</span>
+<span class="n">events</span><span class="o">/</span><span class="n">Schedule</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -610,18 +619,20 @@ NLitterRedist
 <span class="n">Initialize</span> <span class="n">output</span>
 <span class="n">Run</span> <span class="n">one</span> <span class="n">simulation</span><span class="p">,</span> <span class="ow">or</span> <span class="n">a</span> <span class="n">sweep</span> <span class="ow">or</span> <span class="n">trials</span> <span class="n">of</span> <span class="n">simulations</span><span class="p">:</span>
     <span class="n">Run</span> <span class="n">one</span> <span class="n">simulation</span><span class="p">:</span>
-    <span class="o">|</span>   <span class="n">Initialize</span> <span class="n">simulation</span>
+    <span class="o">|</span>   <span class="n">Initialize</span> <span class="n">simulation</span> <span class="p">(</span><span class="n">plants</span> <span class="ow">and</span> <span class="n">crust</span><span class="p">)</span>
     <span class="o">|</span>   <span class="n">Iterate</span> <span class="n">by</span> <span class="n">subdaily</span> <span class="n">time</span> <span class="n">step</span><span class="p">:</span>
-    <span class="o">|</span>       <span class="n">If</span> <span class="n">start</span> <span class="n">of</span> <span class="n">day</span><span class="p">:</span>
-    <span class="o">|</span>           <span class="n">Get</span> <span class="n">daily</span> <span class="nb">input</span> <span class="n">data</span>
-    <span class="o">|</span>           <span class="n">Calculate</span> <span class="n">E</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">WL</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">root</span> <span class="n">biomass</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">aeolian</span> <span class="n">effects</span>
-    <span class="o">|</span>           <span class="n">If</span> <span class="n">start</span> <span class="n">of</span> <span class="n">growing</span> <span class="n">season</span><span class="p">:</span>
-    <span class="o">|</span>               <span class="n">Tell</span> <span class="n">plants</span> <span class="n">to</span> <span class="n">initialize</span> <span class="n">growing</span> <span class="n">season</span><span class="o">.</span>
-    <span class="o">|</span>       <span class="n">Solve</span> <span class="k">for</span> <span class="n">updated</span> <span class="n">W</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">P</span> <span class="n">at</span> <span class="n">subdaily</span> <span class="n">time</span> <span class="n">step</span>
-    <span class="o">|</span>       <span class="n">If</span> <span class="n">end</span> <span class="n">of</span> <span class="n">day</span><span class="p">:</span>
-    <span class="o">|</span>           <span class="n">Save</span> <span class="n">time</span><span class="o">-</span><span class="n">series</span> <span class="n">output</span> <span class="ow">and</span> <span class="n">graphs</span> <span class="ow">and</span> <span class="n">maps</span> <span class="k">as</span> <span class="n">scheduled</span>
-    <span class="o">|</span>           <span class="n">If</span> <span class="n">end</span> <span class="n">of</span> <span class="n">growing</span> <span class="n">season</span><span class="p">:</span>
-    <span class="o">|</span>               <span class="n">Tell</span> <span class="n">plants</span> <span class="n">to</span> <span class="n">finalize</span> <span class="n">growing</span> <span class="n">season</span><span class="o">.</span>
+    <span class="o">|</span>   <span class="o">|</span>   <span class="n">If</span> <span class="n">start</span> <span class="n">of</span> <span class="n">day</span><span class="p">:</span>
+    <span class="o">|</span>   <span class="o">|</span>       <span class="n">Get</span> <span class="n">daily</span> <span class="nb">input</span> <span class="n">data</span>
+    <span class="o">|</span>   <span class="o">|</span>       <span class="n">Calculate</span> <span class="n">E</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">WL</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">root</span> <span class="n">biomass</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">aeolian</span> <span class="n">effects</span>
+    <span class="o">|</span>   <span class="o">|</span>       <span class="n">Calculate</span> <span class="n">plant</span> <span class="n">mortality</span> <span class="ow">and</span> <span class="n">crust</span> <span class="n">disturbance</span>
+    <span class="o">|</span>   <span class="o">|</span>       <span class="n">If</span> <span class="n">start</span> <span class="n">of</span> <span class="n">growing</span> <span class="n">season</span><span class="p">:</span>
+    <span class="o">|</span>   <span class="o">|</span>           <span class="n">Tell</span> <span class="n">plants</span> <span class="n">to</span> <span class="n">initialize</span> <span class="n">growing</span> <span class="n">season</span><span class="o">.</span>
+    <span class="o">|</span>   <span class="o">|</span>           <span class="n">Disturbed</span> <span class="n">crust</span> <span class="n">can</span> <span class="n">begin</span> <span class="n">recovery</span><span class="o">.</span>
+    <span class="o">|</span>   <span class="o">|</span>   <span class="n">Solve</span> <span class="k">for</span> <span class="n">updated</span> <span class="n">W</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">P</span> <span class="n">at</span> <span class="n">subdaily</span> <span class="n">time</span> <span class="n">step</span>
+    <span class="o">|</span>   <span class="o">|</span>   <span class="n">If</span> <span class="n">end</span> <span class="n">of</span> <span class="n">day</span><span class="p">:</span>
+    <span class="o">|</span>   <span class="o">|</span>       <span class="n">Save</span> <span class="n">time</span><span class="o">-</span><span class="n">series</span> <span class="n">output</span> <span class="ow">and</span> <span class="n">graphs</span> <span class="ow">and</span> <span class="n">maps</span> <span class="k">as</span> <span class="n">scheduled</span>
+    <span class="o">|</span>   <span class="o">|</span>       <span class="n">If</span> <span class="n">end</span> <span class="n">of</span> <span class="n">growing</span> <span class="n">season</span><span class="p">:</span>
+    <span class="o">|</span>   <span class="o">|</span>           <span class="n">Tell</span> <span class="n">plants</span> <span class="n">to</span> <span class="n">finalize</span> <span class="n">growing</span> <span class="n">season</span><span class="o">.</span>
     <span class="o">|</span>   <span class="n">Finalize</span> <span class="n">simulation</span>
     <span class="n">Save</span> <span class="n">sweep</span> <span class="ow">and</span> <span class="n">trials</span> <span class="n">results</span>
 </pre></div>
@@ -1144,7 +1155,8 @@ in crust vs bare soil (Chamizo et al, 2016).</p>
 <p>The disturbance algorithm alters crust states by resetting a fraction of
 randomly selected crust cells to be bare soil. The random fraction is
 weighted by shrub biomass; greater biomass suggests less probability of
-disturbance.</p>
+disturbance. Days when when disturbance occurs is specified as a
+<strong>schedule</strong> item in the <strong>crust</strong> configuration.</p>
 <p>The recovery crust type or the succession sequence follows according to
 the recovery algorithm specified. Recovery from disturbance is initiated at
 start of growing season.</p>
@@ -1171,6 +1183,8 @@ crust type begins growing.</p>
 <p>Major classes and global functions for crusts are shown below.
 See the full class diagram in <code class="docutils literal notranslate"><span class="pre">doc/class-diagram-Crust.[txt,</span> <span class="pre">png]</span></code>.
 Source code files are in subdirectory <code class="docutils literal notranslate"><span class="pre">src/crust</span></code>.</p>
+<p>A class diagram is in <em>doc/class-diagram-Crust.png</em>
+(generated by the command <code class="docutils literal notranslate"><span class="pre">plantuml</span> <span class="pre">doc/class-diagram-Crust.txt</span></code>).</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Plant</span><span class="p">:</span> <span class="nb">type</span>   <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="mi">4</span> <span class="p">(</span><span class="mi">4</span> <span class="o">:=</span> <span class="n">crust</span><span class="p">)</span>
        <span class="n">agLive</span> <span class="o">=</span> <span class="n">grid</span> <span class="n">of</span> <span class="n">biomass</span> <span class="p">(</span><span class="n">g</span><span class="o">/</span><span class="n">m2</span><span class="p">)</span>
   <span class="o">^</span>
@@ -1180,17 +1194,17 @@ Source code files are in subdirectory <code class="docutils literal notranslate"
        <span class="n">soilType</span> <span class="o">=</span> <span class="n">CrustSoil</span><span class="o">.</span><span class="n">kinds</span><span class="o">.</span><span class="n">index</span>
        <span class="n">agLive</span>   <span class="o">=</span> <span class="n">grid</span><span class="p">:</span> <span class="n">crust</span> <span class="n">area</span>      <span class="o">&lt;--</span> <span class="n">Growth</span> <span class="n">increases</span> <span class="n">area</span><span class="p">;</span> <span class="n">disturbance</span> <span class="n">reduces</span>
 
-<span class="n">CrustKind</span><span class="p">:</span> <span class="nb">property</span> <span class="s2">"kind"</span><span class="p">:</span> <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span><span class="nb">id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">...</span><span class="p">}</span>
-
-<span class="n">CrustSequence</span><span class="p">:</span> <span class="nb">property</span> <span class="s2">"table"</span><span class="p">:</span> <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span><span class="n">index</span><span class="p">,</span> <span class="n">sequence</span><span class="p">}</span>
-
-<span class="n">CrustSoil</span><span class="p">:</span> <span class="nb">property</span> <span class="s2">"kinds"</span><span class="p">:</span> <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="p">}</span>
+<span class="n">CrustKind</span><span class="p">:</span>     <span class="n">table</span> <span class="s2">"kind"</span><span class="p">:</span>  <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span><span class="nb">id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">...</span><span class="p">}</span>
+<span class="n">CrustSequence</span><span class="p">:</span> <span class="n">table</span> <span class="s2">"table"</span><span class="p">:</span> <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span><span class="n">index</span><span class="p">,</span> <span class="n">sequence</span><span class="p">}</span>
+<span class="n">CrustSoil</span><span class="p">:</span>     <span class="n">table</span> <span class="s2">"kinds"</span><span class="p">:</span> <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="p">}</span>
+<span class="n">CrustDisRec</span><span class="p">:</span>   <span class="n">Manages</span> <span class="n">disturbance</span> <span class="ow">and</span> <span class="n">recovery</span> <span class="k">for</span> <span class="n">one</span> <span class="n">crust</span><span class="o">.</span>
 
 <span class="n">crustInfiltration</span><span class="p">:</span> <span class="n">Infiltration</span> <span class="n">varies</span> <span class="k">with</span> <span class="n">soil</span> <span class="nb">type</span> <span class="ow">and</span> <span class="n">crust</span> <span class="n">amount</span><span class="o">.</span>
-
 <span class="n">crustDisturbance</span><span class="p">:</span>  <span class="n">Disturb</span> <span class="n">crust</span><span class="o">.</span>
-
 <span class="n">crustRecovery</span><span class="p">:</span>     <span class="n">Recover</span> <span class="kn">from</span><span class="w"> </span><span class="nn">disturbance.</span>
+
+<span class="n">CrustMgr</span><span class="p">:</span>   <span class="n">Manage</span> <span class="n">crust</span> <span class="n">actions</span><span class="o">.</span>
+<span class="n">CrustUtils</span><span class="p">:</span> <span class="n">Collection</span> <span class="n">of</span> <span class="n">helper</span> <span class="n">functions</span> <span class="k">for</span> <span class="n">crust</span> <span class="n">objects</span> <span class="ow">and</span> <span class="n">data</span><span class="o">.</span>
 </pre></div>
 </div>
 </section>
@@ -1431,6 +1445,11 @@ A UML class diagram description for the Plant classes,
 used by the application <strong>PlantUML</strong>.
 Create a PNG image of the diagram with the command:
 <code class="docutils literal notranslate"><span class="pre">plantuml</span> <span class="pre">class-diagram-Plant.txt</span></code></p>
+<p><em>class-diagram-Crust.png</em> or <em>class-diagram-Crust.txt</em>:
+A UML class diagram description for the Crust classes,
+used by the application <strong>PlantUML</strong>.
+Create a PNG image of the diagram with the command:
+<code class="docutils literal notranslate"><span class="pre">plantuml</span> <span class="pre">class-diagram-Crust.txt</span></code></p>
 <p><em>aeolian/AeolianEffect-Algorithms</em>:
 Descripton of the aeolian submodel.</p>
 <p><em>Evaporation.pdf</em>, source: <em>Evaporation.fodt</em></p>

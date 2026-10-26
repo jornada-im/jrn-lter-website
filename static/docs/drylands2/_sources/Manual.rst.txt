@@ -820,16 +820,23 @@ soilType            scalar       integer: Surface soil type: One of ``CrustSoil.
 \                   \            Example: ``"soilType": 2``
 
 **disturbance**     struct       **Crust disturbance:**
-schedule            vector       Annual schedule of disturbances. This can be of the forms::
-\                   \            ``290`` = day of year for one disturbance.
-\                   \            ``[10, 20, 3]`` = 3 random days in the range 10-20 days-of-year, inclusive.
-\                   \            ``[ [30, 90, 10], [250, 300, 10] ]`` = 2 ranges
-\                   \            Example: ``"schedule":  [250, 300, 10]``
-intensity           scalar       Intensity of disturbance: the fraction of crust cells to be disturbed annually.
-\                   \            Valid range = 0-1.
+
+schedule            vector       Schedule of disturbances as days-of-year; these repeat annually.
+\                   \            Use one of the following forms:
+\                   \              ``290`` = day of year for one disturbance.
+\                   \              ``[30, 90, 100, 140]`` = disturbances on multiple days-of-year.
+\                   \              ``{ "random": [30, 90, 10] }`` = a range+count vector for a random schedule.
+\                   \            Here, generate 10 random days in the range 30-90 inclusive.
+\                   \            For multiple ranges, use the matrix form of one range+count per row:
+\                   \              ``{ "random": [ [30, 90, 10], [250, 300, 10] ] }``
+\                   \            Example: ``"schedule": { "random": [30, 90, 10] }``
+
+intensity           scalar       Intensity of disturbance: The fraction of crust cells to be disturbed annually.
+\                   \            Valid range = 0-1. This is applied to each Crust.
 \                   \            Example: ``"intensity":  0.2``
 
 **recovery**        struct       **Crust recovery from disturbance**
+
 algorithm           scalar       Specifies the disturbance recovery algorithm:
 \                   \            1 = constant crust type per cell
 \                   \            2 = crust succession sequence
@@ -926,6 +933,16 @@ litterNredistrib    scalar       boolean: Litter N spatial redistribution. Confi
 \                   \            If aeolian if off (false), this will be set to false.
 ==================  ===========  ========================================================================================
 
+
+Initial state settings
+````````````````````````
+
+(TODO: Initial state settings; biomass, precipitation, soil N)
+
+Initial state values are specified in the configuration structure
+``model.initial``. See the table above for configuration items.
+
+
 Algorithm Toggles
 ``````````````````
 
@@ -943,12 +960,6 @@ plant diffusion:       ``plant.DP``
 maintenance N uptake:  ``plant.maintN``
 herbivory:             ``plant.grazeFraction``
 =====================  ========================
-
-
-Initial state settings
-````````````````````````
-
-(TODO: Initial state settings; biomass, precipitation, soil N)
 
 
 Aeolian Submodel
@@ -2569,12 +2580,16 @@ Additional configuration files (``*.json``) are provided in the
         #
         "disturbance": {
           #
-          # Schedule of disturbance as days-of-year integers.
-          # Example: 290 = day of year for one disturbance.
-          # Example: [10, 20, 3] = 3 random days in the range 10-20 days-of-year.
-          # Example: [ [30, 90, 10], [250, 300, 10] ] = 2 ranges
+          # Schedule of disturbances as days-of-year integers.
+          # Examples:
+          #   290 = day of year for one disturbance.
+          #   [30, 90, 100, 140] = disturbances on multiple days-of-year.
+          #   { "random": [30, 90, 10] } = range+count vector for a random schedule.
+          #     Here, generate 10 random days in the range 30-90 inclusive.
+          #   { "random": [ [30, 90, 10], [250, 300, 10] ] } = multiple ranges,
+          #     using the matrix form with one range+count per row.
           #
-          "schedule": [ [30, 90, 10], [250, 300, 10] ],
+          schedule": { "random": [30, 90, 10] },
           #
           # Intensity of disturbance: fraction of crust cells to be disturbed annually
           #

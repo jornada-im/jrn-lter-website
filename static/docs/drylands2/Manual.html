@@ -301,8 +301,8 @@
 <li><p><a class="reference internal" href="#crust-configuration" id="id34">Crust Configuration</a></p></li>
 <li><p><a class="reference internal" href="#model-configuration" id="id35">Model Configuration</a></p>
 <ul>
-<li><p><a class="reference internal" href="#algorithm-toggles" id="id36">Algorithm Toggles</a></p></li>
-<li><p><a class="reference internal" href="#initial-state-settings" id="id37">Initial state settings</a></p></li>
+<li><p><a class="reference internal" href="#initial-state-settings" id="id36">Initial state settings</a></p></li>
+<li><p><a class="reference internal" href="#algorithm-toggles" id="id37">Algorithm Toggles</a></p></li>
 <li><p><a class="reference internal" href="#aeolian-submodel" id="id38">Aeolian Submodel</a></p></li>
 <li><p><a class="reference internal" href="#mounds" id="id39">Mounds</a></p>
 <ul>
@@ -1570,31 +1570,47 @@ The remaining configuration items apply to all crusts.</p>
 </tr>
 <tr class="row-odd"><td><p>schedule</p></td>
 <td><p>vector</p></td>
-<td><p>Annual schedule of disturbances. This can be of the forms:</p></td>
+<td><p>Schedule of disturbances as days-of-year; these repeat annually.</p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>Use one of the following forms:</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">290</span></code> = day of year for one disturbance.</p></td>
 </tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[30,</span> <span class="pre">90,</span> <span class="pre">100,</span> <span class="pre">140]</span></code> = disturbances on multiple days-of-year.</p></td>
+</tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">[10,</span> <span class="pre">20,</span> <span class="pre">3]</span></code> = 3 random days in the range 10-20 days-of-year, inclusive.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">&quot;random&quot;:</span> <span class="pre">[30,</span> <span class="pre">90,</span> <span class="pre">10]</span> <span class="pre">}</span></code> = a range+count vector for a random schedule.</p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">[30,</span> <span class="pre">90,</span> <span class="pre">10],</span> <span class="pre">[250,</span> <span class="pre">300,</span> <span class="pre">10]</span> <span class="pre">]</span></code> = 2 ranges</p></td>
+<td><p>Here, generate 10 random days in the range 30-90 inclusive.</p></td>
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
-<td><p>Example: <code class="docutils literal notranslate"><span class="pre">&quot;schedule&quot;:</span>&#160; <span class="pre">[250,</span> <span class="pre">300,</span> <span class="pre">10]</span></code></p></td>
+<td><p>For multiple ranges, use the matrix form of one range+count per row:</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">&quot;random&quot;:</span> <span class="pre">[</span> <span class="pre">[30,</span> <span class="pre">90,</span> <span class="pre">10],</span> <span class="pre">[250,</span> <span class="pre">300,</span> <span class="pre">10]</span> <span class="pre">]</span> <span class="pre">}</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>Example: <code class="docutils literal notranslate"><span class="pre">&quot;schedule&quot;:</span> <span class="pre">{</span> <span class="pre">&quot;random&quot;:</span> <span class="pre">[30,</span> <span class="pre">90,</span> <span class="pre">10]</span> <span class="pre">}</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>intensity</p></td>
 <td><p>scalar</p></td>
-<td><p>Intensity of disturbance: the fraction of crust cells to be disturbed annually.</p></td>
+<td><p>Intensity of disturbance: The fraction of crust cells to be disturbed annually.</p></td>
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p></p></td>
-<td><p>Valid range = 0-1.</p></td>
+<td><p>Valid range = 0-1. This is applied to each Crust.</p></td>
 </tr>
 <tr class="row-even"><td><p></p></td>
 <td><p></p></td>
@@ -1921,8 +1937,14 @@ parameter <strong>beta</strong>, or maximum convection rate.</p>
 </tbody>
 </table>
 </div>
+<section id="initial-state-settings">
+<h4><a class="toc-backref" href="#id36" role="doc-backlink">Initial state settings</a><a class="headerlink" href="#initial-state-settings" title="Link to this heading">¶</a></h4>
+<p>(TODO: Initial state settings; biomass, precipitation, soil N)</p>
+<p>Initial state values are specified in the configuration structure
+<code class="docutils literal notranslate"><span class="pre">model.initial</span></code>. See the table above for configuration items.</p>
+</section>
 <section id="algorithm-toggles">
-<h4><a class="toc-backref" href="#id36" role="doc-backlink">Algorithm Toggles</a><a class="headerlink" href="#algorithm-toggles" title="Link to this heading">¶</a></h4>
+<h4><a class="toc-backref" href="#id37" role="doc-backlink">Algorithm Toggles</a><a class="headerlink" href="#algorithm-toggles" title="Link to this heading">¶</a></h4>
 <p>The configuration structure <code class="docutils literal notranslate"><span class="pre">model.algorithms</span></code> allows some algorithms to be explicitly
 turned on or off. Additional algorithms can be turned off by setting a configuration
 parameter to zero. These include:</p>
@@ -1955,10 +1977,6 @@ parameter to zero. These include:</p>
 </tbody>
 </table>
 </div>
-</section>
-<section id="initial-state-settings">
-<h4><a class="toc-backref" href="#id37" role="doc-backlink">Initial state settings</a><a class="headerlink" href="#initial-state-settings" title="Link to this heading">¶</a></h4>
-<p>(TODO: Initial state settings; biomass, precipitation, soil N)</p>
 </section>
 <section id="aeolian-submodel">
 <h4><a class="toc-backref" href="#id38" role="doc-backlink">Aeolian Submodel</a><a class="headerlink" href="#aeolian-submodel" title="Link to this heading">¶</a></h4>
@@ -3799,12 +3817,16 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="w">    </span><span class="c1">#</span>
 <span class="w">    </span><span class="s">"disturbance"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
 <span class="w">      </span><span class="c1">#</span>
-<span class="w">      </span><span class="c1"># Schedule of disturbance as days-of-year integers.</span>
-<span class="nt">      # Example</span><span class="p">:</span><span class="w"> </span><span class="nv">290 = day of year for one disturbance.</span>
-<span class="w">      </span><span class="nt"># Example</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">10</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">20</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="nv">= 3 random days in the range 10-20 days-of-year.</span>
-<span class="w">      </span><span class="nt"># Example</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">30</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">90</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">10</span><span class="p p-Indicator">],</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">250</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">300</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">10</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="p p-Indicator">]</span><span class="w"> </span><span class="nv">= 2 ranges</span>
+<span class="w">      </span><span class="c1"># Schedule of disturbances as days-of-year integers.</span>
+<span class="nt">      # Examples</span><span class="p">:</span>
+<span class="w">      </span><span class="c1">#   290 = day of year for one disturbance.</span>
+<span class="w">      </span><span class="c1">#   [30, 90, 100, 140] = disturbances on multiple days-of-year.</span>
+<span class="w">      </span><span class="c1">#   { "random": [30, 90, 10] } = range+count vector for a random schedule.</span>
+<span class="w">      </span><span class="c1">#     Here, generate 10 random days in the range 30-90 inclusive.</span>
+<span class="w">      </span><span class="c1">#   { "random": [ [30, 90, 10], [250, 300, 10] ] } = multiple ranges,</span>
+<span class="w">      </span><span class="c1">#     using the matrix form with one range+count per row.</span>
 <span class="w">      </span><span class="c1">#</span>
-<span class="w">      </span><span class="s">"schedule"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">30</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">90</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">10</span><span class="p p-Indicator">],</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">250</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">300</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">10</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="p p-Indicator">],</span>
+<span class="w">      </span><span class="nv">schedule"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">"random"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">30</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">90</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">10</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="p p-Indicator">},</span>
 <span class="w">      </span><span class="c1">#</span>
 <span class="nt">      # Intensity of disturbance</span><span class="p">:</span><span class="w"> </span><span class="nv">fraction of crust cells to be disturbed annually</span>
 <span class="w">      </span><span class="c1">#</span>
@@ -4080,8 +4102,8 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <li><a class="reference internal" href="#plant-species-definitions">Plant Species Definitions</a></li>
 <li><a class="reference internal" href="#crust-configuration">Crust Configuration</a></li>
 <li><a class="reference internal" href="#model-configuration">Model Configuration</a><ul>
-<li><a class="reference internal" href="#algorithm-toggles">Algorithm Toggles</a></li>
 <li><a class="reference internal" href="#initial-state-settings">Initial state settings</a></li>
+<li><a class="reference internal" href="#algorithm-toggles">Algorithm Toggles</a></li>
 <li><a class="reference internal" href="#aeolian-submodel">Aeolian Submodel</a></li>
 <li><a class="reference internal" href="#mounds">Mounds</a><ul>
 <li><a class="reference internal" href="#mound-shape">Mound Shape</a></li>
