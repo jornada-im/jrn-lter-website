@@ -1671,12 +1671,20 @@ parameter <strong>beta</strong>, or maximum convection rate.</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><strong>initial</strong></p></td>
-<td><p></p></td>
+<td><p>struct</p></td>
 <td><p><strong>Initial state settings:</strong></p></td>
 </tr>
 <tr class="row-odd"><td><p><em>biomass</em></p></td>
+<td><p>array</p></td>
+<td><p><strong>Initial biomass configuration</strong></p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
 <td><p></p></td>
-<td><p><strong>Initial biomass configuration - array; entry for each plant species:</strong></p></td>
+<td><p>Array of structs; one for each plant species.</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>This is not used for crust.</p></td>
 </tr>
 <tr class="row-even"><td><p>distribution</p></td>
 <td><p>scalar</p></td>
@@ -1735,7 +1743,7 @@ parameter <strong>beta</strong>, or maximum convection rate.</p>
 <td><p>The amount will be distributed with constant density in each soil layer.</p></td>
 </tr>
 <tr class="row-even"><td><p><strong>params</strong></p></td>
-<td><p></p></td>
+<td><p>struct</p></td>
 <td><p><strong>Equation parameter values:</strong></p></td>
 </tr>
 <tr class="row-odd"><td><p>alpha</p></td>
@@ -3854,9 +3862,11 @@ Additional configuration files (<code class="docutils literal notranslate"><span
 <span class="w">  </span><span class="s">"model"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
 <span class="w">    </span><span class="s">"initial"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
 <span class="w">      </span><span class="s">"biomass"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
-<span class="w">        </span><span class="c1"># An array of entries, one per plant species.</span>
+<span class="w">        </span><span class="c1"># An array of entries, one per plant species; use the same order as "plant" above.</span>
+<span class="w">        </span><span class="c1"># This is not used for crust.</span>
 <span class="w">        </span><span class="c1"># distribution = Initial plant distribution on grid:</span>
-<span class="w">        </span><span class="c1">#   1 = uniform random fraction, 2 = constant with noise, 3 = steady-state, 4 = N random.</span>
+<span class="w">        </span><span class="c1">#   1 = uniform random fraction, 2 = constant with noise,</span>
+<span class="w">        </span><span class="c1">#   3 = steady-state, 4 = N random.</span>
 <span class="w">        </span><span class="c1"># configRandom: For 4 = N random values, contains a vector:</span>
 <span class="w">        </span><span class="c1">#   configRandom(1) = number of random cells wanted</span>
 <span class="w">        </span><span class="c1">#   configRandom(2) = minimum distance from the grid edge</span>

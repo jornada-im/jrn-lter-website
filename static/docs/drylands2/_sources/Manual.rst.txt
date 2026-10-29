@@ -865,8 +865,10 @@ Fields in **bold** are nested structures:
 ==================  ===========  ========================================================================================
 Configuration Item  Data Type    Description
 ==================  ===========  ========================================================================================
-**initial**         \            **Initial state settings:**
-*biomass*           \            **Initial biomass configuration - array; entry for each plant species:**
+**initial**         struct       **Initial state settings:**
+*biomass*           array        **Initial biomass configuration**
+\                   \            Array of structs; one for each plant species.
+\                   \            This is not used for crust.
 distribution        scalar       \ integer: 1 = uniform random fraction, 2 = constant with noise,
 \                   \            \          3 = steady-state, 4 = N random cells.
 configRandom        vector       \ Zero or 3 elements: For ``distribution`` 4 (N random values), contains:
@@ -881,7 +883,7 @@ precipitation       scalar       Amount of rainfall (mm) for initialization.
 \                   \            The water will be applied to surface soil water content at the simulation start.
 soilN               scalar       Amount of plant-available N in the entire soil profile depth (g N m-2).
 \                   \            The amount will be distributed with constant density in each soil layer.
-**params**          \            **Equation parameter values:**
+**params**          struct       **Equation parameter values:**
 alpha               scalar       Infiltration: Proportion of surface water available for infiltration (d-1).
 Wo                  scalar       Infiltration: Minimum infiltration in the absence of plants (unitless).
 rW                  scalar       Soil Water: specific soil water loss due to drainage (d-1).
@@ -2617,9 +2619,11 @@ Additional configuration files (``*.json``) are provided in the
       "model": {
         "initial": {
           "biomass": [
-            # An array of entries, one per plant species.
+            # An array of entries, one per plant species; use the same order as "plant" above.
+            # This is not used for crust.
             # distribution = Initial plant distribution on grid:
-            #   1 = uniform random fraction, 2 = constant with noise, 3 = steady-state, 4 = N random.
+            #   1 = uniform random fraction, 2 = constant with noise,
+            #   3 = steady-state, 4 = N random.
             # configRandom: For 4 = N random values, contains a vector:
             #   configRandom(1) = number of random cells wanted
             #   configRandom(2) = minimum distance from the grid edge
