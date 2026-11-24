@@ -131,6 +131,15 @@ Source Files Organization
 Major Model Parts
 ------------------
 
+State Variables
+````````````````
+
+The variables that are core to the model are aboveground biomass (P),
+surface water (S), soil water (W), and soil plant-available nitrogen (N).
+Fluxes are infiltration (I), evaporation (E), and plant water uptake (U).
+Changes in biomass are tracked in growth (G) and mortality (Pd).
+
+
 Simulation Grid
 ````````````````
 
@@ -491,11 +500,11 @@ not included.
 
 The growth algorithm calculates new biomass due to available soil N, and
 includes that as one of the limiting amounts in potential growth. See
-`Growth`_ for a description of the algorithm.
+`PlantGrowth`_ for a description of the algorithm.
 
 Plant mortality contributes dead biomass N from roots to the soil N pool.
 Herbivory transfers N from aboveground biomass directly to soil. See the
-`Plants`_ section `Mortality`_ for a description of these algorithms.
+`Plants`_ section `Plant Mortality`_ for a description of these algorithms.
 
 These configuration parameters control N fluxes:
 
@@ -623,8 +632,8 @@ For a diagram of functional and class relationships, see the
 UML class diagram in ``doc/class-diagram-Plant.png``
 
 
-Growth
-````````
+Plant Growth
+`````````````
 
 Daily growth = minimum of the above potentials::
 
@@ -655,8 +664,8 @@ the contribution from plant-available water, maximum potential biomass, mean
 daily air temperature, and available soil N.
 
 
-Mortality
-``````````
+Plant Mortality
+````````````````
 
 There are multiple types of mortality:
 
@@ -970,6 +979,14 @@ configuration option to specify which method.
 TODO: Crust Disturbance implementation
 
 
+Crust Mortality
+````````````````
+
+Crust amounts are reduced by mortality in the same ways as grasses,
+and also by disturbance.
+See the section `Plant Mortality`_ for details.
+Crust disturbance is described above.
+
 
 Crust Classes and Functions
 ````````````````````````````
@@ -1074,14 +1091,14 @@ Algorithm flow (simplified)
                 Save initialization (P, N, W, S, R, mounds).
                 for each iteration:
                     convectionFlow = rho( beta, k3, betaSlow, P ) .* (D1 * S);
-                    Stotal = S + R + convectionRate;
+                    Stotal = S + R + convectionFlow;
                     Infiltration( Stotal )
                     EulersMethod( P, N, W, Stotal, ... )
             simTask( model.mounds.imc(2) )    % use off-mound initial coverage for mounds
                 Use saved initialization (P, N, W, S, R, mounds).
                 for each iteration:
                     convectionFlow = rho( beta, k3, betaSlow, P ) .* (D1 * S);
-                    Stotal = S + R + convectionRate;
+                    Stotal = S + R + convectionFlow;
                     Infiltration( Stotal )
                     EulersMethod( P, N, W, S, ... )
             makeResults()
@@ -1444,31 +1461,11 @@ mean    \               \               0.53
 Simulation Result Matrices
 ---------------------------
 
-Relevant functions:
-`````````````````````
-
-``simTask``
-    Initializes all result matrices.
-
-``initialConditions``
-    Calls initialBiomass for each plant.
-    Returns total aboveground plant biomass (2D).
-    Plant objects contain biomass for each plant.
-    Called by simTask.
-
-``initialBiomass``
-    Initializes biomass matrix for one plant.
-    Returns a 2D matrix of aboveground biomass (g/m2).
-    Called by initialConditions.
-
-``makeResults``
-    Makes a structure of simulation results.
-
-
 Result Matrices
 `````````````````````
 
-Structure **results** contains the timestep result matrices:
+Structure **results** contains the timestep result matrices.
+This is declared ``global``, and filled by function ``makeResults``.
 
 Output matrices of state variables are replaced at each time step.
 These are used for producing maps; each is a 2D matrix.
@@ -1490,11 +1487,11 @@ These are calculated in functions
 ::
 
     avgP0 = detectGrowthOnMound or GridMeansNoMounds
-    avgW0 - not used
-    avgS0 - radius zones   not used
+    avgW0 = not used
+    avgS0 = radius zones   (not used)
     avgP1 = detectGrowthOnMound or GridMeansNoMounds
-    avgW1 - not used
-    avgS1 - radius zones   not used
+    avgW1 = not used
+    avgS1 = radius zones   (not used)
 
 For trials and sweeps, the averages for each are stored in 2D matrices
 with dimensions ``[numberOfTrials, sweepSize]``
@@ -1504,6 +1501,38 @@ with dimensions ``[numberOfTrials, sweepSize]``
     plantOffMound0(t,s) = avgP0(3)
     plantOnMound1(t,s)  = avgP1(1)
     plantOffMound1(t,s) = avgP1(3)
+
+
+Relevant functions:
+`````````````````````
+
+``simTask``
+    Initializes all **results** matrices.
+
+``initialConditions``
+    Calls initialBiomass for each plant.
+    Returns total aboveground plant biomass (2D).
+    Plant objects contain biomass for each plant.
+    Called by ``simTask``.
+
+``initialBiomass``
+    Initializes a 2D matrix of biomass matrix for one plant.
+    Returns aboveground biomass (g/m2).
+    Called by ``initialConditions``.
+
+``initialSoilN``
+    Initializes a 2D matrix of soil plant-available N.
+    Return the initial soil plant-available N (g/m2).
+    Called by ``initialConditions``.
+
+``makeResults``
+    Makes a structure of simulation results.
+    Called by ``runOneSim``.
+
+``MapMgr``
+    Class to manage the making of maps of simulation results.
+    All functions are static: ``makeMap``, ``accumulateMaps``, ``makeAverageMap``.
+
 
 
 ..  End of ModelDesign document

@@ -720,10 +720,10 @@ c                   scalar       Plant growth: Rate of water conversion to new b
 \                   \            aka, water-use efficiency.
 \                   \            Units: Rietkirk 1997 = g g-1 d-1; Rietkirk 2002 = g mm-1 m-2.
 teff                vector[4]    Parameters to gpdf for temperature effect on growth:
-\                   \            1 = Optimum temperature for production; the peak of the curve.
-\                   \            2 = Maximum temperature for production.
-\                   \            3 = Spread of the bell curve; smaller values = broader bell shape.
-\                   \            4 = Left curve shape; smaller values = more production at lower temperatures.
+\                   \            |nbsp||nbsp|1 = Optimum temperature for production; the peak of the curve.
+\                   \            |nbsp||nbsp|2 = Maximum temperature for production.
+\                   \            |nbsp||nbsp|3 = Spread of the bell curve; smaller values = broader bell shape.
+\                   \            |nbsp||nbsp|4 = Left curve shape; smaller values = more production at lower temperatures.
 k2                  scalar       Infiltration: Rate at which infiltration increases
 \                   \            with aboveground biomass (g m-2).
 \                   \            **Nitrogen:**
@@ -755,9 +755,14 @@ d                   scalar       Background mortality rate: loss of biomass due 
 \                   \            The sum (mortality.d + grazeFraction) must be <= Constants.maxGrazeFractionPlusD.
 annual              vector[4]    Annual mortality for perennial plants and shrubs.
 \                   \            These are logistic function parameters ``[a, b, c, d]``, where
-\                   \            ``a`` = maximum (0-1), ``b`` = modifies inflection point (e.g., 0.005),
-\                   \            ``c`` = modifies slopet (e.g., 0.05), ``d`` = minimum (0-1, ``d`` < ``a``).
+\                   \            |nbsp||nbsp|``a`` = maximum (0-1), ``b`` = modifies inflection point (e.g., 0.005),
+\                   \            |nbsp||nbsp|``c`` = modifies slopet (e.g., 0.05), ``d`` = minimum (0-1, ``d`` < ``a``).
 \                   \            **Water stress affecting mortality:**
+\                   \            To make a plot of the water stress curve, do:
+\                   \            |nbsp||nbsp|``B0 = 12; B1 = 0.25; diffH2O = 1:0.1:20;``
+\                   \            |nbsp||nbsp|``mortality = @(Wdemand, B0, B1) 1.0 ./ (1.0 + exp(B0 - B1 .* Wdemand));``
+\                   \            |nbsp||nbsp|``plot( diffH2O, mortality(diffH2O, B0, B1));``
+\                   \            |nbsp||nbsp|``xlabel("H2O demand"); ylabel("fraction mortality");``
 B0                  scalar       Water demand excess at the logistic function inflection point (range: >= 0.0).
 \                   \            Increasing values at a fixed water demand excess will decrease the mortality rate,
 \                   \            while the maximum rate of change of mortality remains constant.
@@ -810,6 +815,13 @@ gridFractions       vector       Fractions of grid cells for each crust type.
 \                   \            Vector length must be same length as ``crustTypes``.
 \                   \            Example: ``"gridFractions": [ 0.6, 0.2, 0.2 ]``
 
+initAreaFractions   vector       Vector of initial cell area fractions, one per crust type.
+\                   \            Valid range of each = 0-1. The sum must be <= 1.0.
+\                   \            Vector length must be same length as ``crustTypes``.
+\                   \            All cells with crust of this type will have this initial value.
+\                   \            If value is less than ``CrustKind.kinds(*).initBM``, then ``initBM`` will be used.
+\                   \            Example: ``"initAreaFractions": [ 0.5, 0.5, 0.5 ]``
+
 ageMaximum          vector       For recovery algorithm 2: These values are the maximum age for each crust type,
 \                   \            which when reached, resets to bare soil as though disturbed.
 \                   \            Vector length must be same length as ``crustTypes``.
@@ -823,23 +835,24 @@ soilType            scalar       integer: Surface soil type: One of ``CrustSoil.
 
 schedule            vector       Schedule of disturbances as days-of-year; these repeat annually.
 \                   \            Use one of the following forms:
-\                   \              ``290`` = day of year for one disturbance.
-\                   \              ``[30, 90, 100, 140]`` = disturbances on multiple days-of-year.
-\                   \              ``{ "random": [30, 90, 10] }`` = a range+count vector for a random schedule.
+\                   \            |nbsp||nbsp|``290`` = day of year for one disturbance.
+\                   \            |nbsp||nbsp|``[30, 90, 100, 140]`` = disturbances on multiple days-of-year.
+\                   \            |nbsp||nbsp|``{ "random": [30, 90, 10] }`` = a range+count vector for a random schedule.
 \                   \            Here, generate 10 random days in the range 30-90 inclusive.
 \                   \            For multiple ranges, use the matrix form of one range+count per row:
-\                   \              ``{ "random": [ [30, 90, 10], [250, 300, 10] ] }``
+\                   \            |nbsp||nbsp|``{ "random": [ [30, 90, 10], [250, 300, 10] ] }``
 \                   \            Example: ``"schedule": { "random": [30, 90, 10] }``
 
-intensity           scalar       Intensity of disturbance: The fraction of crust cells to be disturbed annually.
+intensity           scalar       Intensity of disturbance: The fraction of crust cells to be disturbed
+\                   \            at each scheduled event.
 \                   \            Valid range = 0-1. This is applied to each Crust.
-\                   \            Example: ``"intensity":  0.2``
+\                   \            Example: ``"intensity":  0.1``
 
 **recovery**        struct       **Crust recovery from disturbance**
 
 algorithm           scalar       Specifies the disturbance recovery algorithm:
-\                   \            1 = constant crust type per cell
-\                   \            2 = crust succession sequence
+\                   \            |nbsp||nbsp|1 = constant crust type per cell
+\                   \            |nbsp||nbsp|2 = crust succession sequence
 \                   \            Example: ``"algorithm": 1``
 
 fraction            scalar       For recovery algorithm 1: Annual recovery fraction. Valid range = 0-1.
@@ -931,6 +944,7 @@ NAtmDep             scalar       boolean: N atmospheric deposition( daily total 
 aeolian             scalar       boolean: Aeolian submodel. See **aeolian**  parameters for configuration.
 annualMor           scalar       boolean: Annual plant mortality. Configuration is in plant parameters.
 mounds              scalar       boolean: Mounds submodel. See **mounds**  parameters for configuration.
+doAnnualDP          scalar       boolean: Diffusive growth: If true, diffusion is done annually; if false, daily.
 litterNredistrib    scalar       boolean: Litter N spatial redistribution. Configuration is in plant parameters.
 \                   \            If aeolian if off (false), this will be set to false.
 ==================  ===========  ========================================================================================
@@ -2564,9 +2578,15 @@ Additional configuration files (``*.json``) are provided in the
         #
         "crustTypes": [ 2, 3, 4 ],
         #
-        # Vector of grid cell fractions; if sum < 1.0, remaining cells are bare soil.
+        # Vector of grid cell fractions; sum to 1.
+        # If sum < 1.0, remaining cells are bare soil.
         #
         "gridFractions": [ 0.6, 0.2, 0.2 ],
+        #
+        # Vector of initial grid cell area fractions, one per crust type; sum to 1.
+        # All cells with crust of this type will have this initial value.
+        #
+        "initAreaFractions": [ 0.5, 0.5, 0.5 ],
         #
         # For algorithm 2: maximum age (years) for each crust type.
         # Vector length must be same length as crustTypes.
@@ -2730,6 +2750,8 @@ Additional configuration files (``*.json``) are provided in the
           "annualMor": true,
           # mounds submodel
           "mounds":  false,
+          # diffusive growth: If true use annual algorithm; if false, daily
+          "doAnnualDP": true,
           # competition switch: currently not used
           "competition": true,
           # evaporation switch: currently not used
